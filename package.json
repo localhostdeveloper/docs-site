@@ -1,0 +1,16 @@
+{
+  "name": "unda-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "sh sync.sh",
+    "predev": "sh sync.sh",
+    "dev": "vitepress dev",
+    "prebuild": "sh sync.sh",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "1.6.4"
+  }
+}

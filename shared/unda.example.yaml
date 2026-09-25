@@ -1,0 +1,210 @@
+server:
+  rtmp_addr: ":1935"
+  http_addr: ":8080"
+  # HTTPS. Easiest: automatic certificates from Let's Encrypt. Point the
+  # domain's DNS at this server, open ports 443 and 80, then:
+  # http_addr: ":443"
+  # http_redirect_addr: ":80"    # plain HTTP: redirects to HTTPS, answers Let's Encrypt
+  # tls:
+  #   letsencrypt:
+  #     domains: [tv.example.com]
+  #     email: ops@example.com   # optional: expiry notices from Let's Encrypt
+  #     # directory_url: staging # try a setup first without hitting rate limits
+  # Certificates are kept in <paths.data_dir>/acme and renewed on their own;
+  # the Server page shows their expiry, and an alert fires if renewal fails.
+  #
+  # Or your own certificate files (certbot or any other tool keeps them fresh;
+  # they are re-read when they change, and a corrupt renewal keeps serving the
+  # last good certificate):
+  # tls:
+  #   cert_file: /etc/letsencrypt/live/tv.example.com/fullchain.pem
+  #   key_file:  /etc/letsencrypt/live/tv.example.com/privkey.pem
+  #
+  # rtmps_addr: ":1936"          # RTMP over TLS, with the same certificate
+  # Reverse proxies in front of the server (IPs or CIDRs) whose X-Forwarded-For
+  # and X-Forwarded-Proto are believed: the client address for sign-in throttling
+  # and the audit log, and whether the browser used HTTPS. Empty = trust nobody.
+  # trusted_proxies: ["127.0.0.1/32"]
+
+# People sign in to the dashboard with accounts (invite-only; the first start
+# prints a one-time setup link for the owner). Passwords are only accepted over
+# HTTPS, or over plain HTTP from this machine — see server.tls, trusted_proxies
+# and auth.allow_insecure_login.
+#
+# Secrets can come from the environment instead of this file (env wins):
+#   UNDA_API_TOKEN, UNDA_SRT_PASSPHRASE, UNDA_STREAM_KEYS (comma-separated)
+# each also as UNDA_<NAME>_FILE=/path (Docker/Kubernetes secrets pattern).
+# If this file holds secrets, keep it chmod 600 — the server warns otherwise.
+
+log:
+  level: info
+
+# Legacy stream keys: each publishes under a stream of the SAME name, so the key
+# is visible in every watch link. Optional — prefer channels (dashboard →
+# Channels), whose secret key is separate from the public stream name.
+streams:
+  keys:
+    - mykey
+
+paths:
+  recordings_dir: ./data/recordings
+  hls_dir: ./data/hls
+  # The server's own state: the account database (unda.db), the license file
+  # and the first-run setup token. Keep it private to the server's user and back
+  # it up (`unda admin backup <file>` is safe while the server runs).
+  data_dir: ./data
+
+rtmp:
+  publish_policy: reject   # or "replace"
+  idle_timeout_seconds: 8
+
+hls:
+  segment_duration_seconds: 2   # target segment duration; default 2
+  segment_count: 6              # sliding-window segment count; default 6, min 3
+  # Each HLS viewer gets a session id (?sid=) carried in its playlist and segment
+  # URLs, so one browser tab counts as one viewer. Behind a CDN that caches on the
+  # full URL, either make it ignore the query string or set this to true (viewers
+  # are then counted by address + User-Agent).
+  disable_session_ids: false
+
+api:
+  # Optional owner-level bearer token for scripts and Prometheus:
+  #   curl -H "Authorization: Bearer <token>" http://localhost:8080/api/v1/streams
+  # Prefer API keys (dashboard → API keys): they have a role and can be revoked.
+  # If you use it, generate a strong one (openssl rand -hex 32), ideally via
+  # UNDA_API_TOKEN / UNDA_API_TOKEN_FILE instead of this file. The server
+  # refuses to start with the placeholder value below.
+  # token: "changeme-generate-a-strong-random-token"
+
+auth:
+  # Allow signing in over plain HTTP from other machines. Off by default: a
+  # password or session cookie sent unencrypted can be read on the network.
+  # Only for a closed studio LAN; prefer HTTPS.
+  allow_insecure_login: false
+
+license:
+  # The signed license file. Default: <paths.data_dir>/license.json, which is
+  # where the dashboard (License page) and "unda license install" write it.
+  # No license = evaluation mode (2 live streams, 2 accounts besides the owner).
+  # file: /var/lib/unda/state/license.json
+
+srt:
+  # Optional. SRT ingest is disabled unless addr is set — a third way to
+  # get media in, alongside RTMP and (soon) whatever else, not a
+  # requirement. Publish with e.g.:
+  #   ffmpeg ... -f mpegts "srt://SERVER:6000?streamid=publish:mykey"
+  # Viewers pull with:  srt://SERVER:6000?streamid=read:mykey  (no stream key needed;
+  # the passphrase below applies to viewers too). ":6000" listens on IPv4 and IPv6.
+  # addr: ":6000"
+  # latency_ms: 500          # SRT transmission latency; default 500
+  # passphrase: ""           # if set (10-79 chars), publishers and viewers must encrypt with it
+
+record:
+  # Recording is started/stopped per stream via the API:
+  #   curl -X POST -H "Authorization: Bearer <token>" \
+  #        -d '{"action":"start"}' http://localhost:8080/api/v1/streams/mykey/record
+  # Files land in paths.recordings_dir/<stream>/<YYYY-MM-DD_HH-MM-SS>.ts
+  # (MPEG-TS: crash-safe by construction, playable while still being written).
+  split_duration_minutes: 60   # new file every ~N minutes, at the next keyframe; default 60
+  retention_days: 0            # delete recordings older than N days; 0 (default) = never delete
+
+restream:
+  # Push live streams to external destinations (RTMP, RTMPS, SRT or UDP). Targets
+  # here start at boot; more can be added/removed live via
+  #   POST   /api/v1/streams/<stream>/push        {"name":"yt","url":"rtmp://..."}
+  #   GET    /api/v1/streams/<stream>/push        (state, redacted URL, last error)
+  #   DELETE /api/v1/streams/<stream>/push/<id>
+  # A failing destination retries with backoff (5s, 10s, 30s, 60s cap) and
+  # never affects the others. The URL contains the destination's stream key:
+  # it is never logged or returned by the API (only a redacted form is), but
+  # it IS stored in plaintext in this file unless you use url_env / url_file
+  # (exactly one of url / url_env / url_file per target) — keep unda.yaml private.
+  # targets:
+  #   - stream: mykey
+  #     name: youtube
+  #     url: rtmp://a.rtmp.youtube.com/live2/xxxx-xxxx-xxxx-xxxx
+  #   - stream: mykey
+  #     name: relay
+  #     url: srt://relay.example.com:9000?streamid=publish:mykey&latency=800
+  #   - stream: mykey                # MPEG-TS over UDP: set-top boxes, hardware decoders, IPTV
+  #     name: headend
+  #     url: udp://192.168.1.60:6000               # unicast
+  #   - stream: mykey
+  #     name: lan-multicast
+  #     url: udp://239.1.1.10:6000?ttl=4&iface=eth0   # multicast; pkt_size=1316 is the default
+  #   - stream: mykey
+  #     name: twitch
+  #     url_env: UNDA_PUSH_TWITCH_URL     # or: url_file: /run/secrets/twitch_url
+
+limits:
+  # 0 (the default) means unlimited — a deliberate exception to "0 = default":
+  # any non-zero default would break venues/offices where hundreds of viewers
+  # share one IP. Suggested for a public server: 50, and ~80% of your uplink.
+  # max_conns_per_ip: 50     # concurrent connections per client IP (RTMP, HTTP, SRT)
+  # max_egress_mbps: 80      # once reached, NEW viewers are refused (503 / RTMP reject);
+  #                          # existing viewers are never throttled or dropped
+
+# UDP / MPEG-TS (M13): plain UDP in and out, for LANs, IPTV headends, set-top boxes and
+# hardware encoders. Use SRT over the internet: UDP has no retransmission, login or encryption.
+# udp:
+#   timeout: 5s              # a silent input goes offline after this, and resumes by itself
+#   jitter: 200ms            # input delay line that smooths arrival timing
+#   recv_buffer_mb: 8        # socket receive buffer per input; Linux caps it at net.core.rmem_max (see README)
+#   loss_warn_percent: 0.1   # recent (60 s) packet loss that turns the dashboard yellow ...
+#   loss_critical_percent: 1 # ... and red
+#   inputs:
+#     - name: camera-1                 # the stream key it publishes as
+#       listen: 0.0.0.0:5001
+#       allow: [192.168.1.20]          # sender IPs or CIDRs; empty = anyone who can reach the port
+#       timeout: 5s
+#     - name: iptv-feed
+#       multicast: 239.1.1.1:5000      # IPv4 group to join
+#       interface: eth0
+#   outputs:                           # any stream out as MPEG-TS over UDP (these become restream targets)
+#     - stream: channel-1
+#       to: 192.168.1.60:6000
+#     - stream: channel-1
+#       multicast: 239.1.1.10:6000
+#       ttl: 4
+#       interface: eth0
+
+# Adaptive-bitrate transcoding (M4). Off unless "streams" names at least one stream.
+# Needs FFmpeg on PATH (or ffmpeg_path). Costs roughly one CPU core and ~1 GB RAM
+# per transcoded 1080p stream with the software encoder — see README.
+# transcode:
+#   enabled: true          # make transcoding available (FFmpeg is checked at startup) WITHOUT transcoding anything:
+#                          # an administrator then turns it on per stream from the dashboard / API. This is the
+#                          # recommended way to run it: passthrough stays the default.
+#   streams: ["vip"]       # optional: keys transcoded automatically at publish ("*" = every stream: costs real CPU)
+#   max_concurrent: 2      # beyond this, a stream is served passthrough only
+#   hardware: none         # none | nvenc | qsv | vaapi | videotoolbox (only none and videotoolbox tested)
+#   # ffmpeg_path: ffmpeg  segment_seconds: 2
+#   # fps: 30              MAXIMUM output frame rate; each stream keeps its own (25, 30); 50 and 60 are halved
+#   # max_source_mbps: 60  refuse to transcode a source above this video bitrate (it is still served passthrough)
+#   # Rungs are ceilings: each stream gets rungs no bigger than itself, in its own aspect ratio,
+#   # at no more bitrate than it justifies (see the README).
+#   # renditions default to 1080p/720p/480p/360p/240p/144p; override with a list of
+#   #   {name, width, height, video_kbps, audio_kbps} (even dimensions, name a-z0-9_-)
+
+# Dashboard multiview stills (one small JPEG per stream, decoded from the latest
+# keyframe by FFmpeg). On whenever FFmpeg is found; bounded to a couple of decodes at a time.
+# thumbnails:
+#   disabled: false       # true = no stills (tiles show names and stats only)
+#   ffmpeg_path: ffmpeg   # default: transcode.ffmpeg_path, else ffmpeg from PATH
+#   max_concurrent: 2     # simultaneous decodes (1-16)
+
+monitoring:
+  # /metrics (Prometheus) and /debug/pprof/* are served behind the API token —
+  # metrics carry live stream keys, which are publish credentials.
+  # disable_pprof: true   # remove /debug/pprof/* entirely
+
+# Webhook alerts (M10). Nothing is sent unless at least one webhook is set.
+# alerts:
+#   min_input_kbps: 1500        # alert if an input stays below this; 0 (default) = no bitrate alerts
+#   bitrate_grace_seconds: 20   # how long it must stay low; also the warm-up after a stream starts
+#   cooldown_seconds: 60        # min gap between identical alerts for one stream
+#   events: [stream_down, stream_up, bitrate_low, bitrate_recovered]   # default: all four
+#   webhooks:
+#     - name: ops
+#       url_env: UNDA_ALERT_OPS_URL     # exactly one of url / url_env / url_file;
+#                                           # Slack/Discord URLs are secrets — keep them out of this file

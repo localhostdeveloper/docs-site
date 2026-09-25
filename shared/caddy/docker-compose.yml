@@ -1,0 +1,43 @@
+# Unda behind Caddy (Docker). An alternative to Unda's built-in Let's Encrypt:
+# Caddy obtains and renews the certificate and forwards to Unda over the
+# private Docker network. Copy this folder, set your domain in the Caddyfile,
+# then:  docker compose up -d
+services:
+  unda:
+    image: REGISTRY/unda:VERSION        # from your vendor
+    restart: unless-stopped
+    ports:
+      - "1935:1935"         # RTMP (encoders)
+      - "6000:6000/udp"     # SRT (encoders, optional)
+      # no web port here: only Caddy reaches Unda's dashboard/HLS port
+    volumes:
+      - unda-data:/data
+      - ./unda.yaml:/etc/unda/unda.yaml:ro
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    ulimits:
+      nofile: 65536
+    networks: [web]
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data      # Caddy's certificates: keep this volume
+    networks: [web]
+
+networks:
+  web:
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24   # fixed, so unda.yaml can trust Caddy by address
+
+volumes:
+  unda-data:
+  caddy-data:

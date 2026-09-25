@@ -1,0 +1,16 @@
+# Unda's config when Caddy terminates HTTPS in front of it (see Caddyfile).
+server:
+  rtmp_addr: ":1935"
+  http_addr: ":8080"                   # reached only by Caddy, over the Docker network
+  # Caddy's network (docker-compose.yml): its X-Forwarded-Proto/For are
+  # believed, so sign-in knows the browser used HTTPS and the audit log shows
+  # real client addresses. No server.tls here: Caddy holds the certificate.
+  trusted_proxies: ["172.30.0.0/24"]
+log:
+  level: info
+paths:
+  recordings_dir: /data/recordings
+  hls_dir: /data/hls
+  data_dir: /data/state                # accounts, channels, license: back this up
+srt:
+  addr: ":6000"

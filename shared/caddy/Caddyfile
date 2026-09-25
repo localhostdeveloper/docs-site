@@ -1,0 +1,7 @@
+# Replace tv.example.com with your domain (its DNS must point at this server).
+# Caddy gets a Let's Encrypt certificate for it and renews it on its own, and
+# sends Unda the X-Forwarded-* headers it needs; live dashboard updates
+# (server-sent events) are streamed through without buffering.
+tv.example.com {
+	reverse_proxy unda:8080
+}
