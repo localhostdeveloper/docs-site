@@ -22,8 +22,11 @@ password when they open it.
 
 ## Signing in
 
-- Passwords are at least 10 characters. Five wrong attempts lock the account
-  for 15 minutes.
+- Passwords are at least 10 characters. Five wrong attempts from one address
+  block that address from the account for 15 minutes (longer each time it
+  happens again, up to a day). The account still works from everywhere else,
+  so nobody can lock you out just by knowing your email. Each block is shown
+  in the event log and, with the account's name, in the audit log.
 - A session lasts 12 hours without use and at most 7 days.
 - Passwords are only accepted over HTTPS (or on the server itself).
 
@@ -58,6 +61,11 @@ can create channels for anyone.
 For scripts and monitoring, **API keys** creates a key (`gsk_…`) with a role.
 Send it as `Authorization: Bearer gsk_…`. It is shown once; revoke it when it
 is no longer needed. See the [REST API](/reference/api).
+
+Like passwords, keys are accepted only over HTTPS (or from the server itself):
+over plain HTTP from another machine the server answers 403 `https_required`
+without checking the key. A closed studio LAN without HTTPS can set
+`auth.allow_insecure_login: true`.
 
 ## Audit log
 

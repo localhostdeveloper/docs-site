@@ -25,11 +25,16 @@ server:
   # and X-Forwarded-Proto are believed: the client address for sign-in throttling
   # and the audit log, and whether the browser used HTTPS. Empty = trust nobody.
   # trusted_proxies: ["127.0.0.1/32"]
+  # The names viewers use, when HTTPS is handled by a proxy in front (Caddy,
+  # nginx) so this server has no certificate to tell them from. Needed only for
+  # a license issued for a domain.
+  # public_domains: [tv.example.com]
 
 # People sign in to the dashboard with accounts (invite-only; the first start
-# prints a one-time setup link for the owner). Passwords are only accepted over
-# HTTPS, or over plain HTTP from this machine — see server.tls, trusted_proxies
-# and auth.allow_insecure_login.
+# prints a one-time setup link for the owner). Passwords, API keys, the
+# api.token and session cookies are only accepted over HTTPS, or over plain HTTP
+# from this machine — see server.tls, trusted_proxies and
+# auth.allow_insecure_login.
 #
 # Secrets can come from the environment instead of this file (env wins):
 #   UNDA_API_TOKEN, UNDA_SRT_PASSPHRASE, UNDA_STREAM_KEYS (comma-separated)
@@ -55,12 +60,12 @@ paths:
   data_dir: ./data
 
 rtmp:
-  publish_policy: reject   # or "replace"
+  publish_policy: reject # or "replace"
   idle_timeout_seconds: 8
 
 hls:
-  segment_duration_seconds: 2   # target segment duration; default 2
-  segment_count: 6              # sliding-window segment count; default 6, min 3
+  segment_duration_seconds: 2 # target segment duration; default 2
+  segment_count: 6 # sliding-window segment count; default 6, min 3
   # Each HLS viewer gets a session id (?sid=) carried in its playlist and segment
   # URLs, so one browser tab counts as one viewer. Behind a CDN that caches on the
   # full URL, either make it ignore the query string or set this to true (viewers
@@ -77,9 +82,9 @@ api:
   # token: "changeme-generate-a-strong-random-token"
 
 auth:
-  # Allow signing in over plain HTTP from other machines. Off by default: a
-  # password or session cookie sent unencrypted can be read on the network.
-  # Only for a closed studio LAN; prefer HTTPS.
+  # Accept passwords, API keys, the api.token and session cookies over plain
+  # HTTP from other machines. Off by default: any of them sent unencrypted can
+  # be read on the network. Only for a closed studio LAN; prefer HTTPS.
   allow_insecure_login: false
 
 license:
@@ -105,11 +110,11 @@ record:
   #        -d '{"action":"start"}' http://localhost:8080/api/v1/streams/mykey/record
   # Files land in paths.recordings_dir/<stream>/<YYYY-MM-DD_HH-MM-SS>.ts
   # (MPEG-TS: crash-safe by construction, playable while still being written).
-  split_duration_minutes: 60   # new file every ~N minutes, at the next keyframe; default 60
-  retention_days: 0            # delete recordings older than N days; 0 (default) = never delete
+  split_duration_minutes: 60 # new file every ~N minutes, at the next keyframe; default 60
+  retention_days: 0 # delete recordings older than N days; 0 (default) = never delete
 
 restream:
-  # Push live streams to external destinations (RTMP, RTMPS, SRT or UDP). Targets
+  # Push live streams to external destinations (RTMP, RTMPS, SRT, UDP or RTP). Targets
   # here start at boot; more can be added/removed live via
   #   POST   /api/v1/streams/<stream>/push        {"name":"yt","url":"rtmp://..."}
   #   GET    /api/v1/streams/<stream>/push        (state, redacted URL, last error)
@@ -133,14 +138,33 @@ restream:
   #     name: lan-multicast
   #     url: udp://239.1.1.10:6000?ttl=4&iface=eth0   # multicast; pkt_size=1316 is the default
   #   - stream: mykey
+  #     name: rtp-headend
+  #     url: rtp://192.168.1.60:5004?pkt_size=1316  # MPEG-TS over RTP; operator only, no encryption
+  #   - stream: mykey
   #     name: twitch
   #     url_env: UNDA_PUSH_TWITCH_URL     # or: url_file: /run/secrets/twitch_url
+  #   - stream: mykey                # broadcast TV: re-encoded to SD for a DVB multiplexer,
+  #     name: dtt-mux                #   IP modulator or satellite uplink (udp://, rtp:// or srt://)
+  #     url: udp://239.1.1.20:5000?ttl=4
+  #     broadcast:                   # 720x576, 25 frames/s, 16:9, MP2 audio, CBR MPEG-TS
+  #       video_codec: h264          # h264 (DVB-T2/S2, default) or mpeg2 (DVB-T/S)
+  #       video_kbps: 2000           # default 2000 (h264) / 4000 (mpeg2)
+  #       audio_kbps: 192            # MP2: 64-384; default 192
+  #       mux_kbps: 2600             # constant total rate, null packets included; default: the minimum safe value
+  #       service_name: "Unda TV"    # SDT channel name (default: the stream name)
+  #       service_provider: "Unda"   # SDT provider
+  #       service_id: 1              # also: transport_stream_id, original_network_id,
+  #       # pmt_pid: 4096            #   pmt_pid, video_pid (256), audio_pid (257)
 
 limits:
-  # 0 (the default) means unlimited — a deliberate exception to "0 = default":
-  # any non-zero default would break venues/offices where hundreds of viewers
-  # share one IP. Suggested for a public server: 50, and ~80% of your uplink.
-  # max_conns_per_ip: 50     # concurrent connections per client IP (RTMP, HTTP, SRT)
+  # Concurrent connections per client IP, counted separately on the RTMP, HTTP
+  # and SRT listeners. Set it on any server reachable from the internet: left
+  # at 0 (unlimited, the built-in default) one client can hold as many
+  # connections as it likes. Raise it where many viewers share one address (a
+  # venue, an office); browsers over HTTPS use one connection each. Behind a
+  # reverse proxy (Caddy, nginx) every HTTP connection comes from the proxy,
+  # so either leave it at 0 there or let the proxy do its own per-IP limiting.
+  max_conns_per_ip: 100
   # max_egress_mbps: 80      # once reached, NEW viewers are refused (503 / RTMP reject);
   #                          # existing viewers are never throttled or dropped
 
@@ -157,6 +181,10 @@ limits:
 #       listen: 0.0.0.0:5001
 #       allow: [192.168.1.20]          # sender IPs or CIDRs; empty = anyone who can reach the port
 #       timeout: 5s
+#     - name: rtp-camera
+#       listen: 0.0.0.0:5004
+#       rtp: true                       # RFC 2250 MPEG-TS over RTP (payload type 33)
+#       allow: [192.168.1.20]
 #     - name: iptv-feed
 #       multicast: 239.1.1.1:5000      # IPv4 group to join
 #       interface: eth0
@@ -168,16 +196,12 @@ limits:
 #       ttl: 4
 #       interface: eth0
 
-# Adaptive-bitrate transcoding (M4). Off unless "streams" names at least one stream.
-# Needs FFmpeg on PATH (or ffmpeg_path). Costs roughly one CPU core and ~1 GB RAM
-# per transcoded 1080p stream with the software encoder — see README.
+# Adaptive-bitrate transcoding. Turn it on and choose the encoder (CPU or a GPU)
+# in the dashboard: Server → Transcoding. Needs FFmpeg. The settings below are
+# optional and advanced; enabled/hardware/max_concurrent here only seed a server
+# that has never saved them from the dashboard.
 # transcode:
-#   enabled: true          # make transcoding available (FFmpeg is checked at startup) WITHOUT transcoding anything:
-#                          # an administrator then turns it on per stream from the dashboard / API. This is the
-#                          # recommended way to run it: passthrough stays the default.
-#   streams: ["vip"]       # optional: keys transcoded automatically at publish ("*" = every stream: costs real CPU)
-#   max_concurrent: 2      # beyond this, a stream is served passthrough only
-#   hardware: none         # none | nvenc | qsv | vaapi | videotoolbox (only none and videotoolbox tested)
+#   streams: ["vip"]       # optional: keys transcoded automatically at publish ("*" = every stream)
 #   # ffmpeg_path: ffmpeg  segment_seconds: 2
 #   # fps: 30              MAXIMUM output frame rate; each stream keeps its own (25, 30); 50 and 60 are halved
 #   # max_source_mbps: 60  refuse to transcode a source above this video bitrate (it is still served passthrough)
@@ -208,3 +232,9 @@ monitoring:
 #     - name: ops
 #       url_env: UNDA_ALERT_OPS_URL     # exactly one of url / url_env / url_file;
 #                                           # Slack/Discord URLs are secrets — keep them out of this file
+
+# Twice a day, read the vendor's latest release description and tell owners
+# and admins on the dashboard when a newer version exists. Nothing is
+# downloaded or installed; the request carries only this server's version.
+# updates:
+#   disabled: true

@@ -175,7 +175,11 @@ sudo -u unda unda admin -config /etc/unda/unda.yaml list-users
 ```
 
 Transcoding (adaptive quality for viewers) needs FFmpeg on the server
-(`sudo apt install ffmpeg`); the Docker image already has it.
+(`sudo apt install ffmpeg`, or `install.sh --with-ffmpeg`); the Docker image
+already has it. Turn it on in the dashboard under **Server → Transcoding**, which
+lists the encoders this server has (the CPU, and NVIDIA, Intel or other GPUs),
+each tested. On an NVIDIA server, install the NVIDIA driver first so
+`nvidia-smi` works, and use an FFmpeg built with NVENC.
 
 ---
 
@@ -290,7 +294,10 @@ needs no options.
 
 **A closed studio LAN without HTTPS** can set `auth.allow_insecure_login: true`.
 The server logs a warning at every start, because passwords then cross the
-network unencrypted.
+network unencrypted. Without it, plain HTTP from another machine refuses every
+credential (password, API key, `api.token`, session cookie) with 403
+`https_required`, so scripts and Prometheus need `https://` too. On a public
+server, also firewall the plain HTTP port if nothing needs it.
 
 ---
 
@@ -351,6 +358,18 @@ What the states mean:
 | evaluation | no license file: 2 live streams, 2 accounts besides owners |
 | invalid | the file is damaged or not for this server: evaluation limits until a valid one is installed |
 
+A license can be issued for your domain(s). Then it only works on a server
+whose HTTPS certificate is for those names. Behind Caddy or nginx, where Unda
+has no certificate of its own, list the name(s) in `/etc/unda/unda.yaml`:
+
+```yaml
+server:
+  public_domains: [tv.example.com]
+```
+
+The License page shows the domains a license is for, and says so when this
+server's domain is not one of them.
+
 The license is checked on the server, offline. Nothing is sent to your vendor.
 
 ---
@@ -381,7 +400,11 @@ Useful settings:
   a year.
 
 Sessions last 12 hours without activity and 7 days at most. Five wrong
-passwords lock an account for 15 minutes.
+passwords from one address block that address from the account for 15 minutes,
+doubling each time up to a day; the account keeps working from other addresses.
+`unda admin unlock` clears every block. Behind a reverse proxy, list it in
+`server.trusted_proxies`, or every visitor shares the proxy's address and one
+guesser blocks everyone.
 
 ---
 
@@ -470,6 +493,20 @@ sudo systemctl start unda
   fails, nothing is upgraded.
 - **By hand or with Docker:** take a backup, then replace the binary and
   `systemctl restart unda`, or change the image tag and `docker compose up -d`.
+
+**Knowing when there is one:** twice a day Unda reads the description of the
+latest release from your vendor's release page. When a newer version exists,
+owners and admins see it on the dashboard (Overview → *Other notices*, and at the
+bottom of the sidebar) with a link to its release notes. It only reads: nothing
+is downloaded or installed until you run the upgrade. The request carries no
+information about your server beyond its version. To turn it off:
+
+```yaml
+updates:
+  disabled: true
+```
+
+`unda -version` prints the installed version.
 
 The database is upgraded automatically at start. A server restart disconnects
 live encoders for a few seconds; OBS reconnects by itself.
