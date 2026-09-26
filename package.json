@@ -7,7 +7,7 @@
     "predev": "sh sync.sh",
     "dev": "vitepress dev",
     "prebuild": "sh sync.sh",
-    "build": "vitepress build",
+    "build": "vitepress build && rm -rf dist && cp -R .vitepress/dist dist",
     "preview": "vitepress preview"
   },
   "devDependencies": {
