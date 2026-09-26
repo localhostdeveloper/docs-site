@@ -210,6 +210,8 @@ limits:
 #     transport_stream_id: 1
 #     total_bitrate: 25Mbps                    # constant, null packets included; omit = the programs' sum + headroom
 #     pat_pmt_interval: 100ms                  # sdt_interval defaults to 500ms (at most 2s)
+#     offline: black                           # while a stream is offline its channel shows: black (default), slate, none
+#     # slate_image: /etc/unda/slate.png       # the picture for offline: slate
 #     programs:
 #       - stream: channel-1
 #         program: 1

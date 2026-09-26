@@ -17,6 +17,21 @@ recording, SRT, UDP) and until when.
 A new license that adds SRT, UDP, adaptive bitrate or restream destinations in
 the configuration file needs a restart for those to start.
 
+## Licenses for a domain
+
+A license can be issued for your domain(s), for example `tv.example.com`.
+It then works only on a server whose HTTPS certificate is for those names; the
+License page shows which domains it is for. If Unda runs behind Caddy or nginx
+(so it has no certificate of its own), list the names in the configuration
+file:
+
+```yaml
+server:
+  public_domains: [tv.example.com]
+```
+
+Moving to a new domain needs a new license file from your vendor.
+
 ## States
 
 The **License** page, and a banner for operators and above, show where you are:

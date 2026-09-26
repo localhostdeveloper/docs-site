@@ -4,16 +4,30 @@ A live channel called `main-show` on `tv.example.com` can be watched in these
 ways. The stream key is never part of a viewing address: anyone who knows the
 name can watch, only the key can publish.
 
-| Where | Address |
-|---|---|
-| Browser, built-in player | `https://tv.example.com/watch/main-show` |
-| HLS, for your own website or app | `https://tv.example.com/hls/main-show/index.m3u8` |
-| HLS with several qualities (when [adaptive bitrate](/guide/transcoding) is on) | `https://tv.example.com/hls/main-show/master.m3u8` |
-| VLC, OBS or vMix over RTMP | `rtmp://tv.example.com:1935/live/main-show` |
-| VLC, OBS or vMix over SRT | `srt://tv.example.com:6000?streamid=read:main-show` |
+| Where                                                                          | Address                                              |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------- |
+| Browser, built-in player                                                       | `https://tv.example.com/watch/main-show`             |
+| HLS, for your own website or app                                               | `https://tv.example.com/hls/main-show/index.m3u8`    |
+| HLS with several qualities (when [adaptive bitrate](/guide/transcoding) is on) | `https://tv.example.com/hls/main-show/master.m3u8`   |
+| Experimental MPEG-DASH (H.264, optional AAC)                                   | `https://tv.example.com/dash/main-show/manifest.mpd` |
+| VLC, OBS or vMix over RTMP                                                     | `rtmp://tv.example.com:1935/live/main-show`          |
+| VLC, OBS or vMix over SRT                                                      | `srt://tv.example.com:6000?streamid=read:main-show`  |
 
 The stream's **Playback** tab in the dashboard lists every address with copy
-buttons.
+buttons for the built-in player, HLS, RTMP and SRT. The DASH URL above is
+available directly while the stream is live.
+
+## MPEG-DASH (experimental)
+
+The server remuxes H.264 video and optional AAC audio into fragmented MP4 using
+FFmpeg. It keeps a bounded six-segment live window and finalizes the MPD briefly
+after the publisher stops. This initial endpoint is a single representation:
+it does not yet use the HLS ABR ladder and the built-in player does not play
+DASH. Use a DASH-capable client such as ffplay:
+
+```bash
+ffplay https://tv.example.com/dash/main-show/manifest.mpd
+```
 
 ## The player page
 
@@ -21,7 +35,7 @@ buttons.
 quality being played, the viewer's connection speed and buffer, and, when
 adaptive bitrate is on, a **Quality** menu (Auto or a fixed quality).
 
-If the encoder drops out, the page shows *"Stream is offline — trying again…"*
+If the encoder drops out, the page shows _"Stream is offline — trying again…"_
 and resumes by itself when the stream is back: viewers never need to reload.
 
 ## Embedding on your website
@@ -29,9 +43,14 @@ and resumes by itself when the stream is back: viewers never need to reload.
 The player page can be put in a frame on any site:
 
 ```html
-<iframe src="https://tv.example.com/watch/main-show"
-        width="1280" height="720" allow="autoplay; fullscreen" allowfullscreen
-        style="border:0; max-width:100%; aspect-ratio:16/9; height:auto"></iframe>
+<iframe
+  src="https://tv.example.com/watch/main-show"
+  width="1280"
+  height="720"
+  allow="autoplay; fullscreen"
+  allowfullscreen
+  style="border:0; max-width:100%; aspect-ratio:16/9; height:auto"
+></iframe>
 ```
 
 Or use the HLS address with your own player (hls.js, Video.js, JW Player,
@@ -40,11 +59,11 @@ allowed, so it works from any domain.
 
 ## Delay behind live
 
-| How | Delay |
-|---|---|
-| RTMP or SRT (VLC, OBS, vMix) | well under 1 s from the server, plus the player's own buffer (VLC: 1 s by default) |
-| Browser / HLS, encoder keyframe every 2 s | about 7 s |
-| Browser / HLS, encoder keyframe every 8 s (OBS "auto") | about 30 s |
+| How                                                    | Delay                                                                              |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| RTMP or SRT (VLC, OBS, vMix)                           | well under 1 s from the server, plus the player's own buffer (VLC: 1 s by default) |
+| Browser / HLS, encoder keyframe every 2 s              | about 7 s                                                                          |
+| Browser / HLS, encoder keyframe every 8 s (OBS "auto") | about 30 s                                                                         |
 
 Browser players stay about three segments behind live, and a segment can only
 end on a keyframe: hence the [2-second keyframe setting](/guide/streaming).

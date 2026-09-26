@@ -17,6 +17,8 @@ mpts_outputs:
     ttl: 4
     provider: "Unda Community TV"
     total_bitrate: 25Mbps                 # the whole bundle, padded to this rate
+    offline: slate                        # what an offline channel shows: black (default), slate or none
+    slate_image: /etc/unda/slate.png      # your "we'll be right back" picture
     programs:
       - stream: channel-1
         program: 1
@@ -39,7 +41,11 @@ through the API (`/api/v1/mpts`); receivers pick up the change by themselves.
 
 ## How it behaves
 
-- If one stream goes offline, the others carry on and its channel stays listed.
+- If one stream goes offline, the others carry on and its channel stays listed,
+  showing black with silence, or your slate picture with `offline: slate`.
+  Receivers keep the channel instead of reporting "no signal". When the stream
+  comes back it takes over by itself within a couple of seconds. With
+  `offline: none` the channel is listed but carries nothing.
 - Channel names and the provider appear in receivers' channel lists.
 - If the channels need more than the total bitrate, the server refuses the
   setup, or, if a stream grows beyond its share while running, logs an error
@@ -48,9 +54,15 @@ through the API (`/api/v1/mpts`); receivers pick up the change by themselves.
   CPU, converting costs about a third of a core per channel.
 
 The **Server** page lists each bundle with its channels: which stream feeds
-each one, whether it is on air, and any dropped packets. A channel whose stream
+each one, whether it is on air (or showing black or the slate), and any dropped
+packets. The server also checks everything it sends the way broadcast test
+equipment does (ETSI TR 101 290: sync, PAT and PMT, continuity, missing PIDs,
+CRC, and PCR timing). Each bundle shows **TR 101 290 clean**, or the errors
+counted in the last minute, and each channel shows its own. The counts are also
+in `/metrics` (`unda_mpts_tr101290_errors_total`). A channel whose stream
 goes offline raises a warning (and an entry in the event log); dropped packets
-and a bundle that cannot be sent raise critical alerts.
+and a bundle that cannot be sent raise critical alerts, and transport-stream
+errors raise a warning.
 
 Multi-channel bundles are new in this version: they have been tested with
 software receivers, not yet with a hardware set-top box or modulator.

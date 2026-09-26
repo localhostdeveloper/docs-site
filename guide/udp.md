@@ -12,7 +12,7 @@ internet, use [SRT](/guide/srt).
 
 ## Input
 
-Add an input on the dashboard's **Server** page (*UDP inputs*) or in the
+Add an input on the dashboard's **Server** page (_UDP inputs_) or in the
 configuration file. Each input publishes as a stream with the name you give it,
 and is immediately available on every output.
 
@@ -20,19 +20,37 @@ and is immediately available on every output.
 udp:
   inputs:
     - name: sat-feed
-      listen: ":5001"                # unicast: listen on this port
-      allow: [192.168.1.20]          # optional: only accept these senders (IPs or ranges)
+      listen: ":5001" # unicast: listen on this port
+      allow: [192.168.1.20] # optional: only accept these senders (IPs or ranges)
     - name: headend
-      multicast: "239.1.1.1:5000"    # join this multicast group
+      multicast: "239.1.1.1:5000" # join this multicast group
       interface: eth1
 ```
+
+For RTP carrying MPEG-TS (RFC 2250), set `rtp: true` on the input. The RTP
+payload type must be 33 and contain complete 188-byte TS packets:
+
+```yaml
+udp:
+  inputs:
+    - name: rtp-feed
+      listen: ":5004"
+      rtp: true
+      allow: [192.168.1.20]
+```
+
+Send a test stream with `ffmpeg -re -i input.ts -c copy -f rtp_mpegts
+"rtp://SERVER:5004"`. The server reorders packets within its jitter window and
+reports RTP packets, loss and duplicates in the UDP input API. RTP has no
+authentication or encryption; keep it on a trusted network and restrict
+senders with `allow` and firewall rules. Use SRT over untrusted networks.
 
 - If packets stop for 5 seconds the stream goes offline; it comes back by
   itself when they return.
 - **Packet loss** is measured and shown per stream. The stream's dot turns
   yellow at 0.1% loss and red at 1% (over the last minute).
-- A short delay (200 ms) smooths out bursts. RTP-wrapped streams are not
-  supported.
+- A short delay (200 ms) smooths out bursts. Raw MPEG-TS has no sequence numbers
+  and cannot be reordered; RTP inputs use RTP sequence numbers to restore order.
 - At high bitrates, raise Linux's receive buffer limit:
   `sudo sysctl -w net.core.rmem_max=26214400 net.core.rmem_default=26214400`
   (and make it permanent in `/etc/sysctl.d/`).

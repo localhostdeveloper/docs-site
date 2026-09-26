@@ -30,6 +30,7 @@ Unda raises these by itself; each one clears by itself once the cause is gone.
 | Near the bandwidth cap | egress above 80% of `limits.max_egress_mbps` |
 | Recording disk | the recordings disk is 85% full (critical at 95%) |
 | Certificate | the HTTPS certificate is close to expiry and not being renewed |
+| CPU high | CPU above 85% for a minute (critical above 95%): streams may stutter |
 | Possible leak | the server's memory keeps growing with the same load |
 
 ## Messages to Slack, Discord or your own system

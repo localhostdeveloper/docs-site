@@ -13,22 +13,20 @@ destinations always get the original.
 ## Turning it on
 
 1. The server needs **FFmpeg** (`install.sh --with-ffmpeg`, or
-   `apt install ffmpeg`; the Docker image includes it).
-2. In `/etc/unda/unda.yaml`:
+   `sudo apt install ffmpeg`; the Docker image includes it). For an NVIDIA
+   card, install the NVIDIA driver so `nvidia-smi` works.
+2. In the dashboard, **Server → Transcoding**: switch it on and pick the
+   encoder. Unda lists what this server has (the CPU, each NVIDIA card, Intel
+   Quick Sync, VAAPI devices, Apple VideoToolbox) and tests each one; an encoder
+   that fails its test says why and can't be chosen. **Save** tests your choice
+   again before applying it.
+3. On a stream's **Transcoding** tab, switch it on for that stream. It starts at
+   once and stays on when the encoder reconnects (until the server restarts).
 
-   ```yaml
-   transcode:
-     enabled: true        # makes it available; nothing is transcoded yet
-     max_concurrent: 2    # how many streams at once
-   ```
-
-   and restart Unda. It refuses to start if FFmpeg is missing, rather than
-   failing later.
-3. On a stream's **Transcoding** tab, switch it on. It starts at once, and stays
-   on for that channel when the encoder reconnects (until the server restarts).
-
-To transcode some channels automatically, list them: `streams: ["main-show"]`
-(or `["*"]` for all).
+There is no limit on how many streams are transcoded at once. When the CPU
+stays above 85% for a minute, the dashboard raises a **CPU** alert, and the
+Transcoding tab warns before you add another stream. You can still set a limit
+(**Streams at once**) if you prefer.
 
 ## What viewers get
 
@@ -71,12 +69,12 @@ Per 1080p stream, with the default settings:
 | Software (`hardware: none`) | about 1.2 CPU cores | about 0.9 GB |
 | Apple VideoToolbox | about 0.35 cores | about 0.2 GB |
 
-A 4-core, 8 GB server runs about two adaptive streams comfortably alongside
-everything else. Streams beyond `max_concurrent` are served as they arrive.
+A 4-core, 8 GB server runs about two adaptive streams on the CPU alongside
+everything else. A GPU takes most of that load off the CPU.
 
-`hardware: nvenc | qsv | vaapi` use NVIDIA, Intel and AMD/Intel GPUs. These
-have not been tested yet; Unda checks the encoder with a test encode when it
-starts and refuses to start if it does not work.
+NVIDIA, Intel and VAAPI encoders have not yet been tested on real hardware by
+the vendor; Unda test-encodes with your card before using it, and shows why if
+it fails.
 
 If FFmpeg crashes it is restarted within a few seconds; after 10 failures in a
 row the stream carries on without adaptive bitrate.
