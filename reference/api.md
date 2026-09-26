@@ -79,6 +79,20 @@ curl -X POST -H "Authorization: Bearer $KEY" \
 | `POST /api/v1/udp/inputs` | operator | `{"name":"sat-feed","listen":":5001","allow":["192.168.1.20"]}` or `{"name":"…","multicast":"239.1.1.1:5000","interface":"eth1"}` |
 | `DELETE /api/v1/udp/inputs/{name}` | operator | Remove an input |
 
+## Multi-channel (MPTS)
+
+| Method and path | Role | |
+|---|---|---|
+| `GET /api/v1/mpts/inputs` | operator | Bundles being received, with their channels, state, bitrates and TR 101 290 counts |
+| `GET /api/v1/mpts/inputs/{name}/programs` | operator | The channels a bundle carries: number, name, provider, PMT and PCR PIDs, and each track's PID, codec and language |
+| `POST /api/v1/mpts/inputs` | operator | `{"name":"sat","source":"udp://239.1.1.1:5000","programs":[{"program":101,"stream":"sports-hd"}]}`; add `"discover_only":true` to only list the channels |
+| `DELETE /api/v1/mpts/inputs/{name}` | operator | Stop receiving a bundle (its channels' streams end) |
+| `GET /api/v1/mpts` | operator | Bundles being sent, with their channels and TR 101 290 counts |
+| `POST /api/v1/mpts` | operator | `{"name":"bundle","url":"udp://239.2.2.1:6000","total_kbps":12000,"programs":[{"stream":"cam","program":1,"name":"Channel 1","bitrate_kbps":4000}]}` |
+| `POST /api/v1/mpts/{name}/programs` | operator | Add a channel to a running bundle |
+| `DELETE /api/v1/mpts/{name}/programs/{program}` | operator | Remove a channel from a running bundle |
+| `DELETE /api/v1/mpts/{name}` | operator | Stop sending a bundle |
+
 ## Users and security
 
 | Method and path | Role | |

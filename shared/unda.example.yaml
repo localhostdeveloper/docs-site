@@ -196,6 +196,24 @@ limits:
 #       ttl: 4
 #       interface: eth0
 
+# Multi-channel inputs (MPTS in): split a bundle of TV channels (a satellite
+# receiver's or operator's multi-program transport stream) into separate streams.
+# Programs in H.264 + AAC are split in-process; other audio is converted with
+# FFmpeg; other video only with transcode_video: true (costly).
+# mpts_inputs:
+#   - name: sat-bundle
+#     source: udp://239.1.1.1:5000             # or udp://:5000 (unicast), rtp://...
+#     interface: eth0                          # multicast: interface to join on
+#     # allow: [192.168.1.20]                  # optional: only these senders
+#     # discover_only: true                    # list the programs (API/dashboard), publish nothing
+#     programs:
+#       - program: 101                         # program_number in the feed
+#         stream: sports-hd                    # the Unda stream it becomes
+#         # audio_language: eng                # or audio_pid: 0x102; default the first audio
+#         # transcode_video: true              # needed for MPEG-2/HEVC video (about a core per HD channel)
+#       - program: 102
+#         stream: news-24
+
 # Multi-channel transport streams (MPTS): several streams as the programs (TV
 # channels) of one constant-bitrate MPEG-TS, for an IPTV network, a DVB
 # multiplexer or modulator, or a partner. Needs FFmpeg: each program is copied
