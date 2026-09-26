@@ -285,3 +285,10 @@ monitoring:
 # downloaded or installed; the request carries only this server's version.
 # updates:
 #   disabled: true
+
+# Viewer sessions (the dashboard's Sessions page): each player watching a
+# stream over HLS, DASH, RTMP or SRT, with its address, player, start, length
+# and traffic. Kept in the database; only operators and above can see them.
+# sessions:
+#   retention_days: 30    # 0 = 30, at most 365
+#   disabled: true        # keep no history on disk (viewers watching now are still shown)

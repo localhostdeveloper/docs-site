@@ -24,6 +24,14 @@ mpts_inputs:
         stream: news-24
 ```
 
+**In the dashboard:** Server → Multi-channel → **Receiving → New input**. Give it
+a name and the address it arrives on. Once packets arrive, every channel of the
+bundle is listed with its name, tracks and bitrate: click **Publish** on the ones
+you want, choose the stream name and audio track, and they go live. **Stop**
+takes a channel off air and keeps your choices. Inputs made there are kept when
+the server restarts. When the provider adds a channel later, it is listed (or,
+with the right setting, added or published by itself).
+
 **Not sure what the bundle carries?** Set `discover_only: true` first: Unda
 lists every channel with its name, provider and tracks (codec and language)
 without putting anything online. Operators can see the list through the API

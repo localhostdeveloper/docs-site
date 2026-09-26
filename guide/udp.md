@@ -70,3 +70,9 @@ udp://239.1.1.10:6000?ttl=4&iface=eth1   multicast
 Play it with `vlc udp://@:6000` (unicast) or `vlc udp://@239.1.1.10:6000`
 (multicast). Multicast needs switches with IGMP support and does not cross the
 internet or most cloud networks.
+
+The output is paced: each keyframe is spread over a few hundred milliseconds
+instead of leaving in one burst, which a set-top box or a busy switch would
+partly drop (the picture breaks up while the sound plays on). This adds up to
+about half a second of delay. Add `pace=0` to the address to send every frame
+at once.

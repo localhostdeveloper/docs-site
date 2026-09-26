@@ -27,3 +27,13 @@ Recording can also be controlled from scripts:
 curl -X POST -H "Authorization: Bearer $KEY" -d '{"action":"start"}' https://tv.example.com/api/v1/streams/main-show/record
 curl -X POST -H "Authorization: Bearer $KEY" -d '{"action":"stop"}'  https://tv.example.com/api/v1/streams/main-show/record
 ```
+
+## Watching, downloading and deleting recordings
+
+The **Recordings** page lists every recorded file, newest first: which stream,
+when it started, how long it is and its size. You can filter by stream.
+
+- **Play** watches it in the page, with seeking.
+- **Download** saves the file (MPEG-TS, `.ts`: VLC and most editors open it).
+- **Delete** removes it. The file being recorded right now cannot be deleted;
+  stop the recording first.

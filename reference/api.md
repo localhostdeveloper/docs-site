@@ -34,6 +34,28 @@ the feature in your [license](/guide/license); without it they answer `403`.
 | `GET` / `POST /api/v1/streams/{name}/record` | operator | Recording status / `{"action":"start"}` or `{"action":"stop"}` |
 | `PUT /api/v1/streams/{name}/transcode` | operator | `{"enabled": true}` turns adaptive bitrate on for this stream |
 
+## Viewer sessions
+
+| Method and path | Role | |
+|---|---|---|
+| `GET /api/v1/sessions` | operator | Sessions running now: stream, protocol, ip, user_agent, started_at, duration_seconds, bytes |
+| `GET /api/v1/sessions/history` | operator | Finished sessions, a page at a time (`limit` up to 500, `offset`), with `total`; `?format=csv` downloads them |
+| `GET /api/v1/sessions/summary?by=stream` | operator | Totals per stream (`by=ip`: per viewer address): sessions, active, distinct, view_seconds, bytes, protocols |
+
+Filters for all three: `stream`, `protocol` (`hls`, `dash`, `rtmp`, `srt`),
+`ip` (address prefix), `agent` (player contains), `from` and `to` (start time,
+RFC 3339 or unix seconds), `min_duration` (seconds), `sort` (`started`,
+`duration`, `bytes`).
+
+## Recordings
+
+| Method and path | Role | |
+|---|---|---|
+| `GET /api/v1/recordings[?stream=]` | operator | Recorded files, newest first: stream, name, size, start, length, whether it is still being written; plus the total size and retention |
+| `GET /api/v1/recordings/{stream}/{file}` | operator | The file itself (supports `Range`); add `?download=1` to save it |
+| `GET /api/v1/recordings/{stream}/{file}/index.m3u8` | operator | An HLS playlist over the file, for playing and seeking in a browser |
+| `DELETE /api/v1/recordings/{stream}/{file}` | operator | Delete a recording (not the one being written: 409) |
+
 ## Restreaming
 
 | Method and path | Role | |
@@ -87,6 +109,8 @@ curl -X POST -H "Authorization: Bearer $KEY" \
 | `GET /api/v1/mpts/inputs/{name}/programs` | operator | The channels a bundle carries: number, name, provider, PMT and PCR PIDs, and each track's PID, codec and language |
 | `POST /api/v1/mpts/inputs` | operator | `{"name":"sat","source":"udp://239.1.1.1:5000","programs":[{"program":101,"stream":"sports-hd"}]}`; add `"discover_only":true` to only list the channels |
 | `DELETE /api/v1/mpts/inputs/{name}` | operator | Stop receiving a bundle (its channels' streams end) |
+| `PUT /api/v1/mpts/inputs/{name}/programs/{program}` | operator | Publish one channel of a running bundle: `{"stream":"sports-hd"}` (optional `audio_pid`, `audio_language`, `transcode_video`); changes only that channel |
+| `DELETE /api/v1/mpts/inputs/{name}/programs/{program}` | operator | Stop publishing that channel (the bundle keeps running) |
 | `GET /api/v1/mpts` | operator | Bundles being sent, with their channels and TR 101 290 counts |
 | `POST /api/v1/mpts` | operator | `{"name":"bundle","url":"udp://239.2.2.1:6000","total_kbps":12000,"programs":[{"stream":"cam","program":1,"name":"Channel 1","bitrate_kbps":4000}]}` |
 | `POST /api/v1/mpts/{name}/programs` | operator | Add a channel to a running bundle |

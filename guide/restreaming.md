@@ -30,10 +30,14 @@ Use the exact URL and key the platform gives you.
   shown on the Restream tab.
 - **Your platform keys stay secret:** after you add a destination, the dashboard,
   the API and the logs only ever show it as `rtmp://a.rtmp.youtube.com/live2/****`.
-- Destinations added in the dashboard last until the server restarts. For
-  permanent ones, list them in the configuration file under `restream.targets`
-  (the URL can come from an environment variable or a file, to keep the key
-  out of the configuration).
+- **Destinations are kept across restarts.** Destinations added in the
+  dashboard or through the API are saved in the server database (readable by
+  the server account only, like channel keys) and come back by themselves after
+  a restart or an upgrade, pushing again as soon as the stream is live.
+- Destinations can also be listed in the configuration file under
+  `restream.targets` (the URL can come from an environment variable or a file,
+  to keep the key out of the configuration). Those are marked "from unda.yaml"
+  on the Restream tab: to change them, edit the file.
 
 Streamers can restream their own channels; operators and above any stream.
 A streamer's destinations must be RTMP, RTMPS or SRT at a public internet

@@ -12,9 +12,41 @@
 - **A stream's page**: a **Health** card with the measured frame rate,
   keyframe interval, audio/video drift, bitrate against its normal level and
   reconnects.
+- **Sessions**: every player watching a stream, now and in the past. See
+  [Viewer sessions](#viewer-sessions) below.
 - **Events**: the last 200 things that happened: streams starting, stopping
   and reconnecting, viewers joining and leaving, restream, recording and
   adaptive-bitrate changes, alerts. A server restart clears the list.
+
+## Viewer sessions
+
+**Sessions** in the sidebar (operators and above) lists every player watching
+a stream over HLS, DASH, RTMP or SRT: the stream, the protocol, the viewer's
+address, the player (for example "Chrome 129 · Windows", "VLC 3.0.23",
+"Apple player (iOS)"), when it started, how long it lasted, how much it was
+sent and its average rate.
+
+- **Watching now**: the sessions running at the moment.
+- **History**: finished sessions, newest, longest or biggest first.
+  **Download CSV** saves every matching session as a spreadsheet.
+- **By stream** and **By viewer**: totals per stream or per viewer address
+  for the last hour, day, week or month: sessions, how many are watching now,
+  how many different addresses (or streams), watch time and traffic.
+
+Filter any view by stream, protocol, address (the start of it: `10.1.` shows
+a whole subnet), player and minimum length. Click an address or a stream name
+to see all of its sessions.
+
+A browser tab is one session, even when the player switches quality. It
+counts once the player starts fetching video, not when a page is only opened,
+and ends 30 seconds after the player's last request. If Unda runs behind a
+reverse proxy, list the proxy under `server.trusted_proxies` so sessions show
+the viewers' own addresses rather than the proxy's.
+
+Sessions are kept for 30 days (`sessions.retention_days`, up to 365) in the
+server database, and survive restarts. Viewer addresses are personal data in
+many countries: set `sessions.disabled: true` to keep no history (the
+**Watching now** view still works).
 
 ## Alerts on the dashboard
 
