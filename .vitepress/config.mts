@@ -66,6 +66,7 @@ export default defineConfig({
           { text: "Restreaming", link: "/guide/restreaming" },
           { text: "SRT", link: "/guide/srt" },
           { text: "UDP / MPEG-TS", link: "/guide/udp" },
+          { text: "Multi-channel (MPTS)", link: "/guide/mpts" },
           { text: "Monitoring and alerts", link: "/guide/monitoring" },
           { text: "License", link: "/guide/license" },
           { text: "Troubleshooting", link: "/guide/troubleshooting" },

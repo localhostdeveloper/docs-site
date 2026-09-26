@@ -196,6 +196,33 @@ limits:
 #       ttl: 4
 #       interface: eth0
 
+# Multi-channel transport streams (MPTS): several streams as the programs (TV
+# channels) of one constant-bitrate MPEG-TS, for an IPTV network, a DVB
+# multiplexer or modulator, or a partner. Needs FFmpeg: each program is copied
+# (bitrate = its share, above its source's peak) or re-encoded to SD with encode.
+# mpts_outputs:
+#   - name: iptv-bundle-1
+#     destination: udp://239.2.2.1:6000        # or rtp://..., srt://host:port?streamid=...
+#     interface: eth0                          # multicast: outgoing interface
+#     ttl: 4
+#     provider: "Unda Community TV"            # SDT provider name
+#     network_id: 1
+#     transport_stream_id: 1
+#     total_bitrate: 25Mbps                    # constant, null packets included; omit = the programs' sum + headroom
+#     pat_pmt_interval: 100ms                  # sdt_interval defaults to 500ms (at most 2s)
+#     programs:
+#       - stream: channel-1
+#         program: 1
+#         name: "Channel 1"                    # SDT service name
+#         pmt_pid: 0x100
+#         pids: { video: 0x101, audio: [0x102] }
+#         bitrate: 6Mbps                       # copied as it is: this program's constant share
+#       - stream: sports-hd
+#         program: 2
+#         name: "Sports HD"
+#         pids: auto                           # assigned without clashes
+#         encode: { video_codec: h264 }        # re-encoded: SD 720x576 25p 16:9, MP2 audio (see broadcast outputs)
+
 # Adaptive-bitrate transcoding. Turn it on and choose the encoder (CPU or a GPU)
 # in the dashboard: Server → Transcoding. Needs FFmpeg. The settings below are
 # optional and advanced; enabled/hardware/max_concurrent here only seed a server
