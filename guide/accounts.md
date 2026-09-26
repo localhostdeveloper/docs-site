@@ -27,6 +27,8 @@ password when they open it.
   happens again, up to a day). The account still works from everywhere else,
   so nobody can lock you out just by knowing your email. Each block is shown
   in the event log and, with the account's name, in the audit log.
+  On **Users**, such an account shows how many addresses are blocked, and
+  **Unlock** lifts the blocks at once.
 - A session lasts 12 hours without use and at most 7 days.
 - Passwords are only accepted over HTTPS (or on the server itself).
 
