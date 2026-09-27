@@ -26,8 +26,14 @@ Use the exact URL and key the platform gives you.
   stream comes back.
 - A destination that fails is retried after 5 s, 10 s, 30 s, then every minute.
   One failing destination never affects the others or your viewers.
-- Each destination's state (connecting, live, retrying) and last error are
-  shown on the Restream tab.
+- Each destination's state (connecting, live, retrying, paused) and last error
+  are shown on the Restream tab.
+- **Pause instead of delete.** The switch next to each destination stops
+  sending to it without deleting it, so the same destination (and its key) can
+  be switched back on later, for the next event, without typing the key again.
+  Switching it on starts sending at once if the stream is live. A paused
+  destination stays paused after a restart and raises no "not connected"
+  notice.
 - **Your platform keys stay secret:** after you add a destination, the dashboard,
   the API and the logs only ever show it as `rtmp://a.rtmp.youtube.com/live2/****`.
 - **Destinations are kept across restarts.** Destinations added in the

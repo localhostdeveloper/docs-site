@@ -63,6 +63,7 @@ export default defineConfig({
           { text: "Accounts and channels", link: "/guide/accounts" },
           { text: "Adaptive bitrate", link: "/guide/transcoding" },
           { text: "Recording", link: "/guide/recording" },
+          { text: "24/7 channels (playout)", link: "/guide/playout" },
           { text: "Restreaming", link: "/guide/restreaming" },
           { text: "SRT", link: "/guide/srt" },
           { text: "UDP / MPEG-TS", link: "/guide/udp" },

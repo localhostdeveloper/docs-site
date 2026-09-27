@@ -24,6 +24,30 @@ mpts_inputs:
         stream: news-24
 ```
 
+### Over SRT or RIST
+
+A bundle that crosses the internet is better sent over SRT or RIST than plain
+UDP: both resend what the network loses.
+
+```yaml
+    source: srt://ird.example.com:9000?streamid=sat&passphrase=...   # Unda connects to the sender
+    source: srt://:9000?passphrase=...                                # or waits for the sender to connect
+    source: rist://@:5000                                             # RIST: Unda receives on port 5000
+```
+
+- **SRT:** with a host, Unda connects to the sender (an IRD or encoder set up as
+  an SRT *listener*) and reconnects by itself if the link drops. With only a port
+  (`srt://:9000`), Unda waits for the sender to connect, one sender at a time.
+  `passphrase` turns on encryption (the sender must use the same one);
+  `latency` (milliseconds, default 200) should comfortably exceed the round trip.
+- **RIST** (Simple Profile): use an even port; the next port carries RIST's
+  control traffic, so open both in the firewall. `buffer` (milliseconds,
+  default 1000) is how long lost packets can be recovered, and should match the
+  sender's. Tested with VLC's RIST (librist).
+
+The input's line on the Server page shows whether the SRT link is up (and why
+not), and for RIST how many packets the network lost and were resent.
+
 **In the dashboard:** Server → Multi-channel → **Receiving → New input**. Give it
 a name and the address it arrives on. Once packets arrive, every channel of the
 bundle is listed with its name, tracks and bitrate: click **Publish** on the ones
@@ -69,7 +93,7 @@ Or in the configuration file:
 ```yaml
 mpts_outputs:
   - name: iptv-bundle-1
-    destination: udp://239.2.2.1:6000     # or rtp://... or srt://host:port?streamid=...
+    destination: udp://239.2.2.1:6000     # or rtp://..., srt://host:port?streamid=..., rist://host:5000
     interface: eth0                       # for multicast: the network card to send on
     ttl: 4
     provider: "Unda Community TV"
@@ -93,10 +117,29 @@ TV equipment with `encode` (H.264 or MPEG-2 video, MP2 audio). Channel numbers,
 PIDs and names can be set to match the plan agreed with the receiving side;
 anything left out is chosen for you without clashes.
 
+### Constant or variable bitrate
+
+By default a bundle is **constant bitrate**: padded to its total with null
+packets, which DVB multiplexers, modulators and many IRDs require. For an IP
+network that does not need a constant rate, set `total_bitrate: vbr` (or
+choose *Variable* in the dashboard): the bundle then sends only what its
+channels carry, with no padding, and has no total to outgrow. The Server page
+shows what it is sending now.
+
+### Sending over RIST
+
+`rist://host:port` sends the bundle with RIST Simple Profile: the receiver
+asks for what the network lost and Unda sends it again, from the last second
+(`?buffer=` in milliseconds to change it; use the receiver's value). Use an even
+port; the next one carries the control traffic. It also works for single
+streams (restream destinations) and broadcast outputs. Like UDP, only operators
+can add RIST destinations.
+
 Channels can be added and removed while a bundle runs (in the dashboard or
 through the API, `/api/v1/mpts`); receivers pick up the change by themselves.
 Set the total bitrate with room to spare if you plan to add channels later: it
-is fixed, and a channel that does not fit is refused.
+is fixed, and a channel that does not fit is refused (a variable-bitrate bundle
+has no such limit).
 
 ### How it behaves
 

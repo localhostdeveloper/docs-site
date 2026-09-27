@@ -54,6 +54,7 @@ streams:
 paths:
   recordings_dir: ./data/recordings
   hls_dir: ./data/hls
+  # media_dir: ./data/media   # files that playout channels play (default <data_dir>/media)
   # The server's own state: the account database (unda.db), the license file
   # and the first-run setup token. Keep it private to the server's user and back
   # it up (`unda admin backup <file>` is safe while the server runs).
@@ -141,10 +142,13 @@ restream:
   #     name: rtp-headend
   #     url: rtp://192.168.1.60:5004?pkt_size=1316  # MPEG-TS over RTP; operator only, no encryption
   #   - stream: mykey
+  #     name: rist-partner
+  #     url: rist://partner.example.com:5000?buffer=1000  # RIST Simple Profile: lost packets resent; even port
+  #   - stream: mykey
   #     name: twitch
   #     url_env: UNDA_PUSH_TWITCH_URL     # or: url_file: /run/secrets/twitch_url
   #   - stream: mykey                # broadcast TV: re-encoded to SD for a DVB multiplexer,
-  #     name: dtt-mux                #   IP modulator or satellite uplink (udp://, rtp:// or srt://)
+  #     name: dtt-mux                #   IP modulator or satellite uplink (udp://, rtp://, srt:// or rist://)
   #     url: udp://239.1.1.20:5000?ttl=4
   #     broadcast:                   # 720x576, 25 frames/s, 16:9, MP2 audio, CBR MPEG-TS
   #       video_codec: h264          # h264 (DVB-T2/S2, default) or mpeg2 (DVB-T/S)
@@ -203,6 +207,9 @@ limits:
 # mpts_inputs:
 #   - name: sat-bundle
 #     source: udp://239.1.1.1:5000             # or udp://:5000 (unicast), rtp://...
+#     # source: srt://ird.example.com:9000?streamid=sat&passphrase=...  # connect to an SRT sender
+#     # source: srt://:9000?passphrase=...     # or wait for one to connect (one at a time)
+#     # source: rist://@:5000?buffer=1000      # RIST Simple Profile receiver (even port; RTCP on the next)
 #     interface: eth0                          # multicast: interface to join on
 #     # allow: [192.168.1.20]                  # optional: only these senders
 #     # discover_only: true                    # list the programs (API/dashboard), publish nothing
@@ -220,13 +227,14 @@ limits:
 # (bitrate = its share, above its source's peak) or re-encoded to SD with encode.
 # mpts_outputs:
 #   - name: iptv-bundle-1
-#     destination: udp://239.2.2.1:6000        # or rtp://..., srt://host:port?streamid=...
+#     destination: udp://239.2.2.1:6000        # or rtp://..., srt://host:port?streamid=..., rist://host:5000
 #     interface: eth0                          # multicast: outgoing interface
 #     ttl: 4
 #     provider: "Unda Community TV"            # SDT provider name
 #     network_id: 1
 #     transport_stream_id: 1
-#     total_bitrate: 25Mbps                    # constant, null packets included; omit = the programs' sum + headroom
+#     total_bitrate: 25Mbps                    # constant, null packets included; omit = the programs' sum + headroom;
+#                                              #   vbr = variable: no padding, only what the channels carry (IP networks)
 #     pat_pmt_interval: 100ms                  # sdt_interval defaults to 500ms (at most 2s)
 #     offline: black                           # while a stream is offline its channel shows: black (default), slate, none
 #     # slate_image: /etc/unda/slate.png       # the picture for offline: slate
@@ -292,3 +300,19 @@ monitoring:
 # sessions:
 #   retention_days: 30    # 0 = 30, at most 365
 #   disabled: true        # keep no history on disk (viewers watching now are still shown)
+
+# 24/7 channels (playout). Each channel plays the files of a schedule, fills
+# the gaps, and lets a live stream take over while it is live. It is a stream
+# like any other: watch /watch/<name>, restream it, record it. Every item is
+# re-encoded to one picture size, so each channel runs an encoder all the
+# time: about half to two thirds of a CPU core at 720p30 with libx264.
+# Needs FFmpeg (and ffprobe next to it) and the "playout" license feature.
+# playout:
+#   asrun_retention_days: 90   # the as-run log; -1 keeps it forever
+#   channels:
+#     - name: tv1                          # the stream's name
+#       schedule: /etc/unda/schedules/tv1.yaml
+#       live: studio                       # optional: this stream takes over while live
+#       # width: 1280, height: 720, fps: 30 (25/30/50/60), video_kbps: 3000, audio_kbps: 128
+#       filler: image                      # black (default), image or video (looped)
+#       filler_file: /etc/unda/slate.png   # image: a picture file; video: a file in media_dir

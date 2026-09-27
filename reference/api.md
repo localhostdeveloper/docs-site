@@ -56,12 +56,21 @@ RFC 3339 or unix seconds), `min_duration` (seconds), `sort` (`started`,
 | `GET /api/v1/recordings/{stream}/{file}/index.m3u8` | operator | An HLS playlist over the file, for playing and seeking in a browser |
 | `DELETE /api/v1/recordings/{stream}/{file}` | operator | Delete a recording (not the one being written: 409) |
 
+## 24/7 channels (playout)
+
+| Method and path | Role | |
+|---|---|---|
+| `GET /api/v1/playout/channels` | operator | Every channel: state, what is on air (and where in the file), the live input, the next items, the schedule's state and problems, the encoder |
+| `GET /api/v1/playout/channels/{name}` | operator | One channel |
+| `GET /api/v1/playout/channels/{name}/asrun` | operator | What went on air, newest first; `from`, `to` (RFC 3339 or unix seconds), `limit`; `?format=csv` downloads it |
+
 ## Restreaming
 
 | Method and path | Role | |
 |---|---|---|
 | `GET /api/v1/streams/{name}/push` | streamer | Destinations with their state and last error (URLs shown with the key hidden) |
 | `POST /api/v1/streams/{name}/push` | streamer | `{"name":"youtube","url":"rtmp://a.rtmp.youtube.com/live2/KEY"}` |
+| `PATCH /api/v1/streams/{name}/push/{id}` | streamer | `{"paused": true}` stops sending but keeps the destination; `{"paused": false}` starts it again |
 | `DELETE /api/v1/streams/{name}/push/{id}` | streamer | Remove a destination; returns once it is disconnected |
 
 ```bash
