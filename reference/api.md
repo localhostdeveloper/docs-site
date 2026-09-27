@@ -63,12 +63,19 @@ RFC 3339 or unix seconds), `min_duration` (seconds), `sort` (`started`,
 | `GET /api/v1/playout/channels` | operator | Every channel: state, what is on air (and where in the file), the live input, the next items, the schedule's state and problems, the encoder |
 | `GET /api/v1/playout/channels/{name}` | operator | One channel |
 | `GET /api/v1/playout/channels/{name}/asrun` | operator | What went on air, newest first; `from`, `to` (RFC 3339 or unix seconds), `limit`; `?format=csv` downloads it |
+| `GET /api/v1/media` | operator | The media folder: files (length, size, codecs, `state` ready/checking/error, `on_air`/`scheduled` channels), unfinished uploads, space |
+| `GET /api/v1/media/{name}` | operator | One file |
+| `DELETE /api/v1/media/{name}` | operator | Delete a file; 409 while it is on air. The answer lists channels whose schedule still names it |
+| `POST /api/v1/media/uploads` | operator | `{"name","size","fingerprint"}` starts an upload (201), or returns the unfinished upload of the same file (200) to resume |
+| `GET /api/v1/media/uploads/{id}` | operator | Where an upload is (`offset`) |
+| `PUT /api/v1/media/uploads/{id}?offset=N` | operator | The file's bytes from `N` (at most 16 MB per request). A wrong offset is 409 with the right one. The last piece answers `done` and the file once it is checked (422 if it isn't playable video) |
+| `DELETE /api/v1/media/uploads/{id}` | operator | Cancel an upload |
 
 ## Restreaming
 
 | Method and path | Role | |
 |---|---|---|
-| `GET /api/v1/streams/{name}/push` | streamer | Destinations with their state and last error (URLs shown with the key hidden) |
+| `GET /api/v1/streams/{name}/push` | streamer | Destinations with their state (`live` only once the destination accepted the stream), `last_error` in plain words, `error_detail` (the underlying error), `failing_since`, and `paused_reason` when the server switched a destination off after 30 minutes of failures (URLs shown with the key hidden) |
 | `POST /api/v1/streams/{name}/push` | streamer | `{"name":"youtube","url":"rtmp://a.rtmp.youtube.com/live2/KEY"}` |
 | `PATCH /api/v1/streams/{name}/push/{id}` | streamer | `{"paused": true}` stops sending but keeps the destination; `{"paused": false}` starts it again |
 | `DELETE /api/v1/streams/{name}/push/{id}` | streamer | Remove a destination; returns once it is disconnected |
@@ -95,7 +102,7 @@ curl -X POST -H "Authorization: Bearer $KEY" \
 |---|---|---|
 | `GET /api/v1/health` | none | `{"status":"ok"}` |
 | `GET /api/v1/alerts` | streamer | Open alerts, then those resolved in the last 10 minutes |
-| `GET /api/v1/events?limit=20&before=<id>` | streamer | Recent events, newest first |
+| `GET /api/v1/events?limit=20&before=<id>` | streamer | Events, newest first, kept 30 days in the database (`before` pages back through them). A line that repeats within an hour is one entry with `count` and `first_ts`; a repeat replaces the earlier line (`replaces` names it) |
 | `GET /api/v1/metrics/history?metric=egress&range=1h` | streamer | The last hour, one point every 5 s. `metric`: `ingest`, `egress`, `viewers`, `heap`, `goroutines`, `bitrate` (with `stream=`); `range`: `5m`, `15m`, `30m`, `1h` |
 | `GET /api/v1/metrics/peaks` | streamer | Today's peak viewers, overall and per stream |
 | `GET /api/v1/live` | streamer | A live feed (Server-Sent Events): a heartbeat every 5 s and each event as it happens |

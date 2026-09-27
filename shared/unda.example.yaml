@@ -309,6 +309,7 @@ monitoring:
 # Needs FFmpeg (and ffprobe next to it) and the "playout" license feature.
 # playout:
 #   asrun_retention_days: 90   # the as-run log; -1 keeps it forever
+#   media_max_gb: 0            # cap on the media folder for uploads (0: none; 5 GB of disk is always left free)
 #   channels:
 #     - name: tv1                          # the stream's name
 #       schedule: /etc/unda/schedules/tv1.yaml

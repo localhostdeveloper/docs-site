@@ -11,9 +11,10 @@ multi-channel bundle, exactly like a stream from an encoder.
 
 ## Setting up a channel
 
-1. Put the video files in the server's media folder (`/var/lib/unda/media`
-   with the installer; `paths.media_dir` to change it). Copy them with
-   `scp`, `rsync` or SFTP. Any format FFmpeg reads works: MP4, MOV, MKV, TS…
+1. Upload the video files on the dashboard's **Media** page, or copy them into
+   the server's media folder (`/var/lib/unda/media` with the installer;
+   `paths.media_dir` to change it) with `scp`, `rsync` or SFTP. MP4, MOV,
+   MKV, MPEG-TS, MXF and the like all work.
 2. Write a schedule file (below).
 3. Add the channel to `unda.yaml` and restart the server:
 
@@ -30,6 +31,34 @@ playout:
 Optional settings: `width` and `height` (default 1280×720, up to 1920×1080),
 `fps` (25, 30, 50 or 60; default 30), `video_kbps` (default 3000),
 `audio_kbps` (default 128), `preset` (libx264, default `veryfast`).
+
+## The Media page
+
+**Media** (operators and above) lists every video file in the media folder
+with its length, picture size, frame rate, sound and which channels use it.
+Files copied in by hand appear by themselves.
+
+- **Uploading:** drop files on the page or click to choose them. A file goes
+  up in 8 MB pieces. If the connection drops, the server restarts or the page
+  is reloaded, choose the same file again and it carries on where it stopped.
+  An unfinished upload is removed after 24 hours without progress.
+- **Checks:** each finished upload is checked before it joins the library; a
+  file that isn't playable video is refused with the reason. Names are
+  letters, digits, `.`, `_` and `-` (the page turns spaces and other
+  characters into `-`). An existing name is never overwritten: delete the old
+  file first.
+- **Space:** a file may be up to 50 GB, an upload must leave 5 GB of the disk
+  free, and `playout.media_max_gb` caps the whole folder if you set it.
+- **Deleting:** a file on air, or about to be, can't be deleted. A file still
+  named in a schedule can; the channel then skips it and shows a warning.
+- **Behind a reverse proxy:** allow request bodies of 16 MB (nginx:
+  `client_max_body_size 16m;`). Caddy needs no change.
+
+## The Playout page
+
+**Playout** shows each channel: what is on air and how far in, a preview, the
+next items, the schedule file's state (and any item that can't play), the
+encoder, the live input, and the as-run log with a CSV download.
 
 ## The schedule file
 

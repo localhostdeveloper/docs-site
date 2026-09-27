@@ -231,8 +231,9 @@ server:
   trusted_proxies: ["127.0.0.1/32", "::1/128"]
 ```
 
-**nginx instead of Caddy.** Keep the `Host` header, and turn off buffering so
-the dashboard's live updates flow:
+**nginx instead of Caddy.** Keep the `Host` header, turn off buffering so
+the dashboard's live updates flow, and allow 16 MB request bodies (media
+uploads arrive in 8 MB pieces):
 
 ```nginx
 location / {
@@ -241,6 +242,8 @@ location / {
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_buffering off;
+    proxy_request_buffering off;
+    client_max_body_size 16m;
     proxy_read_timeout 1h;
 }
 ```

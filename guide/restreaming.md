@@ -24,10 +24,20 @@ Use the exact URL and key the platform gives you.
 - It starts straight away and keeps going for as long as the stream is live.
   If the stream stops, the destination waits and resumes by itself when the
   stream comes back.
-- A destination that fails is retried after 5 s, 10 s, 30 s, then every minute.
-  One failing destination never affects the others or your viewers.
-- Each destination's state (connecting, live, retrying, paused) and last error
-  are shown on the Restream tab.
+- A destination shows **live** only once the platform has accepted the stream
+  (for RTMP, its `NetStream.Publish.Start` answer), not merely when the
+  connection opens: a wrong or expired key shows as a failure, never as live.
+- A destination that fails is retried after 5 s, 10 s, 30 s, 1 min, 2 min, then
+  every 5 minutes. One failing destination never affects the others or your
+  viewers.
+- **A destination that keeps failing for 30 minutes is switched off** (an
+  ended live event, a revoked key), shown as "switched off" with the reason,
+  and stays off (after a restart too) until you switch it back on.
+- Each destination's state and why it fails are shown on the Restream tab in
+  plain words ("The destination refused the stream key…"), with the technical
+  error behind "Technical detail". A destination failing for more than two
+  minutes raises one alert per stream, however many destinations fail and
+  however often they retry; the event log shows one line per failure run.
 - **Pause instead of delete.** The switch next to each destination stops
   sending to it without deleting it, so the same destination (and its key) can
   be switched back on later, for the next event, without typing the key again.

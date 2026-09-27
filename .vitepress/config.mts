@@ -46,6 +46,7 @@ export default defineConfig({
       { text: "Guide", link: "/guide/introduction" },
       { text: "Install", link: "/guide/install" },
       { text: "Reference", link: "/reference/api" },
+      { text: "Release notes", link: "/release-notes" },
     ],
     sidebar: [
       {
