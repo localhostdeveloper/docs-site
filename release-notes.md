@@ -5,29 +5,47 @@ administrators when a newer version is out (Overview → Other notices) and
 shows the first points from here; upgrading is re-running the installer
 ([Install](/guide/install)), which backs up the database first.
 
-<!-- At release: rename this heading to "## vX.Y.Z {#vX-Y-Z}" (the anchor the
-     update notice links to), add the date under it, and start a new
-     "## Next release" above it. deploy/release.sh reads the version's section. -->
+<!-- Unreleased changes go in a "## Next release" section here. At release,
+     rename it to "## vX.Y.Z {#vX-Y-Z}" (the anchor the update notice links
+     to) and add the date under it. deploy/release.sh reads the version's
+     section; its "- " points also show in the dashboard's update notice. -->
 
-## Next release
+## v0.1.12 {#v0-1-12}
+
+*27 September 2026*
 
 - **24/7 channels (playout):** a channel plays video files from a schedule,
   fills gaps with black, a slate or a looping video, and hands over to a live
-  stream (vMix, OBS) while it is live. It is watched, recorded and restreamed
-  like any stream. See [24/7 channels](/guide/playout).
+  stream (vMix, OBS) while it is live, returning to the schedule when it ends.
+  It is watched, recorded and restreamed like any stream. See
+  [24/7 channels](/guide/playout).
 - **Media page:** upload video files from the dashboard. An interrupted upload
-  carries on where it stopped; every file is checked before it is kept.
-- **Playout page:** what is on air, a preview, what comes next, the schedule's
-  state and the as-run log (with CSV download).
-- **Restreaming:** a destination shows "live" only once the platform has
-  accepted the stream, so a wrong or expired key no longer looks connected.
-- **Restreaming:** a destination that keeps failing retries less and less
-  often, and is switched off after 30 minutes, with the reason shown.
-- **Restreaming:** errors are explained in plain words, with the technical
-  detail one click away. Pause a destination instead of deleting it.
-- **Events** are kept for 30 days (also across restarts), and a line that
-  repeats is shown once with a count.
-- Fewer false "possible leak" warnings: the check now waits for a steady load.
+  carries on where it stopped (choose the same file again after a reload);
+  every file is checked before it is kept.
+- **Playout page:** what is on air and how far in, a preview, what comes next,
+  the schedule's state, and the as-run log with a CSV download.
+- **Restreaming shows "live" only once the platform has accepted the stream,**
+  so a wrong or expired key no longer looks connected.
+- **A restream destination that keeps failing** retries less and less often
+  (up to every 5 minutes), and is switched off after 30 minutes with the
+  reason shown; switch it back on when the platform is ready.
+- **Restream errors in plain words** ("The destination refused the stream
+  key…"), with the technical detail one click away, and one alert per stream
+  instead of one per destination.
+- **Pause a restream destination** with its switch instead of deleting it: the
+  key is kept for the next event.
+- **Events are kept for 30 days,** also across restarts ("Show older events"),
+  and a line that repeats is shown once with a count.
+- **Fewer false "possible leak" warnings:** the check now needs the load to hold
+  still for the whole half hour.
+
+**Upgrading.** The database gains two tables (the playout as-run log and the
+event history). The installer backs the database up first; going back to
+v0.1.11 needs that backup. Playout is included in evaluation mode; licenses
+issued before this version don't include it, so ask for a new license file to
+run 24/7 channels. Behind nginx, allow 16 MB request bodies for uploads
+(`client_max_body_size 16m;`). Everything new is optional: nothing changes
+until a playout channel is configured.
 
 ## v0.1.11 {#v0-1-11}
 
