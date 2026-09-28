@@ -1,9 +1,6 @@
 # Release notes
 
-What changed in each version of Unda, newest first. A server tells its
-administrators when a newer version is out (Overview → Other notices) and
-shows the first points from here; upgrading is re-running the installer
-([Install](/guide/install)), which backs up the database first.
+
 
 <!-- Unreleased changes go in a "## Next release" section here. At release,
      rename it to "## vX.Y.Z {#vX-Y-Z}" (the anchor the update notice links
