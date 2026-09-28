@@ -2,7 +2,8 @@
 
 A live channel called `main-show` on `tv.example.com` can be watched in these
 ways. The stream key is never part of a viewing address: anyone who knows the
-name can watch, only the key can publish.
+name can watch, only the key can publish. To limit who can watch, protect the
+stream with [signed links](/guide/protect-playback).
 
 | Where                                                                          | Address                                              |
 | ------------------------------------------------------------------------------ | ---------------------------------------------------- |

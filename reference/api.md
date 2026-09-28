@@ -86,6 +86,33 @@ curl -X POST -H "Authorization: Bearer $KEY" \
      https://tv.example.com/api/v1/streams/main-show/push
 ```
 
+## Playback protection
+
+[Signed links](/guide/protect-playback): a protected stream plays only with `?token=`. A playback request from a device a link was taken from answers **409** (403 is a missing, wrong or expired link).
+
+| Method and path | Role | |
+|---|---|---|
+| `GET /api/v1/streams/{name}/playback` | streamer | `{"protected", "stream", "all", "devices_per_link", "pushed_off_24h"}`: whether a link is needed (set on this stream, or for every stream), how many devices one link may play on at once (0 = unlimited), and how many devices were stopped in the last 24 hours because a link was opened on more |
+| `PUT /api/v1/streams/{name}/playback` | streamer | `{"protected": true}` requires a signed link for this stream (it need not be live); `{"devices_per_link": 1}` (0–99) limits every link to that many devices at once, the newest winning. Either or both |
+| `POST /api/v1/streams/{name}/playback-link` | streamer | `{"ttl_seconds": 7200, "devices": 1}` (60 s to 30 days, default 1 hour; devices 0 = the stream's setting, 1–99) → `{"token", "expires_at", "devices"}`: the latest time a viewer can start |
+| `GET /api/v1/playback` | admin | `{"protect_all", "streams"}` |
+| `PUT /api/v1/playback` | admin | `{"protect_all": true}` protects every stream |
+| `GET /api/v1/playback/secret` | admin | The signing secret (hex) for a website that makes its own links; audited |
+| `POST /api/v1/playback/secret/rotate` | admin | A new secret; every link made before stops working; audited |
+
+## Backup sources (failover)
+
+[Backup encoder](/guide/backup-encoder): with backup sources on, a channel's key publishes to `{name}.main`, its backup key to `{name}.backup`, and the server publishes `{name}` from the first source with pictures.
+
+| Method and path | Role | |
+|---|---|---|
+| `GET /api/v1/streams/{name}/failover` | streamer | The settings (`enabled`, `sources` after main and backup, `stall_ms`, `return_seconds`, `idle_stop_seconds` (0 = always on), `slate` `black`/`video` with `slate_file`, `width`, `height`, `fps`, `video_kbps`), `running`, and while running `status`: `current` (the source on air, `""` = the slate), `forced`, `switches` and `sources` (each with `state` `offline`/`starting`/`standby`/`on_air`/`stalled`, `last_picture`, `steady_seconds`) |
+| `PUT /api/v1/streams/{name}/failover` | operator | Any of the settings; the rest stay. `{"enabled": true}` switches on (a live encoder reconnects once; the channel gets a backup key). Saving while it runs restarts the stream |
+| `POST /api/v1/streams/{name}/failover/switch` | operator | `{"source": "main-show.backup"}` puts that source on air ahead of the others while it has pictures; `""` = the automatic order |
+| `GET /api/v1/streams/{name}/failover/log` | streamer | The switches, newest first (`?limit=`, `?format=csv`) |
+| `GET /api/v1/channels/{name}/backup-key` | streamer | The channel's backup key; audited |
+| `POST /api/v1/channels/{name}/backup-key/rotate` | streamer | A new backup key; a backup encoder using the old one is disconnected |
+
 ## Channels
 
 | Method and path | Role | |

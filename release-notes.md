@@ -10,6 +10,34 @@ shows the first points from here; upgrading is re-running the installer
      to) and add the date under it. deploy/release.sh reads the version's
      section; its "- " points also show in the dashboard's update notice. -->
 
+## Next release
+
+## v0.1.13 {#v0-1-13}
+
+*28 September 2026*
+
+- **Signed playback links:** protect a stream (or every stream) so it plays
+  only from a link you make, with a time limit for starting to watch. It covers
+  the player page, HLS, DASH, RTMP and SRT; your website can make links itself
+  with a secret. See [Signed playback links](/guide/protect-playback).
+- **Devices per link:** limit a link to 1, 2, 3 or 5 devices at once, per
+  stream or per link. The newest device plays and the oldest stops (with a
+  **Watch here** button to take it back), so a paid link shared in a group
+  chat stops being useful.
+- **Backup encoder (failover):** keep a stream on air when its encoder drops.
+  A channel gets a second key for a backup encoder; when the main disconnects
+  or freezes, viewers see the backup (or another stream, or a slate) without
+  reconnecting, and the main returns by itself once it is steady. Restream
+  destinations and recordings carry on too. See
+  [Backup encoder](/guide/backup-encoder).
+
+**Upgrading.** The database gains a column (each channel's backup key). The
+installer backs the database up first; going back to v0.1.12 needs that
+backup. Backup encoders use the playout feature of the license (included in
+evaluation mode; licenses issued before v0.1.12 don't include it). Nothing
+changes until you protect a stream or switch on a backup: every stream plays
+and publishes as before.
+
 ## v0.1.12 {#v0-1-12}
 
 *27 September 2026*

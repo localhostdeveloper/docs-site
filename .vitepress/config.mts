@@ -56,6 +56,7 @@ export default defineConfig({
           { text: "Install", link: "/guide/install" },
           { text: "Stream from OBS, vMix or ffmpeg", link: "/guide/streaming" },
           { text: "Watching and embedding", link: "/guide/watching" },
+          { text: "Signed playback links", link: "/guide/protect-playback" },
         ],
       },
       {
@@ -64,6 +65,7 @@ export default defineConfig({
           { text: "Accounts and channels", link: "/guide/accounts" },
           { text: "Adaptive bitrate", link: "/guide/transcoding" },
           { text: "Recording", link: "/guide/recording" },
+          { text: "Backup encoder (failover)", link: "/guide/backup-encoder" },
           { text: "24/7 channels (playout)", link: "/guide/playout" },
           { text: "Restreaming", link: "/guide/restreaming" },
           { text: "SRT", link: "/guide/srt" },
