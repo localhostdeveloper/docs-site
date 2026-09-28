@@ -1,14 +1,15 @@
 # Release notes
 
-What changed in each version of Unda, newest first. A server tells its
-administrators when a newer version is out (Overview → Other notices) and
-shows the first points from here; upgrading is re-running the installer
-([Install](/guide/install)), which backs up the database first.
+Changes in each Unda release, newest first. Servers check for new releases and
+show a notice to admins and owners under Overview → Other notices. To upgrade,
+re-run the installer ([Install](/guide/install)); it backs up the database
+before replacing the binary.
 
 <!-- Unreleased changes go in a "## Next release" section here. At release,
      rename it to "## vX.Y.Z {#vX-Y-Z}" (the anchor the update notice links
      to) and add the date under it. deploy/release.sh reads the version's
-     section; its "- " points also show in the dashboard's update notice. -->
+     section; its "- " points also show in the dashboard's update notice,
+     so upgrade notes are written as paragraphs, not "- " points. -->
 
 ## Next release
 
@@ -16,148 +17,167 @@ shows the first points from here; upgrading is re-running the installer
 
 *28 September 2026*
 
-- **Playout channels and playlists in the dashboard:** make a 24/7 channel
-  with **New channel** on the Playout page, and build what it plays in its
-  **Playlist**: start times, videos from Media, titles, in and out points,
-  with the air times worked out as you type. No schedule file or terminal
-  needed. See [24/7 channels](/guide/playout).
+### Added
 
-**Upgrading.** No database change. Channels in `unda.yaml` keep working as
-before and show "from unda.yaml"; their playlist is read-only in the dashboard
-when the server can't write their schedule file (the installer's setup), so
-make new channels in the dashboard. Going back to v0.1.13 hides channels made
-in the dashboard (they return when you upgrade again).
+- Playout channels can be created, changed and deleted in the dashboard
+  (Playout → New channel). The playlist editor sets start times, media, titles
+  and in/out points, and shows the computed air times before saving. See
+  [24/7 channels](/guide/playout).
+
+### Upgrade notes
+
+No database change. Channels defined in `unda.yaml` still work and are
+labelled "from unda.yaml". Their playlist is read-only in the dashboard when
+the server cannot write their schedule file, which is the case on installs
+made with the installer (the systemd unit mounts `/etc/unda` read-only).
+Create new channels in the dashboard instead. Downgrading to v0.1.13 hides
+dashboard-created channels; they reappear after upgrading again.
 
 ## v0.1.13 {#v0-1-13}
 
 *28 September 2026*
 
-- **Signed playback links:** protect a stream (or every stream) so it plays
-  only from a link you make, with a time limit for starting to watch. It covers
-  the player page, HLS, DASH, RTMP and SRT; your website can make links itself
-  with a secret. See [Signed playback links](/guide/protect-playback).
-- **Devices per link:** limit a link to 1, 2, 3 or 5 devices at once, per
-  stream or per link. The newest device plays and the oldest stops (with a
-  **Watch here** button to take it back), so a paid link shared in a group
-  chat stops being useful.
-- **Backup encoder (failover):** keep a stream on air when its encoder drops.
-  A channel gets a second key for a backup encoder; when the main disconnects
-  or freezes, viewers see the backup (or another stream, or a slate) without
-  reconnecting, and the main returns by itself once it is steady. Restream
-  destinations and recordings carry on too. See
+### Added
+
+- Signed playback links. A protected stream (or all streams) plays only with a
+  token in the URL. The token sets a deadline for starting playback; a viewer
+  already watching is not cut off when it passes. Applies to the watch page,
+  HLS, DASH, RTMP and SRT. Tokens are HMAC-SHA256 with a server secret, so a
+  website can generate them. See
+  [Signed playback links](/guide/protect-playback).
+- Device limit per link (1, 2, 3 or 5), set per stream or per link. When a new
+  device exceeds the limit, the oldest one is disconnected; the watch page has
+  a "Watch here" button to take the seat back.
+- Backup sources (failover). Each channel can have a second key for a backup
+  encoder. If the main encoder disconnects or sends no video for 2 s, the
+  output switches to the backup, another stream or a slate, and switches back
+  once the main has been stable. The output is re-encoded, so viewers,
+  restreams and recordings continue without reconnecting. See
   [Backup encoder](/guide/backup-encoder).
 
-**Upgrading.** The database gains a column (each channel's backup key). The
-installer backs the database up first; going back to v0.1.12 needs that
-backup. Backup encoders use the playout feature of the license (included in
-evaluation mode; licenses issued before v0.1.12 don't include it). Nothing
-changes until you protect a stream or switch on a backup: every stream plays
-and publishes as before.
+### Upgrade notes
+
+Adds a column to the channels table (the backup key). The installer backs up
+the database first; downgrading to v0.1.12 requires restoring that backup.
+Backup sources require the license's playout feature, which evaluation mode
+includes and licenses issued before v0.1.12 do not. Existing streams are
+unaffected until playback protection or a backup source is switched on.
 
 ## v0.1.12 {#v0-1-12}
 
 *27 September 2026*
 
-- **24/7 channels (playout):** a channel plays video files from a schedule,
-  fills gaps with black, a slate or a looping video, and hands over to a live
-  stream (vMix, OBS) while it is live, returning to the schedule when it ends.
-  It is watched, recorded and restreamed like any stream. See
-  [24/7 channels](/guide/playout).
-- **Media page:** upload video files from the dashboard. An interrupted upload
-  carries on where it stopped (choose the same file again after a reload);
-  every file is checked before it is kept.
-- **Playout page:** what is on air and how far in, a preview, what comes next,
-  the schedule's state, and the as-run log with a CSV download.
-- **Restreaming shows "live" only once the platform has accepted the stream,**
-  so a wrong or expired key no longer looks connected.
-- **A restream destination that keeps failing** retries less and less often
-  (up to every 5 minutes), and is switched off after 30 minutes with the
-  reason shown; switch it back on when the platform is ready.
-- **Restream errors in plain words** ("The destination refused the stream
-  key…"), with the technical detail one click away, and one alert per stream
-  instead of one per destination.
-- **Pause a restream destination** with its switch instead of deleting it: the
-  key is kept for the next event.
-- **Events are kept for 30 days,** also across restarts ("Show older events"),
-  and a line that repeats is shown once with a count.
-- **Fewer false "possible leak" warnings:** the check now needs the load to hold
-  still for the whole half hour.
+### Added
 
-**Upgrading.** The database gains two tables (the playout as-run log and the
-event history). The installer backs the database up first; going back to
-v0.1.11 needs that backup. Playout is included in evaluation mode; licenses
-issued before this version don't include it, so ask for a new license file to
-run 24/7 channels. Behind nginx, allow 16 MB request bodies for uploads
-(`client_max_body_size 16m;`). Everything new is optional: nothing changes
-until a playout channel is configured.
+- 24/7 playout channels. A channel plays files from a schedule, fills gaps
+  with black, a slate or a looping video, and switches to a live input (vMix,
+  OBS) while it is publishing. It is published as a normal stream, so
+  playback, recording and restreaming work on it. See
+  [24/7 channels](/guide/playout).
+- Media page: upload video files from the dashboard. Uploads are resumable
+  (select the same file again after a reload) and each file is probed before
+  it is accepted.
+- Playout page: current item and position, preview, upcoming items, schedule
+  status, and the as-run log with CSV export.
+- Restream destinations can be paused and resumed. The URL and key are kept.
+
+### Changed
+
+- A restream target is reported live only after the destination accepts the
+  publish. A wrong or expired key no longer shows as connected.
+- Restream retries back off to every 5 minutes. After 30 minutes of failures
+  the target is paused and the reason is shown; resume it manually.
+- Restream errors state the likely cause (for example "The destination
+  refused the stream key"), with the raw error under "Technical detail".
+  Alerts are raised once per stream, not once per destination.
+- Events are stored for 30 days and survive restarts ("Show older events").
+  Repeated events are shown as one line with a count.
+
+### Fixed
+
+- False "possible leak" warnings. The check now requires the load to stay
+  constant for the whole 30-minute window.
+
+### Upgrade notes
+
+Adds two tables (playout as-run log, event history). The installer backs up
+the database first; downgrading to v0.1.11 requires restoring that backup.
+Playout requires the license's playout feature, which evaluation mode
+includes and licenses issued before this version do not; request a new
+license file to run 24/7 channels. Behind nginx, set
+`client_max_body_size 16m;` for uploads. Nothing changes until a playout
+channel is configured.
 
 ## v0.1.11 {#v0-1-11}
 
 *27 September 2026*
 
-- Multi-channel inputs can arrive over SRT or RIST; bundles can be sent over
-  RIST, and at a variable bitrate.
-- UDP destinations that fall behind skip ahead instead of drifting further.
-- Recordings play in the dashboard with a full player.
+- MPTS inputs accept SRT and RIST sources.
+- MPTS outputs can be sent over RIST and at a variable bitrate.
+- UDP destinations that fall behind skip to the next keyframe instead of
+  accumulating delay.
+- Recordings play in the dashboard, with seeking, speed control and frame
+  step.
 
 ## v0.1.10 {#v0-1-10}
 
 *26 September 2026*
 
-- **Sessions page:** who watched what, for how long and how much, over HLS,
-  DASH, RTMP and SRT.
-- **Recordings page:** play, download and delete recordings.
-- Restream destinations are saved and come back after a restart.
-- UDP and RTP restreams are paced, so receivers no longer lose packets on
-  keyframes.
+- Sessions page: viewer history (stream, address, player, duration, bytes)
+  for HLS, DASH, RTMP and SRT.
+- Recordings page: play, download and delete recordings.
+- Restream destinations added in the dashboard persist across restarts.
+- UDP and RTP restreams are paced. Receivers no longer drop packets on
+  keyframe bursts.
 
 ## v0.1.9 {#v0-1-9}
 
 *26 September 2026*
 
-- No false "Reconnecting" after the dashboard tab was in the background.
-- A restream key stays visible while you type it.
+- Fixed a false "Reconnecting" state after the dashboard tab had been in the
+  background.
+- The restream destination field shows the URL while typing so the key can be
+  checked. It is still hidden after saving.
 
 ## v0.1.8 {#v0-1-8}
 
 *26 September 2026*
 
-- Create multi-channel bundles from the dashboard; the Server page is split
-  into tabs.
+- MPTS bundles can be created from the dashboard.
+- The Server page is split into tabs.
 
 ## v0.1.7 {#v0-1-7}
 
 *26 September 2026*
 
-- **Multi-channel (MPTS):** send several streams as one transport stream, and
-  split a received bundle into streams, with TR 101 290 checks and black or a
-  slate while a program is offline.
-- DASH segments of 2 seconds from RTMP sources.
+- MPTS output: several streams sent as one transport stream.
+- MPTS input: a received bundle split into separate streams.
+- TR 101 290 monitoring, and black or a slate while a program is offline.
+- 2-second DASH segments from RTMP sources.
 
 ## v0.1.6 {#v0-1-6}
 
 *26 September 2026*
 
-- **Broadcast outputs:** SD 720×576 constant-bitrate MPEG-TS for DVB
-  multiplexers.
+- Broadcast outputs: SD 720×576 CBR MPEG-TS for DVB multiplexers.
 - DASH with adaptive bitrate.
-- Unlock blocked accounts from the dashboard.
+- Locked accounts can be unlocked from the dashboard.
 
 ## v0.1.4 {#v0-1-4}
 
 *26 September 2026*
 
-- Transcoding is set up in the dashboard, with graphics-card detection and a
-  CPU alert.
-- Encoder tips, update notices, and licenses bound to your domain.
+- Transcoding is configured in the dashboard, with GPU detection and a CPU
+  load alert.
+- Encoder setting hints, update notices, and licenses bound to a domain.
 
 ## v0.1.2 {#v0-1-2}
 
 *25 September 2026*
 
-- The installer backs up the database before an upgrade, and can use your own
-  certificate on servers whose ports 80/443 are taken.
-- The watch page recovers by itself when a stream drops or stalls.
+- The installer backs up the database before an upgrade, and can use an
+  existing certificate on servers where ports 80/443 are already in use.
+- The watch page reconnects by itself when a stream drops or stalls.
 
 ## v0.1.0 {#v0-1-0}
 
