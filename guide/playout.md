@@ -11,12 +11,51 @@ multi-channel bundle, exactly like a stream from an encoder.
 
 ## Setting up a channel
 
-1. Upload the video files on the dashboard's **Media** page, or copy them into
-   the server's media folder (`/var/lib/unda/media` with the installer;
-   `paths.media_dir` to change it) with `scp`, `rsync` or SFTP. MP4, MOV,
-   MKV, MPEG-TS, MXF and the like all work.
-2. Write a schedule file (below).
-3. Add the channel to `unda.yaml` and restart the server:
+Everything is done in the dashboard (operators and above):
+
+1. Upload the video files on the **Media** page. MP4, MOV, MKV, MPEG-TS, MXF
+   and the like all work. You can also copy files into the server's media
+   folder (`/var/lib/unda/media` with the installer; `paths.media_dir` to
+   change it) with `scp`, `rsync` or SFTP; they appear by themselves.
+2. On the **Playout** page, click **New channel**. Give it a name (the stream
+   it publishes, like `tv1`), a picture size, what plays between items
+   (black, or a video from Media looped) and, if you like, a live input. The
+   schedule's time zone starts as yours. The channel goes on air at once,
+   playing its filler.
+3. On the channel's page, build the **Playlist** (below) and click **Save
+   schedule**. The channel follows it within a few seconds.
+
+**Settings** on the channel's page changes its picture, bitrate, filler or
+live input (the channel restarts, so viewers reconnect once; the playlist is
+kept). The bin button deletes the channel; its as-run log is kept.
+
+### The playlist editor
+
+Each row is one item: when it starts, which video, a title, and optional in
+and out points (like `00:01:30`) to play only part of the file.
+
+- **Repeat:** *Every day* uses times of day (the day repeats); *Once* uses
+  dates and times.
+- **Starts at:** an item with a start time begins exactly then and cuts
+  whatever plays before it. Leave it empty (the **×** button) for an item that
+  follows the previous one. The first item needs a start time.
+- **Plays** shows when each item will run and for how long, worked out from
+  the videos' lengths. Warnings show where filler plays in a gap, where an
+  item is cut short, and where a video is missing from Media.
+- Rows move up and down, and can be duplicated or removed. Nothing changes
+  on air until you save; the page asks before you leave with unsaved changes.
+- If someone else saved the playlist after you opened it, saving is refused
+  and the page offers to load their version, so nobody's work is silently
+  overwritten.
+
+### Channels in unda.yaml
+
+A channel can also be set in `unda.yaml` (the way before the dashboard could
+make channels); it is marked **from unda.yaml** on the Playout page, and its
+settings are changed there. Its playlist can be edited in the dashboard when
+the server may write the schedule file. A server installed with the installer
+can't write `/etc/unda`, so for such a channel the dashboard shows the
+playlist read-only: make the channel in the dashboard instead.
 
 ```yaml
 playout:
@@ -31,6 +70,7 @@ playout:
 Optional settings: `width` and `height` (default 1280×720, up to 1920×1080),
 `fps` (25, 30, 50 or 60; default 30), `video_kbps` (default 3000),
 `audio_kbps` (default 128), `preset` (libx264, default `veryfast`).
+`filler: image` with `filler_file` (a still picture) is set here only.
 
 ## The Media page
 
@@ -57,10 +97,16 @@ Files copied in by hand appear by themselves.
 ## The Playout page
 
 **Playout** shows each channel: what is on air and how far in, a preview, the
-next items, the schedule file's state (and any item that can't play), the
-encoder, the live input, and the as-run log with a CSV download.
+next items, the playlist editor, the schedule's state (and any item that
+can't play), the encoder, the live input, and the as-run log with a CSV
+download.
 
 ## The schedule file
+
+The playlist editor writes this file for you; you only need it for a channel
+set in `unda.yaml`, or to generate schedules with your own tools. A
+dashboard channel's file is `<data folder>/playout/<name>.yaml` (edits made
+to it by hand are picked up within 5 seconds, like any schedule file).
 
 YAML or JSON. An item with a `start` begins exactly then, cutting whatever
 plays before it; an item without one follows the previous item. The first item
@@ -88,6 +134,7 @@ save, no restart. A file with a mistake is refused with the reason (on the
 dashboard, in the events and in the log) and the previous schedule keeps
 playing. A file named in the schedule that isn't in the media folder is
 reported and skipped.
+`items: []` is an empty schedule: the filler plays all the time.
 
 ## What viewers see
 

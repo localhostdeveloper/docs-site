@@ -1,6 +1,9 @@
 # Release notes
 
-
+What changed in each version of Unda, newest first. A server tells its
+administrators when a newer version is out (Overview → Other notices) and
+shows the first points from here; upgrading is re-running the installer
+([Install](/guide/install)), which backs up the database first.
 
 <!-- Unreleased changes go in a "## Next release" section here. At release,
      rename it to "## vX.Y.Z {#vX-Y-Z}" (the anchor the update notice links
@@ -8,6 +11,22 @@
      section; its "- " points also show in the dashboard's update notice. -->
 
 ## Next release
+
+## v0.1.14 {#v0-1-14}
+
+*28 September 2026*
+
+- **Playout channels and playlists in the dashboard:** make a 24/7 channel
+  with **New channel** on the Playout page, and build what it plays in its
+  **Playlist**: start times, videos from Media, titles, in and out points,
+  with the air times worked out as you type. No schedule file or terminal
+  needed. See [24/7 channels](/guide/playout).
+
+**Upgrading.** No database change. Channels in `unda.yaml` keep working as
+before and show "from unda.yaml"; their playlist is read-only in the dashboard
+when the server can't write their schedule file (the installer's setup), so
+make new channels in the dashboard. Going back to v0.1.13 hides channels made
+in the dashboard (they return when you upgrade again).
 
 ## v0.1.13 {#v0-1-13}
 

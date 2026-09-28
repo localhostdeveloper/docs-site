@@ -63,6 +63,12 @@ RFC 3339 or unix seconds), `min_duration` (seconds), `sort` (`started`,
 | `GET /api/v1/playout/channels` | operator | Every channel: state, what is on air (and where in the file), the live input, the next items, the schedule's state and problems, the encoder |
 | `GET /api/v1/playout/channels/{name}` | operator | One channel |
 | `GET /api/v1/playout/channels/{name}/asrun` | operator | What went on air, newest first; `from`, `to` (RFC 3339 or unix seconds), `limit`; `?format=csv` downloads it |
+| `POST /api/v1/playout/channels` | operator | Make a channel: `{"name", "live", "width", "height", "fps", "video_kbps", "filler": "black"\|"video", "filler_file", "timezone"}` (all but the name optional). It starts at once with an empty daily schedule (filler). 409 if the name is taken |
+| `GET /api/v1/playout/channels/{name}/settings` | operator | The channel's settings and `origin` (`dashboard`, or `config` for unda.yaml) |
+| `PUT /api/v1/playout/channels/{name}` | operator | New settings for a dashboard channel (it restarts; the schedule is kept). 409 for a channel from unda.yaml |
+| `DELETE /api/v1/playout/channels/{name}` | operator | Delete a dashboard channel and its schedule (the as-run log is kept) |
+| `GET /api/v1/playout/channels/{name}/schedule` | operator | The schedule: `timezone`, `repeat` (`daily`/`none`), `items` (`start`, `media`, `title`, `in`, `out`), `version`, `writable`, `error` if the file can't be used now |
+| `PUT /api/v1/playout/channels/{name}/schedule` | operator | Save the whole schedule with the `version` you read. 400 lists the problems (`problems`, one per item); 409 if it changed since that version, or the server can't write the file. The channel follows it at once |
 | `GET /api/v1/media` | operator | The media folder: files (length, size, codecs, `state` ready/checking/error, `on_air`/`scheduled` channels), unfinished uploads, space |
 | `GET /api/v1/media/{name}` | operator | One file |
 | `DELETE /api/v1/media/{name}` | operator | Delete a file; 409 while it is on air. The answer lists channels whose schedule still names it |
