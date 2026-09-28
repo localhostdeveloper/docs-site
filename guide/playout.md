@@ -87,7 +87,7 @@ Files copied in by hand appear by themselves.
   letters, digits, `.`, `_` and `-` (the page turns spaces and other
   characters into `-`). An existing name is never overwritten: delete the old
   file first.
-- **Space:** a file may be up to 50 GB, an upload must leave 5 GB of the disk
+- **Space:** a file may be up to 5 GB, an upload must leave 5 GB of the disk
   free, and `playout.media_max_gb` caps the whole folder if you set it.
 - **Deleting:** a file on air, or about to be, can't be deleted. A file still
   named in a schedule can; the channel then skips it and shows a warning.

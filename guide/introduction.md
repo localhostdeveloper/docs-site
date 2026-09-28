@@ -1,7 +1,8 @@
 # What is Unda?
 
 Unda Media Server is a live streaming server you run yourself. Encoders such as
-OBS, vMix, hardware encoders and IP cameras send it a stream; Unda passes that
+OBS, vMix, hardware encoders, broadcast encoders and satellite receivers send it
+a stream (see [What works with Unda](/guide/compatibility)); Unda passes that
 stream on to viewers in a browser, to players such as VLC, to production
 software such as OBS and vMix, and to other platforms such as YouTube.
 
@@ -35,25 +36,22 @@ on a set-top box over UDP, with nothing to configure.
 
 ## What you need
 
-- A Linux server. **4 CPU cores, 8 GB of memory and 100 Mbit/s of upload**
-  carry about ten 720p streams and a few hundred viewers without adaptive
-  bitrate. Adaptive bitrate costs about one CPU core per stream.
+- A Linux server. **4 CPU cores and 8 GB of memory** are enough to pass
+  streams through. Converting needs more: about 1 to 2 cores per 1080p stream
+  with adaptive bitrate.
+- Upload bandwidth for your viewers: every viewer needs the stream's bitrate, so
+  **100 Mbit/s carries about 25 viewers at 3 Mb/s**, 1 Gbit/s about 250 (see
+  [How far one server goes](/guide/compatibility#how-far-one-server-goes)).
 - A domain name pointing at the server, for HTTPS.
 - A license file from your vendor. Without one Unda runs in evaluation mode:
   everything works, for up to 2 live streams and 2 accounts besides the owner.
 
-## Measured performance
+## How big a server
 
-On a single machine, with no network in between, as a reference:
-
-| Test | Result |
-|---|---|
-| 10 inputs of 720p at 3 Mb/s | all at 30 fps, no dropped frames, about a quarter of one CPU core |
-| 200 browser-style viewers of a 1080p stream at 5 Mb/s (1 Gb/s in total) | no freezes, no errors |
-| Delay, RTMP | 0.1 s |
-| Delay, browser (HLS) | about 7 s with a 2 s keyframe interval |
-
-A real server's limits are usually its network connection: 200 viewers of a
-5 Mb/s stream need 1 Gb/s of upload.
+The number of viewers is set by the server's upload bandwidth, not its CPU:
+100 Mbit/s carries about 25 viewers at 3 Mb/s, 1 Gbit/s about 250, whatever the
+machine. The CPU (or a GPU) matters for converting: adaptive bitrate, MPEG-2
+feeds and 24/7 channels. [How far one server goes](/guide/compatibility#how-far-one-server-goes)
+explains both.
 
 Next: [install Unda](/guide/install).

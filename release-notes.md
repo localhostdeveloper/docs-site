@@ -11,7 +11,35 @@ before replacing the binary.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
-## Next release
+## v0.1.15 {#v0-1-15}
+
+*28 September 2026*
+
+### Added
+
+- MPTS bundles carry now and next (DVB EIT present/following) for channels
+  whose stream is a 24/7 playout channel, taken from its playlist. Turn it off
+  per bundle with `epg: false`. See [Multi-channel](/guide/mpts).
+
+### Changed
+
+- The largest media file that can be uploaded is now 5 GB (was 50 GB).
+  Larger files can still be copied into the media folder by hand.
+
+### Fixed
+
+- Installing a license that adds a feature the server started without
+  (playout, SRT, UDP/MPTS, transcoding, restreaming) now shows a banner and a
+  note on the License page saying the server needs a restart. Previously the
+  feature stayed off with no indication why.
+
+### Upgrade notes
+
+No database change. Multi-channel bundles that carry a 24/7 playout channel
+start sending now and next as soon as the server is upgraded; if equipment
+further down the chain inserts its own EIT, set `epg: false` on those bundles
+before upgrading. Uploads larger than 5 GB that were in progress are refused
+when they resume; copy such files into the media folder instead.
 
 ## v0.1.14 {#v0-1-14}
 

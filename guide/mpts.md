@@ -100,6 +100,7 @@ mpts_outputs:
     total_bitrate: 25Mbps                 # the whole bundle, padded to this rate
     offline: slate                        # what an offline channel shows: black (default), slate or none
     slate_image: /etc/unda/slate.png      # your "we'll be right back" picture
+    # epg: false                          # don't send now/next for playout channels (default: sent)
     programs:
       - stream: channel-1
         program: 1
@@ -126,6 +127,21 @@ choose *Variable* in the dashboard): the bundle then sends only what its
 channels carry, with no padding, and has no total to outgrow. The Server page
 shows what it is sending now.
 
+### Now and next (EPG)
+
+A channel whose stream is a [24/7 playout channel](/guide/playout) carries its
+programme guide: receivers show the title on air, its start time and length,
+and what comes next. It is taken from the channel's playlist (an item's title,
+or its file name when it has none) and updates by itself at every item change.
+A live takeover shows as "Live"; while the channel plays filler, "now" is
+empty. "Next" covers the coming 6 hours. Other channels carry no guide.
+
+This is sent as a DVB EIT present/following (PID 0x12, repeated every second),
+and the SDT marks those services as having one. If equipment further down the
+chain inserts its own EIT, turn it off with `epg: false` on the bundle (or
+untick *Send now and next* when creating it in the dashboard), so the two don't
+conflict.
+
 ### Sending over RIST
 
 `rist://host:port` sends the bundle with RIST Simple Profile: the receiver
@@ -148,7 +164,8 @@ has no such limit).
   Receivers keep the channel instead of reporting "no signal". When the stream
   comes back it takes over by itself within a couple of seconds. With
   `offline: none` the channel is listed but carries nothing.
-- Channel names and the provider appear in receivers' channel lists.
+- Channel names and the provider appear in receivers' channel lists, and
+  playout channels show now and next.
 - If the channels need more than the total bitrate, the server refuses the
   setup, or, if a stream grows beyond its share while running, logs an error
   rather than silently dropping data.

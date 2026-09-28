@@ -53,6 +53,7 @@ export default defineConfig({
         text: "Getting started",
         items: [
           { text: "What is Unda?", link: "/guide/introduction" },
+          { text: "What works with Unda", link: "/guide/compatibility" },
           { text: "Install", link: "/guide/install" },
           { text: "Stream from OBS, vMix or ffmpeg", link: "/guide/streaming" },
           { text: "Watching and embedding", link: "/guide/watching" },

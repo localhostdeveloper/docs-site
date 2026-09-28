@@ -161,7 +161,7 @@ curl -X POST -H "Authorization: Bearer $KEY" \
 | `PUT /api/v1/mpts/inputs/{name}/programs/{program}` | operator | Publish one channel of a running bundle: `{"stream":"sports-hd"}` (optional `audio_pid`, `audio_language`, `transcode_video`); changes only that channel |
 | `DELETE /api/v1/mpts/inputs/{name}/programs/{program}` | operator | Stop publishing that channel (the bundle keeps running) |
 | `GET /api/v1/mpts` | operator | Bundles being sent, with their channels and TR 101 290 counts |
-| `POST /api/v1/mpts` | operator | `{"name":"bundle","url":"udp://239.2.2.1:6000","total_kbps":12000,"programs":[{"stream":"cam","program":1,"name":"Channel 1","bitrate_kbps":4000}]}` |
+| `POST /api/v1/mpts` | operator | `{"name":"bundle","url":"udp://239.2.2.1:6000","total_kbps":12000,"programs":[{"stream":"cam","program":1,"name":"Channel 1","bitrate_kbps":4000}]}`; add `"no_epg":true` to send no now/next for playout channels |
 | `POST /api/v1/mpts/{name}/programs` | operator | Add a channel to a running bundle |
 | `DELETE /api/v1/mpts/{name}/programs/{program}` | operator | Remove a channel from a running bundle |
 | `DELETE /api/v1/mpts/{name}` | operator | Stop sending a bundle |
