@@ -14,7 +14,7 @@ in a single file, and gets its own HTTPS certificate.
 | | |
 |---|---|
 | **Takes streams in** | RTMP / RTMPS (OBS, vMix, ffmpeg), SRT (contribution over the internet), MPEG-TS over UDP or RTP, unicast or multicast (hardware encoders, IPTV) |
-| **Gives them out** | A browser player page, HLS for websites and apps, MPEG-DASH (experimental), RTMP and SRT for VLC / OBS / vMix, UDP or RTP for set-top boxes |
+| **Gives them out** | A browser player page, HLS for websites and apps, MPEG-DASH, RTMP and SRT for VLC / OBS / vMix, UDP or RTP for set-top boxes |
 | **Adaptive bitrate** | Several qualities of one stream (1080p down to 144p) so every viewer gets one their connection can carry. On the CPU or a GPU; optional; needs FFmpeg |
 | **Restreaming** | The same stream to YouTube, Facebook, Twitch or other servers at once |
 | **Broadcast TV and IPTV** | Standard-definition H.264 or MPEG-2 at a constant bitrate with DVB channel names for multiplexers and modulators; several streams bundled as the channels of one transport stream (MPTS) |

@@ -109,7 +109,7 @@ ffmpeg -rtsp_transport tcp -i "rtsp://user:pass@192.168.1.64/stream1" \
 | vMix as a receiver | UDP | In use by a customer |
 | YouTube, Facebook | RTMP, RTMPS | Tested in production |
 | Twitch and other RTMP platforms | RTMP | Should work |
-| DASH players | MPEG-DASH | Experimental |
+| DASH players | MPEG-DASH, one quality or the adaptive-bitrate ladder | Tested with dash.js and Shaka Player in Chrome, and VLC |
 | DVB multiplexers, modulators, IRDs and set-top boxes | MPEG-TS over UDP, RTP, SRT or RIST: single channels or multi-channel bundles, constant bitrate, DVB channel names and now/next | The output is checked by Unda's own TR 101 290 monitor and was analysed with TSDuck with no errors; not yet tested with a hardware receiver |
 | Another streaming server | RTMP, SRT, UDP, RIST | Tested with Unda and VLC at the other end |
 

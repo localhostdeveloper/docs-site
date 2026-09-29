@@ -450,6 +450,20 @@ sudo ufw allow 6000/udp    # SRT encoders (if used)
 With a proxy in front (section 2), do **not** open Unda's own HTTP port (8080):
 only the proxy should reach it.
 
+**UDP and RTP inputs have no password and no encryption:** anyone who can reach
+the port can send a stream into it, and anyone on the path can watch it. Keep
+them on a private network you trust (a studio LAN, a leased line, a VPN), give
+each input an `allow` list of its senders, and open the port only to those
+senders:
+
+```bash
+sudo ufw allow from 192.0.2.20 to any port 5004 proto udp   # one sender, one input
+```
+
+The same holds for UDP and RTP outputs: whatever they send can be read on the
+way, so send them only across a network you trust. Over the internet, use SRT
+(with a passphrase) or RIST instead.
+
 ---
 
 ## 8. Backups and upgrades

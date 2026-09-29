@@ -11,6 +11,35 @@ before replacing the binary.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### Changed
+
+- MPEG-DASH is no longer experimental. It was checked against the MPEG-DASH
+  schema and with three players (dash.js and Shaka Player in Chrome, and VLC),
+  in one quality and with adaptive bitrate, including switching qualities
+  while playing.
+- The dashboard and the documentation no longer mark DASH as experimental,
+  and the install guide now covers firewalling UDP and RTP inputs.
+
+### Fixed
+
+- DASH players that follow the manifest's timing played 3 to 6 seconds
+  further behind live than needed, and with adaptive bitrate dash.js stalled
+  briefly when it changed quality. The manifest now gives the time each
+  segment really becomes available.
+- With adaptive bitrate, the DASH manifest understated what the smaller
+  qualities use (up to 17 %), so a player could choose one its connection
+  could not hold. It now includes the real overhead and peaks.
+- Restreams over SRT, UDP, RTP, RIST and RTMP, and SRT viewers, could begin
+  with a fraction of a second of audio stacked at the very start when the
+  source was MPEG-TS (UDP, RTP, SRT). Some receivers reported the timestamps as
+  invalid. That audio is now left out.
+
+### Upgrade notes
+
+No database change and nothing to configure.
+
 ## v0.1.19 {#v0-1-19}
 
 *29 September 2026*

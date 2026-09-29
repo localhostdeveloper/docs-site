@@ -10,24 +10,35 @@ stream with [signed links](/guide/protect-playback).
 | Browser, built-in player                                                       | `https://tv.example.com/watch/main-show`             |
 | HLS, for your own website or app                                               | `https://tv.example.com/hls/main-show/index.m3u8`    |
 | HLS with several qualities (when [adaptive bitrate](/guide/transcoding) is on) | `https://tv.example.com/hls/main-show/master.m3u8`   |
-| Experimental MPEG-DASH (H.264, optional AAC)                                   | `https://tv.example.com/dash/main-show/manifest.mpd` |
+| MPEG-DASH (H.264, optional AAC; several qualities when adaptive bitrate is on) | `https://tv.example.com/dash/main-show/manifest.mpd` |
 | VLC, OBS or vMix over RTMP                                                     | `rtmp://tv.example.com:1935/live/main-show`          |
 | VLC, OBS or vMix over SRT                                                      | `srt://tv.example.com:6000?streamid=read:main-show`  |
 
-The stream's **Playback** tab in the dashboard lists every address with copy
-buttons for the built-in player, HLS, RTMP and SRT. The DASH URL above is
-available directly while the stream is live.
+The stream's **Playback** tab in the dashboard lists every address, DASH
+included, with copy buttons.
 
-## MPEG-DASH (experimental)
+## MPEG-DASH
 
-The server remuxes H.264 video and optional AAC audio into fragmented MP4 using
-FFmpeg. It keeps a bounded six-segment live window and finalizes the MPD briefly
-after the publisher stops. This initial endpoint is a single representation:
-it does not yet use the HLS ABR ladder and the built-in player does not play
-DASH. Use a DASH-capable client such as ffplay:
+The DASH address serves the stream as fragmented MP4 (H.264 video, AAC audio
+when the stream has it; FFmpeg must be installed on the server):
+
+- **Without adaptive bitrate** the stream is served as it arrives, in one
+  quality. Packaging starts with the first viewer, which takes a few seconds,
+  and stops a minute after the last one. At most two streams are packaged for
+  DASH at a time; more are refused with "try again".
+- **With [adaptive bitrate](/guide/transcoding) on** the manifest lists every
+  quality of the ladder, and players switch between them as the viewer's
+  connection changes, like the HLS `master.m3u8`.
+- Players stay about three segments (around 6 seconds) behind live.
+- When the stream ends, the manifest turns into a finished recording of its
+  last segments for 30 seconds, then goes away.
+
+The built-in player page plays HLS. For DASH, use a DASH player: tested with
+[dash.js](https://github.com/Dash-Industry-Forum/dash.js) and
+[Shaka Player](https://github.com/shaka-project/shaka-player) in Chrome, and VLC.
 
 ```bash
-ffplay https://tv.example.com/dash/main-show/manifest.mpd
+vlc https://tv.example.com/dash/main-show/manifest.mpd
 ```
 
 ## The player page
