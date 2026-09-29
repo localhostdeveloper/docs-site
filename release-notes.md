@@ -11,7 +11,9 @@ before replacing the binary.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
-## Next release
+## v0.1.20 {#v0-1-20}
+
+*29 September 2026*
 
 ### Changed
 
