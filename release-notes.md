@@ -11,6 +11,34 @@ before replacing the binary.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.19 {#v0-1-19}
+
+*29 September 2026*
+
+### Changed
+
+- The dashboard menu is in three sections: Live (Overview, Streams,
+  Multiview, Sessions, Events), Content (Channels, Recordings, Playout,
+  Media) and Settings (Server, Users, API keys, Audit log, License, Account).
+  Events and Channels moved up into their sections. Streamers, who see only a
+  few pages, get the menu without section headings.
+
+### Fixed
+
+- On laptops with a short screen (1366×768, or Windows display scaling at
+  125–150 %) the menu pushed the bottom of the sidebar (the connection
+  status, the theme button, Sign out and the version) off the screen, with
+  no way to scroll to it. The menu now scrolls on its own and the bottom of
+  the sidebar always stays visible; on shorter screens the menu rows are
+  also a little tighter.
+- On narrow windows, a page with little on it stretched the top menu bar
+  and left large empty gaps around it.
+
+### Upgrade notes
+
+No database change and nothing to configure. Reload the dashboard after the
+upgrade to get the new menu.
+
 ## v0.1.18 {#v0-1-18}
 
 *29 September 2026*
