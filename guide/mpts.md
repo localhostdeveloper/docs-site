@@ -118,6 +118,16 @@ TV equipment with `encode` (H.264 or MPEG-2 video, MP2 audio). Channel numbers,
 PIDs and names can be set to match the plan agreed with the receiving side;
 anything left out is chosen for you without clashes.
 
+**PIDs.** Left empty, each channel gets the next free ones: PMT from 4096, then
+picture and sound from 256 (channel 1: 256 and 257, channel 2: 258 and 259, and
+so on), shown on each channel's row. Set them only when equipment further on is
+configured by PID number (a multiplexer, a scrambler, an IRD with PID filters):
+in the dashboard, open **PIDs** under the channel's row (decimal, or hex like
+`0x101`); in the configuration file, `pmt_pid:` and
+`pids: { video: 0x101, audio: [0x102] }`. A channel keeps the PIDs it was
+given, automatic ones included, when channels are added or removed and when
+the server restarts.
+
 ### Constant or variable bitrate
 
 By default a bundle is **constant bitrate**: padded to its total with null

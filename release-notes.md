@@ -11,6 +11,33 @@ before replacing the binary.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.18 {#v0-1-18}
+
+*29 September 2026*
+
+### Added
+
+- Multi-channel: each channel in the New bundle and Add channel forms has an
+  optional PIDs line (PMT, video, audio) for equipment configured by PID
+  number. Left empty, PIDs are assigned automatically as before.
+
+### Fixed
+
+- Multi-channel bundles made in the dashboard kept automatic PIDs only until
+  the next restart: they were then numbered again in channel order, so after a
+  channel was removed, or added out of order, other channels moved to
+  different PIDs. Each channel now keeps the PIDs it was given.
+- A bundle mixing set and automatic PIDs could be refused when an automatic
+  channel took a number a later channel asked for. Automatic PIDs now avoid
+  every number the bundle's channels ask for.
+
+### Upgrade notes
+
+No database change. Existing dashboard bundles are numbered once more at the
+first start after the upgrade (in channel order, as at any restart before) and
+keep those PIDs from then on. Check each channel's PIDs in Server →
+Multi-channel afterwards if equipment downstream is set up by PID.
+
 ## v0.1.17 {#v0-1-17}
 
 *29 September 2026*
