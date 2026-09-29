@@ -183,5 +183,23 @@ goes offline raises a warning (and an entry in the event log); dropped packets
 and a bundle that cannot be sent raise critical alerts, and transport-stream
 errors raise a warning.
 
+### Checking it yourself
+
+To check a bundle independently of the server, capture it with
+[TSDuck](https://tsduck.io) where it arrives and analyse the file. A test
+bundle (a live channel, an offline one showing black, and a playout channel
+with now and next) passed these checks with no errors over 12 minutes.
+
+```bash
+tsp -I ip 5000 -P until --seconds 600 -O file cap.ts      # a multicast one: -I ip 239.2.2.1:5000
+tsp -I file cap.ts -P continuity -P pcrverify --bitrate 8000000 --absolute --jitter-max 13 -O drop
+tsanalyze cap.ts                                           # channels, PIDs, bitrates, discontinuities
+tstables cap.ts --pid 0x12 --diversified-payload           # now and next, one entry per change
+```
+
+`--bitrate` is the bundle's total bitrate in b/s (constant bundles only).
+Expect no `continuity:` lines and "0 with jitter" from `pcrverify`.
+
 Multi-channel bundles are new in this version: they have been tested with
-software receivers, not yet with a hardware set-top box or modulator.
+software receivers and TSDuck, not yet with a hardware set-top box or
+modulator.

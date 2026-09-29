@@ -11,6 +11,23 @@ before replacing the binary.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.17 {#v0-1-17}
+
+*29 September 2026*
+
+### Fixed
+
+- Server → Multi-channel: fields in the New bundle, Add channel, New input and
+  Publish forms lost focus at each 3-second refresh, so typing stopped after a
+  character or two. The card now waits while a field is in use.
+- The playback signing secret (Server → Playback) and a channel's backup
+  stream key (stream → Backup) could be shown but not hidden again without
+  reloading the page. Both have a Hide button.
+
+### Upgrade notes
+
+No database change. Dashboard fixes only; nothing to do after the upgrade.
+
 ## v0.1.16 {#v0-1-16}
 
 *29 September 2026*
