@@ -11,6 +11,29 @@ before replacing the binary.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.16 {#v0-1-16}
+
+*29 September 2026*
+
+### Fixed
+
+- 24/7 channels and backup sources produced no picture or sound on servers
+  with FFmpeg 6.1 (Ubuntu 24.04): the channel's encoder waited forever at
+  start and was restarted every 13 seconds ("the encoder stopped producing
+  output"). Channels start normally after the upgrade.
+- Multi-channel bundles on FFmpeg 8.0 (Ubuntu 26.04): the black or slate
+  picture of an offline channel was sent far too fast and pushed its audio out
+  of the bundle, and switching from the slate to the live stream left the
+  channel without sound for over 5 seconds. Both are fixed; the switch takes
+  about 3 seconds, as on other versions.
+
+### Upgrade notes
+
+No database change. This release is tested with the FFmpeg that each Ubuntu
+LTS installs: 4.4 on 22.04, 6.1 on 24.04 and 8.0 on 26.04. Nothing needs
+changing after the upgrade; a channel that was stuck starts within a few
+seconds.
+
 ## v0.1.15 {#v0-1-15}
 
 *28 September 2026*
