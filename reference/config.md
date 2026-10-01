@@ -9,6 +9,10 @@ Secrets can stay out of the file: `UNDA_API_TOKEN`, `UNDA_SRT_PASSPHRASE` and
 `/etc/unda/unda.env` override it. Restream and webhook URLs take `url_env` or
 `url_file` instead of `url`.
 
+`api.token` (`UNDA_API_TOKEN`) is deprecated: for scripts and Prometheus,
+create an API key under **API keys** in the dashboard instead. While the token is
+set, Unda logs a warning at startup and shows one to admins on the Overview.
+
 This is the complete example file, with every setting and its default:
 
 <<< ../shared/unda.example.yaml{yaml}

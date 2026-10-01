@@ -12,7 +12,31 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
-## Next release
+## v0.1.24 {#v0-1-24}
+
+*1 October 2026*
+
+### Changed
+
+- `api.token` (`UNDA_API_TOKEN`) is deprecated. It still works, but while it
+  is set the server logs a warning and admins see one on the Overview. Create
+  an API key under **API keys** for each script or Prometheus instead.
+- Admins and owners see a **Security** notice on the Overview for each setting
+  that weakens the server's protection: the legacy token, sign-in over plain
+  HTTP without HTTPS, or a config file with secrets that other users can read.
+
+### Fixed
+
+- A video-only stream (a camera without a microphone) now plays on the watch
+  page and over HLS. Before, it never started, and while a viewer kept
+  trying, the server kept every frame of it in memory.
+- A player asking for a stream that is not ready yet waits at most 30
+  seconds, and stops waiting when the viewer leaves. Before, such requests
+  stayed open on the server for as long as the stream was live.
+- An SRT publisher sending malformed data can no longer stop the whole
+  server; only its own connection ends.
+- An encoder announcing an impossible picture size is treated as a bad
+  stream description instead of being shown with a negative size.
 
 ## v0.1.23 {#v0-1-23}
 

@@ -76,10 +76,13 @@ hls:
   disable_session_ids: false
 
 api:
-  # Optional owner-level bearer token for scripts and Prometheus:
+  # DEPRECATED: an owner-level bearer token for scripts and Prometheus, from
+  # before accounts existed. It has no two-factor sign-in, never expires and
+  # is "config token" in the audit log; while it is set the server logs a
+  # warning and the dashboard shows one to admins. Use API keys instead
+  # (dashboard → API keys): each has a name and a role and can be revoked.
   #   curl -H "Authorization: Bearer <token>" http://localhost:8080/api/v1/streams
-  # Prefer API keys (dashboard → API keys): they have a role and can be revoked.
-  # If you use it, generate a strong one (openssl rand -hex 32), ideally via
+  # If you still use it, generate a strong one (openssl rand -hex 32), ideally via
   # UNDA_API_TOKEN / UNDA_API_TOKEN_FILE instead of this file. The server
   # refuses to start with the placeholder value below.
   # token: "changeme-generate-a-strong-random-token"

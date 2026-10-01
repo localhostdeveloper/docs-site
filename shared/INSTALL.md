@@ -63,7 +63,7 @@ Create a directory, e.g. `/opt/unda`, with these two files.
 ```yaml
 services:
   unda:
-    image: ghcr.io/localhostdeveloper/unda:v0.1.23   # newest version: see the release notes
+    image: ghcr.io/localhostdeveloper/unda:v0.1.24   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "443:8443"          # HTTPS: dashboard, watch pages, HLS
