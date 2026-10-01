@@ -11,18 +11,41 @@ before replacing the binary.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
-## v0.1.21 {#v0-1-21}
+## v0.1.22 {#v0-1-22}
 
 *1 October 2026*
 
 ### Added
 
+- Broadcast outputs and re-encoded multi-channel programs can now be HD:
+  720p50 or 1080i25 (interlaced, top field first) besides 576p25 SD, with
+  H.264 (High profile) or HEVC video and AC-3 (Dolby Digital) or AAC audio
+  besides MP2. Choose them under **Re-encode for broadcast TV**, in a
+  bundle's channel rows, or with `format`, `video_codec` and `audio_codec`
+  in the configuration file. HEVC is offered for progressive formats only.
 - RTP outputs can carry SMPTE 2022-1 forward error correction, which
   broadcast equipment fed over IP often expects: add `?fec=1d` (columns) or
   `?fec=2d` (columns and rows) to an `rtp://` destination, with `fec_l` and
   `fec_d` for the matrix. It works for restream destinations, broadcast
   outputs and multi-channel bundles. See
   [Restreaming](/guide/restreaming#error-correction-for-rtp-smpte-2022-1).
+
+### Fixed
+
+- Switching on backup sources raised a false "input bitrate under half its
+  baseline" alert: the stream is then Unda's own re-encode at its configured
+  bitrate, and it was compared with the old encoder's. Streams Unda encodes
+  itself (backup sources, playout channels) now start a new baseline whenever
+  their encoder starts.
+- On a stream's **Backup** tab, a drop-down could close and a field lose
+  focus while you were using it, because the tab redrew itself every few
+  seconds. It now waits until you leave the field.
+
+### Changed
+
+- Broadcast outputs now tell receivers what kind of service they carry (SD or
+  HD H.264, HEVC; MPEG-2 stays "digital television"), so receivers that sort
+  or filter channels by type show them correctly.
 
 ## v0.1.20 {#v0-1-20}
 

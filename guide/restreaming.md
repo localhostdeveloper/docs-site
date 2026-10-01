@@ -92,18 +92,46 @@ For a DVB multiplexer, IP modulator or satellite uplink, tick **Re-encode for
 broadcast TV** when adding a destination (operators only). The stream is
 re-encoded to what TV equipment expects:
 
-- **Picture:** standard definition, 720×576 at 25 frames/s, shown at 16:9. A
-  4:3 or portrait source gets black bars at the sides; nothing is cropped.
-- **Video:** H.264 (DVB-T2 / DVB-S2) or MPEG-2 (older DVB-T / DVB-S
-  receivers), at the bitrate you set.
-- **Audio:** MPEG-1 Layer II (MP2), 48 kHz stereo.
+- **Picture:** 16:9 in one of three formats. A 4:3 or portrait source gets
+  black bars at the sides; nothing is cropped.
+
+  | Format | Picture | Use |
+  |---|---|---|
+  | `576p25` (default) | SD 720×576, 25 frames/s | SD services, older receivers |
+  | `720p50` | HD 1280×720, 50 frames/s | HD services that use 720p |
+  | `1080i25` | HD 1920×1080 interlaced, top field first | the usual HD format in 50 Hz countries |
+
+- **Video:** H.264 (DVB-T2 / DVB-S2; High profile for HD), HEVC (H.265; for
+  576p25 and 720p50, since HEVC services are progressive) or MPEG-2 (older
+  DVB-T / DVB-S receivers; SD only), at the bitrate you set. Defaults: H.264
+  2 Mb/s SD, 8 Mb/s HD; HEVC 1.2 Mb/s SD, 4 Mb/s HD; MPEG-2 4 Mb/s.
+- **Audio:** MPEG-1 Layer II (MP2), AC-3 (Dolby Digital, signalled the DVB
+  way) or AAC, 48 kHz stereo.
 - **Transport stream:** a constant bitrate (the total you set, padded with
   null packets), with your channel name and provider in the service
-  information (SDT), and the service ID and PIDs your multiplexer expects.
+  information (SDT), the service type receivers expect (SD or HD H.264,
+  HEVC), and the service ID and PIDs your multiplexer expects.
+
+In the configuration file:
+
+```yaml
+restream:
+  targets:
+    - stream: news
+      name: uplink
+      url: udp://10.0.0.20:5000
+      broadcast:
+        format: 1080i25
+        video_codec: h264
+        video_kbps: 10000
+        audio_codec: ac3
+        audio_kbps: 192
+        service_name: "News HD"
+```
 
 Send it with `udp://` (unicast or multicast), `rtp://` (with
 [SMPTE 2022-1 FEC](#error-correction-for-rtp-smpte-2022-1) if the equipment
 expects it) or `srt://` (over the internet, encrypted). Ask the multiplexer operator for the bitrate reserved for
 your service, and enter it as the constant total bitrate. Each broadcast
-destination runs its own encoder, so plan for about a third of a CPU core each
-with H.264.
+destination runs its own encoder: plan for about a third of a CPU core for SD
+H.264, about one core for HD H.264 and about two for HEVC.

@@ -147,13 +147,15 @@ restream:
   #   - stream: mykey
   #     name: twitch
   #     url_env: UNDA_PUSH_TWITCH_URL     # or: url_file: /run/secrets/twitch_url
-  #   - stream: mykey                # broadcast TV: re-encoded to SD for a DVB multiplexer,
+  #   - stream: mykey                # broadcast TV: re-encoded for a DVB multiplexer,
   #     name: dtt-mux                #   IP modulator or satellite uplink (udp://, rtp://, srt:// or rist://)
   #     url: udp://239.1.1.20:5000?ttl=4
-  #     broadcast:                   # 720x576, 25 frames/s, 16:9, MP2 audio, CBR MPEG-TS
-  #       video_codec: h264          # h264 (DVB-T2/S2, default) or mpeg2 (DVB-T/S)
-  #       video_kbps: 2000           # default 2000 (h264) / 4000 (mpeg2)
-  #       audio_kbps: 192            # MP2: 64-384; default 192
+  #     broadcast:                   # 16:9, CBR MPEG-TS with DVB service information
+  #       format: 576p25             # 576p25 (SD, default), 720p50 or 1080i25 (HD, interlaced)
+  #       video_codec: h264          # h264 (default), hevc (576p25/720p50 only) or mpeg2 (576p25 only)
+  #       video_kbps: 2000           # default h264 2000 SD / 8000 HD, hevc 1200 / 4000, mpeg2 4000
+  #       audio_codec: mp2           # mp2 (default), ac3 (Dolby Digital) or aac
+  #       audio_kbps: 192            # default 192 (mp2, ac3) / 128 (aac)
   #       mux_kbps: 2600             # constant total rate, null packets included; default: the minimum safe value
   #       service_name: "Unda TV"    # SDT channel name (default: the stream name)
   #       service_provider: "Unda"   # SDT provider
@@ -250,7 +252,7 @@ limits:
 #         program: 2
 #         name: "Sports HD"
 #         pids: auto                           # assigned without clashes
-#         encode: { video_codec: h264 }        # re-encoded: SD 720x576 25p 16:9, MP2 audio (see broadcast outputs)
+#         encode: { format: 1080i25, video_codec: h264, audio_codec: ac3 }  # re-encoded (see broadcast outputs)
 
 # Adaptive-bitrate transcoding. Turn it on and choose the encoder (CPU or a GPU)
 # in the dashboard: Server → Transcoding. Needs FFmpeg. The settings below are

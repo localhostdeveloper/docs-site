@@ -109,12 +109,14 @@ mpts_outputs:
       - stream: sports-hd
         program: 2
         name: "Sports HD"
-        encode: { video_codec: h264 }     # converted to standard definition (720×576)
+        encode: { format: 1080i25, audio_codec: ac3 }  # converted to HD 1080i H.264 with AC-3
 ```
 
 Each channel is either **sent as it is** (give it a `bitrate` a little above
-what the stream uses at its busiest) or **converted** to standard definition for
-TV equipment with `encode` (H.264 or MPEG-2 video, MP2 audio). Channel numbers,
+what the stream uses at its busiest) or **converted** for TV equipment with
+`encode`: SD 576p25 or HD 720p50 / 1080i25, H.264, HEVC or MPEG-2 video, MP2,
+AC-3 or AAC audio, with the same settings as a
+[broadcast output](/guide/restreaming#broadcast-tv-terrestrial-and-satellite). Channel numbers,
 PIDs and names can be set to match the plan agreed with the receiving side;
 anything left out is chosen for you without clashes.
 
