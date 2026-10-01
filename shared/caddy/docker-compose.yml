@@ -4,7 +4,7 @@
 # then:  docker compose up -d
 services:
   unda:
-    image: REGISTRY/unda:VERSION        # from your vendor
+    image: ghcr.io/localhostdeveloper/unda:v0.1.23   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "1935:1935"         # RTMP (encoders)
@@ -13,12 +13,16 @@ services:
     volumes:
       - unda-data:/data
       - ./unda.yaml:/etc/unda/unda.yaml:ro
+    environment:
+      TZ: Africa/Accra      # your time zone: recording file names and logs
     read_only: true
     tmpfs: [/tmp]
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
     ulimits:
       nofile: 65536
+    logging:                # Docker keeps logs forever otherwise
+      options: { max-size: "10m", max-file: "5" }
     networks: [web]
 
   caddy:
@@ -30,6 +34,8 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy-data:/data      # Caddy's certificates: keep this volume
+    logging:                # Docker keeps logs forever otherwise
+      options: { max-size: "10m", max-file: "5" }
     networks: [web]
 
 networks:

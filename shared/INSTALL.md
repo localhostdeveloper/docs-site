@@ -8,7 +8,7 @@ You need:
 - a Linux server (4 vCPU, 8 GB RAM and 100 Mbit/s+ upload are enough for about
   ten 720p streams and a few hundred viewers without transcoding);
 - a DNS name pointing at it, e.g. `tv.example.com` (needed for HTTPS);
-- the Unda **Docker image** or **binary** from your vendor, and your
+- the Unda **Docker image** (`ghcr.io/localhostdeveloper/unda`) or **binary** from your vendor, and your
   **license file** (`something.license.json`). Without a license Unda runs
   in evaluation mode: everything works, up to 2 live streams and 2 accounts
   besides the owner.
@@ -63,7 +63,7 @@ Create a directory, e.g. `/opt/unda`, with these two files.
 ```yaml
 services:
   unda:
-    image: REGISTRY/unda:VERSION        # from your vendor
+    image: ghcr.io/localhostdeveloper/unda:v0.1.23   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "443:8443"          # HTTPS: dashboard, watch pages, HLS
@@ -73,12 +73,16 @@ services:
     volumes:
       - unda-data:/data
       - ./unda.yaml:/etc/unda/unda.yaml:ro
+    environment:
+      TZ: Africa/Accra      # your time zone: recording file names and logs
     read_only: true
     tmpfs: [/tmp]
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
     ulimits:
       nofile: 65536
+    logging:                # Docker keeps logs forever otherwise
+      options: { max-size: "10m", max-file: "5" }
 
 volumes:
   unda-data:
@@ -91,6 +95,7 @@ server:
   rtmp_addr: ":1935"
   http_addr: ":8443"                   # published as 443
   http_redirect_addr: ":8080"          # published as 80
+  public_https_port: 443               # where that redirect sends browsers
   tls:
     letsencrypt:
       domains: [tv.example.com]
@@ -101,6 +106,7 @@ paths:
   recordings_dir: /data/recordings
   hls_dir: /data/hls
   data_dir: /data/state                # accounts, channels, license, certificates: back this up
+  media_dir: /data/media               # files uploaded for playout channels
 srt:
   addr: ":6000"
 ```
@@ -120,6 +126,13 @@ Admin commands (used below) run inside the container:
 ```bash
 docker compose exec unda unda admin -config /etc/unda/unda.yaml list-users
 ```
+
+**UDP, RTP, RIST and multi-channel inputs** listen on ports you choose when
+you add them. Publish each one under `ports:` as well, e.g.
+`- "5000:5000/udp"` (RIST uses the port and the one after it, so publish
+both). Multicast (`udp://239.…`) does not pass Docker's port mapping:
+to receive or send it, give the service `network_mode: host` and remove its
+`ports:` list (the container then uses the server's ports directly).
 
 ### B. Binary + systemd
 
@@ -493,23 +506,47 @@ keys, so keep backups as private as the server.
 **Restore:**
 
 ```bash
+# systemd
 sudo systemctl stop unda
 sudo -u unda rm -f /var/lib/unda/state/unda.db-wal /var/lib/unda/state/unda.db-shm
 sudo -u unda cp backup-2026-09-24.db /var/lib/unda/state/unda.db
 sudo systemctl start unda
+# Docker: a copy already in the volume (e.g. from state/backups/, below)
+docker compose stop unda
+docker compose run --rm --entrypoint sh unda -c \
+  'rm -f /data/state/unda.db-wal /data/state/unda.db-shm && cp /data/state/backups/FILE.db /data/state/unda.db'
+docker compose start unda
 ```
 
 **Upgrade:**
 
+However you upgrade, the new version's first start copies the database
+before changing anything: `state/backups/pre-upgrade-<old>-to-<new>-<time>.db`
+in the data directory (`/var/lib/unda/state/backups`, or
+`/data/state/backups` in the Docker volume; the five newest are kept). If
+that copy fails (a full disk), Unda does not start and says so; free space
+and start it again. `UNDA_SKIP_UPGRADE_BACKUP=1` in its environment starts
+it without the copy, for when you have another.
+
 - **Installed with `install.sh`:** run the same install command again (the
   `curl … | sudo bash -s -- --domain …` line, or `./install.sh` from the new
-  release folder). It first backs up the database to
-  `/var/lib/unda/backups/pre-upgrade-<date_time>.db` (the five newest are
+  release folder). It also backs up the database with the old version first,
+  to `/var/lib/unda/backups/pre-upgrade-<date_time>.db` (the five newest are
   kept), then replaces the binary and restarts Unda. Your configuration,
-  accounts, channels, license and certificates are kept. If the backup
+  accounts, channels, license and certificates are kept. If that backup
   fails, nothing is upgraded.
-- **By hand or with Docker:** take a backup, then replace the binary and
-  `systemctl restart unda`, or change the image tag and `docker compose up -d`.
+- **Docker:** set the new version in `docker-compose.yml`
+  (`image: …/unda:v0.2.0`), then:
+
+  ```bash
+  docker compose pull
+  docker compose up -d
+  ```
+
+  To go back, set the old version again and restore that upgrade's
+  `pre-upgrade-…` copy (above): an older version refuses a database a newer
+  one has changed.
+- **By hand:** replace the binary and `systemctl restart unda`.
 
 **Knowing when there is one:** twice a day Unda reads the description of the
 latest release from your vendor's release page. When a newer version exists,

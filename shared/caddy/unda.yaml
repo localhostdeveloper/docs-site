@@ -12,5 +12,6 @@ paths:
   recordings_dir: /data/recordings
   hls_dir: /data/hls
   data_dir: /data/state                # accounts, channels, license: back this up
+  media_dir: /data/media               # files uploaded for playout channels
 srt:
   addr: ":6000"

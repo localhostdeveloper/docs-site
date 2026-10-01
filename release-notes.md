@@ -2,14 +2,54 @@
 
 Changes in each Unda release, newest first. Servers check for new releases and
 show a notice to admins and owners under Overview → Other notices. To upgrade,
-re-run the installer ([Install](/guide/install)); it backs up the database
-before replacing the binary.
+re-run the installer, or with Docker change the image tag and pull
+([Backups and upgrades](/guide/install#8-backups-and-upgrades)). The
+database is backed up first.
 
 <!-- Unreleased changes go in a "## Next release" section here. At release,
      rename it to "## vX.Y.Z {#vX-Y-Z}" (the anchor the update notice links
      to) and add the date under it. deploy/release.sh reads the version's
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
+
+## Next release
+
+## v0.1.23 {#v0-1-23}
+
+*1 October 2026*
+
+### Added
+
+- **Docker image:** `ghcr.io/localhostdeveloper/unda`, for 64-bit Intel/AMD
+  and ARM servers, built from the same files as the installer. See
+  [Install](/guide/install#a-docker).
+- Every upgrade now keeps a copy of the database: the new version's first
+  start copies it to `backups/pre-upgrade-<old>-to-<new>-<time>.db` in the
+  data directory before changing anything (the five newest are kept), however
+  Unda was upgraded. If the copy fails, Unda does not start. See
+  [Backups and upgrades](/guide/install#8-backups-and-upgrades).
+- The update notice now says how to upgrade: run the install command again,
+  or, in Docker, pull the new image.
+- `unda healthcheck` checks the running server where its configuration puts
+  it; the Docker image's health check uses it.
+
+### Changed
+
+- Docker: the example files keep uploaded media in `/data/media`, rotate
+  Docker's logs, and show the `TZ` setting. New installs with the installer
+  keep media in `/var/lib/unda/media`. Existing configurations are not
+  changed.
+
+### Fixed
+
+- A playout channel now follows the server's clock when it jumps (the
+  machine or its virtual machine slept, or the clock was set by hand). It
+  used to stay behind its schedule by the whole jump until a restart; it
+  now joins the item that should be on air and logs a warning event.
+- In Docker, plain `http://` addresses redirected to the container's own
+  HTTPS port (8443) instead of the published 443. Set
+  `server.public_https_port: 443` (now in the Docker example of
+  [Install](/guide/install)) and the redirect sends browsers to 443.
 
 ## v0.1.22 {#v0-1-22}
 
@@ -46,6 +86,12 @@ before replacing the binary.
 - Broadcast outputs now tell receivers what kind of service they carry (SD or
   HD H.264, HEVC; MPEG-2 stays "digital television"), so receivers that sort
   or filter channels by type show them correctly.
+
+## v0.1.21 {#v0-1-21}
+
+*1 October 2026*
+
+SMPTE 2022-1 error correction on RTP outputs, also listed under v0.1.22.
 
 ## v0.1.20 {#v0-1-20}
 

@@ -5,6 +5,8 @@ server:
   # domain's DNS at this server, open ports 443 and 80, then:
   # http_addr: ":443"
   # http_redirect_addr: ":80"    # plain HTTP: redirects to HTTPS, answers Let's Encrypt
+  # public_https_port: 443       # only behind a port map (Docker 443 -> 8443):
+  #                              # the port that redirect sends browsers to
   # tls:
   #   letsencrypt:
   #     domains: [tv.example.com]
