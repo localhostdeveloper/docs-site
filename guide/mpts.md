@@ -93,7 +93,7 @@ Or in the configuration file:
 ```yaml
 mpts_outputs:
   - name: iptv-bundle-1
-    destination: udp://239.2.2.1:6000     # or rtp://..., srt://host:port?streamid=..., rist://host:5000
+    destination: udp://239.2.2.1:6000     # or rtp://... (?fec=2d adds SMPTE 2022-1 FEC), srt://host:port?streamid=..., rist://host:5000
     interface: eth0                       # for multicast: the network card to send on
     ttl: 4
     provider: "Unda Community TV"

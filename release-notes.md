@@ -11,6 +11,17 @@ before replacing the binary.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### Added
+
+- RTP outputs can carry SMPTE 2022-1 forward error correction, which
+  broadcast equipment fed over IP often expects: add `?fec=1d` (columns) or
+  `?fec=2d` (columns and rows) to an `rtp://` destination, with `fec_l` and
+  `fec_d` for the matrix. It works for restream destinations, broadcast
+  outputs and multi-channel bundles. See
+  [Restreaming](/guide/restreaming#error-correction-for-rtp-smpte-2022-1).
+
 ## v0.1.20 {#v0-1-20}
 
 *29 September 2026*

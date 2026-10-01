@@ -63,6 +63,29 @@ including ones on your own network. RTP carries MPEG-TS in RFC 2250 packets,
 uses PCR for its 90 kHz timestamp, and has no encryption or authentication, so
 use it only on a trusted network.
 
+### Error correction for RTP (SMPTE 2022-1)
+
+Broadcast equipment fed over IP (modulators, IRDs, teleport gateways) often
+expects **SMPTE 2022-1 FEC** with RTP: extra packets from which the receiver
+rebuilds lost ones, without asking for a resend. Add it to an `rtp://` address:
+
+```
+rtp://10.0.0.20:5000?fec=1d                     column FEC (on port 5002)
+rtp://10.0.0.20:5000?fec=2d                     column and row FEC (ports 5002 and 5004)
+rtp://239.1.1.20:5000?fec=2d&fec_l=5&fec_d=20   your receiver's matrix
+```
+
+The media packets are arranged in a matrix of `fec_l` columns by `fec_d` rows
+(default 10 × 10). Each column's FEC packet rebuilds one lost packet in that
+column, so column FEC repairs a burst of up to `fec_l` lost packets in a row;
+`2d` adds a FEC packet per row and repairs more scattered loss. Column FEC
+adds 1/`fec_d` to the bitrate (10 % at the default), row FEC another
+1/`fec_l`. Limits: `fec_l` 1 to 20 (4 to 20 with `2d`), `fec_d` 4 to 20,
+and `fec_l` × `fec_d` at most 100. Use the values from your receiver's
+documentation or the operator's spec sheet; the FEC ports (+2 and +4) must be
+open on the way. A receiver without FEC ignores them and plays the stream as
+usual. Over the internet, prefer SRT or RIST, which resend what was lost.
+
 ## Broadcast TV (terrestrial and satellite)
 
 For a DVB multiplexer, IP modulator or satellite uplink, tick **Re-encode for
@@ -78,8 +101,9 @@ re-encoded to what TV equipment expects:
   null packets), with your channel name and provider in the service
   information (SDT), and the service ID and PIDs your multiplexer expects.
 
-Send it with `udp://` (unicast or multicast), `rtp://` or `srt://` (over the
-internet, encrypted). Ask the multiplexer operator for the bitrate reserved for
+Send it with `udp://` (unicast or multicast), `rtp://` (with
+[SMPTE 2022-1 FEC](#error-correction-for-rtp-smpte-2022-1) if the equipment
+expects it) or `srt://` (over the internet, encrypted). Ask the multiplexer operator for the bitrate reserved for
 your service, and enter it as the constant total bitrate. Each broadcast
 destination runs its own encoder, so plan for about a third of a CPU core each
 with H.264.
