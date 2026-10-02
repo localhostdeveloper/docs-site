@@ -303,10 +303,147 @@ the certificate comes from is up to you, from most to least independent:
    the same name: the same `--cert-file`/`--key-file` options. Unda then
    depends on that program keeping it renewed.
 3. **Behind that program as a reverse proxy** (Caddy/nginx above), if it is a
-   web server that can forward a name to Unda.
+   web server that can forward a name to Unda. With Docker and an nginx that
+   is already on the server, follow
+   [Docker behind nginx on the same server](#docker-behind-nginx-on-the-same-server).
 
 Or give Unda a server of its own: nothing to share, and the one-line install
 needs no options.
+
+### Docker behind nginx on the same server
+
+For a server where nginx already holds ports 80 and 443, often next to
+another media server (Flussonic, Wowza) that holds RTMP's port 1935. nginx
+keeps 80, 443 and the certificate, and forwards a name of Unda's own
+(`unda.example.com` below) to it. Unda's web port is reachable only from the
+server itself. RTMP and SRT go to Unda directly: nginx does not forward them.
+
+**1. Check the ports.** Nothing should be printed:
+
+```bash
+sudo ss -tulpn | grep -E ':(1936|6000|8090)\b'
+```
+
+If a port is listed, choose another free one and change it everywhere below.
+Use the **same number on both sides** of `ports:` and in `unda.yaml`: the
+dashboard shows encoders the ports Unda listens on.
+
+**2. DNS:** an `A` record for `unda.example.com` pointing to this server.
+
+**3. `/opt/unda/docker-compose.yml`:**
+
+```yaml
+services:
+  unda:
+    image: ghcr.io/localhostdeveloper/unda:v0.1.24   # newest version: see the release notes
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8090:8090"   # dashboard, watch pages, HLS: only nginx on this server reaches it
+      - "1936:1936"             # RTMP (the other media server keeps 1935)
+      - "6000:6000/udp"         # SRT (encoders, optional)
+    volumes:
+      - unda-data:/data
+      - ./unda.yaml:/etc/unda/unda.yaml:ro
+    environment:
+      TZ: Africa/Accra          # your time zone: recording file names and logs
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    ulimits:
+      nofile: 65536
+    logging:                    # Docker keeps logs forever otherwise
+      options: { max-size: "10m", max-file: "5" }
+    networks: [unda]
+
+networks:
+  unda:
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24   # fixed, so unda.yaml can trust nginx by address
+
+volumes:
+  unda-data:
+```
+
+**4. `/opt/unda/unda.yaml`:**
+
+```yaml
+server:
+  rtmp_addr: ":1936"
+  http_addr: ":8090"
+  # nginx's requests reach the container from the Docker network above, not
+  # from 127.0.0.1. Trusting it lets Unda see that the browser used HTTPS (so
+  # sign-in works) and log visitors' real addresses. Only nginx can come from
+  # there: port 8090 is published on 127.0.0.1 alone.
+  trusted_proxies: ["172.30.0.0/24"]
+log:
+  level: info
+paths:
+  recordings_dir: /data/recordings
+  hls_dir: /data/hls
+  data_dir: /data/state                # accounts, channels, license: back this up
+  media_dir: /data/media               # files uploaded for playout channels
+srt:
+  addr: ":6000"
+```
+
+No `tls:` section: nginx holds the certificate. If your license names domains,
+add `public_domains: [unda.example.com]` under `server:` (section 4).
+
+**5. nginx:** `/etc/nginx/sites-available/unda`:
+
+```nginx
+server {
+    listen 80;
+    server_name unda.example.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:8090;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_buffering off;              # the dashboard's live updates
+        proxy_request_buffering off;
+        client_max_body_size 16m;         # media uploads arrive in 8 MB pieces
+        proxy_read_timeout 1h;
+    }
+}
+```
+
+Enable it and get the certificate (certbot adds the HTTPS part and the
+redirect to this file, and renews it):
+
+```bash
+sudo ln -s /etc/nginx/sites-available/unda /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+sudo certbot --nginx -d unda.example.com
+```
+
+**6. Start Unda:**
+
+```bash
+cd /opt/unda
+docker compose up -d
+docker compose logs unda | grep setup_link
+```
+
+Open `https://unda.example.com/dashboard#setup/<token>` and continue with
+[section 3](#3-create-the-owner-account). Encoders use
+`rtmp://unda.example.com:1936/live` and
+`srt://unda.example.com:6000?streamid=publish:<key>`; open 1936/tcp and
+6000/udp in the firewall (section 7), never 8090.
+
+**If something goes wrong:**
+
+- *Sign-in says HTTPS is required:* nginx is not sending
+  `X-Forwarded-Proto`, or `trusted_proxies` does not match the network's
+  `subnet`.
+- *`docker compose up` says the address pool overlaps:* another Docker
+  network already uses 172.30.0.0/24. Pick another private range (e.g.
+  172.31.0.0/24) and change it in both files.
+- *nginx answers 502:* Unda is not running or not on 8090
+  (`docker compose ps`, `docker compose logs unda`).
 
 **A closed studio LAN without HTTPS** can set `auth.allow_insecure_login: true`.
 The server logs a warning at every start, because passwords then cross the
