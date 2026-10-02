@@ -26,6 +26,7 @@ Steps:
 9. [If someone is locked out](#9-if-someone-is-locked-out)
 10. [Support access for your vendor](#10-support-access-for-your-vendor)
 11. [Troubleshooting](#11-troubleshooting)
+12. [Removing Unda](#12-removing-unda)
 
 ---
 
@@ -444,6 +445,8 @@ Open `https://unda.example.com/dashboard#setup/<token>` and continue with
   172.31.0.0/24) and change it in both files.
 - *nginx answers 502:* Unda is not running or not on 8090
   (`docker compose ps`, `docker compose logs unda`).
+- *The log repeats `open /etc/unda/unda.yaml: no such file or directory`:*
+  see the first row of [section 11](#11-troubleshooting).
 
 **A closed studio LAN without HTTPS** can set `auth.allow_insecure_login: true`.
 The server logs a warning at every start, because passwords then cross the
@@ -750,6 +753,7 @@ Your vendor has **no account and no way in** unless you give them one.
 
 | Symptom | Cause and fix |
 |---|---|
+| Docker: the log repeats `open /etc/unda/unda.yaml: no such file or directory` (or `is a directory`) | The container was started before `unda.yaml` existed next to `docker-compose.yml` (or under another name), so Docker made an empty folder in its place. In that folder, `ls -la`: `unda.yaml` must be a file (`-rw-`), not a folder (`d`). If it is a folder, `rm -r unda.yaml` and write the file again; then `chmod 644 unda.yaml` and `docker compose up -d --force-recreate unda` (this replaces only Unda's container; other Docker apps keep running) |
 | `could not get a certificate` in the log, or the browser warns about the certificate | The domain's DNS must point at this server, and ports 443 and/or 80 must be open and forwarded to it. The log line gives Let's Encrypt's reason. Repeated failures can hit Let's Encrypt's rate limit (5 failed checks per hour), so test with `directory_url: staging` |
 | Unda does not start: `listen tcp :1935: bind: address already in use` (or :443, :80, :6000) | Another program uses that port. Give Unda another one in `/etc/unda/unda.yaml` (`rtmp_addr: ":1936"`: encoders then use `rtmp://DOMAIN:1936/live`; `srt.addr`; `http_addr: ":8443"`: viewers then use `https://DOMAIN:8443`), or pass `--rtmp-port`, `--https-port`, `--http-port`, `--srt-port` to `install.sh` on a new install. Let's Encrypt still needs port **80 or 443** for Unda: if another program holds both, use a certificate file (`--cert-file`; "Sharing a server" in section 2) or put Unda behind it |
 | “signing in over plain HTTP is only allowed from this machine” | Use the HTTPS address. Behind a proxy, check `server.trusted_proxies` lists it and that it sends `X-Forwarded-Proto` |
@@ -763,3 +767,68 @@ Your vendor has **no account and no way in** unless you give them one.
 
 Logs: `journalctl -u unda` or `docker compose logs unda` (one JSON
 line per event; passwords and stream keys are never logged).
+
+---
+
+## 12. Removing Unda
+
+**Keep what you may need first.** Removing Unda deletes its accounts,
+channels, recordings, uploaded media and license. Copy out what you want to
+keep: a database backup (section 8), your `.license.json` file (to move the
+license to another server), and the recordings and media folders.
+
+### Docker
+
+In the folder with Unda's `docker-compose.yml` (e.g. `/opt/unda`):
+
+```bash
+cd /opt/unda
+docker compose down --volumes --rmi all   # no undo: Unda's container, network, data volume and image
+cd / && sudo rm -r /opt/unda
+```
+
+This touches only what that `docker-compose.yml` defines: other Docker apps on
+the server (AzuraCast, databases, other projects) keep running and keep their
+data. Never run `docker system prune` for this; it removes far more than Unda.
+With the Caddy folder, the same command also removes Caddy and its
+certificates.
+
+**Behind nginx** ([that setup](#docker-behind-nginx-on-the-same-server)),
+also remove its site and certificate:
+
+```bash
+sudo rm /etc/nginx/sites-enabled/unda /etc/nginx/sites-available/unda
+sudo nginx -t && sudo systemctl reload nginx
+sudo certbot delete --cert-name unda.example.com
+```
+
+### Binary + systemd (and the one-command install)
+
+Check `paths:` in `/etc/unda/unda.yaml` first: the folders below are the
+installer's; move or delete any you set elsewhere yourself.
+
+```bash
+sudo systemctl disable --now unda
+sudo systemctl disable --now unda-cert-sync.timer 2>/dev/null   # only with --cert-file
+sudo rm -f /etc/systemd/system/unda.service \
+  /etc/systemd/system/unda-cert-sync.service /etc/systemd/system/unda-cert-sync.timer \
+  /usr/local/sbin/unda-cert-sync /usr/local/bin/unda
+sudo systemctl daemon-reload
+sudo rm -r /etc/unda        # config, secrets file, certificate copies
+sudo rm -r /var/lib/unda    # no undo: accounts, recordings, media, backups, certificates
+sudo userdel unda
+```
+
+FFmpeg (`--with-ffmpeg`) is left installed, since other programs may use
+it: `sudo apt remove ffmpeg` if nothing does.
+
+### Firewall
+
+Close the ports you opened for Unda (section 7), but **only those no other
+program uses**: on a shared server, 443 and 80 usually still serve the other
+program.
+
+```bash
+sudo ufw status numbered
+sudo ufw delete allow 1935/tcp   # e.g. RTMP; repeat for each of Unda's own ports
+```
