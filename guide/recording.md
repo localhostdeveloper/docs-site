@@ -37,3 +37,5 @@ when it started, how long it is and its size. You can filter by stream.
 - **Download** saves the file (MPEG-TS, `.ts`: VLC and most editors open it).
 - **Delete** removes it. The file being recorded right now cannot be deleted;
   stop the recording first.
+
+[![The Recordings page with a recording playing in the page](/screens/recordings.webp)](/screens/recordings.webp)

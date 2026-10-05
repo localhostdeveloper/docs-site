@@ -23,6 +23,8 @@ destinations always get the original.
 3. On a stream's **Transcoding** tab, switch it on for that stream. It starts at
    once and stays on when the encoder reconnects (until the server restarts).
 
+[![A stream's Transcoding tab: adaptive bitrate on, the source, and the ladder of qualities with how much each is watched](/screens/transcoding.webp)](/screens/transcoding.webp)
+
 There is no limit on how many streams are transcoded at once. When the CPU
 stays above 85% for a minute, the dashboard raises a **CPU** alert, and the
 Transcoding tab warns before you add another stream. You can still set a limit

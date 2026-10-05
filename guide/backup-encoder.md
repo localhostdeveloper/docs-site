@@ -21,6 +21,8 @@ An operator (or above) switches it on for a channel:
 If the stream is live at that moment, its encoder is disconnected once and
 reconnects by itself (OBS and vMix do this automatically).
 
+[![The Backup tab: backup sources on, the main encoder on air and the backup encoder ready](/screens/backup.webp)](/screens/backup.webp)
+
 The channel now has two keys:
 
 | Key | For |

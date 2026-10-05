@@ -88,6 +88,8 @@ the stream, its channel number and name, and whether it is sent as it is or
 converted to standard definition. **Add channel** adds one to a running bundle.
 Bundles made in the dashboard are kept when the server restarts.
 
+[![Server → Multi-channel: a bundle of three channels being sent, with its PIDs and a clean TR 101 290 check](/screens/mpts.webp)](/screens/mpts.webp)
+
 Or in the configuration file:
 
 ```yaml

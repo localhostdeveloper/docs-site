@@ -53,6 +53,8 @@ export default defineConfig({
         text: "Getting started",
         items: [
           { text: "What is Unda?", link: "/guide/introduction" },
+          { text: "A tour of the dashboard", link: "/guide/dashboard" },
+          { text: "Ways to earn with Unda", link: "/guide/earning" },
           { text: "What works with Unda", link: "/guide/compatibility" },
           { text: "Install", link: "/guide/install" },
           { text: "Stream from OBS, vMix or ffmpeg", link: "/guide/streaming" },
@@ -88,6 +90,6 @@ export default defineConfig({
     ],
     search: { provider: "local" },
     outline: { level: [2, 3] },
-    footer: { message: "Unda Media Server" },
+    footer: { message: "Unda Media Server is proprietary software.", copyright: "© 2026 LocalCode Technology. All rights reserved." },
   },
 });

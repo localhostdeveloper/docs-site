@@ -53,6 +53,14 @@ features:
     linkText: Install
 ---
 
+<div class="home-shot">
+
+[![The Unda dashboard: live streams, viewers, bandwidth and alerts](/screens/overview.webp)](/guide/dashboard)
+
+</div>
+
+[Take a tour of the dashboard →](/guide/dashboard)
+
 ## Who it is for
 
 - **Churches, schools and community broadcasters** who stream from OBS or vMix
@@ -64,6 +72,8 @@ features:
 - **IPTV and broadcast operators** who take feeds over SRT, UDP or RTP and hand
   them to set-top boxes, multiplexers or partners as standard transport
   streams.
+
+[Ways to earn with Unda →](/guide/earning)
 
 ## Protocols at a glance
 

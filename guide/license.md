@@ -17,6 +17,8 @@ recording, SRT, UDP) and until when.
 A new license that adds SRT, UDP, adaptive bitrate or restream destinations in
 the configuration file needs a restart for those to start.
 
+[![The License page: who the license is for, its expiry, how much of it is in use and its features](/screens/license.webp)](/screens/license.webp)
+
 ## Licenses for a domain
 
 A license can be issued for your domain(s), for example `tv.example.com`.

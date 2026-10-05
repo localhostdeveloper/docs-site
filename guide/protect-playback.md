@@ -32,6 +32,8 @@ https://tv.example.com/watch/main-show?token=1790560829.rr8snjtkKtg3EJgQaeHvJQ
 
 Give that address to your viewers, or use its HLS form in your own player.
 
+[![A stream's Playback tab with signed links required and the link maker](/screens/playback.webp)](/screens/playback.webp)
+
 ## What the time limit means
 
 A link's time is **the latest time to start watching**. Someone who started

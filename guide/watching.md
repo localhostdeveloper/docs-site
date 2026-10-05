@@ -47,6 +47,8 @@ vlc https://tv.example.com/dash/main-show/manifest.mpd
 quality being played, the viewer's connection speed and buffer, and, when
 adaptive bitrate is on, a **Quality** menu (Auto or a fixed quality).
 
+[![The player page: the stream, with the quality playing, the connection speed, the buffer and the Quality menu](/screens/watch.webp)](/screens/watch.webp)
+
 If the encoder drops out, the page shows _"Stream is offline — trying again…"_
 and resumes by itself when the stream is back: viewers never need to reload.
 

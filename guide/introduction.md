@@ -22,6 +22,8 @@ in a single file, and gets its own HTTPS certificate.
 | **Dashboard** | Streams, multiview, viewers, health, alerts and events live; channels, users, API keys and settings |
 | **Monitoring** | Stream health, packet loss on UDP inputs, TR 101 290 checks on broadcast outputs, Prometheus metrics and webhook alerts |
 
+[A tour of the dashboard](/guide/dashboard) shows what running it looks like.
+
 ## How it fits together
 
 1. An admin creates a **channel**. A channel has a public **name** (for example

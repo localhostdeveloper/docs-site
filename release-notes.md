@@ -12,6 +12,25 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### Changed
+
+- Every release now includes the `LICENSE` file (also in the Docker image, at
+  `/usr/share/licenses/unda/LICENSE`). The dashboard's sign-in page and
+  sidebar and `unda -version` show the copyright notice.
+- Sessions name smart-TV players (Samsung TV, LG TV, Fire TV, Roku) instead
+  of reading them as Safari.
+
+### Fixed
+
+- Chart peaks on the Overview and Server pages showed a date in January 1970
+  instead of the time of the peak.
+- Times of events and alerts were shown in UTC instead of your own time zone,
+  with the full date even for today.
+- On the Users page the role menu no longer cuts off "streamer", and a
+  streamer's row keeps its buttons on one line.
+
 ## v0.1.24 {#v0-1-24}
 
 *1 October 2026*

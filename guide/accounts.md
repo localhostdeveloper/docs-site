@@ -20,6 +20,8 @@ may create). Unda shows an invite link, valid for 72 hours and usable once. Send
 it however you like; Unda sends no email. The invited person picks their own
 password when they open it.
 
+[![Users: inviting someone, and each person's role, two-factor sign-in and last sign-in](/screens/users.webp)](/screens/users.webp)
+
 ## Signing in
 
 - Passwords are at least 10 characters. Five wrong attempts from one address
@@ -57,6 +59,8 @@ A channel is a public **name** plus a secret **stream key**.
 
 Streamers create their own channels, up to their quota; operators and above
 can create channels for anyone.
+
+[![Channels: each channel's name, owner and hidden key, with a warning on one whose encoder settings will make viewers buffer](/screens/channels.webp)](/screens/channels.webp)
 
 ## API keys
 

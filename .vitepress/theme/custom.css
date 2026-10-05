@@ -1,0 +1,31 @@
+/* Dashboard screenshots (public/screens/): a frame so a light page reads as a
+   picture against the light docs, and a hint that it opens full size. */
+.vp-doc a:has(> img[src*="/screens/"]) {
+  display: block;
+  margin: 16px 0 6px;
+  cursor: zoom-in;
+}
+.vp-doc img[src*="/screens/"] {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
+}
+.vp-doc .shot-caption {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+}
+/* The home page's picture of the dashboard, under the feature grid. */
+.home-shot {
+  margin: 40px 0 0;
+}
+.home-shot img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);
+}

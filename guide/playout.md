@@ -29,10 +29,14 @@ Everything is done in the dashboard (operators and above):
 live input (the channel restarts, so viewers reconnect once; the playlist is
 kept). The bin button deletes the channel; its as-run log is kept.
 
+[![A 24/7 channel's page: the item on air with its progress, and what plays next](/screens/playout.webp)](/screens/playout.webp)
+
 ### The playlist editor
 
 Each row is one item: when it starts, which video, a title, and optional in
 and out points (like `00:01:30`) to play only part of the file.
+
+[![The playlist editor: items with start times, videos, titles and when each will play](/screens/schedule.webp)](/screens/schedule.webp)
 
 - **Repeat:** *Every day* uses times of day (the day repeats); *Once* uses
   dates and times.

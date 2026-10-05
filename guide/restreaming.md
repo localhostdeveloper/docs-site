@@ -19,6 +19,8 @@ URL, key included:
 
 Use the exact URL and key the platform gives you.
 
+[![A stream's Restream tab: a live YouTube destination, a paused Facebook one, and the form to add another](/screens/restream.webp)](/screens/restream.webp)
+
 ## How it behaves
 
 - It starts straight away and keeps going for as long as the stream is live.

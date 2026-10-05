@@ -14,9 +14,12 @@
   reconnects.
 - **Sessions**: every player watching a stream, now and in the past. See
   [Viewer sessions](#viewer-sessions) below.
-- **Events**: the last 200 things that happened: streams starting, stopping
-  and reconnecting, viewers joining and leaving, restream, recording and
-  adaptive-bitrate changes, alerts. A server restart clears the list.
+- **Events**: what happened, newest first: streams starting, stopping and
+  reconnecting, viewers joining and leaving, switches to a backup encoder,
+  restream, recording and adaptive-bitrate changes, alerts. Kept for 30 days,
+  across restarts; a line that repeats is shown once with a count.
+
+[![The Overview page: live streams, viewers, bandwidth charts for the last hour, and Needs attention](/screens/overview.webp)](/screens/overview.webp)
 
 ## Viewer sessions
 
@@ -25,6 +28,8 @@ a stream over HLS, DASH, RTMP or SRT: the stream, the protocol, the viewer's
 address, the player (for example "Chrome 129 · Windows", "VLC 3.0.23",
 "Apple player (iOS)"), when it started, how long it lasted, how much it was
 sent and its average rate.
+
+[![Sessions: every player watching now, with its address, player, start time and traffic](/screens/sessions.webp)](/screens/sessions.webp)
 
 - **Watching now**: the sessions running at the moment.
 - **History**: finished sessions, newest, longest or biggest first.
