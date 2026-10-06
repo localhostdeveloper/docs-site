@@ -14,6 +14,17 @@ database is backed up first.
 
 ## Next release
 
+### New
+
+- Clients can run their own 24/7 channels. A streamer sees Playout and Media,
+  makes channels within their channel limit, uploads their own videos and
+  edits their own playlists; they see only their own channels and files.
+  Operators set the picture of every channel.
+- Each 24/7 channel has its own files, and operators keep a set of shared
+  files (idents, jingles, adverts) that every channel can use. A playlist can
+  use only its own channel's files and the shared ones. Deleting a channel
+  deletes its own files.
+
 ### Changed
 
 - UDP, RTP and RIST destinations and broadcast outputs on the Restream tab
@@ -24,6 +35,9 @@ If your license doesn't include `udp` and you already send a stream over UDP,
 RTP or RIST, or to a broadcast output, that destination is kept but switched
 off after the upgrade, with the reason shown. Ask your vendor for a license
 with `udp`; it starts again after a restart.
+
+Existing media files become shared files: every channel keeps playing them,
+and nothing moves.
 
 ## v0.1.25 {#v0-1-25}
 

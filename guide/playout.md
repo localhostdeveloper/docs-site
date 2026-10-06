@@ -11,7 +11,8 @@ multi-channel bundle, exactly like a stream from an encoder.
 
 ## Setting up a channel
 
-Everything is done in the dashboard (operators and above):
+Everything is done in the dashboard, by operators and above, or by a client
+running their own channel (see [Channels for your clients](#channels-for-your-clients)):
 
 1. Upload the video files on the **Media** page. MP4, MOV, MKV, MPEG-TS, MXF
    and the like all work. You can also copy files into the server's media
@@ -27,7 +28,42 @@ Everything is done in the dashboard (operators and above):
 
 **Settings** on the channel's page changes its picture, bitrate, filler or
 live input (the channel restarts, so viewers reconnect once; the playlist is
-kept). The bin button deletes the channel; its as-run log is kept.
+kept). The bin button deletes the channel and its own media files; its as-run
+log is kept.
+
+### Channels for your clients
+
+If you host streams for other organisations, each client can run their own
+24/7 channels:
+
+- A client (an account with the **streamer** role) sees **Playout** and
+  **Media** in their menu, makes channels there, uploads their own videos and
+  edits their own playlists. They see only their own channels and files.
+- Their 24/7 channels count toward the same **channel limit** as their stream
+  channels (set when you invite them, or on **Users**), and each one is a
+  live stream for the license.
+- The picture size, frame rate and bitrate of a client's channel are set by
+  operators (the server's standard, 1280×720 at 30 fps, until you change it
+  in the channel's **Settings**): they decide how much of the server the
+  channel uses.
+- A client's live input can only be one of their own streams.
+
+### Each channel's own files, and shared files
+
+Every channel has its own folder of files, and there is one set of **shared
+files** that every channel may use (station idents, jingles, adverts):
+
+- On the **Media** page, **Upload to** chooses where a file goes: one of the
+  channels, or (operators only) the shared files. A channel's own files are
+  named `channels/<channel>/<file>`; everything else is shared.
+- A channel's playlist and filler can use its own files and the shared ones,
+  never another channel's. The editor offers only those, and the server
+  refuses anything else.
+- Clients can use the shared files but not change or delete them.
+- **Deleting a channel deletes its own files**, so a later channel of the same
+  name starts empty.
+- Files copied in by hand follow the same rule: put a channel's own files in
+  `channels/<channel>/` inside the media folder.
 
 [![A 24/7 channel's page: the item on air with its progress, and what plays next](/screens/playout.webp)](/screens/playout.webp)
 
@@ -78,9 +114,10 @@ Optional settings: `width` and `height` (default 1280×720, up to 1920×1080),
 
 ## The Media page
 
-**Media** (operators and above) lists every video file in the media folder
-with its length, picture size, frame rate, sound and which channels use it.
-Files copied in by hand appear by themselves.
+**Media** lists the video files with their folder, length, picture size,
+frame rate, sound and which channels use them. Operators see every file; a
+client sees the shared files and their own channels' files. Files copied in by
+hand appear by themselves.
 
 - **Uploading:** drop files on the page or click to choose them. A file goes
   up in 8 MB pieces. If the connection drops, the server restarts or the page

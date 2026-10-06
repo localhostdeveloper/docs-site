@@ -11,7 +11,7 @@ invited from **Users**.
 | **Owner** | Everything, including the license and vendor support access |
 | **Admin** | Users (except owners), security settings, API keys, audit log, plus everything an operator can |
 | **Operator** | All streams: stop, record, restream, adaptive bitrate, UDP inputs, the Server page and metrics |
-| **Streamer** | Only their own channels. Other streams do not exist for them, in the dashboard or the API |
+| **Streamer** | Only their own channels, including their own [24/7 channels](/guide/playout#channels-for-your-clients) and their files. Other streams do not exist for them, in the dashboard or the API |
 
 ## Inviting people
 
@@ -57,8 +57,10 @@ A channel is a public **name** plus a secret **stream key**.
   disconnected. Use it whenever a key may have leaked.
 - **Deleting** a channel disconnects its live stream.
 
-Streamers create their own channels, up to their quota; operators and above
-can create channels for anyone.
+Streamers create their own channels, up to their channel limit; operators and
+above can create channels for anyone. A streamer's own
+[24/7 channels](/guide/playout#channels-for-your-clients) count toward the
+same limit.
 
 [![Channels: each channel's name, owner and hidden key, with a warning on one whose encoder settings will make viewers buffer](/screens/channels.webp)](/screens/channels.webp)
 
