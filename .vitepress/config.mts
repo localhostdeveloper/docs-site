@@ -17,6 +17,8 @@ const repoLinks: Record<string, string> = {
   "caddy/": "/reference/caddy",
 };
 
+const SITE = "https://www.undamedia.com";
+
 // The docs' sidebar, shown on the guides, the reference and the release notes.
 const docsSidebar = [
   {
@@ -66,11 +68,32 @@ export default defineConfig({
   // shared/ holds copies of repository files that pages include; not pages themselves.
   srcExclude: ["shared/**", "README.md"],
   cleanUrls: true,
-  sitemap: { hostname: "https://www.undamedia.com" },
+  sitemap: { hostname: SITE },
   lastUpdated: true,
   // Light first; dark is available from the switch in the top bar.
   appearance: { initialValue: "light" } as any,
-  head: [["link", { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }]],
+  head: [
+    ["link", { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
+    // The picture shown when a link is shared (WhatsApp, Facebook, X, LinkedIn…).
+    ["meta", { property: "og:site_name", content: "UndaMedia" }],
+    ["meta", { property: "og:type", content: "website" }],
+    ["meta", { property: "og:image", content: `${SITE}/og.jpg` }],
+    ["meta", { property: "og:image:width", content: "1200" }],
+    ["meta", { property: "og:image:height", content: "630" }],
+    ["meta", { property: "og:image:alt", content: "UndaMedia: your own live streaming platform, with the Unda dashboard" }],
+    ["meta", { name: "twitter:card", content: "summary_large_image" }],
+    ["meta", { name: "twitter:site", content: "@undamedia" }],
+  ],
+  // Each page's own title, description and address in its link preview.
+  transformHead({ pageData, title, description }) {
+    const path = pageData.relativePath.replace(/(^|\/)index\.md$/, "$1").replace(/\.md$/, "");
+    return [
+      ["meta", { property: "og:title", content: title }],
+      ["meta", { property: "og:description", content: description }],
+      ["meta", { property: "og:url", content: `${SITE}/${path}` }],
+      ["link", { rel: "canonical", href: `${SITE}/${path}` }],
+    ];
+  },
   markdown: {
     anchor: { slugify: githubSlug },
     config: (md) => {
@@ -122,7 +145,7 @@ export default defineConfig({
     // Shown on pages without a sidebar (the site's own pages, not the guides).
     footer: {
       message:
-        '<a href="/media-server">Media Server</a> · <a href="/packages">Packages</a> · <a href="/guide/introduction">Docs</a> · <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
+        '<a href="/media-server">Media Server</a> · <a href="/packages">Packages</a> · <a href="/guide/introduction">Docs</a> · <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/privacy">Privacy</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
       copyright: "Unda Media Server is proprietary software. © 2026 LocalCode Technology. All rights reserved.",
     },
   },

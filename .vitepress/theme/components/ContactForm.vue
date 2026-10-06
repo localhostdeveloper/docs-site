@@ -94,7 +94,7 @@ async function submit() {
       <div v-if="error" class="m-status m-err" role="alert">
         {{ error }} You can also email us at <a :href="`mailto:${SUPPORT}`">{{ SUPPORT }}</a>.
       </div>
-      <p class="m-note">We use your details only to answer you.</p>
+      <p class="m-note">We use your details only to answer you. See our <a href="/privacy">privacy policy</a>.</p>
     </template>
   </form>
 </template>
