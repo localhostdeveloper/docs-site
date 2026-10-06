@@ -74,6 +74,13 @@ and out points (like `00:01:30`) to play only part of the file.
 
 [![The playlist editor: items with start times, videos, titles and when each will play](/screens/schedule.webp)](/screens/schedule.webp)
 
+- **Loop the playlist:** switch it on and the videos play one after another,
+  round and round, all day, with no start times: upload a few videos, add
+  them, save, and the channel is never empty. **In each round** shows where
+  each video falls and how long one round takes. Saving a changed list starts
+  the loop again from the first video; after a restart the channel rejoins
+  the loop where it would be. Switch it off to go back to start times (the
+  ones you had come back).
 - **Repeat:** *Every day* uses times of day (the day repeats); *Once* uses
   dates and times.
 - **Starts at:** an item with a start time begins exactly then and cuts
@@ -169,6 +176,19 @@ items:
 For a schedule that repeats every day, add `repeat: daily` and give start times
 as times of day (`"06:00"`, `"18:30:00"`). The last item of the day is cut by
 the next day's first start.
+
+For a playlist that loops, add `repeat: loop` and give no start times: the
+items play one after another, round and round. `since` (written by the
+dashboard when you save) is when the first round began; without it the loop
+is anchored to a fixed moment, so a restart still rejoins it in place.
+
+```yaml
+repeat: loop
+items:
+  - media: ident.mp4
+  - media: channels/tv1/episode-1.mp4
+  - media: channels/tv1/episode-2.mp4
+```
 
 The server re-reads the file within a few seconds of it changing: edit it and
 save, no restart. A file with a mistake is refused with the reason (on the

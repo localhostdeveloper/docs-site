@@ -20,6 +20,8 @@ database is backed up first.
   makes channels within their channel limit, uploads their own videos and
   edits their own playlists; they see only their own channels and files.
   Operators set the picture of every channel.
+- A 24/7 channel's playlist can loop: switch on **Loop the playlist** and
+  its videos play one after another, round and round, with no start times.
 - Each 24/7 channel has its own files, and operators keep a set of shared
   files (idents, jingles, adverts) that every channel can use. A playlist can
   use only its own channel's files and the shared ones. Deleting a channel
