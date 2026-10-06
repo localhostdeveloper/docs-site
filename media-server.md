@@ -31,6 +31,7 @@ description: The live streaming and broadcast server you run yourself. RTMP, SRT
 <div class="m-card"><div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Protect</h3><ul><li>A secret stream key per channel</li><li>Signed, expiring playback links for paid or private events</li><li>A limit on devices per link</li><li>Automatic HTTPS, roles, two-factor sign-in, audit log</li></ul></div>
 <div class="m-card"><div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h3>Watch over</h3><ul><li>Stream health: frame rate, keyframes, bitrate, drift</li><li>Alerts and an event log in plain words</li><li>Viewer sessions with history and CSV export</li><li>Prometheus metrics, webhooks and a REST API</li></ul></div>
 </div>
+<p class="m-note-line">Each feature in detail: <a href="/features/">see all features</a>.</p>
 </div>
 </section>
 <section class="m-section m-tint">
@@ -50,6 +51,7 @@ description: The live streaming and broadcast server you run yourself. RTMP, SRT
 <div class="m-card"><h3>IPTV operators</h3><p>Channels taken in over UDP, SRT or RTP and sent to set-top boxes, unicast or multicast.</p></div>
 <div class="m-card"><h3>Broadcasters</h3><p>Constant-bitrate SD and HD transport streams with channel names, for multiplexers and partners.</p></div>
 </div>
+<p class="m-note-line">How each one comes together: <a href="/solutions/">see the solutions</a>.</p>
 </div>
 </section>
 <section class="m-section">

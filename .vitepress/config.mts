@@ -76,7 +76,6 @@ export default defineConfig({
     ["link", { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
     // The picture shown when a link is shared (WhatsApp, Facebook, X, LinkedIn…).
     ["meta", { property: "og:site_name", content: "UndaMedia" }],
-    ["meta", { property: "og:type", content: "website" }],
     ["meta", { property: "og:image", content: `${SITE}/og.jpg` }],
     ["meta", { property: "og:image:width", content: "1200" }],
     ["meta", { property: "og:image:height", content: "630" }],
@@ -88,6 +87,7 @@ export default defineConfig({
   transformHead({ pageData, title, description }) {
     const path = pageData.relativePath.replace(/(^|\/)index\.md$/, "$1").replace(/\.md$/, "");
     return [
+      ["meta", { property: "og:type", content: pageData.frontmatter.date ? "article" : "website" }],
       ["meta", { property: "og:title", content: title }],
       ["meta", { property: "og:description", content: description }],
       ["meta", { property: "og:url", content: `${SITE}/${path}` }],
@@ -109,16 +109,57 @@ export default defineConfig({
     logo: { src: "/favicon.svg", alt: "" },
     siteTitle: "UndaMedia",
     nav: [
-      { text: "Media Server", link: "/media-server" },
+      {
+        text: "Media Server",
+        activeMatch: "^/(media-server|features)",
+        items: [
+          { text: "Overview", link: "/media-server" },
+          {
+            text: "Features",
+            items: [
+              { text: "Restreaming", link: "/features/restreaming" },
+              { text: "24/7 channels", link: "/features/24-7-channels" },
+              { text: "Backup encoder", link: "/features/backup-encoder" },
+              { text: "Adaptive bitrate", link: "/features/adaptive-bitrate" },
+              { text: "Recording", link: "/features/recording" },
+              { text: "Signed playback links", link: "/features/signed-links" },
+              { text: "TV and IPTV outputs", link: "/features/tv-outputs" },
+              { text: "Monitoring and alerts", link: "/features/monitoring" },
+            ],
+          },
+        ],
+      },
+      {
+        text: "Solutions",
+        activeMatch: "^/solutions",
+        items: [
+          { text: "Churches and ministries", link: "/solutions/churches" },
+          { text: "Internet TV channels", link: "/solutions/internet-tv" },
+          { text: "Production companies", link: "/solutions/production-companies" },
+          { text: "IPTV operators and broadcasters", link: "/solutions/iptv-operators" },
+        ],
+      },
       { text: "Packages", link: "/packages" },
       {
-        text: "Docs",
-        activeMatch: "^/(guide|reference|release-notes)",
+        text: "Resources",
+        activeMatch: "^/(guide|reference|release-notes|blog|glossary)",
         items: [
-          { text: "Guide", link: "/guide/introduction" },
-          { text: "Install", link: "/guide/install" },
-          { text: "API reference", link: "/reference/api" },
-          { text: "Release notes", link: "/release-notes" },
+          {
+            text: "Docs",
+            items: [
+              { text: "Guide", link: "/guide/introduction" },
+              { text: "Install", link: "/guide/install" },
+              { text: "API reference", link: "/reference/api" },
+              { text: "Release notes", link: "/release-notes" },
+            ],
+          },
+          {
+            text: "Learn",
+            items: [
+              { text: "Blog", link: "/blog/" },
+              { text: "Glossary", link: "/glossary" },
+            ],
+          },
         ],
       },
       { text: "About", link: "/about" },
@@ -145,7 +186,7 @@ export default defineConfig({
     // Shown on pages without a sidebar (the site's own pages, not the guides).
     footer: {
       message:
-        '<a href="/media-server">Media Server</a> · <a href="/packages">Packages</a> · <a href="/guide/introduction">Docs</a> · <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/privacy">Privacy</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
+        '<a href="/media-server">Media Server</a> · <a href="/features/">Features</a> · <a href="/solutions/">Solutions</a> · <a href="/packages">Packages</a> · <a href="/guide/introduction">Docs</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/privacy">Privacy</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
       copyright: "Unda Media Server is proprietary software. © 2026 LocalCode Technology. All rights reserved.",
     },
   },

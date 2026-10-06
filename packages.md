@@ -18,7 +18,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <div class="m-plan">
 <h3>Starter</h3>
 <p class="m-plan-for">For a church, a school or one production team.</p>
-<div class="m-plan-limits"><div><b>3</b><span>live streams</span></div><div><b>3</b><span>team members</span></div></div>
+<div class="m-plan-limits"><div><b>5</b><span>live streams</span></div><div><b>5</b><span>team members</span></div></div>
 <ul>
 <li>Player page and embedding</li>
 <li>RTMP and SRT input</li>
@@ -36,7 +36,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <span class="m-plan-badge">Recommended</span>
 <h3>Professional</h3>
 <p class="m-plan-for">For internet TV channels and production companies.</p>
-<div class="m-plan-limits"><div><b>10</b><span>live streams</span></div><div><b>10</b><span>team members</span></div></div>
+<div class="m-plan-limits"><div><b>15</b><span>live streams</span></div><div><b>15</b><span>team members</span></div></div>
 <ul>
 <li>Everything in Starter</li>
 <li>Adaptive bitrate for every connection</li>
@@ -50,7 +50,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <div class="m-plan">
 <h3>Broadcast</h3>
 <p class="m-plan-for">For IPTV operators, broadcasters and large productions.</p>
-<div class="m-plan-limits"><div><b>25</b><span>live streams</span></div><div><b>25</b><span>team members</span></div></div>
+<div class="m-plan-limits"><div><b>50</b><span>live streams</span></div><div><b>50</b><span>team members</span></div></div>
 <ul>
 <li>Everything in Professional</li>
 <li>UDP, RTP and RIST input and output</li>
@@ -86,8 +86,8 @@ description: Unda Media Server packages. Every package is the full server with u
 <table class="m-table">
 <thead><tr><th></th><th class="m-c">Starter</th><th class="m-c">Professional</th><th class="m-c">Broadcast</th><th class="m-c">Custom</th></tr></thead>
 <tbody>
-<tr><td>Live streams at the same time</td><td class="m-c">3</td><td class="m-c">10</td><td class="m-c">25</td><td class="m-c">Your choice</td></tr>
-<tr><td>Team members (besides owners)</td><td class="m-c">3</td><td class="m-c">10</td><td class="m-c">25</td><td class="m-c">Your choice</td></tr>
+<tr><td>Live streams at the same time</td><td class="m-c">5</td><td class="m-c">15</td><td class="m-c">50</td><td class="m-c">Your choice</td></tr>
+<tr><td>Team members (besides owners)</td><td class="m-c">5</td><td class="m-c">15</td><td class="m-c">50</td><td class="m-c">Your choice</td></tr>
 <tr><td>Viewers</td><td class="m-c">Unlimited</td><td class="m-c">Unlimited</td><td class="m-c">Unlimited</td><td class="m-c">Unlimited</td></tr>
 <tr><td>Player page, HLS, DASH, RTMP playback</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td></tr>
 <tr><td>Dashboard, roles, two-factor sign-in, API</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td></tr>

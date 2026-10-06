@@ -43,3 +43,13 @@
   border-radius: 10px;
   box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);
 }
+
+/* The top menu has six entries: between tablet and laptop widths (where
+   VitePress already shows it in full) the search box shrinks to its icon and
+   the entries move closer, so "Contact" isn't cut off. */
+@media (min-width: 768px) and (max-width: 1099px) {
+  .VPNavBarSearch .DocSearch-Button-Placeholder,
+  .VPNavBarSearch .DocSearch-Button-Keys { display: none; }
+  .VPNavBarMenu .VPNavBarMenuLink,
+  .VPNavBarMenu .VPFlyout .button { padding: 0 7px; font-size: 13.5px; }
+}
