@@ -58,6 +58,9 @@ Use the exact URL and key the platform gives you.
   on the Restream tab: to change them, edit the file.
 
 Streamers can restream their own channels; operators and above any stream.
+
+UDP, RTP and RIST destinations and broadcast outputs are TV outputs: they need
+the `udp` feature in your [license](/guide/license), as well as restreaming.
 A streamer's destinations must be RTMP, RTMPS or SRT at a public internet
 address: a private, local or loopback address, or a name that points to one, is
 refused, and so are UDP and RTP. Operators and above can use any destination,

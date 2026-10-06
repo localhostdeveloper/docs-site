@@ -12,6 +12,19 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### Changed
+
+- UDP, RTP and RIST destinations and broadcast outputs on the Restream tab
+  now need the `udp` feature in the license, like UDP inputs and
+  multi-channel bundles. Restreaming over RTMP, RTMPS and SRT is unchanged.
+
+If your license doesn't include `udp` and you already send a stream over UDP,
+RTP or RIST, or to a broadcast output, that destination is kept but switched
+off after the upgrade, with the reason shown. Ask your vendor for a license
+with `udp`; it starts again after a restart.
+
 ## v0.1.25 {#v0-1-25}
 
 *5 October 2026*
