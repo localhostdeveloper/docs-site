@@ -64,7 +64,7 @@ Create a directory, e.g. `/opt/unda`, with these two files.
 ```yaml
 services:
   unda:
-    image: ghcr.io/localhostdeveloper/unda:v0.1.25   # newest version: see the release notes
+    image: ghcr.io/localhostdeveloper/unda:v0.1.26   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "443:8443"          # HTTPS: dashboard, watch pages, HLS
@@ -336,7 +336,7 @@ dashboard shows encoders the ports Unda listens on.
 ```yaml
 services:
   unda:
-    image: ghcr.io/localhostdeveloper/unda:v0.1.25   # newest version: see the release notes
+    image: ghcr.io/localhostdeveloper/unda:v0.1.26   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "127.0.0.1:8090:8090"   # dashboard, watch pages, HLS: only nginx on this server reaches it

@@ -4,7 +4,7 @@
 # then:  docker compose up -d
 services:
   unda:
-    image: ghcr.io/localhostdeveloper/unda:v0.1.25   # newest version: see the release notes
+    image: ghcr.io/localhostdeveloper/unda:v0.1.26   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "1935:1935"         # RTMP (encoders)
