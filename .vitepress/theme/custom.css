@@ -1,3 +1,17 @@
+/* Unda's blue (the logo's), instead of VitePress's indigo. */
+:root {
+  --vp-c-brand-1: #2563eb;
+  --vp-c-brand-2: #3b82f6;
+  --vp-c-brand-3: #1d4ed8;
+  --vp-c-brand-soft: rgba(37, 99, 235, 0.12);
+}
+.dark {
+  --vp-c-brand-1: #60a5fa;
+  --vp-c-brand-2: #3b82f6;
+  --vp-c-brand-3: #2563eb;
+  --vp-c-brand-soft: rgba(96, 165, 250, 0.16);
+}
+
 /* Dashboard screenshots (public/screens/): a frame so a light page reads as a
    picture against the light docs, and a hint that it opens full size. */
 .vp-doc a:has(> img[src*="/screens/"]) {
