@@ -12,7 +12,9 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
-## Next release
+## v0.1.27 {#v0-1-27}
+
+*7 October 2026*
 
 ### New
 
