@@ -12,6 +12,52 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.28 {#v0-1-28}
+
+*7 October 2026*
+
+### New
+
+- An 8-day programme guide for TVs. Multi-channel bundles now send the coming
+  8 days of each 24/7 channel (DVB EIT schedule) as well as now and next, so
+  set-top boxes and TVs fill their guide grid. It goes only in the bundle's
+  padding, never ahead of the channels.
+- The guide can be chosen per bundle (now and next + 8 days, now and next only,
+  or off), changed while the bundle is on air, and each channel can be left out.
+- Programme descriptions: each playlist item can have one, shown in the TV's
+  programme info and in XMLTV.
+- XMLTV for IPTV apps: a private link on the new Guide page gives the guide of
+  your channels in the standard XMLTV format. Administrators can switch the
+  links off or replace them all.
+- A Guide page shows every channel's programmes for today and the next 7 days.
+
+### Security
+
+- Files uploaded to the Media page are read only as video containers. On
+  servers with an older FFmpeg (4.4, Ubuntu 22.04), a client could upload a
+  playlist disguised as a video and play other clients' videos or recordings
+  on their own channel. Newer FFmpeg already refused this.
+- A multi-channel (MPTS) bundle stays up when one channel's source sends far
+  more than its bitrate: the excess is dropped and the channel shows an
+  overflow alert. Before, the server kept the excess in memory without limit.
+- A client's restream destination can no longer point at the server itself
+  when the server's network addresses can't be read. The systemd service
+  now allows the socket Linux uses to list them, which multicast interface
+  settings also need.
+- Control characters in programme titles are removed from the TV guide (EIT)
+  and service names.
+
+### Changed
+
+- Restreaming to SRT destinations is now a TV output, like UDP, RTP and RIST:
+  it needs the `udp` feature in the license (the Broadcast package).
+  Restreaming to YouTube, Facebook and other RTMP or RTMPS servers is
+  unchanged, and so are SRT input and SRT playback.
+
+If your license doesn't include `udp` and you already restream to an SRT
+destination, that destination is kept but switched off after the upgrade, with
+the reason shown. Ask your vendor for a license that includes it.
+
 ## v0.1.27 {#v0-1-27}
 
 *7 October 2026*

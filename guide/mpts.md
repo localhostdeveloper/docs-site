@@ -102,12 +102,13 @@ mpts_outputs:
     total_bitrate: 25Mbps                 # the whole bundle, padded to this rate
     offline: slate                        # what an offline channel shows: black (default), slate or none
     slate_image: /etc/unda/slate.png      # your "we'll be right back" picture
-    # epg: false                          # don't send now/next for playout channels (default: sent)
+    # epg: now_next                       # the programme guide: schedule (default: now/next + 8 days), now_next or off
     programs:
       - stream: channel-1
         program: 1
         name: "Channel 1"
         bitrate: 6Mbps                    # sent as it is: this channel's share
+        # epg: false                      # leave this channel out of the bundle's guide
       - stream: sports-hd
         program: 2
         name: "Sports HD"
@@ -141,20 +142,45 @@ choose *Variable* in the dashboard): the bundle then sends only what its
 channels carry, with no padding, and has no total to outgrow. The Server page
 shows what it is sending now.
 
-### Now and next (EPG)
+### Programme guide (EPG)
 
 A channel whose stream is a [24/7 playout channel](/guide/playout) carries its
-programme guide: receivers show the title on air, its start time and length,
-and what comes next. It is taken from the channel's playlist (an item's title,
-or its file name when it has none) and updates by itself at every item change.
-A live takeover shows as "Live"; while the channel plays filler, "now" is
-empty. "Next" covers the coming 6 hours. Other channels carry no guide.
+programme guide, taken from the channel's playlist: each item's title (or its
+file name when it has none) and, if you wrote one, its description. TVs and
+set-top boxes show two things:
 
-This is sent as a DVB EIT present/following (PID 0x12, repeated every second),
-and the SDT marks those services as having one. If equipment further down the
-chain inserts its own EIT, turn it off with `epg: false` on the bundle (or
-untick *Send now and next* when creating it in the dashboard), so the two don't
-conflict.
+- **Now and next**: the programme on air, its start time and length, and what
+  comes next. A live takeover shows as "Live"; while the channel plays filler,
+  "now" is empty.
+- **The 8-day guide**: every programme from midnight (UTC) today for 8 days,
+  in the TV's guide grid. A live takeover isn't in it: it can't be known in
+  advance.
+
+Both follow the playlist by themselves: save it and the guide changes within
+seconds. They are sent as DVB EIT on PID 0x12 (now and next every second, the
+8 days every 10 seconds), and the SDT marks those services as having them.
+Other channels carry no guide.
+
+**Choose per bundle** what it sends: *now and next + 8 days* (the default),
+*now and next only*, or *off*. In the dashboard it is the **Guide** menu on each
+bundle (Server → Multi-channel), changeable while the bundle is on air; in the
+configuration file, `epg: schedule | now_next | off`. Turn it off when
+equipment further down the chain inserts its own EIT, so the two don't conflict.
+A channel can also be left out on its own (its **guide** tick box, or
+`epg: false` on the program).
+
+**The 8-day guide takes bandwidth**: about 7 kb/s per channel with titles only,
+up to about 80 kb/s with long descriptions. It is sent only in the bundle's
+padding, never ahead of the channels' video, so it can't disturb them; the
+bundle shows what it takes ("guide N kb/s"). If a constant-bitrate bundle has
+too little padding, a "guide short of room" notice says so: raise the total, or
+choose now and next only.
+
+**One channel to a modulator?** Make a bundle with that one channel: it is the
+same output, with the guide.
+
+Programme guides for IPTV apps (XMLTV) are described on the
+[24/7 channels](/guide/playout#programme-guide) page.
 
 ### Sending over RIST
 

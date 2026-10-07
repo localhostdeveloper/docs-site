@@ -23,11 +23,11 @@ description: Unda Media Server packages. Every package is the full server with u
 <li>Player page and embedding</li>
 <li>RTMP and SRT input</li>
 <li>Recording</li>
-<li>Restreaming to YouTube, Facebook and more</li>
+<li>Restreaming to YouTube, Facebook and other social media</li>
 <li>Signed playback links</li>
 <li class="m-no">Adaptive bitrate</li>
 <li class="m-no">24/7 channels and backup encoder</li>
-<li class="m-no">UDP, RTP and TV outputs</li>
+<li class="m-no">UDP, RTP, SRT and TV outputs</li>
 </ul>
 <p class="m-price">Price on request</p>
 <a class="m-btn m-btn-ghost" href="/contact?package=Starter">Ask for a price</a>
@@ -42,7 +42,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <li>Adaptive bitrate for every connection</li>
 <li>24/7 channels and media library</li>
 <li>Backup encoder with automatic switching</li>
-<li class="m-no">UDP, RTP and TV outputs</li>
+<li class="m-no">UDP, RTP, SRT and TV outputs</li>
 </ul>
 <p class="m-price">Price on request</p>
 <a class="m-btn m-btn-primary" href="/contact?package=Professional">Ask for a price</a>
@@ -54,6 +54,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <ul>
 <li>Everything in Professional</li>
 <li>UDP, RTP and RIST input and output</li>
+<li>SRT output to TV stations</li>
 <li>Multi-channel feeds in and out (MPTS)</li>
 <li>Constant-bitrate SD and HD TV outputs</li>
 </ul>
@@ -93,12 +94,12 @@ description: Unda Media Server packages. Every package is the full server with u
 <tr><td>Dashboard, roles, two-factor sign-in, API</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td></tr>
 <tr><td>Signed playback links</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td></tr>
 <tr><td>Monitoring, alerts, viewer sessions</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td></tr>
-<tr><td>SRT input and output</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
+<tr><td>SRT input and playback</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>Recording</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
-<tr><td>Restreaming</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
+<tr><td>Restreaming to social media (RTMP, RTMPS)</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>Adaptive bitrate</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>24/7 channels, media library, backup encoder</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
-<tr><td>UDP, RTP, RIST, multi-channel, TV outputs</td><td class="m-c m-dash">—</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
+<tr><td>UDP, RTP, RIST, SRT destinations, multi-channel, TV outputs</td><td class="m-c m-dash">—</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 </tbody>
 </table>
 </div>

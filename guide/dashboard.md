@@ -99,6 +99,8 @@ it, or delete it. See [Recording](/guide/recording).
 A [24/7 channel](/guide/playout) plays your files to a schedule and can hand
 over to a live stream. Its page shows what is on air and what comes next; the
 playlist is edited on the same page. Files are uploaded on the **Media** page.
+The **Guide** page shows every channel's programmes for the coming days, with
+the XMLTV link for IPTV apps (see [Programme guide](/guide/playout#programme-guide)).
 
 ## Server settings
 

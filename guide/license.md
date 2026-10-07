@@ -6,14 +6,14 @@ besides owners, which features are included and until when.
 
 | Feature | What it switches on |
 |---|---|
-| `restream` | Restreaming over RTMP, RTMPS and SRT (YouTube, Facebook, other servers) |
+| `restream` | Restreaming to social media over RTMP and RTMPS (YouTube, Facebook, other RTMP servers) |
 | `record` | Recording |
 | `srt` | SRT input and SRT playback |
 | `transcode` | Adaptive bitrate |
 | `playout` | 24/7 channels, the media library and backup encoders |
-| `udp` | UDP, RTP and RIST inputs and destinations, multi-channel (MPTS) inputs and bundles, and broadcast TV outputs |
+| `udp` | UDP, RTP and RIST inputs and destinations, SRT destinations, multi-channel (MPTS) inputs and bundles, and broadcast TV outputs |
 
-Without `udp`, a UDP, RTP or RIST destination or a broadcast output can't be
+Without `udp`, a UDP, RTP, RIST or SRT destination or a broadcast output can't be
 added or switched on. One saved before (or added under an earlier license) is
 kept but switched off, with the reason on the Restream tab; it starts again
 after a restart once the license includes `udp`.

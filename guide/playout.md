@@ -74,7 +74,10 @@ files** that every channel may use (station idents, jingles, adverts):
 ### The playlist editor
 
 Each row is one item: when it starts, which video, a title, and optional in
-and out points (like `00:01:30`) to play only part of the file.
+and out points (like `00:01:30`) to play only part of the file. **+ Description**
+under the title adds what the programme is about (up to 1,000 characters):
+TVs show it in their programme guide, and IPTV apps get it through XMLTV (see
+[Programme guide](#programme-guide)).
 
 [![The playlist editor: items with start times, videos, titles and when each will play](/screens/schedule.webp)](/screens/schedule.webp)
 
@@ -169,6 +172,7 @@ timezone: Africa/Accra       # default: the server's time zone
 items:
   - start: "2026-10-01 06:00"
     title: Morning show
+    description: News, weather and guests.   # optional: the programme guide's text
     media: morning-show.mp4
   - media: news.mp4          # right after the morning show
   - start: "2026-10-01 12:00"
@@ -200,6 +204,29 @@ dashboard, in the events and in the log) and the previous schedule keeps
 playing. A file named in the schedule that isn't in the media folder is
 reported and skipped.
 `items: []` is an empty schedule: the filler plays all the time.
+
+## Programme guide
+
+Each channel's playlist is also its programme guide: every item with its title
+(or file name) and description, laid out over the coming days. A live takeover
+isn't in it, because nobody knows in advance when one will happen. Short items
+(under a minute, such as idents and jingles) are counted as part of the
+programme before them.
+
+- **The Guide page** (Content → Guide) shows every channel's programmes for
+  today and the next 7 days. Click a programme to see its description. Clients
+  see their own channels.
+- **TVs and set-top boxes** get the guide when the channel is in a
+  [multi-channel bundle](/guide/mpts#programme-guide-epg): now and next, and
+  the coming 8 days.
+- **IPTV apps and middleware** read it as **XMLTV**, from the link shown on the
+  Guide page. Most apps can't sign in, so the link itself is the key: keep it
+  private. In your M3U playlist, set each channel's `tvg-id` to the channel's
+  name as Unda shows it. A client's link lists only their channels; an
+  operator's lists them all. Times are in UTC (`+0000`), which apps convert.
+- **Server → Guide** (administrators) switches XMLTV links off and on, and
+  **Replace all links** makes new ones when a link got out: every link given
+  out before stops working, and apps need the new one.
 
 ## What viewers see
 
