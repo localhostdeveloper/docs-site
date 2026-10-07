@@ -64,6 +64,10 @@ files** that every channel may use (station idents, jingles, adverts):
   name starts empty.
 - Files copied in by hand follow the same rule: put a channel's own files in
   `channels/<channel>/` inside the media folder.
+- A streaming channel (from the **Channels** page) has a folder too, for the
+  video or [backup playlist](/guide/backup-encoder#the-backup-playlist) it
+  shows when its encoders have no pictures. It is listed under **Upload to**
+  as "(backup picture)".
 
 [![A 24/7 channel's page: the item on air with its progress, and what plays next](/screens/playout.webp)](/screens/playout.webp)
 

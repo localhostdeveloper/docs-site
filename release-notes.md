@@ -12,6 +12,26 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### New
+
+- A stream with backup sources can play a playlist of your videos while none
+  of its sources has pictures, instead of black or one looped video. The
+  playlist runs on its own clock, so viewers join it wherever it is rather
+  than at its first video. Choose **Backup playlist** on the stream's
+  **Backup** tab and edit it there.
+- The channel's owner chooses what shows when no source has pictures (black,
+  a video or the backup playlist) and edits the playlist. Switching backup
+  sources on and the other settings stay with operators.
+- A streaming channel has its own folder on the Media page for its backup
+  videos, like a 24/7 channel's.
+
+### Changed
+
+- Deleting a streaming channel also deletes the videos in its own folder on
+  the Media page.
+
 ## v0.1.26 {#v0-1-26}
 
 *6 October 2026*
