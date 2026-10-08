@@ -12,6 +12,17 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.29 {#v0-1-29}
+
+*8 October 2026*
+
+### Fixed
+
+- XMLTV links: a link stops showing every channel as soon as its account is
+  demoted (it took up to a minute), an API key's link is its own and ends
+  when the key is revoked, and the Guide page shows the link hidden until you
+  click Show.
+
 ## v0.1.28 {#v0-1-28}
 
 *7 October 2026*

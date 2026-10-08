@@ -224,6 +224,11 @@ programme before them.
   private. In your M3U playlist, set each channel's `tvg-id` to the channel's
   name as Unda shows it. A client's link lists only their channels; an
   operator's lists them all. Times are in UTC (`+0000`), which apps convert.
+  The page shows the link hidden (**Show** reveals it; **Copy** works either
+  way). Give apps the `https://` address: over plain `http://` the link
+  crosses the network unencrypted. A link stops working when its account is
+  disabled or its API key revoked, and narrows at once when its account loses
+  a role.
 - **Server → Guide** (administrators) switches XMLTV links off and on, and
   **Replace all links** makes new ones when a link got out: every link given
   out before stops working, and apps need the new one.
