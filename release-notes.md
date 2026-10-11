@@ -12,7 +12,9 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
-## Next release
+## v0.1.30 {#v0-1-30}
+
+*11 October 2026*
 
 ### New
 
@@ -39,6 +41,8 @@ database is backed up first.
 - TV outputs' audio defaults to AAC with H.264 and HEVC (Ghana's receivers and
   other DVB-T2 networks must play it; MP2 is optional for them), and to MP2
   with MPEG-2.
+- The Guide page has zoom levels, an "On now" strip and channel badges, and
+  the multi-channel bundles under Server are laid out more clearly.
 
 Outputs and bundles made before keep the settings they were saved with. A
 bundle in unda.yaml whose channels don't set audio_codec now sends AAC, and a
