@@ -113,13 +113,23 @@ mpts_outputs:
         program: 2
         name: "Sports HD"
         encode: { format: 1080i25, audio_codec: ac3 }  # converted to HD 1080i H.264 with AC-3
+      - stream: community
+        program: 3
+        name: "Community TV"
+        bitrate: 1300kbps                 # converted to SD H.264 + AAC 128: the video fills the share
+        encode: { format: 576p25 }
 ```
 
 Each channel is either **sent as it is** (give it a `bitrate` a little above
 what the stream uses at its busiest) or **converted** for TV equipment with
-`encode`: SD 576p25 or HD 720p50 / 1080i25, H.264, HEVC or MPEG-2 video, MP2,
-AC-3 or AAC audio, with the same settings as a
-[broadcast output](/guide/restreaming#broadcast-tv-terrestrial-and-satellite). Channel numbers,
+`encode`: SD 576p25 or HD 720p50 / 1080i25, H.264, HEVC or MPEG-2 video, AAC,
+MP2 or AC-3 audio, with the same settings as a
+[broadcast output](/guide/restreaming#broadcast-tv-terrestrial-and-satellite).
+A converted channel's `bitrate` is its whole share of the bundle, and its video
+is fitted into it: an SD H.264 channel with a 1300 kb/s share gets 960 kb/s of
+video and AAC at 128 kb/s. Without a share, SD H.264 takes 1300 kb/s (what
+Ghanaian stations take); set `video_kbps` in `encode` to choose the video rate
+yourself. The bundle table shows each channel's video and audio rates. Channel numbers,
 PIDs and names can be set to match the plan agreed with the receiving side;
 anything left out is chosen for you without clashes.
 

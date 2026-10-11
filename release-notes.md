@@ -12,6 +12,40 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### New
+
+- WebRTC: about a second of delay. Encoders publish over WHIP (OBS 30 and
+  newer: Service "WHIP", the stream key as Bearer Token; FFmpeg; a web page)
+  and viewers watch over WHEP: the watch page has a Low latency switch. A
+  WebRTC stream works with everything else (HLS, recording, restreaming, TV
+  outputs), and any stream can be watched over WebRTC. Measured on one machine:
+  0.1 to 0.15 s from the encoder to the browser.
+- WebRTC uses one UDP port (8189) for all its media; behind NAT or in Docker,
+  give the server's public address (webrtc.public_ips). Viewers on networks
+  that block UDP can be given a TURN relay (coturn, with per-viewer
+  credentials from a shared secret).
+- TV outputs: AAC can be sent the DVB way (LATM, stream type 0x11) for
+  receivers that need it.
+- A multi-channel bundle's converted channel fits its video into the share you
+  type, and the bundle table shows each channel's video and audio rates.
+
+### Changed
+
+- SD H.264 TV outputs and bundle channels default to a 1300 kb/s transport
+  stream with AAC at 128 kb/s (video 960 kb/s), what Ghanaian stations take.
+  They were 2000 kb/s video with MP2 192 (2600 kb/s in all).
+- TV outputs' audio defaults to AAC with H.264 and HEVC (Ghana's receivers and
+  other DVB-T2 networks must play it; MP2 is optional for them), and to MP2
+  with MPEG-2.
+
+Outputs and bundles made before keep the settings they were saved with. A
+bundle in unda.yaml whose channels don't set audio_codec now sends AAC, and a
+converted channel with a bitrate (share) now fills it with video instead of
+using 2000 kb/s. The licenses' new webrtc feature is in Professional and
+Broadcast; licenses issued before it need reissuing for WebRTC.
+
 ## v0.1.29 {#v0-1-29}
 
 *8 October 2026*

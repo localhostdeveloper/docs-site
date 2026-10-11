@@ -71,6 +71,7 @@ services:
       - "80:8080"           # HTTP: redirects to HTTPS, answers Let's Encrypt
       - "1935:1935"         # RTMP (encoders)
       - "6000:6000/udp"     # SRT (encoders, optional)
+      - "8189:8189/udp"     # WebRTC media: WHIP encoders, low-latency viewers (optional)
     volumes:
       - unda-data:/data
       - ./unda.yaml:/etc/unda/unda.yaml:ro
@@ -110,6 +111,10 @@ paths:
   media_dir: /data/media               # files uploaded for playout channels
 srt:
   addr: ":6000"
+webrtc:
+  # Docker's bridge hides this server's public address from Unda; WebRTC
+  # tells players where to send their media, so give it here.
+  public_ips: [203.0.113.7]            # this server's public IPv4 address
 ```
 
 Start it:
@@ -342,6 +347,7 @@ services:
       - "127.0.0.1:8090:8090"   # dashboard, watch pages, HLS: only nginx on this server reaches it
       - "1936:1936"             # RTMP (the other media server keeps 1935)
       - "6000:6000/udp"         # SRT (encoders, optional)
+      - "8189:8189/udp"         # WebRTC media (optional; add webrtc.public_ips to unda.yaml)
     volumes:
       - unda-data:/data
       - ./unda.yaml:/etc/unda/unda.yaml:ro
@@ -587,6 +593,12 @@ once and a live stream using it is disconnected.
 SRT encoders use
 `srt://tv.example.com:6000?streamid=publish:<sk_… key>` (from **Channels**).
 
+OBS 30 and newer can also publish over WebRTC (WHIP), with about a second of
+delay to viewers who use the watch page's **Low latency** switch: Service
+**WHIP**, Server `https://tv.example.com/whip/main-show`, Bearer Token the
+`sk_…` key. WebRTC needs the license's WebRTC feature, HTTPS, and UDP port 8189
+open (section 7).
+
 ---
 
 ## 7. Firewall
@@ -598,7 +610,13 @@ sudo ufw allow 443/tcp     # HTTPS: dashboard, watch pages, HLS
 sudo ufw allow 80/tcp      # Let's Encrypt checks and the HTTP → HTTPS redirect
 sudo ufw allow 1935/tcp    # RTMP encoders
 sudo ufw allow 6000/udp    # SRT encoders (if used)
+sudo ufw allow 8189/udp    # WebRTC media: WHIP encoders, low-latency viewers (if used)
 ```
+
+WebRTC's signalling goes through HTTPS (443); its audio and video use the one
+UDP port `webrtc.udp_port` (8189). Behind 1:1 NAT (Docker's bridge, a cloud
+server with a private address) set `webrtc.public_ips` to the public address.
+Viewers on networks that block UDP need a TURN relay: see the WebRTC guide.
 
 With a proxy in front (section 2), do **not** open Unda's own HTTP port (8080):
 only the proxy should reach it.

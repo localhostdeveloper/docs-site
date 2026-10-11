@@ -110,6 +110,26 @@ srt:
   # latency_ms: 500          # SRT transmission latency; default 500
   # passphrase: ""           # if set (10-79 chars), publishers and viewers must encrypt with it
 
+webrtc:
+  # WebRTC (license feature "webrtc"): about a second of delay.
+  #   Publish (WHIP, OBS 30+: Service "WHIP"): https://SERVER/whip/<stream>, Bearer Token = the stream key
+  #   Play (WHEP): https://SERVER/webrtc/<stream>, or the watch page's "Low latency" switch
+  # Keys and playback tokens are refused over plain HTTP (except from this machine).
+  # All media uses one UDP port: open it in the firewall (and publish it in Docker).
+  # disabled: false
+  # udp_port: 8189
+  # public_ips: [203.0.113.7]  # behind 1:1 NAT (Docker's bridge, a cloud VM with a private address):
+  #                            #   the public address(es) to announce; forward udp_port to this machine
+  # stun_servers: ["stun:stun.l.google.com:19302"]  # or let the server find its public address itself
+  # ice_servers:               # given to players and encoders whose network blocks UDP (a TURN relay)
+  #   - urls: ["turn:turn.example.com:3478?transport=udp", "turns:turn.example.com:443?transport=tcp"]
+  #     # username: unda       # a fixed account, with credential / credential_env / credential_file
+  # turn_secret_env: UNDA_TURN_SECRET  # or turn_secret / turn_secret_file: coturn's static-auth-secret;
+  #                            #   each client gets its own credentials, valid turn_ttl_minutes (default 1440)
+  # max_publishers: 64         # WHIP sessions at once
+  # max_viewers: 500           # WHEP sessions at once
+  # max_audio_streams: 16      # streams whose sound is converted for WHEP viewers at once (one FFmpeg each)
+
 record:
   # Recording is started/stopped per stream via the API:
   #   curl -X POST -H "Authorization: Bearer <token>" \
@@ -157,11 +177,15 @@ restream:
   #     url: udp://239.1.1.20:5000?ttl=4
   #     broadcast:                   # 16:9, CBR MPEG-TS with DVB service information
   #       format: 576p25             # 576p25 (SD, default), 720p50 or 1080i25 (HD, interlaced)
-  #       video_codec: h264          # h264 (default), hevc (576p25/720p50 only) or mpeg2 (576p25 only)
-  #       video_kbps: 2000           # default h264 2000 SD / 8000 HD, hevc 1200 / 4000, mpeg2 4000
-  #       audio_codec: mp2           # mp2 (default), ac3 (Dolby Digital) or aac
-  #       audio_kbps: 192            # default 192 (mp2, ac3) / 128 (aac)
-  #       mux_kbps: 2600             # constant total rate, null packets included; default: the minimum safe value
+  #       video_codec: h264          # h264 (default), hevc (576p25/720p50 only) or mpeg2 (576p25 only);
+  #                                  #   H.264-only networks (Ghana's DVB-T2/S2) can't show hevc or mpeg2
+  #       mux_kbps: 1300             # constant total rate, null packets included: what the station takes.
+  #                                  #   Default 1300 for SD h264; otherwise the minimum safe value for the video
+  #       # video_kbps: 960          # default: fitted to mux_kbps (960 in 1300 with AAC 128); else h264 8000 HD,
+  #                                  #   hevc 1200 / 4000, mpeg2 4000
+  #       audio_codec: aac           # aac (default; mp2 with mpeg2 video), mp2 or ac3 (Dolby Digital)
+  #       audio_kbps: 128            # default 128 (aac) / 192 (mp2, ac3)
+  #       # aac_packing: latm        # adts (default, most receivers) or latm (DVB's LATM/LOAS, stream type 0x11)
   #       service_name: "Unda TV"    # SDT channel name (default: the stream name)
   #       service_provider: "Unda"   # SDT provider
   #       service_id: 1              # also: transport_stream_id, original_network_id,

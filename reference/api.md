@@ -106,6 +106,17 @@ curl -X POST -H "Authorization: Bearer $KEY" \
 | `GET /api/v1/playback/secret` | admin | The signing secret (hex) for a website that makes its own links; audited |
 | `POST /api/v1/playback/secret/rotate` | admin | A new secret; every link made before stops working; audited |
 
+## WebRTC (WHIP and WHEP)
+
+[WebRTC](/guide/webrtc), standard WHIP (RFC 9725) and WHEP. Not under `/api/v1` and not behind an account: a WHIP publisher shows its stream key, a WHEP player its playback token, each as `Authorization: Bearer …` (refused over plain HTTP, 403 `https_required`). Any origin may call them (CORS); `Location`, `ETag`, `Link` and `Accept-Patch` are readable.
+
+| Method and path | Who | |
+|---|---|---|
+| `POST /whip/{name}` | publisher (stream key) | SDP offer (`application/sdp`, H.264 video, Opus audio) → **201** with the SDP answer, `Location` (the session), `ETag` and one `Link: <turn:…>; rel="ice-server"; username=…; credential=…` per STUN/TURN server. 401 wrong key, 403 another stream's key or not licensed, 409 already live, 406 no video, 503 too many publishers. The stream goes live once media arrives |
+| `POST /webrtc/{name}` | viewer (token if protected) | SDP offer → **201** with the answer, `Location` and `Link` headers as above. 403 link refused, 404 not live, 409 link in use on its allowed devices, 503 too many viewers or the outbound cap reached |
+| `PATCH /whip/resource/{id}`, `PATCH /webrtc/resource/{id}` | the session | Trickle ICE candidates (`application/trickle-ice-sdpfrag`, `If-Match` the `ETag`); 204. ICE restarts are not supported (501) |
+| `DELETE /whip/resource/{id}`, `DELETE /webrtc/resource/{id}` | the session | Ends it; 200 |
+
 ## Backup sources (failover)
 
 [Backup encoder](/guide/backup-encoder): with backup sources on, a channel's key publishes to `{name}.main`, its backup key to `{name}.backup`, and the server publishes `{name}` from the first source with pictures.

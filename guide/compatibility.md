@@ -1,7 +1,7 @@
 # What works with Unda
 
 Unda is not tied to OBS or vMix. It speaks the standard protocols of live video
-(RTMP, SRT, MPEG-TS over UDP and RTP, RIST, HLS and DASH), so anything that
+(RTMP, SRT, MPEG-TS over UDP and RTP, RIST, HLS, DASH and WebRTC), so anything that
 sends or receives one of them can work with it: a phone app, a software
 encoder, a hardware streaming box, a broadcast encoder or satellite receiver on
 your local network, a DVB multiplexer, or YouTube.
@@ -18,7 +18,8 @@ This page separates three things:
 | Source | Connects with | Status |
 |---|---|---|
 | OBS Studio | RTMP, SRT | Tested (OBS 32) |
-| ffmpeg | RTMP, SRT, UDP, RTP, RIST | Tested |
+| OBS Studio 30 and newer | WebRTC (WHIP) | Should work: the same standard as the tested ffmpeg client; not yet tried with OBS |
+| ffmpeg | RTMP, SRT, UDP, RTP, RIST, WebRTC (WHIP) | Tested |
 | VLC | RIST | Tested |
 | vMix | RTMP, SRT | Should work (not yet tested as a sender) |
 | Wirecast, Streamlabs, Larix Broadcaster (phone) | RTMP, SRT | Should work |
@@ -27,7 +28,7 @@ This page separates three things:
 | IP cameras that can push RTMP or SRT | RTMP, SRT | Should work |
 | IP cameras that only offer RTSP | — | Not supported directly; relay with ffmpeg (below) |
 | ASI or SDI | — | Not supported; use an ASI-to-IP gateway or an SDI encoder in front |
-| NDI, WebRTC (WHIP) | — | Not supported |
+| NDI | — | Not supported |
 
 ### Video and audio formats
 
@@ -103,6 +104,7 @@ ffmpeg -rtsp_transport tcp -i "rtsp://user:pass@192.168.1.64/stream1" \
 | Destination | How | Status |
 |---|---|---|
 | Web browsers (the built-in player, your website) | HLS | Tested in Chrome; Safari and Firefox not yet tested |
+| Web browsers, low latency (the watch page's Low latency switch, or a WHEP player) | WebRTC (WHEP) | Tested in Chrome; Safari and Firefox not yet tested |
 | Phones, tablets and smart TVs | HLS | Should work (the same HLS) |
 | VLC | RTMP, SRT, HLS | Tested |
 | OBS as a receiver | SRT (Media Source) | Tested |
@@ -110,7 +112,7 @@ ffmpeg -rtsp_transport tcp -i "rtsp://user:pass@192.168.1.64/stream1" \
 | YouTube, Facebook | RTMP, RTMPS | Tested in production |
 | Twitch and other RTMP platforms | RTMP | Should work |
 | DASH players | MPEG-DASH, one quality or the adaptive-bitrate ladder | Tested with dash.js and Shaka Player in Chrome, and VLC |
-| DVB multiplexers, modulators, IRDs and set-top boxes | MPEG-TS over UDP, RTP, SRT or RIST: single channels or multi-channel bundles, constant bitrate, DVB channel names and now/next | The output is checked by Unda's own TR 101 290 monitor and was analysed with TSDuck with no errors; not yet tested with a hardware receiver |
+| DVB multiplexers, modulators, IRDs and set-top boxes | MPEG-TS over UDP, RTP, SRT or RIST: single channels or multi-channel bundles, constant bitrate, DVB channel names and an 8-day programme guide | The output is checked by Unda's own TR 101 290 monitor and was analysed with TSDuck with no errors; not yet tested with a hardware receiver |
 | Another streaming server | RTMP, SRT, UDP, RIST | Tested with Unda and VLC at the other end |
 
 ## How far one server goes
@@ -177,8 +179,10 @@ load before adding more.
   the encoder's and player's own buffers.
 - **HLS:** about 7 s with a keyframe every 2 seconds; much more with longer
   keyframe intervals (29 s with 8 s keyframes).
-- **Under one second:** not available (that needs WebRTC, which Unda does not
-  have yet).
+- **WebRTC:** about 0.1 s through the server to the watch page in low-latency
+  mode (measured in Chrome, publisher, server and viewer on one machine; a real
+  network adds its own delay). The picture starts about half a second after the
+  page opens. See [WebRTC](/guide/webrtc).
 
 ## Beyond one server
 
@@ -188,10 +192,9 @@ load before adding more.
 - **One server per installation:** Unda has no clustering, load balancing or
   automatic failover between servers. [Backup encoder](/guide/backup-encoder)
   protects against an encoder failing, not the server.
-- **Not available yet:** WebRTC, RTSP, NDI, SDI/ASI, DRM (Widevine, FairPlay;
-  [signed playback links](/guide/protect-playback) are available), rewinding a
-  live stream (DVR), and a full 7-day programme guide (now and next is
-  available).
+- **Not available yet:** RTSP, NDI, SDI/ASI, DRM (Widevine, FairPlay;
+  [signed playback links](/guide/protect-playback) are available), and
+  rewinding a live stream (DVR).
 
 If your equipment is marked "should work" or isn't listed, tell us what it is:
 we will test it with you before you go live.

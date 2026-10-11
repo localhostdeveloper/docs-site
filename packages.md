@@ -42,6 +42,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <li>Adaptive bitrate for every connection</li>
 <li>24/7 channels and media library</li>
 <li>Backup encoder with automatic switching</li>
+<li>WebRTC: about a second of delay (WHIP in, WHEP out)</li>
 <li class="m-no">UDP, RTP, SRT and TV outputs</li>
 </ul>
 <p class="m-price">Price on request</p>
@@ -57,6 +58,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <li>SRT output to TV stations</li>
 <li>Multi-channel feeds in and out (MPTS)</li>
 <li>Constant-bitrate SD and HD TV outputs</li>
+<li>WebRTC: about a second of delay (WHIP in, WHEP out)</li>
 </ul>
 <p class="m-price">Price on request</p>
 <a class="m-btn m-btn-ghost" href="/contact?package=Broadcast">Ask for a price</a>
@@ -95,6 +97,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <tr><td>Signed playback links</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td></tr>
 <tr><td>Monitoring, alerts, viewer sessions</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td></tr>
 <tr><td>SRT input and playback</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
+<tr><td>WebRTC low latency (WHIP in, WHEP out)</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>Recording</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>Restreaming to social media (RTMP, RTMPS)</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>Adaptive bitrate</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>

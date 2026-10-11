@@ -44,6 +44,7 @@ const docsSidebar = [
       { text: "24/7 channels (playout)", link: "/guide/playout" },
       { text: "Restreaming", link: "/guide/restreaming" },
       { text: "SRT", link: "/guide/srt" },
+      { text: "WebRTC (low latency)", link: "/guide/webrtc" },
       { text: "UDP / MPEG-TS", link: "/guide/udp" },
       { text: "Multi-channel (MPTS)", link: "/guide/mpts" },
       { text: "Monitoring and alerts", link: "/guide/monitoring" },

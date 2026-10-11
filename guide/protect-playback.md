@@ -173,6 +173,17 @@ curl -X POST -H "Authorization: Bearer $KEY" -d '{"ttl_seconds":7200}' \
 Players carry the token on to every playlist and segment by themselves. For
 SRT in VLC, put `read:main-show?token=TOKEN` in the stream ID field.
 
+## WebRTC playback (WHEP)
+
+A protected stream's [WebRTC](./webrtc) players carry the link's token as a
+bearer token instead of in the address: they POST their SDP offer to
+`https://tv.example.com/webrtc/main-show` with the header
+`Authorization: Bearer TOKEN`. The watch page does this by itself when its
+**Low latency** switch is on. A missing, wrong or expired token gets 403 before
+anything else happens, the link's device limit applies as it does for HLS
+(409 when the link is in use elsewhere), and a token sent over plain HTTP is
+refused (403). An unprotected stream needs no header.
+
 ## Changing the secret
 
 **Make a new secret…** under **Server → Playback** invalidates every link made

@@ -111,10 +111,16 @@ re-encoded to what TV equipment expects:
 
 - **Video:** H.264 (DVB-T2 / DVB-S2; High profile for HD), HEVC (H.265; for
   576p25 and 720p50, since HEVC services are progressive) or MPEG-2 (older
-  DVB-T / DVB-S receivers; SD only), at the bitrate you set. Defaults: H.264
-  2 Mb/s SD, 8 Mb/s HD; HEVC 1.2 Mb/s SD, 4 Mb/s HD; MPEG-2 4 Mb/s.
-- **Audio:** MPEG-1 Layer II (MP2), AC-3 (Dolby Digital, signalled the DVB
-  way) or AAC, 48 kHz stereo.
+  DVB-T / DVB-S receivers; SD only). SD H.264 is sized by the whole
+  transport stream: **1300 kb/s by default**, the video filling what the audio
+  and the stream's overhead leave (960 kb/s with AAC at 128). Type another total
+  and the video is fitted to it, or set the video rate yourself. Other
+  defaults: H.264 8 Mb/s HD; HEVC 1.2 Mb/s SD, 4 Mb/s HD; MPEG-2 4 Mb/s.
+- **Audio:** AAC (the default; 128 kb/s), MPEG-1 Layer II (MP2; the default
+  with MPEG-2 video) or AC-3 (Dolby Digital, signalled the DVB way), 48 kHz
+  stereo. AAC goes out as ADTS, which most receivers play; for receivers that
+  follow DVB's letter, choose **LATM** packing (`aac_packing: latm`, stream
+  type 0x11).
 - **Transport stream:** a constant bitrate (the total you set, padded with
   null packets), with your channel name and provider in the service
   information (SDT), the service type receivers expect (SD or HD H.264,
@@ -136,6 +142,20 @@ restream:
         audio_kbps: 192
         service_name: "News HD"
 ```
+
+### Ghana's DVB-T2 and DVB-S2 network
+
+Ghana's national digital TV network (the NCA's receiver specification, built on
+GS 1099) carries H.264 only, and its set-top boxes must decode HE-AAC; MP2 is
+optional for them. So for a Ghanaian station:
+
+- **Video:** H.264. MPEG-2 and HEVC won't play on its receivers.
+- **Audio:** AAC (the default). Try LATM packing if a station's receivers show
+  the channel without sound.
+- **Bitrate:** what the station reserves for you. Stations take SD channels at
+  1300 kb/s, which is the SD default.
+- The station's headend adds what the network needs on top: its network table
+  (NIT), the time (TDT), channel numbers and conditional access.
 
 Send it with `udp://` (unicast or multicast), `rtp://` (with
 [SMPTE 2022-1 FEC](#error-correction-for-rtp-smpte-2022-1) if the equipment
