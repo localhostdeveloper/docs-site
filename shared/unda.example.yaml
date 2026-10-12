@@ -126,6 +126,7 @@ webrtc:
   #     # username: unda       # a fixed account, with credential / credential_env / credential_file
   # turn_secret_env: UNDA_TURN_SECRET  # or turn_secret / turn_secret_file: coturn's static-auth-secret;
   #                            #   each client gets its own credentials, valid turn_ttl_minutes (default 1440)
+  #                            #   Limit coturn to relaying to this server (allowed-peer-ip), see the WebRTC guide
   # max_publishers: 64         # WHIP sessions at once
   # max_viewers: 500           # WHEP sessions at once
   # max_audio_streams: 16      # streams whose sound is converted for WHEP viewers at once (one FFmpeg each)
@@ -193,7 +194,7 @@ restream:
 
 limits:
   # Concurrent connections per client IP, counted separately on the RTMP, HTTP
-  # and SRT listeners. Set it on any server reachable from the internet: left
+  # and SRT listeners and for WebRTC sessions. Set it on any server reachable from the internet: left
   # at 0 (unlimited, the built-in default) one client can hold as many
   # connections as it likes. Raise it where many viewers share one address (a
   # venue, an office); browsers over HTTPS use one connection each. Behind a

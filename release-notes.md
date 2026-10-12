@@ -12,6 +12,34 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.31 {#v0-1-31}
+
+*12 October 2026*
+
+### Security
+
+- Built with Go 1.27.2, which fixes flaws in Go's own web server and
+  libraries that v0.1.30 was built without: a crafted HTTP/2 or HTTP request
+  could crash the server or keep it busy. Upgrade any server reachable from
+  the internet.
+- WebRTC: one address can hold no more sessions than
+  limits.max_conns_per_ip (the next gets 429), a viewer's picture no longer
+  breaks after 28 hours of watching, and sound packets no Opus encoder makes
+  are refused before they reach FFmpeg.
+- The WebRTC guide shows how to limit a coturn relay to the Unda server, so
+  the per-viewer credentials can't be used to relay anything else.
+
+### Fixed
+
+- Text selected on the dashboard stays selected so it can be copied: pages
+  that refresh every few seconds (Streams, Overview, Multi-channel, Playout,
+  Media, Sessions) used to clear it.
+- The Programme guide shows its timeline in a narrow or zoomed-in desktop
+  browser (it switched to the phone list below 900 px), and changes layout
+  as the window is resized.
+- In the one-row menu of a narrow window, section names no longer overlap
+  the next entry.
+
 ## v0.1.30 {#v0-1-30}
 
 *11 October 2026*

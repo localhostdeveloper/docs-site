@@ -103,7 +103,18 @@ webrtc:
 use-auth-secret
 static-auth-secret=THE-SAME-SECRET
 realm=turn.example.com
+
+# Relay to the Unda server only. Anyone allowed to watch gets TURN
+# credentials (on a public stream, anyone at all), so without these lines
+# the relay would carry their traffic to any address.
+no-multicast-peers
+denied-peer-ip=0.0.0.0-255.255.255.255
+denied-peer-ip=::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+allowed-peer-ip=203.0.113.10   # the address Unda gives players: its public_ips, or its own
 ```
+
+coturn treats an address that is both allowed and denied as allowed, so
+this relays to the one address and nothing else.
 
 A fixed TURN account works too: `username` and `credential` (or
 `credential_env` / `credential_file`) on the server's entry. The credentials
@@ -119,6 +130,8 @@ are given only to players that were allowed to play.
 - **Limits:** `webrtc.max_viewers` (500), `max_publishers` (64) and
   `max_audio_streams` (16 streams converting sound at once). For large
   audiences HLS costs less: each WebRTC viewer is sent their own encrypted copy.
+  `limits.max_conns_per_ip` also caps the WebRTC sessions one address may
+  hold (the next one gets 429).
 - **Viewers** are counted on the dashboard and listed under **Sessions** as
   WebRTC.
 - **Not supported:** VP8, VP9 and AV1 video; simulcast; ICE restarts; WebRTC
