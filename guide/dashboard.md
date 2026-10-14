@@ -41,9 +41,9 @@ tabs hold the stream's other settings:
 
 - **Playback**: every address to watch it by, and
   [signed links](/guide/protect-playback).
-- **Backup**: a [backup encoder](/guide/backup-encoder) that takes over by
-  itself, and what shows when no encoder has pictures (black, a video or a
-  backup playlist).
+- **Inputs**: the channel's [inputs in order](/guide/channel-inputs): its
+  live encoder (and a backup encoder), a pull stream and a playlist; the first
+  one with pictures is on air.
 - **Transcoding**: [adaptive bitrate](/guide/transcoding) on or off.
 - **Restream**: [destinations](/guide/restreaming) such as YouTube and Facebook.
 

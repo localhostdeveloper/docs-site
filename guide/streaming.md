@@ -89,7 +89,7 @@ it sends **H.264 video and AAC audio**. For UDP inputs see
 |---|---|
 | Video | H.264 (any profile), any size up to 4K for adaptive bitrate |
 | Audio | AAC |
-| Not supported | H.265/HEVC, AV1, Opus over RTMP, RTSP pull from cameras |
+| Not supported | H.265/HEVC, AV1, Opus over RTMP (RTSP cameras and HLS links: see [pull inputs](/guide/pull-inputs)) |
 
 A second encoder using the same key while the channel is live is refused, so
 two people cannot accidentally fight over one channel.

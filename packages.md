@@ -26,7 +26,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <li>Restreaming to YouTube, Facebook and other social media</li>
 <li>Signed playback links</li>
 <li class="m-no">Adaptive bitrate</li>
-<li class="m-no">24/7 channels and backup encoder</li>
+<li class="m-no">24/7 channels, backup encoder, pull and playlist inputs</li>
 <li class="m-no">UDP, RTP, SRT and TV outputs</li>
 </ul>
 <p class="m-price">Price on request</p>
@@ -41,8 +41,9 @@ description: Unda Media Server packages. Every package is the full server with u
 <li>Everything in Starter</li>
 <li>Adaptive bitrate for every connection</li>
 <li>24/7 channels and media library</li>
-<li>Backup encoder with automatic switching</li>
+<li>Channel inputs in your order: live and backup encoder, a pull stream, a playlist</li>
 <li>WebRTC: about a second of delay (WHIP in, WHEP out)</li>
+<li>Pull inputs: HLS links, RTMP servers, RTSP cameras</li>
 <li class="m-no">UDP, RTP, SRT and TV outputs</li>
 </ul>
 <p class="m-price">Price on request</p>
@@ -59,6 +60,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <li>Multi-channel feeds in and out (MPTS)</li>
 <li>Constant-bitrate SD and HD TV outputs</li>
 <li>WebRTC: about a second of delay (WHIP in, WHEP out)</li>
+<li>Pull inputs: HLS links, RTMP servers, RTSP cameras</li>
 </ul>
 <p class="m-price">Price on request</p>
 <a class="m-btn m-btn-ghost" href="/contact?package=Broadcast">Ask for a price</a>
@@ -98,10 +100,12 @@ description: Unda Media Server packages. Every package is the full server with u
 <tr><td>Monitoring, alerts, viewer sessions</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td></tr>
 <tr><td>SRT input and playback</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>WebRTC low latency (WHIP in, WHEP out)</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
+<tr><td>Pull inputs (HLS, HTTP MPEG-TS, RTMP, RTSP cameras)</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>Recording</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>Restreaming to social media (RTMP, RTMPS)</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>Adaptive bitrate</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>24/7 channels, media library, backup encoder</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
+<tr><td>Channel inputs in order (live, backup encoder, pull, playlist), switched by themselves</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>UDP, RTP, RIST, SRT destinations, multi-channel, TV outputs</td><td class="m-c m-dash">—</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 </tbody>
 </table>

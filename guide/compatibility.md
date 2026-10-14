@@ -26,7 +26,9 @@ This page separates three things:
 | Hardware streaming encoders with RTMP or SRT (Blackmagic ATEM Mini and Web Presenter, Teradek, Magewell, Kiloview, Haivision, AJA and others) | RTMP, SRT | Should work |
 | Broadcast encoders and satellite/IRD receivers with an IP output (Motorola / ARRIS, Harmonic, Ericsson, Cisco and others) | MPEG-TS over UDP or RTP, one channel or a multi-channel bundle | The formats they send are tested (see below); these makes have not been tried yet |
 | IP cameras that can push RTMP or SRT | RTMP, SRT | Should work |
-| IP cameras that only offer RTSP | — | Not supported directly; relay with ffmpeg (below) |
+| IP cameras that only offer RTSP | [Pull input](/guide/pull-inputs) (Unda fetches RTSP over TCP or UDP) | Tested with a stand-in camera (H.264, G.711 audio, a password); real cameras not yet tried |
+| HLS links and MPEG-TS over HTTP (IPTV providers, CDNs, other servers) | [Pull input](/guide/pull-inputs) | Tested with FFmpeg's own HLS and HTTP servers and another Unda; commercial CDNs and IPTV providers not yet tried |
+| Another RTMP server | [Pull input](/guide/pull-inputs) | Tested (pulling from FFmpeg's RTMP server) |
 | ASI or SDI | — | Not supported; use an ASI-to-IP gateway or an SDI encoder in front |
 | NDI | — | Not supported |
 
@@ -91,8 +93,10 @@ real switch.
 
 ### IP cameras that only speak RTSP
 
-Run ffmpeg next to Unda to pull the camera and push it in (H.264 cameras need
-no conversion):
+Add the camera as a [pull input](/guide/pull-inputs): Unda fetches its RTSP
+stream and converts the camera's audio to AAC by itself (H.264 video is passed
+through). Without the pull feature in your licence, run ffmpeg next to Unda to
+pull the camera and push it in:
 
 ```bash
 ffmpeg -rtsp_transport tcp -i "rtsp://user:pass@192.168.1.64/stream1" \
@@ -190,9 +194,9 @@ load before adding more.
   `hls.disable_session_ids: true` so the CDN can cache segments (viewer counts
   are then per address). Not yet tested with a real CDN.
 - **One server per installation:** Unda has no clustering, load balancing or
-  automatic failover between servers. [Backup encoder](/guide/backup-encoder)
-  protects against an encoder failing, not the server.
-- **Not available yet:** RTSP, NDI, SDI/ASI, DRM (Widevine, FairPlay;
+  automatic failover between servers. [Channel inputs](/guide/channel-inputs)
+  protect against an encoder or a source failing, not the server.
+- **Not available yet:** NDI, SDI/ASI, DRM (Widevine, FairPlay;
   [signed playback links](/guide/protect-playback) are available), and
   rewinding a live stream (DVR).
 

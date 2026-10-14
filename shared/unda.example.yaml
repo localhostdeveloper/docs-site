@@ -232,6 +232,27 @@ limits:
 #       ttl: 4
 #       interface: eth0
 
+# Pull inputs (license feature "pull"): streams Unda fetches from elsewhere and
+# publishes under the input's name, one FFmpeg each (FFmpeg required). HLS
+# (.m3u8; the highest-bitrate variant is taken), MPEG-TS or FLV over HTTP(S),
+# RTMP(S) and RTSP(S). H.264 video is copied, audio that isn't AAC converted;
+# other video only with transcode_video: true (about a core per HD channel). An
+# address can hold a password or token: give it with url_env or url_file to
+# keep it out of this file. They can also be made in the dashboard (Server ->
+# Pull inputs).
+# pull_inputs:
+#   - name: news
+#     url: https://example.com/live/news/index.m3u8
+#   - name: lobby-camera
+#     url_env: LOBBY_CAMERA_URL                # e.g. rtsp://user:password@192.168.1.64/stream1
+#     rtsp_transport: tcp                      # or udp
+#   - name: partner-feed
+#     url_file: /etc/unda/partner-feed.url     # e.g. http://iptv.example.com:8080/live/user/pass/123.ts
+#     # user_agent: "VLC/3.0.20"               # some IPTV providers only serve certain players
+#     # timeout: 10s                           # how long the stream is held while the source reconnects
+#     # transcode_video: true                  # MPEG-2/HEVC sources
+#     # paused: true                           # listed, not pulled
+
 # Multi-channel inputs (MPTS in): split a bundle of TV channels (a satellite
 # receiver's or operator's multi-program transport stream) into separate streams.
 # Programs in H.264 + AAC are split in-process; other audio is converted with

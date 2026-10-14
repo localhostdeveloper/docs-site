@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Backup encoder (failover)
-description: Keep a live stream on air when the encoder or the venue's internet fails. Unda switches to a backup encoder, another stream or a slate within seconds, and back to the main when it returns, without viewers reloading.
+title: Backup encoder and channel inputs (failover)
+description: Keep a channel on air when the encoder, the venue's internet or a station's link fails. Each channel ranks its live encoder, a backup encoder, a pull stream and a playlist; Unda puts the best one with pictures on air and goes back when the first choice returns.
 ---
 
 <div class="m-page">
@@ -9,10 +9,10 @@ description: Keep a live stream on air when the encoder or the venue's internet 
 <div class="m-wrap">
 <p class="m-crumb"><a href="/media-server">Media Server</a> › <a href="/features/">Features</a> › Backup encoder</p>
 <h1>Stay on air when the encoder drops</h1>
-<p class="m-lead">OBS crashes, a cable is pulled, the venue's internet cuts out. With backup sources on, Unda switches to a backup encoder, another stream or a slate within seconds, and back to the main when it returns. Viewers keep watching without reloading.</p>
+<p class="m-lead">OBS crashes, a cable is pulled, a station's link goes quiet. Each channel ranks its inputs: the live encoder and a backup encoder, a pull stream from a link, and a playlist of your videos. Unda puts the first one with pictures on air, and goes back to the first choice when it returns.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Ask for a price</a>
-<a class="m-btn m-btn-ghost" href="/guide/backup-encoder">Read the guide</a>
+<a class="m-btn m-btn-ghost" href="/guide/channel-inputs">Read the guide</a>
 </div>
 <div class="m-included">Included in <a href="/packages">Professional</a><a href="/packages">Broadcast</a></div>
 </div>
@@ -22,9 +22,9 @@ description: Keep a live stream on air when the encoder or the venue's internet 
 <div class="m-figures">
 <div class="m-figure"><b>About 1 s</b><span>to switch to the backup when the main encoder disconnects</span></div>
 <div class="m-figure"><b>2 s</b><span>of frozen picture before switching, when the main is connected but sends nothing (your setting)</span></div>
-<div class="m-figure"><b>0 reloads</b><span>for viewers, restream destinations and recordings: they carry on through every switch</span></div>
+<div class="m-figure"><b>0 reloads</b><span>for viewers through a switch between inputs encoded alike, or through any switch with seamless switching</span></div>
 </div>
-<p class="m-note-line">Measured on our test setup with two encoders, a viewer and a restream destination running throughout.</p>
+<p class="m-note-line">Measured on our test setup with two encoders, a pulled stream, viewers and a restream destination running throughout.</p>
 </div>
 </section>
 <section class="m-section m-tint">
@@ -32,17 +32,18 @@ description: Keep a live stream on air when the encoder or the venue's internet 
 <div class="m-split">
 <div>
 <span class="m-kicker">How it works</span>
-<h2>Sources in order, switched for you</h2>
-<p>Switch on backup sources on the stream's Backup tab. The channel gets a second key for a backup encoder, and you can add other streams as further sources. Unda always shows the best source that has pictures.</p>
+<h2>Inputs in your order, switched for you</h2>
+<p>Switch on the channel's inputs on the stream's Inputs tab and rank them first, second, third. The channel gets a second key for a backup encoder. Unda always shows the best input that has pictures.</p>
 <ul class="m-checks">
-<li>Main encoder first, then the backup encoder, then any other stream you add</li>
-<li>A slate (black, or a looping video) when nothing is live</li>
-<li>Back to the main by itself once it has been steady for 10 seconds (your setting)</li>
-<li>Use this: put any source on air by hand, then back to automatic</li>
-<li>Every switch logged with its reason, and an alert while on a backup</li>
+<li>Live stream: your encoder, and a backup encoder with its own key</li>
+<li>Pull stream: a station's HLS link (operators can also pull RTMP servers and RTSP cameras)</li>
+<li>Playlist or looped video, running on its own clock</li>
+<li>Back to your first choice by itself once it has been steady for 10 seconds (your setting)</li>
+<li>Clients set the order, their pull link and their playlist on their own channels</li>
+<li>Every switch in the event log, and an alert while not on the first choice</li>
 </ul>
 </div>
-<div><a class="m-shot" href="/guide/backup-encoder"><img src="/screens/backup.webp" width="1280" height="800" alt="A stream's Backup tab: sources in order, which one is on air, and the switch log" loading="lazy"></a></div>
+<div><a class="m-shot" href="/guide/channel-inputs"><img src="/screens/inputs.webp" width="1280" height="800" alt="A stream's Inputs tab: the live encoder on air, the pull stream ready as the second choice" loading="lazy"></a></div>
 </div>
 </div>
 </section>
@@ -53,11 +54,11 @@ description: Keep a live stream on air when the encoder or the venue's internet 
 <h2>What it costs and what it covers</h2>
 </div>
 <div class="m-grid m-grid-3">
-<div class="m-card"><h3>Seamless by design</h3><p>To make switches invisible, Unda encodes the stream itself: every source is decoded and one encoder produces what viewers get. Picture size and quality stay the same whatever the source sends.</p></div>
-<div class="m-card"><h3>Server cost</h3><p>About 60% of one CPU core for a 720p stream, plus about 13% for each source kept ready. A 4-core server handles two or three streams with backups.</p></div>
-<div class="m-card"><h3>One licence stream</h3><p>A stream with backup sources counts as one live stream in your package: its main and backup inputs don't count separately.</p></div>
+<div class="m-card"><h3>Direct or seamless</h3><p>By default Unda relays the input on air as it is, with no extra CPU: inputs encoded alike switch without viewers noticing, others restart the stream for a moment. With seamless switching, Unda encodes the channel itself and no switch is ever seen.</p></div>
+<div class="m-card"><h3>Server cost</h3><p>Direct switching costs nothing extra. Seamless switching: about 60% of one CPU core for a 720p channel, plus about 13% for each input kept ready.</p></div>
+<div class="m-card"><h3>One licence stream</h3><p>A channel with inputs counts as one live stream in your package: its encoders, pull and playlist don't count separately.</p></div>
 </div>
-<p class="m-note-line">Backup sources protect against an encoder or its connection failing, not against the server itself failing.</p>
+<p class="m-note-line">Channel inputs protect against an encoder, a link or a station failing, not against the server itself failing.</p>
 </div>
 </section>
 <section class="m-section m-tint">

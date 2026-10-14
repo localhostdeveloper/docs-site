@@ -12,6 +12,59 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.32 {#v0-1-32}
+
+*14 October 2026*
+
+### New
+
+- Channel inputs: each channel ranks up to three inputs, its live encoder
+  (with a backup encoder), a pull stream and a playlist or looped video, and
+  the first one with pictures is on air. Channel owners set the order, their
+  pull link and their playlist on the stream's Inputs tab, which replaces the
+  Backup tab ([Channel inputs](/guide/channel-inputs)).
+- Direct switching, the default, relays the input on air without re-encoding:
+  inputs encoded alike switch without viewers noticing, others restart the
+  stream for a moment. Operators can choose seamless switching per channel
+  (re-encoded, about 60% of a CPU core at 720p).
+- Pull inputs: Unda fetches a stream from elsewhere and publishes it under a
+  name you choose: HLS links (the best quality of a master playlist), MPEG-TS
+  or FLV over HTTP, other RTMP servers, and RTSP cameras over TCP or UDP. Add
+  them on Server → Pull inputs, in unda.yaml (pull_inputs) or with the API.
+- A pulled stream works like any other: watch, restream, record, bundle, or use
+  it as a backup source. Audio that isn't AAC is converted; HEVC or MPEG-2
+  video is re-encoded on request.
+- A source that drops is reconnected by itself; the stream stays up (frozen)
+  for 10 seconds meanwhile, then ends until the source is back. Drops show in
+  Events and raise an alert after 30 seconds.
+- The address (passwords, tokens) is kept on the server and never shown again.
+- Pull inputs are in the Professional and Broadcast packages (licence feature
+  pull) and need FFmpeg. Licences issued before this release don't include
+  them: ask for a new licence.
+- Channel owners may pull public HLS and HTTP links only: Unda refuses
+  addresses on the server or a private network, checked at every connection.
+  RTMP servers, RTSP cameras and internal addresses are set by operators.
+- Channel inputs are in Professional and Broadcast (the pull option needs the
+  new pull feature, the playlist and seamless switching the 24/7 channels
+  feature). On Starter the options show greyed, "not included in your
+  licence". A channel counts as one live stream whatever its inputs.
+
+### Fixes
+
+- Backup sources and seamless switching: the sound of a live input could be
+  up to a second ahead of its picture once it went on air (measured 0.9 s
+  with a 2-second keyframe interval). Sound and picture are now in step,
+  within one frame.
+
+### Changes
+
+- Streams with backup sources switched on keep working as before, with
+  seamless switching; their tab on the stream page is now called Inputs.
+- An HLS stream that ends and is live again at once (a publisher replaced
+  under `publish_policy: replace`, a channel restarting on another input)
+  shows players the end for a few seconds first, so they start again cleanly.
+  Before, hls.js could go on into the new stream and stall repeatedly.
+
 ## v0.1.31 {#v0-1-31}
 
 *12 October 2026*

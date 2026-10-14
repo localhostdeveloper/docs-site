@@ -84,7 +84,8 @@ multi-channel outputs.
 ## Failover
 
 Switching automatically to a backup source when the main one fails, so the
-stream stays on air. See [Backup encoder](/features/backup-encoder).
+stream stays on air. See [Backup encoder](/features/backup-encoder) and
+[Channel inputs](/guide/channel-inputs).
 
 ## FEC
 

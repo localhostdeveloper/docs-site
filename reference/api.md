@@ -117,9 +117,22 @@ curl -X POST -H "Authorization: Bearer $KEY" \
 | `PATCH /whip/resource/{id}`, `PATCH /webrtc/resource/{id}` | the session | Trickle ICE candidates (`application/trickle-ice-sdpfrag`, `If-Match` the `ETag`); 204. ICE restarts are not supported (501) |
 | `DELETE /whip/resource/{id}`, `DELETE /webrtc/resource/{id}` | the session | Ends it; 200 |
 
+## Channel inputs
+
+[Channel inputs](/guide/channel-inputs): a channel ranks its live encoder (`live`: `{name}.main`, then `{name}.backup`), its pull stream (`pull`: `{name}.pull`) and its playlist (`playlist`: `{name}.loop`); the first with pictures is published as `{name}`. Streamers reach their own channels only.
+
+| Method and path | Role | |
+|---|---|---|
+| `GET /api/v1/streams/{name}/inputs` | streamer | `enabled`, `mode` (`splice` = direct, `seamless`), `order`, the timings (`stall_ms`, `return_seconds`, `idle_stop_seconds`), `slate` (`playlist` or `video` with `slate_file`), the seamless picture settings, `running`; while running in direct mode `splice`: `current`, `role`, `switches`, `restarts`, `last_switch` and `inputs` (each `on_air`/`standby`/`no_signal`), in seamless mode `status` as under backup sources below; `pull` (the channel's pull input, its address shortened), `has_backup_key`, `licensed` (`inputs`, `pull`, `playlist`, `seamless`), `can_operate` |
+| `PUT /api/v1/streams/{name}/inputs` | streamer | Any of `enabled`, `order` (e.g. `["pull","live","playlist"]`; an input left out is off), the timings, `slate`/`slate_file`; operators also `mode`, `sources` (extra streams after these) and `width`, `height`, `fps`, `video_kbps`. 403 when a streamer sends an operator's field or the licence lacks an option. In direct mode a running channel takes new settings without restarting; a new mode, or new settings in seamless mode, restart the stream |
+| `PUT /api/v1/streams/{name}/inputs/pull` | streamer | `{"url":"https://example.com/live/index.m3u8"}` (optional `rtsp_transport`, `user_agent`). A streamer's address must be `http://` or `https://` on the public internet (400 otherwise; host names are checked at every connection); an operator's may be anything a [pull input](#pull-inputs) takes |
+| `DELETE /api/v1/streams/{name}/inputs/pull` | streamer | Remove the channel's pull address; 204 |
+
+The playlist is `GET`/`PUT …/failover/playlist` and `POST …/failover/switch` (operator) puts an input on air ahead of the others in both modes (`{"source":"main-show.pull"}`). Audit: `inputs_changed`, `channel_pull_set`, `channel_pull_removed` (never the address).
+
 ## Backup sources (failover)
 
-[Backup encoder](/guide/backup-encoder): with backup sources on, a channel's key publishes to `{name}.main`, its backup key to `{name}.backup`, and the server publishes `{name}` from the first source with pictures.
+[Backup encoder](/guide/backup-encoder): the older form of the routes above, kept for existing scripts (a channel first switched on here gets seamless switching): with backup sources on, a channel's key publishes to `{name}.main`, its backup key to `{name}.backup`, and the server publishes `{name}` from the first source with pictures.
 
 | Method and path | Role | |
 |---|---|---|
@@ -160,6 +173,21 @@ curl -X POST -H "Authorization: Bearer $KEY" \
 | `GET /api/v1/udp/inputs` | operator | Inputs with packet counts and loss |
 | `POST /api/v1/udp/inputs` | operator | `{"name":"sat-feed","listen":":5001","allow":["192.168.1.20"]}` or `{"name":"…","multicast":"239.1.1.1:5000","interface":"eth1"}` |
 | `DELETE /api/v1/udp/inputs/{name}` | operator | Remove an input |
+
+## Pull inputs
+
+Streams Unda fetches from elsewhere ([guide](/guide/pull-inputs)). The address
+is never returned: `url` in answers is its shortened form. A channel's own
+pull (`{channel}.pull`, set under [channel inputs](#channel-inputs)) is listed
+here too, with `channel` and `guarded` (fetched through the public-only
+guard).
+
+| Method and path | Role | |
+|---|---|---|
+| `GET /api/v1/pull/inputs` | operator | Inputs with their state (`live`, `reconnecting`, `connecting`, `retrying`, `unsupported`, `blocked`, `not_licensed`, `paused`), the reason in plain words, the last error, reconnects and what is converted |
+| `POST /api/v1/pull/inputs` | operator | `{"name":"news","url":"https://example.com/live/index.m3u8"}`; optional `transcode_video`, `rtsp_transport` (`tcp`/`udp`), `user_agent`, `timeout_seconds` (2-600, default 10), `paused` |
+| `PATCH /api/v1/pull/inputs/{name}` | operator | Change any of those, e.g. `{"paused":true}`; a new `url` restarts the input |
+| `DELETE /api/v1/pull/inputs/{name}` | operator | Remove an input (its stream ends) |
 
 ## Multi-channel (MPTS)
 

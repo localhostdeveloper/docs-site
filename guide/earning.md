@@ -21,7 +21,9 @@ What Unda gives you to sell:
 - **The recording**, ready to hand over after the event
   ([Recording](/guide/recording)).
 - **A backup encoder**, so the stream stays on air if the main one drops
-  ([Backup encoder](/guide/backup-encoder)).
+  ([Backup encoder](/guide/backup-encoder)), or a pull of the client's own
+  link and a playlist of their videos behind it
+  ([Channel inputs](/guide/channel-inputs)).
 - **Viewer figures** to report back: how many watched, from where and for how
   long ([Viewer sessions](/guide/monitoring#viewer-sessions)).
 
