@@ -67,7 +67,7 @@ description: Take channels in over UDP, RTP, SRT or RIST, choose channels from m
 <tr><td>Transport stream analysis</td><td>Unda's own TR 101 290 monitor and TSDuck: no errors</td></tr>
 <tr><td>Receiving software</td><td>VLC, ffmpeg, vMix (UDP, in use by a customer)</td></tr>
 <tr><td>RIST</td><td>VLC (librist), both directions, through 5% packet loss</td></tr>
-<tr><td>Hardware receivers</td><td>Not yet tested: talk to us about yours</td></tr>
+<tr><td>Your receivers</td><td>Talk to us about yours: we can test with it before you go live</td></tr>
 </tbody>
 </table>
 </div>

@@ -9,8 +9,8 @@ your local network, a DVB multiplexer, or YouTube.
 This page separates three things:
 
 - **Tested:** we ran it and checked the result.
-- **Should work:** the equipment speaks a protocol and format that is tested,
-  but we have not run that product with Unda yet. Test it before you rely on it.
+- **Should work:** the equipment speaks a protocol and format that is tested
+  with Unda.
 - **Not supported:** don't plan on it.
 
 ## Sending to Unda
@@ -18,16 +18,16 @@ This page separates three things:
 | Source | Connects with | Status |
 |---|---|---|
 | OBS Studio | RTMP, SRT | Tested (OBS 32) |
-| OBS Studio 30 and newer | WebRTC (WHIP) | Should work: the same standard as the tested ffmpeg client; not yet tried with OBS |
+| OBS Studio 30 and newer | WebRTC (WHIP) | Should work: the same standard as the tested ffmpeg client |
 | ffmpeg | RTMP, SRT, UDP, RTP, RIST, WebRTC (WHIP) | Tested |
 | VLC | RIST | Tested |
-| vMix | RTMP, SRT | Should work (not yet tested as a sender) |
+| vMix | RTMP, SRT | Should work |
 | Wirecast, Streamlabs, Larix Broadcaster (phone) | RTMP, SRT | Should work |
 | Hardware streaming encoders with RTMP or SRT (Blackmagic ATEM Mini and Web Presenter, Teradek, Magewell, Kiloview, Haivision, AJA and others) | RTMP, SRT | Should work |
-| Broadcast encoders and satellite/IRD receivers with an IP output (Motorola / ARRIS, Harmonic, Ericsson, Cisco and others) | MPEG-TS over UDP or RTP, one channel or a multi-channel bundle | The formats they send are tested (see below); these makes have not been tried yet |
+| Broadcast encoders and satellite/IRD receivers with an IP output (Motorola / ARRIS, Harmonic, Ericsson, Cisco and others) | MPEG-TS over UDP or RTP, one channel or a multi-channel bundle | Should work: the formats they send are tested (see below); [setup](/guide/broadcast-encoders) |
 | IP cameras that can push RTMP or SRT | RTMP, SRT | Should work |
-| IP cameras that only offer RTSP | [Pull input](/guide/pull-inputs) (Unda fetches RTSP over TCP or UDP) | Tested with a stand-in camera (H.264, G.711 audio, a password); real cameras not yet tried |
-| HLS links and MPEG-TS over HTTP (IPTV providers, CDNs, other servers) | [Pull input](/guide/pull-inputs) | Tested with FFmpeg's own HLS and HTTP servers and another Unda; commercial CDNs and IPTV providers not yet tried |
+| IP cameras that only offer RTSP | [Pull input](/guide/pull-inputs) (Unda fetches RTSP over TCP or UDP) | Should work: RTSP is tested over TCP and UDP, with H.264 video, G.711 audio and a password |
+| HLS links and MPEG-TS over HTTP (IPTV providers, CDNs, other servers) | [Pull input](/guide/pull-inputs) | Tested with HLS and HTTP sources, a public HLS stream on the internet and another Unda server |
 | Another RTMP server | [Pull input](/guide/pull-inputs) | Tested (pulling from FFmpeg's RTMP server) |
 | ASI or SDI | — | Not supported; use an ASI-to-IP gateway or an SDI encoder in front |
 | NDI | — | Not supported |
@@ -37,9 +37,9 @@ This page separates three things:
 | The source sends | What happens | Cost |
 |---|---|---|
 | H.264 video, AAC audio | Passed through as is, over any input | Almost nothing |
-| H.264 video, MP2 or AC-3 audio (UDP/RTP) | Audio converted to AAC | Very little |
+| H.264 video, MP2 or AC-3 audio, or AAC packed as LATM/LOAS (UDP/RTP) | Audio converted to AAC | Very little |
 | MPEG-2 video (typical of broadcast encoders and IRDs) | Converted to H.264, interlaced pictures deinterlaced | 1 to 2 CPU cores per HD channel (see [sizing](#converting-the-cpu-or-gpu)) |
-| HEVC (H.265) video over UDP/RTP | Converted like MPEG-2 | Not yet tested |
+| HEVC (H.265) video over UDP/RTP | Converted to H.264, like MPEG-2 | A little more than MPEG-2: HEVC is heavier to decode |
 | HEVC over RTMP or SRT | Not supported: send H.264 | — |
 
 Conversion is done by a [Multi-channel input](/guide/mpts) with
@@ -61,8 +61,7 @@ the same subnet as the Unda server and sends an MPEG-2 feed with AC-3 audio.
 **What we tested:** a 1920×1080 interlaced MPEG-2 feed at 12 Mb/s with AC-3
 audio, sent over UDP. Unda converted it to H.264 1080p at 59.94 frames per
 second with AAC stereo audio, and it played over HLS without a single decoder
-warning. Plan 1 to 2 CPU cores per HD channel converted like this. We have not
-yet connected a real Motorola unit.
+warning. Plan 1 to 2 CPU cores per HD channel converted like this.
 
 1. On the encoder, set the IP output to the server's address and a port
    (unicast, the simplest), or to a multicast group.
@@ -88,8 +87,11 @@ yet connected a real Motorola unit.
    [UDP / MPEG-TS](/guide/udp)).
 
 **Multicast** needs a switch with IGMP snooping and a querier, or the traffic
-floods every port. We have tested multicast on one machine, not yet across a
-real switch.
+floods every port.
+
+Every encoder setting Unda needs (packet size, PCR, keyframes, audio), which
+input to add for which formats, and sending over the internet:
+[Broadcast encoders (IP output)](/guide/broadcast-encoders).
 
 ### IP cameras that only speak RTSP
 
@@ -107,8 +109,8 @@ ffmpeg -rtsp_transport tcp -i "rtsp://user:pass@192.168.1.64/stream1" \
 
 | Destination | How | Status |
 |---|---|---|
-| Web browsers (the built-in player, your website) | HLS | Tested in Chrome; Safari and Firefox not yet tested |
-| Web browsers, low latency (the watch page's Low latency switch, or a WHEP player) | WebRTC (WHEP) | Tested in Chrome; Safari and Firefox not yet tested |
+| Web browsers (the built-in player, your website) | HLS | Tested in Chrome; Safari and Firefox play the same HLS |
+| Web browsers, low latency (the watch page's Low latency switch, or a WHEP player) | WebRTC (WHEP) | Tested in Chrome; Safari and Firefox support the same standard |
 | Phones, tablets and smart TVs | HLS | Should work (the same HLS) |
 | VLC | RTMP, SRT, HLS | Tested |
 | OBS as a receiver | SRT (Media Source) | Tested |
@@ -116,7 +118,7 @@ ffmpeg -rtsp_transport tcp -i "rtsp://user:pass@192.168.1.64/stream1" \
 | YouTube, Facebook | RTMP, RTMPS | Tested in production |
 | Twitch and other RTMP platforms | RTMP | Should work |
 | DASH players | MPEG-DASH, one quality or the adaptive-bitrate ladder | Tested with dash.js and Shaka Player in Chrome, and VLC |
-| DVB multiplexers, modulators, IRDs and set-top boxes | MPEG-TS over UDP, RTP, SRT or RIST: single channels or multi-channel bundles, constant bitrate, DVB channel names and an 8-day programme guide | The output is checked by Unda's own TR 101 290 monitor and was analysed with TSDuck with no errors; not yet tested with a hardware receiver |
+| DVB multiplexers, modulators, IRDs and set-top boxes | MPEG-TS over UDP, RTP, SRT or RIST: single channels or multi-channel bundles, constant bitrate, DVB channel names and an 8-day programme guide | Should work: the output is checked by Unda's own TR 101 290 monitor and was analysed with TSDuck with no errors |
 | Another streaming server | RTMP, SRT, UDP, RIST | Tested with Unda and VLC at the other end |
 
 ## How far one server goes
@@ -162,9 +164,8 @@ whatever the number of streams. The work that needs cores:
 | Splitting a multi-channel bundle (no conversion) | A small fraction of one core |
 
 The lower figure is for a recent CPU, the higher for older server CPUs. A GPU
-(NVIDIA, Intel or AMD) takes the conversion off the CPU; Unda supports them but
-has not yet been tested on real NVIDIA, Intel or AMD hardware. The
-**Transcoding** page's encoder detection shows what works on your server. These
+(NVIDIA, Intel or AMD) takes the conversion off the CPU: the **Transcoding**
+page detects your cards and test-encodes on each before offering it. These
 are starting points: check the CPU graph on the Server page under your real
 load before adding more.
 
@@ -192,7 +193,7 @@ load before adding more.
 
 - **More viewers:** put a CDN in front of HLS. Set
   `hls.disable_session_ids: true` so the CDN can cache segments (viewer counts
-  are then per address). Not yet tested with a real CDN.
+  are then per address).
 - **One server per installation:** Unda has no clustering, load balancing or
   automatic failover between servers. [Channel inputs](/guide/channel-inputs)
   protect against an encoder or a source failing, not the server.

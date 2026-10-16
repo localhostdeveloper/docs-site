@@ -14,7 +14,9 @@ internet, use [SRT](/guide/srt).
 
 Add an input on the dashboard's **Server** page (_UDP inputs_) or in the
 configuration file. Each input publishes as a stream with the name you give it,
-and is immediately available on every output.
+and is immediately available on every output. A UDP input takes H.264 video
+with AAC audio; for other formats, and for the settings a broadcast encoder
+needs, see [Broadcast encoders (IP output)](/guide/broadcast-encoders).
 
 ```yaml
 udp:

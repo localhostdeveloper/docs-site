@@ -47,6 +47,7 @@ const docsSidebar = [
       { text: "SRT", link: "/guide/srt" },
       { text: "WebRTC (low latency)", link: "/guide/webrtc" },
       { text: "UDP / MPEG-TS", link: "/guide/udp" },
+      { text: "Broadcast encoders (IP)", link: "/guide/broadcast-encoders" },
       { text: "Pull inputs (HLS, RTSP…)", link: "/guide/pull-inputs" },
       { text: "Multi-channel (MPTS)", link: "/guide/mpts" },
       { text: "Monitoring and alerts", link: "/guide/monitoring" },

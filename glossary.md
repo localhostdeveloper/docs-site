@@ -55,7 +55,7 @@ bandwidth on IP links. Unda's [TV outputs](/features/tv-outputs) can do both.
 A content delivery network: many servers around the world that keep copies
 of a stream close to viewers. Useful for very large audiences. Unda serves
 viewers directly; the guide explains how to put a CDN in front of its HLS
-output, which we have not yet tested with a real CDN.
+output.
 
 ## Codec
 

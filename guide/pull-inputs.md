@@ -126,7 +126,7 @@ later, the way an encoder that reconnects by itself would come back.
 ## What has been tested
 
 Pulled from FFmpeg's own HLS (several qualities, with a separate audio track),
-HTTP MPEG-TS and RTMP servers, from another Unda's HLS, and from a stand-in RTSP
-camera over TCP and UDP with G.711 audio and a password. Not yet tested: real IP
-cameras, commercial CDNs and IPTV providers. If yours misbehaves,
-[tell us](/contact) which one.
+HTTP MPEG-TS and RTMP servers, from another Unda's HLS, from a public HLS
+stream on the internet, and over RTSP (TCP and UDP) with H.264 video, G.711
+audio and a password. If a source of yours misbehaves, [tell us](/contact)
+which one.

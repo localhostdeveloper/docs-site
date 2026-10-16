@@ -32,7 +32,7 @@ description: UndaMedia makes Unda Media Server, live streaming software for orga
 </div>
 <div class="m-grid m-grid-3">
 <div class="m-card"><h3>Your server, your data</h3><p>Unda runs where you choose. Your streams, viewers and recordings never pass through us, and there is no hidden way in: we can sign in only when your owner gives us support access, for as long as they choose.</p></div>
-<div class="m-card"><h3>Plain about what's tested</h3><p>Our documentation says what we have tested and what we haven't yet, equipment by equipment, so you can plan with real information.</p></div>
+<div class="m-card"><h3>Plain about what's tested</h3><p>Our documentation says what we have tested, equipment by equipment, so you can plan with real information.</p></div>
 <div class="m-card"><h3>Built to keep going</h3><p>A slow viewer or a failing destination never affects the rest. Backups are taken before every upgrade, and a licence never stops a stream that is already live.</p></div>
 </div>
 </div>

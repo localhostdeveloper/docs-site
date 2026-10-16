@@ -219,19 +219,34 @@ has no such limit).
 - If the channels need more than the total bitrate, the server refuses the
   setup, or, if a stream grows beyond its share while running, logs an error
   rather than silently dropping data.
+- A channel sent as it is must stay within its share. When its stream sends
+  more (an encoder's bitrate raised, or busy pictures above the set rate),
+  pictures start reaching TVs after they were needed, so viewers see freezes
+  or a broken picture, a few seconds before any data is dropped. The server
+  checks every picture's timing as it leaves and raises a critical alert at
+  once, with what the stream sends against its share. A warning comes earlier,
+  when pictures arrive with less than 100 ms to spare (normally about 700 ms).
+  Raise the channel's share, or convert it with `encode`.
+- A channel sent as it is goes on air as the client's encoder made it. The
+  server warns when the stream isn't shaped for DVB TV: a frame rate other than
+  25 or 50, sound not at 48 kHz, a portrait or larger-than-HD picture, or an
+  H.264 profile or level TV boxes don't decode (above level 4.0). Converting
+  the channel, or changing the encoder's settings, fixes it.
 - Each channel runs its own encoder process; sending as it is costs very little
   CPU, converting costs about a third of a core per channel.
 
 The **Server** page lists each bundle with its channels: which stream feeds
-each one, whether it is on air (or showing black or the slate), and any dropped
-packets. The server also checks everything it sends the way broadcast test
+each one (and, for channels sent as it is, what the stream sends), whether it
+is on air (or showing black or the slate), how far ahead of time its pictures
+arrive, and any late pictures or dropped packets. The server also checks everything it sends the way broadcast test
 equipment does (ETSI TR 101 290: sync, PAT and PMT, continuity, missing PIDs,
 CRC, and PCR timing). Each bundle shows **TR 101 290 clean**, or the errors
 counted in the last minute, and each channel shows its own. The counts are also
 in `/metrics` (`unda_mpts_tr101290_errors_total`). A channel whose stream
-goes offline raises a warning (and an entry in the event log); dropped packets
-and a bundle that cannot be sent raise critical alerts, and transport-stream
-errors raise a warning.
+goes offline raises a warning (and an entry in the event log); late pictures,
+dropped packets and a bundle that cannot be sent raise critical alerts, and
+transport-stream errors, pictures with little time to spare and streams not
+shaped for DVB raise a warning.
 
 ### Checking it yourself
 
@@ -250,6 +265,5 @@ tstables cap.ts --pid 0x12 --diversified-payload           # now and next, one e
 `--bitrate` is the bundle's total bitrate in b/s (constant bundles only).
 Expect no `continuity:` lines and "0 with jitter" from `pcrverify`.
 
-Multi-channel bundles are new in this version: they have been tested with
-software receivers and TSDuck, not yet with a hardware set-top box or
-modulator.
+Multi-channel bundles are tested with software receivers (VLC, ffmpeg) and
+TSDuck.

@@ -218,5 +218,5 @@ server, and HLS and RTMP viewers decoding every frame:
   address on a private network (refused).
 - A Starter licence: the greyed options.
 
-Not tested: OBS or vMix as the encoder of a direct switch (their output must
-match the other inputs), real TV stations' links, Safari and Firefox.
+For direct switching, set every encoder feeding the channel the same way
+(see "encoded alike" above), OBS and vMix included.

@@ -37,7 +37,7 @@ description: Take channels in over UDP, RTP, SRT and RIST, pick channels from mu
 <li>Splitting a 12-channel, 60 Mb/s feed took a small fraction of one CPU core in our test</li>
 <li>Channels added or removed while the bundle stays on air</li>
 </ul>
-<p>Not yet tested with a hardware receiver or modulator: we'd like to test with yours.</p>
+<p>We can test with your receiver or modulator before you go live.</p>
 </div>
 <div><a class="m-shot" href="/guide/mpts"><img src="/screens/mpts.webp" width="1280" height="800" alt="Server → Multi-channel: a bundle of three channels being sent, with its PIDs and a clean TR 101 290 check" loading="lazy"></a></div>
 </div>
@@ -55,7 +55,7 @@ description: Take channels in over UDP, RTP, SRT and RIST, pick channels from mu
 <div class="m-wrap">
 <div class="m-cta">
 <h2>Tell us about your headend</h2>
-<p>Your sources, your receivers and your channel count: we'll tell you what fits, and test with your equipment where we haven't yet.</p>
+<p>Your sources, your receivers and your channel count: we'll tell you what fits, and test with your equipment before you go live.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Talk to us</a>
 <a class="m-btn m-btn-ghost" href="/guide/mpts">Read the multi-channel guide</a>

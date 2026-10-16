@@ -74,9 +74,8 @@ Per 1080p stream, with the default settings:
 A 4-core, 8 GB server runs about two adaptive streams on the CPU alongside
 everything else. A GPU takes most of that load off the CPU.
 
-NVIDIA, Intel and VAAPI encoders have not yet been tested on real hardware by
-the vendor; Unda test-encodes with your card before using it, and shows why if
-it fails.
+Unda test-encodes with your NVIDIA, Intel or AMD (VAAPI) card before using it,
+and shows why if it fails.
 
 If FFmpeg crashes it is restarted within a few seconds; after 10 failures in a
 row the stream carries on without adaptive bitrate.

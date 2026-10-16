@@ -12,6 +12,26 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### New
+
+- Bundles (MPTS) catch a channel sent as it is whose stream sends more than
+  its share. Its pictures reach TVs late (freezes, a broken picture) seconds
+  before any data is dropped, and nothing reported it until then. The server
+  now checks each picture's timing as it leaves: a critical alert when one is
+  late, with what the stream sends against its share, and a warning when
+  pictures have less than 100 ms to spare
+  ([Multi-channel bundles](/guide/mpts#how-it-behaves)).
+- A channel sent as it is gets a warning when its stream isn't shaped for DVB
+  TV: a frame rate other than 25 or 50, sound not at 48 kHz, a portrait or
+  larger-than-HD picture, or an H.264 profile or level TV boxes don't decode.
+
+### Changed
+
+- The dashboard no longer shows the company name in the sidebar or on the
+  sign-in page.
+
 ## v0.1.32 {#v0-1-32}
 
 *14 October 2026*
