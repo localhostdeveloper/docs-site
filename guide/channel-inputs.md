@@ -22,8 +22,9 @@ Channel inputs are in the Professional and Broadcast packages (see
 
 ## Switch them on
 
-1. Open the stream in the dashboard (it doesn't have to be live) and go to
-   its **Inputs** tab.
+1. On the **Channels** page, click **Inputs** next to the channel. It doesn't
+   have to be live: a new channel can go on air from its pull stream or
+   playlist without an encoder ever connecting.
 2. Switch on **Use this channel's inputs in order**.
 
 If the stream is live at that moment, its encoder is disconnected once and

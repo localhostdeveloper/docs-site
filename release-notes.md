@@ -12,6 +12,18 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### Fixed
+
+- A new channel's pull stream and playlist can be set up before it has ever
+  been live: each channel on the Channels page has an **Inputs** button, and
+  its name opens its Inputs tab while it is offline. Until now the page was
+  reached only through a live stream.
+- A looped video chosen as a channel's playlist input (direct switching)
+  now goes on air. It never started before, and the server log repeated the
+  failure ten times a second.
+
 ## v0.1.33 {#v0-1-33}
 
 *16 October 2026*

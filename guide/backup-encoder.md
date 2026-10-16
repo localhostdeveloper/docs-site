@@ -12,8 +12,8 @@ videos, in the order you choose: see [Channel inputs](/guide/channel-inputs).
 
 ## Switch it on
 
-1. Open the stream in the dashboard (it doesn't have to be live) and go to its
-   **Inputs** tab.
+1. On the **Channels** page, click **Inputs** next to the channel (it doesn't
+   have to be live).
 2. Switch on **Use this channel's inputs in order**. The live stream is the
    first input unless you move it.
 
