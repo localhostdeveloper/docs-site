@@ -190,7 +190,7 @@ export default defineConfig({
     // Shown on pages without a sidebar (the site's own pages, not the guides).
     footer: {
       message:
-        '<a href="/media-server">Media Server</a> · <a href="/features/">Features</a> · <a href="/solutions/">Solutions</a> · <a href="/packages">Packages</a> · <a href="/guide/introduction">Docs</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/privacy">Privacy</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
+        '<a href="/media-server">Media Server</a> · <a href="/features/">Features</a> · <a href="/solutions/">Solutions</a> · <a href="/packages">Packages</a> · <a href="/guide/introduction">Docs</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/privacy">Privacy</a> · <a href="/disclaimer">Disclaimer</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
       copyright: "Unda Media Server is proprietary software. © 2026 LocalCode Technology. All rights reserved.",
     },
   },

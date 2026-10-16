@@ -132,6 +132,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <details><summary>Is there really no limit on viewers?</summary><p>None in the licence. The limit is your server's upload: a 100 Mb/s connection carries about 30 viewers of a 3 Mb/s stream, a 1 Gb/s port about 300. You can set a cap so the server never promises more than it can send.</p></details>
 <details><summary>Can I change package later?</summary><p>Yes. We send you a new licence file, the owner installs it from the License page, and most changes apply at once. A few tools need a restart; the dashboard tells you which.</p></details>
 <details><summary>What happens when a licence ends?</summary><p>The dashboard warns 30 days before. After the end date there are 14 days of grace. Then new streams can't start, but streams already live carry on, so a licence never cuts a broadcast off in the middle.</p></details>
+<details><summary>Who is responsible for what we stream?</summary><p>You are. Unda is the software; you choose what is streamed with it, and you hold the rights and any broadcasting licence it needs. We don't see or review your streams. See our <a href="/disclaimer">disclaimer</a>.</p></details>
 <details><summary>Do you see my streams or my viewers?</summary><p>No. Unda runs on your server and nothing passes through us. We can only sign in if the owner gives us support access, which ends by itself after the time they choose.</p></details>
 </div>
 </div>
