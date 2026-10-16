@@ -12,7 +12,9 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
-## Next release
+## v0.1.33 {#v0-1-33}
+
+*16 October 2026*
 
 ### New
 
@@ -26,11 +28,19 @@ database is backed up first.
 - A channel sent as it is gets a warning when its stream isn't shaped for DVB
   TV: a frame rate other than 25 or 50, sound not at 48 kHz, a portrait or
   larger-than-HD picture, or an H.264 profile or level TV boxes don't decode.
+- A new guide, [Broadcast encoders (IP output)](/guide/broadcast-encoders),
+  lists the settings a broadcast encoder needs and which input to add for its
+  formats.
 
 ### Changed
 
 - The dashboard no longer shows the company name in the sidebar or on the
   sign-in page.
+
+### Fixed
+
+- The Server page no longer scrolls sideways when a multi-channel bundle shows
+  a long warning on one of its channels.
 
 ## v0.1.32 {#v0-1-32}
 
