@@ -299,6 +299,28 @@ a.m-card:hover { border-color: var(--vp-c-brand-1); box-shadow: var(--m-shadow);
 .m-reach h3 { font-size: 16px; }
 .m-reach p { margin-top: 2px; font-size: 14.5px; }
 
+/* Order: the licence agreement as a form */
+.m-order .m-form-h { margin: 34px 0 2px; font-size: 18px; font-weight: 700; line-height: 1.3; }
+.m-order .m-form-h:first-child { margin-top: 0; }
+.m-order .m-form-h span { margin-right: 10px; color: var(--vp-c-brand-1); }
+.m-order .m-hint { margin-top: 4px; font-size: 14px; color: var(--vp-c-text-2); }
+.m-order .m-hint a { color: var(--vp-c-brand-1); text-decoration: underline; }
+.m-order .m-hint + .m-row { margin-top: 14px; }
+.m-form textarea.m-short { min-height: 88px; }
+.m-form .m-choice, .m-form .m-check { display: flex; gap: 10px; align-items: flex-start; margin-top: 12px; font-weight: 400; cursor: pointer; }
+.m-form .m-check { margin-top: 20px; }
+.m-form .m-choice strong { margin-right: 8px; font-weight: 600; }
+.m-form .m-choice input, .m-form .m-check input { display: inline-block; flex: none; width: 17px; height: 17px; margin: 3px 0 0; padding: 0; accent-color: var(--vp-c-brand-1); }
+.m-order .m-terms { margin-top: 12px; border: 1px solid var(--m-line); border-radius: 10px; }
+.m-order .m-terms summary { padding: 12px 14px; font-weight: 600; cursor: pointer; }
+.m-order .m-terms-body { max-height: 440px; overflow-y: auto; padding: 4px 16px 16px; border-top: 1px solid var(--m-line); font-size: 14px; color: var(--vp-c-text-2); }
+.m-order .m-terms-body h4 { margin: 18px 0 6px; font-size: 15px; font-weight: 600; color: var(--vp-c-text-1); }
+.m-order .m-terms-body p { margin: 6px 0; }
+.m-order .m-terms-body b { margin-right: 8px; color: var(--vp-c-text-1); }
+.m-order .m-done .m-btn { margin-top: 16px; }
+.m-page .m-faq details p a { color: var(--vp-c-brand-1); text-decoration: underline; }
+.m-card .m-more + .m-more { margin-left: 18px; }
+
 /* Phones and tablets */
 @media (max-width: 960px) {
   .m-hero-grid, .m-split, .m-contact { grid-template-columns: minmax(0, 1fr); gap: 36px; }

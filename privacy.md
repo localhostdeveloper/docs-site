@@ -14,13 +14,15 @@ description: What UndaMedia collects on this website and through Unda Media Serv
 </section>
 <section class="m-section">
 <div class="m-wrap m-prose m-legal">
-<p class="m-legal-date">Last updated 6 October 2026</p>
+<p class="m-legal-date">Last updated 18 October 2026</p>
 <h2>Who we are</h2>
 <p>UndaMedia makes Unda Media Server. UndaMedia is a product of LocalCode Technology, a subsidiary of Richben Media. In this policy "we" and "us" mean UndaMedia. For anything about your information, email <a href="mailto:support@undamedia.com">support@undamedia.com</a>.</p>
 <h2>This website</h2>
 <h3>The contact form</h3>
 <p>When you send the form we receive your name, email address, organisation (if you give one), the topic you chose and your message. We use them only to answer you and, if you become a customer, to keep a record of what we discussed. We don't add you to a mailing list, and we won't send you marketing unless you ask for it.</p>
 <p>The form is delivered to our mailbox by an email service (Resend), and our mailbox is run by an email provider. They handle the message only to deliver and store it for us.</p>
+<h3>The order form</h3>
+<p>When you sign the licence agreement online we receive everything you type into it, and we record the time, your IP address and your browser as evidence of your signature. Our website host fills in the agreement with your answers, gives you a copy, and emails it to our mailbox through the same email service. We use it only to make and keep our agreement with you, and we keep it with our business records.</p>
 <h3>Website logs</h3>
 <p>This website is hosted by Vercel. Like any web host, it records technical details of each visit, such as your IP address, browser and the page you asked for, to keep the site running and secure. We don't use these records to identify you.</p>
 <h3>No cookies, no tracking</h3>
