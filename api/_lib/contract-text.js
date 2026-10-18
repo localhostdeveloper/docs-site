@@ -9,7 +9,9 @@
 export const VERSION = "1.0";
 export const DATE = "October 2026";
 export const EMAIL = "support@undamedia.com";
-export const VENDOR = "UndaMedia";
+// The party to the agreement must be a legal person: UndaMedia is a brand of
+// LocalCode Technology, not a registered company or business name.
+export const VENDOR = "LocalCode Technology, trading as UndaMedia";
 // LocalCode Technology's registered details, printed under our signature
 // block once filled in. Left empty, the lines are not printed.
 export const VENDOR_ADDRESS = "";
