@@ -14,13 +14,15 @@
 //   ORDER_TO        where signed agreements go (default CONTACT_TO, then
 //                   support@undamedia.com)
 //   CONTACT_FROM    the sender, on a domain verified in Resend
-//                   (default "UndaMedia website <website@undamedia.com>")
+//                   (default "UndaMedia website <support@undamedia.com>",
+//                   the address verified in Resend for now)
 
 import { buildContract } from "./_lib/contract-pdf.js";
 import { FIELDS, PACKAGES, HOSTING, VERSION } from "./_lib/contract-text.js";
 
 const EMAIL = /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[^\s@<>()",;:]{2,}$/;
 const SUPPORT = "support@undamedia.com";
+const FROM = `UndaMedia website <${SUPPORT}>`;
 // Nobody fills in a contract this fast; a script does.
 const MIN_FILL_MS = 8000;
 
@@ -175,7 +177,7 @@ export default async function handler(req, res, deps = {}) {
       method: "POST",
       headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        from: env.CONTACT_FROM || "UndaMedia website <website@undamedia.com>",
+        from: env.CONTACT_FROM || FROM,
         to: [env.ORDER_TO || env.CONTACT_TO || SUPPORT],
         reply_to: values.contact_email,
         subject,

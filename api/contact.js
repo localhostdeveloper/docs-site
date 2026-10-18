@@ -6,7 +6,8 @@
 //   RESEND_API_KEY  required; without it the form answers "not set up yet"
 //   CONTACT_TO      where messages go (default support@undamedia.com)
 //   CONTACT_FROM    the sender, on a domain verified in Resend
-//                   (default "UndaMedia website <website@undamedia.com>")
+//                   (default "UndaMedia website <support@undamedia.com>",
+//                   the address verified in Resend for now)
 
 const TOPICS = new Set([
   "A price for a package",
@@ -18,6 +19,7 @@ const TOPICS = new Set([
 ]);
 const EMAIL = /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[^\s@<>()",;:]{2,}$/;
 const SUPPORT = "support@undamedia.com";
+const FROM = `UndaMedia website <${SUPPORT}>`;
 // A person takes longer than this to fill the form in; a script doesn't.
 const MIN_FILL_MS = 3000;
 
@@ -107,7 +109,7 @@ export default async function handler(req, res, deps = {}) {
       method: "POST",
       headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        from: env.CONTACT_FROM || "UndaMedia website <website@undamedia.com>",
+        from: env.CONTACT_FROM || FROM,
         to: [env.CONTACT_TO || SUPPORT],
         reply_to: checked.msg.email,
         subject,
