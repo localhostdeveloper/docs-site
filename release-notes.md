@@ -12,6 +12,37 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### New
+
+- Every stream can be watched as one continuous MPEG-TS over HTTP,
+  `https://<your server>/ts/<name>.ts`: the kind of link IPTV set-top boxes,
+  IPTV apps and panels take. The stream's Playback tab lists it, signed links
+  and the bandwidth limit apply to it, and its viewers are counted
+  ([MPEG-TS over HTTP](/guide/watching#mpeg-ts-over-http-iptv)).
+- The server copies its database once a day (accounts, channels and their
+  keys, playlists, inputs, settings) and keeps the seven newest copies.
+  Server → Status shows the newest one, and a copy that fails is an alert.
+  The copies are on the server's own disk: copy them to another machine
+  ([Backups and upgrades](/guide/install#8-backups-and-upgrades)).
+
+### Fixed
+
+- UDP inputs made in the dashboard are kept when the server restarts,
+  upgrades included. Until now they were lost at every restart.
+- A stream's transcoding switch stays as you set it when the server
+  restarts. Until now it went back to its default.
+- A TV output (SD or HD, sent over UDP, RTP, SRT or RIST) whose destination
+  refuses or drops the stream now says so. It showed "write |1: file already
+  closed" instead, and each failed attempt took 5 seconds longer than needed.
+
+### Changed
+
+- The Docker image is built on Alpine 3.24 (security updates until June
+  2028) with FFmpeg 8.1. The image it replaces, Alpine 3.21, stops getting
+  security updates on 1 November 2026.
+
 ## v0.1.34 {#v0-1-34}
 
 *16 October 2026*

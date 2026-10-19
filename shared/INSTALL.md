@@ -646,10 +646,38 @@ audit log. `license.json` is the license. `acme/` holds the HTTPS certificates
 (they can be obtained again, but keeping them avoids Let's Encrypt's rate limits). Recordings are separate
 (`recordings_dir`).
 
-**Back up daily.** The backup command is safe while the server runs:
+**Daily copies are automatic.** While it runs, Unda copies the database
+once a day to `state/backups/daily-<date>.db` in the data directory
+(`/var/lib/unda/state/backups`, or `/data/state/backups` in the Docker
+volume) and keeps the seven newest. Server → Status in the dashboard shows
+the newest copy; a copy that fails (a copy always leaves 1 GB of the disk
+free) is an alert there. To keep more, or none (another backup covers the
+database):
+
+```yaml
+backups:
+  keep_days: 30       # 0 = 7, at most 365
+  # disabled: true
+```
+
+**Copy them off the server.** Those copies are on the server's own disk, so
+a lost disk or server takes them with it. Copy the folder and `license.json`
+to another machine regularly, for example nightly from the server's crontab:
 
 ```bash
-# systemd, e.g. from /etc/cron.daily/unda-backup
+# systemd install (as root)
+tar czf - -C /var/lib/unda/state backups license.json | \
+  ssh backup@backup.example.com "cat > unda-$(date +%F).tgz"
+# Docker
+docker compose exec -T unda tar czf - -C /data/state backups license.json | \
+  ssh backup@backup.example.com "cat > unda-$(date +%F).tgz"
+```
+
+To take a copy yourself at any time (before a big change), the backup command
+is safe while the server runs:
+
+```bash
+# systemd
 sudo -u unda unda admin -config /etc/unda/unda.yaml \
   backup /var/lib/unda/backup-$(date +%F).db
 # Docker
@@ -658,8 +686,8 @@ docker compose exec unda unda admin -config /etc/unda/unda.yaml \
 ```
 
 The backup file must not exist yet (it is never overwritten), hence the date in
-its name. Copy the backup and `license.json` off the server. The database holds stream
-keys, so keep backups as private as the server.
+its name. The database holds stream keys, so keep backups as private as the
+server.
 
 **Restore:**
 

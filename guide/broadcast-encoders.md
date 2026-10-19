@@ -49,9 +49,8 @@ those, even when the feed carries one channel.
 When in doubt, use a Multi-channel input. It lists what the feed carries (each
 channel's number, name and formats) before anything goes live, it checks the
 feed the way broadcast test equipment does (TR 101 290, including the PCR
-interval), and inputs made in the dashboard are kept when the server restarts.
-UDP inputs made in the dashboard last only until the server restarts; list
-permanent ones in the configuration file. Both are described in
+interval), and inputs made in the dashboard are kept when the server restarts,
+as UDP inputs are. Both are described in
 [UDP / MPEG-TS](/guide/udp) and [Multi-channel (MPTS)](/guide/mpts).
 
 ## Encoder settings

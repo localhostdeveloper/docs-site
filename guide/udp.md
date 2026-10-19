@@ -56,8 +56,9 @@ senders with `allow` and firewall rules. Use SRT over untrusted networks.
 - At high bitrates, raise Linux's receive buffer limit:
   `sudo sysctl -w net.core.rmem_max=26214400 net.core.rmem_default=26214400`
   (and make it permanent in `/etc/sysctl.d/`).
-- Inputs added in the dashboard last until the server restarts; list permanent
-  ones in the configuration file.
+- Inputs added in the dashboard are kept when the server restarts. One that
+  can't start then (its port taken by another program, its network interface
+  not up yet) is reported in Events and tried again at the next start.
 
 ## Output
 

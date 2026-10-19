@@ -21,7 +21,7 @@ destinations always get the original.
    that fails its test says why and can't be chosen. **Save** tests your choice
    again before applying it.
 3. On a stream's **Transcoding** tab, switch it on for that stream. It starts at
-   once and stays on when the encoder reconnects (until the server restarts).
+   once and stays on when the encoder reconnects and when the server restarts.
 
 [![A stream's Transcoding tab: adaptive bitrate on, the source, and the ladder of qualities with how much each is watched](/screens/transcoding.webp)](/screens/transcoding.webp)
 

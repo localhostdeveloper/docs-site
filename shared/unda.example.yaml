@@ -355,6 +355,14 @@ monitoring:
 #   retention_days: 30    # 0 = 30, at most 365
 #   disabled: true        # keep no history on disk (viewers watching now are still shown)
 
+# Daily database copies: once a day, while it runs, the server copies its
+# database (accounts, channels and their keys, playlists, inputs, settings)
+# to <data_dir>/backups/daily-<date>.db. They stay on this disk: copy that
+# folder and license.json to another machine (see the install guide).
+# backups:
+#   keep_days: 7          # 0 = 7, at most 365
+#   disabled: true        # take no daily copies (another backup covers the database)
+
 # 24/7 channels (playout). Each channel plays the files of a schedule, fills
 # the gaps, and lets a live stream take over while it is live. It is a stream
 # like any other: watch /watch/<name>, restream it, record it. Every item is

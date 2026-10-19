@@ -5,8 +5,8 @@ events you can protect a stream: it then plays only from a **signed link**, an
 address with a `?token=` that you (or your website) made, and only until the
 time the link allows.
 
-Protection covers every way of watching: the built-in player, HLS, DASH, RTMP
-and SRT. Publishing is unaffected (the encoder still uses its stream key).
+Protection covers every way of watching: the built-in player, HLS, DASH, RTMP,
+SRT, MPEG-TS over HTTP and WebRTC. Publishing is unaffected (the encoder still uses its stream key).
 
 ## Protect a stream
 
@@ -43,7 +43,8 @@ for "until 20:00" can be sent before a show that runs to 22:00.
 
 In detail: over HLS and DASH a viewer stays allowed while their player keeps
 fetching (a gap of more than 30 seconds, or a different network address, ends
-it). RTMP and SRT check the link once, when the player connects.
+it). RTMP, SRT and MPEG-TS over HTTP check the link once, when the player
+connects.
 
 ## Devices per link
 
@@ -71,8 +72,8 @@ useful.
 - A reload of the same page in the same browser is not counted as another
   device.
 - A device counts over HLS by its player session (each browser tab), over DASH
-  by its address and player, and over RTMP and SRT by its connection (a
-  stopped RTMP or SRT player is disconnected).
+  by its address and player, and over RTMP, SRT and MPEG-TS over HTTP by its
+  connection (a stopped player is disconnected).
 - The Playback tab shows how many devices were stopped in the last 24 hours,
   and the event log gets one line an hour per stream while it happens: a sign
   that links are being shared.
@@ -169,6 +170,7 @@ curl -X POST -H "Authorization: Bearer $KEY" -d '{"ttl_seconds":7200}' \
 | DASH | `https://tv.example.com/dash/main-show/manifest.mpd?token=TOKEN` |
 | RTMP | `rtmp://tv.example.com:1935/live/main-show?token=TOKEN` |
 | SRT | `srt://tv.example.com:6000?streamid=read:main-show?token=TOKEN` |
+| MPEG-TS over HTTP | `https://tv.example.com/ts/main-show.ts?token=TOKEN` |
 
 Players carry the token on to every playlist and segment by themselves. For
 SRT in VLC, put `read:main-show?token=TOKEN` in the stream ID field.
@@ -188,8 +190,8 @@ refused (403). An unprotected stream needs no header.
 
 **Make a new secret…** under **Server → Playback** invalidates every link made
 so far, including those your website makes, until the website has the new
-secret. HLS and DASH viewers watching with an old link are stopped; RTMP and SRT
-viewers carry on until they reconnect. Use it if the secret has leaked.
+secret. HLS and DASH viewers watching with an old link are stopped; RTMP, SRT
+and MPEG-TS over HTTP viewers carry on until they reconnect. Use it if the secret has leaked.
 
 ## With a CDN
 

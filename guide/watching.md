@@ -11,11 +11,35 @@ stream with [signed links](/guide/protect-playback).
 | HLS, for your own website or app                                               | `https://tv.example.com/hls/main-show/index.m3u8`    |
 | HLS with several qualities (when [adaptive bitrate](/guide/transcoding) is on) | `https://tv.example.com/hls/main-show/master.m3u8`   |
 | MPEG-DASH (H.264, optional AAC; several qualities when adaptive bitrate is on) | `https://tv.example.com/dash/main-show/manifest.mpd` |
+| IPTV boxes, apps and panels: [MPEG-TS over HTTP](#mpeg-ts-over-http-iptv)       | `https://tv.example.com/ts/main-show.ts`             |
 | VLC, OBS or vMix over RTMP                                                     | `rtmp://tv.example.com:1935/live/main-show`          |
 | VLC, OBS or vMix over SRT                                                      | `srt://tv.example.com:6000?streamid=read:main-show`  |
 
 The stream's **Playback** tab in the dashboard lists every address, DASH
 included, with copy buttons.
+
+## MPEG-TS over HTTP (IPTV)
+
+`https://tv.example.com/ts/main-show.ts` sends the live stream as one
+continuous MPEG-TS, as it arrives (H.264 video and AAC audio). It is the
+kind of link IPTV set-top boxes, IPTV apps and panels take, and one another
+server can pull (an Unda [pull input](/guide/pull-inputs) takes it as it is).
+
+- A viewer starts on the newest keyframe, at the live edge. There are no
+  segments to wait for: the delay is the player's own buffer.
+- When the stream ends the connection ends, and players reconnect by
+  themselves. A player that stops reading is let go after about 10 seconds.
+- A protected stream needs its [signed link](/guide/protect-playback): add
+  `?token=…` as on the other addresses. A link for a number of devices
+  counts each connection as one device.
+- Each viewer costs the stream's bitrate in upload, like an RTMP or SRT
+  viewer, and counts toward `limits.max_egress_mbps`. A CDN can't cache it:
+  for a large audience use HLS.
+- `/ts/main-show` without `.ts` plays the same stream.
+
+```bash
+ffplay https://tv.example.com/ts/main-show.ts
+```
 
 ## MPEG-DASH
 
@@ -76,6 +100,7 @@ allowed, so it works from any domain.
 | How                                                    | Delay                                                                              |
 | ------------------------------------------------------ | ---------------------------------------------------------------------------------- |
 | RTMP or SRT (VLC, OBS, vMix)                           | well under 1 s from the server, plus the player's own buffer (VLC: 1 s by default) |
+| MPEG-TS over HTTP (IPTV boxes and apps)                | no segments: the player's own buffer                                               |
 | Browser / HLS, encoder keyframe every 2 s              | about 7 s                                                                          |
 | Browser / HLS, encoder keyframe every 8 s (OBS "auto") | about 30 s                                                                         |
 
@@ -84,7 +109,7 @@ end on a keyframe: hence the [2-second keyframe setting](/guide/streaming).
 
 ## Viewer counts
 
-The dashboard counts viewers by protocol (HLS, RTMP, SRT). A browser tab is one
+The dashboard counts viewers by protocol (HLS, RTMP, SRT, MPEG-TS over HTTP). A browser tab is one
 viewer, whatever quality it switches to; several people behind the same
 internet connection count separately. Someone who closes the tab stops counting
 within 30–40 seconds. Opening the page for a moment without playing does not

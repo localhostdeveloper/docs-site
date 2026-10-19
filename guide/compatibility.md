@@ -112,6 +112,7 @@ ffmpeg -rtsp_transport tcp -i "rtsp://user:pass@192.168.1.64/stream1" \
 | Web browsers (the built-in player, your website) | HLS | Tested in Chrome; Safari and Firefox play the same HLS |
 | Web browsers, low latency (the watch page's Low latency switch, or a WHEP player) | WebRTC (WHEP) | Tested in Chrome; Safari and Firefox support the same standard |
 | Phones, tablets and smart TVs | HLS | Should work (the same HLS) |
+| IPTV set-top boxes, IPTV apps and panels | MPEG-TS over HTTP (`/ts/<name>.ts`) or HLS | Should work: the link is tested with FFmpeg as the player |
 | VLC | RTMP, SRT, HLS | Tested |
 | OBS as a receiver | SRT (Media Source) | Tested |
 | vMix as a receiver | UDP | In use by a customer |
@@ -119,7 +120,7 @@ ffmpeg -rtsp_transport tcp -i "rtsp://user:pass@192.168.1.64/stream1" \
 | Twitch and other RTMP platforms | RTMP | Should work |
 | DASH players | MPEG-DASH, one quality or the adaptive-bitrate ladder | Tested with dash.js and Shaka Player in Chrome, and VLC |
 | DVB multiplexers, modulators, IRDs and set-top boxes | MPEG-TS over UDP, RTP, SRT or RIST: single channels or multi-channel bundles, constant bitrate, DVB channel names and an 8-day programme guide | Should work: the output is checked by Unda's own TR 101 290 monitor and was analysed with TSDuck with no errors |
-| Another streaming server | RTMP, SRT, UDP, RIST | Tested with Unda and VLC at the other end |
+| Another streaming server | RTMP, SRT, UDP, RIST, MPEG-TS over HTTP | Tested with Unda and VLC at the other end (MPEG-TS over HTTP: another Unda pulling it) |
 
 ## How far one server goes
 
