@@ -7,7 +7,7 @@
 // PDF. "website" is a trap field people never see; "started" lets the function
 // refuse forms sent faster than a person can fill them in.
 import { onMounted, reactive, ref } from "vue";
-import { FIELDS, PACKAGES, HOSTING, TERMS, md } from "../../../api/_lib/contract-text.js";
+import { FIELDS, PACKAGES, HOSTING, TERMS, COUNTRIES, COMMON_COUNTRIES, md } from "../../../api/_lib/contract-text.js";
 
 const SUPPORT = "support@undamedia.com";
 const PDF = "/unda-licence-agreement.pdf";
@@ -91,7 +91,12 @@ async function submit() {
           <input v-model.trim="v.customer_reg_no" :maxlength="max('customer_reg_no')" />
         </label>
         <label>{{ label("customer_country") }}
-          <input v-model.trim="v.customer_country" autocomplete="country-name" required :maxlength="max('customer_country')" />
+          <select v-model="v.customer_country" autocomplete="country-name" required>
+            <option value="" disabled>Choose a country</option>
+            <option v-for="c in COMMON_COUNTRIES" :key="'common-' + c" :value="c">{{ c }}</option>
+            <option disabled>──────────</option>
+            <option v-for="c in COUNTRIES" :key="c" :value="c">{{ c }}</option>
+          </select>
         </label>
       </div>
       <label>{{ label("customer_address") }}
@@ -157,7 +162,7 @@ async function submit() {
           <input v-model.trim="v.quote_number" :maxlength="max('quote_number')" />
         </label>
         <label>{{ label("start_date") }}
-          <input v-model.trim="v.start_date" placeholder="e.g. 1 November 2026" :maxlength="max('start_date')" />
+          <input v-model="v.start_date" type="date" min="2000-01-01" max="2100-12-31" />
         </label>
       </div>
       <div class="m-row">

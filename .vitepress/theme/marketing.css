@@ -307,6 +307,11 @@ a.m-card:hover { border-color: var(--vp-c-brand-1); box-shadow: var(--m-shadow);
 .m-order .m-hint a { color: var(--vp-c-brand-1); text-decoration: underline; }
 .m-order .m-hint + .m-row { margin-top: 14px; }
 .m-form textarea.m-short { min-height: 88px; }
+/* iPhone Safari draws an empty date box shorter than the others, its date centred. */
+@supports (-webkit-touch-callout: none) {
+  .m-form input[type="date"] { -webkit-appearance: none; min-height: 46px; }
+  .m-form input[type="date"]::-webkit-date-and-time-value { text-align: left; }
+}
 .m-form .m-choice, .m-form .m-check { display: flex; gap: 10px; align-items: flex-start; margin-top: 12px; font-weight: 400; cursor: pointer; }
 .m-form .m-check { margin-top: 20px; }
 .m-form .m-choice strong { margin-right: 8px; font-weight: 600; }

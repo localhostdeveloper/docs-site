@@ -9,6 +9,8 @@
 //                   (default "UndaMedia website <support@undamedia.com>",
 //                   the address verified in Resend for now)
 
+import { apiKey, keyHint } from "./_lib/resend.js";
+
 const TOPICS = new Set([
   "A price for a package",
   "A demo",
@@ -100,14 +102,15 @@ export default async function handler(req, res, deps = {}) {
   if (checked.spam) return res.status(200).json({ ok: true });
   if (checked.error) return res.status(400).json({ error: checked.error });
 
-  if (!env.RESEND_API_KEY) {
+  const key = apiKey(env);
+  if (!key) {
     return res.status(503).json({ error: "The form is not set up yet." });
   }
   const { subject, text } = compose(checked.msg);
   try {
     const r = await send("https://api.resend.com/emails", {
       method: "POST",
-      headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         from: env.CONTACT_FROM || FROM,
         to: [env.CONTACT_TO || SUPPORT],
@@ -119,7 +122,7 @@ export default async function handler(req, res, deps = {}) {
     });
     if (!r.ok) {
       // The provider's answer stays in the function log, not with the visitor.
-      console.error("contact: email provider answered", r.status, (await r.text()).slice(0, 500));
+      console.error("contact: email provider answered", r.status, (await r.text()).slice(0, 500), "|", keyHint(env));
       return res.status(502).json({ error: "The message could not be sent just now." });
     }
   } catch (e) {

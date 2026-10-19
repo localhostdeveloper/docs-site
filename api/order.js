@@ -18,7 +18,8 @@
 //                   the address verified in Resend for now)
 
 import { buildContract } from "./_lib/contract-pdf.js";
-import { FIELDS, PACKAGES, HOSTING, VERSION } from "./_lib/contract-text.js";
+import { FIELDS, PACKAGES, HOSTING, COUNTRIES, VERSION } from "./_lib/contract-text.js";
+import { apiKey, keyHint } from "./_lib/resend.js";
 
 const EMAIL = /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[^\s@<>()",;:]{2,}$/;
 const SUPPORT = "support@undamedia.com";
@@ -54,6 +55,11 @@ export function check(body, now = Date.now()) {
     if (f.required && !values[name]) return { error: `Please fill in “${f.label}”.` };
     if (f.email && values[name] && !EMAIL.test(values[name])) return { error: `Please check “${f.label}”: it doesn’t look like an email address.` };
   }
+  if (!COUNTRIES.includes(values.customer_country)) return { error: "Please choose your country from the list." };
+  if (values.start_date) {
+    values.start_date = dayInWords(values.start_date);
+    if (!values.start_date) return { error: "Please pick the start date from the calendar." };
+  }
   values.package = field(body.package, 40);
   values.hosting = field(body.hosting, 40);
   if (!PACKAGES.some((p) => p.value === values.package)) return { error: "Please choose a package." };
@@ -67,6 +73,18 @@ export function check(body, now = Date.now()) {
   if (!values.customer_sign_title) return { error: "Please give your job title." };
   if (body.agree !== true) return { error: "Please tick the box to agree to the terms." };
   return { values };
+}
+
+// dayInWords turns the date picker's 2026-11-01 into "1 November 2026", the
+// same in the contract whatever date format the buyer's browser shows; ""
+// for anything that is not a real calendar day.
+export function dayInWords(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!m) return "";
+  const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];
+  const t = new Date(Date.UTC(y, mo - 1, d));
+  if (y < 2000 || y > 2100 || t.getUTCMonth() !== mo - 1 || t.getUTCDate() !== d) return "";
+  return `${d} ${MONTHS[mo - 1]} ${y}`;
 }
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -156,7 +174,8 @@ export default async function handler(req, res, deps = {}) {
   if (checked.spam) return res.status(200).json({ ok: true });
   if (checked.error) return res.status(400).json({ error: checked.error });
 
-  if (!env.RESEND_API_KEY) {
+  const key = apiKey(env);
+  if (!key) {
     return res.status(503).json({ error: "The order form is not set up yet." });
   }
 
@@ -175,7 +194,7 @@ export default async function handler(req, res, deps = {}) {
   try {
     const r = await send("https://api.resend.com/emails", {
       method: "POST",
-      headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         from: env.CONTACT_FROM || FROM,
         to: [env.ORDER_TO || env.CONTACT_TO || SUPPORT],
@@ -188,7 +207,7 @@ export default async function handler(req, res, deps = {}) {
     });
     if (!r.ok) {
       // The provider's answer stays in the function log, not with the buyer.
-      console.error("order: email provider answered", r.status, (await r.text()).slice(0, 500));
+      console.error("order: email provider answered", r.status, (await r.text()).slice(0, 500), "|", keyHint(env));
       return res.status(502).json({ error: "The agreement could not be sent just now." });
     }
   } catch (e) {
