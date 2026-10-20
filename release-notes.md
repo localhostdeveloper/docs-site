@@ -36,6 +36,12 @@ database is backed up first.
   video as soon as it has been.
 - The Overview's "Ingest" no longer counts a channel with inputs twice (its
   inputs and the channel they feed).
+- A server pulling a stream's MPEG-TS link (`/ts/<name>.ts`, or SRT with
+  `read:`) restarted its own output each time it reconnected: every
+  connection began its timestamps at zero. They now follow the stream's own
+  clock. MPEG-TS sent to other equipment (`/ts`, SRT, UDP, RTP and RIST
+  outputs) also gives each picture the usual 0.7 s margin before its decode
+  time, which some set-top boxes and receivers need to play smoothly.
 
 ## v0.1.35 {#v0-1-35}
 

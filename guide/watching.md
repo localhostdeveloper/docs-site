@@ -29,6 +29,10 @@ server can pull (an Unda [pull input](/guide/pull-inputs) takes it as it is).
   segments to wait for: the delay is the player's own buffer.
 - When the stream ends the connection ends, and players reconnect by
   themselves. A player that stops reading is let go after about 10 seconds.
+- The timestamps follow the stream's own clock, so a server that pulls the
+  link (Flussonic, Wowza, another Unda) and reconnects carries on where it
+  was instead of starting over. Each picture is sent 0.7 s ahead of its
+  decode time, the margin set-top boxes and other receivers expect.
 - A protected stream needs its [signed link](/guide/protect-playback): add
   `?token=…` as on the other addresses. A link for a number of devices
   counts each connection as one device.
