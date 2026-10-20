@@ -55,6 +55,12 @@ A picture of every live stream, refreshed every few seconds, with its bitrate
 and viewers. The pictures are stills, so the wall costs the server little,
 however many streams there are.
 
+A channel with [inputs](/guide/channel-inputs) has one tile: what its viewers
+see, with a tag for what is on air (**ENCODER**, **BACKUP ENCODER**,
+**PULL**, **PLAYLIST** or **SLATE**). Pictures of its inputs are on the
+channel's Inputs tab. The Overview and the Streams count in the menu count
+such a channel once, as the licence does.
+
 ## Viewers and events
 
 [![Sessions: every player watching now, with its address, player, start time and traffic](/screens/sessions.webp)](/screens/sessions.webp)
@@ -110,6 +116,13 @@ How the server is doing (bandwidth, CPU, memory over the last hour, refused
 requests), plus tabs for the addresses to give encoders, HTTPS certificates,
 transcoding hardware, UDP inputs, [multi-channel bundles](/guide/mpts),
 capacity and signed playback.
+
+**Database backups** (Status tab, admins and owners) shows the newest daily
+copy. An owner can also **download a locked backup** to their own computer:
+a copy of the database locked with a passphrase they choose, after typing
+their password again. The licence file, who is signed in and the viewer
+history are left out. Restoring is one command on the server; see
+[Backups and upgrades](/guide/install#8-backups-and-upgrades).
 
 ## License
 

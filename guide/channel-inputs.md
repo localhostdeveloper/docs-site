@@ -40,6 +40,10 @@ Under **In order of preference**, each input has:
 
 - its place (1, 2, 3) and a state: **on air**, **ready** (it has pictures and
   waits), or **no signal**;
+- a small picture of what it is sending, refreshed every few seconds (a grey
+  box while it sends nothing). A looped video or playlist starts only when it
+  is needed, so its picture may say so; with seamless switching it plays
+  inside the channel, so its picture shows while it is on air;
 - **↑** and **↓** to move it up or down;
 - a switch to use it or not. An input that is switched off is never put on
   air.

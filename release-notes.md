@@ -12,6 +12,31 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### New
+
+- Owners can download a backup of the database to their own computer from
+  Server → Status, locked with a passphrase they choose: accounts, channels
+  and their keys, every setting and the logs, without the licence file, who
+  is signed in or the viewer history. `unda admin restore` puts it back (or a
+  daily copy) with the server stopped
+  ([Backups and upgrades](/guide/install#8-backups-and-upgrades)).
+- Multiview shows one tile per channel: a channel with inputs shows what its
+  viewers see, tagged with what is on air (encoder, backup encoder, pull,
+  playlist or slate). The channel's Inputs tab shows a small live picture of
+  each input. The Overview and the menu count a channel with its inputs as
+  one stream.
+
+### Fixed
+
+- A looped video as a channel's playlist input showed black instead of the
+  video. Video fillers of 24/7 channels and backup sources that started
+  before their file had been checked (after a restart) now switch to the
+  video as soon as it has been.
+- The Overview's "Ingest" no longer counts a channel with inputs twice (its
+  inputs and the channel they feed).
+
 ## v0.1.35 {#v0-1-35}
 
 *19 October 2026*

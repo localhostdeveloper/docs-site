@@ -673,6 +673,16 @@ docker compose exec -T unda tar czf - -C /data/state backups license.json | \
   ssh backup@backup.example.com "cat > unda-$(date +%F).tgz"
 ```
 
+**Or download a locked backup to your computer.** On Server → Status, an owner
+can download a copy of the database locked with a passphrase they choose,
+after typing their password (and 2FA code) again. Without the passphrase the
+file opens nothing, so it is safe on a laptop or in cloud storage; keep the
+passphrase somewhere else (a password manager). It holds the accounts,
+channels and their keys, every setting and the logs; it leaves out the
+licence file, who is signed in, sign-in lockouts, pending invitations and
+the viewer history. At most six an hour can be downloaded, and each is in the
+audit log.
+
 To take a copy yourself at any time (before a big change), the backup command
 is safe while the server runs:
 
@@ -689,19 +699,40 @@ The backup file must not exist yet (it is never overwritten), hence the date in
 its name. The database holds stream keys, so keep backups as private as the
 server.
 
-**Restore:**
+**Restore:** stop Unda, then `unda admin restore` puts a backup back: a locked
+backup downloaded from the dashboard (it asks for the passphrase) or a plain
+copy (a daily one, a pre-upgrade one, `unda admin backup`). The database it
+replaces is kept in `state/backups/pre-restore-<time>/`, and a wrong
+passphrase or a damaged file changes nothing. Everyone signs in again
+afterwards. On a new server, install `license.json` as well: it is not part
+of backups.
 
 ```bash
-# systemd
+# systemd: copy the file to the server first (scp unda-backup-….unda-backup you@server:/tmp/)
+sudo systemctl stop unda
+sudo -u unda unda admin -config /etc/unda/unda.yaml restore /tmp/unda-backup-2026-10-20.unda-backup
+sudo systemctl start unda
+# Docker: copy the file into the volume, then restore with the service stopped
+docker compose stop unda
+docker compose cp unda-backup-2026-10-20.unda-backup unda:/data/
+docker compose run --rm --entrypoint unda unda admin -config /etc/unda/unda.yaml \
+  restore /data/unda-backup-2026-10-20.unda-backup
+docker compose start unda
+```
+
+The passphrase is visible as you type it; to avoid that, pipe it in
+(`printf '%s\n' "$PASSPHRASE" | … restore FILE`, adding `-T` after
+`docker compose run`). It refuses while Unda is running, and as root when the
+data folder belongs to the service user (run it with `sudo -u unda`, as
+above, so the restored file stays Unda's).
+
+Without the command (a plain copy only):
+
+```bash
 sudo systemctl stop unda
 sudo -u unda rm -f /var/lib/unda/state/unda.db-wal /var/lib/unda/state/unda.db-shm
 sudo -u unda cp backup-2026-09-24.db /var/lib/unda/state/unda.db
 sudo systemctl start unda
-# Docker: a copy already in the volume (e.g. from state/backups/, below)
-docker compose stop unda
-docker compose run --rm --entrypoint sh unda -c \
-  'rm -f /data/state/unda.db-wal /data/state/unda.db-shm && cp /data/state/backups/FILE.db /data/state/unda.db'
-docker compose start unda
 ```
 
 **Upgrade:**
