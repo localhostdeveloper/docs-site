@@ -27,6 +27,8 @@ database is backed up first.
   playlist or slate). The channel's Inputs tab shows a small live picture of
   each input. The Overview and the menu count a channel with its inputs as
   one stream.
+- Setting up two-factor sign-in shows a QR code to scan with the
+  authenticator app, as well as the key to type.
 
 ### Fixed
 
@@ -42,6 +44,14 @@ database is backed up first.
   clock. MPEG-TS sent to other equipment (`/ts`, SRT, UDP, RTP and RIST
   outputs) also gives each picture the usual 0.7 s margin before its decode
   time, which some set-top boxes and receivers need to play smoothly.
+- 24/7 channels lost some or all of the sound of video files that store it
+  after the pictures (phone recordings and some MPEG-TS files): the picture
+  played, the sound broke up or was silent, the more so on a busy server.
+  Playlist items, filler videos and looped videos now keep their sound, in
+  step with the picture.
+- SRT pushes, SRT broadcast outputs and SRT inputs that call out could leave
+  a little memory behind each time they reconnected (the SRT library is
+  updated).
 
 ## v0.1.35 {#v0-1-35}
 

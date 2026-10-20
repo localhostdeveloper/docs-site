@@ -38,7 +38,9 @@ password when they open it.
 
 Each person can turn on two-factor sign-in under **Account** with any
 authenticator app (Google Authenticator, Microsoft Authenticator, 1Password,
-Authy…). They also get 10 one-time recovery codes: keep them somewhere safe.
+Authy…): scan the QR code shown there with the app, or type the key shown
+under it, then enter the 6-digit code the app gives. They also get 10
+one-time recovery codes: keep them somewhere safe.
 
 An admin can **require** two-factor sign-in for chosen roles under
 **Users → Security**; only the owner can require it for owners. Someone who
