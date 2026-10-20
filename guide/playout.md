@@ -24,7 +24,7 @@ running their own channel (see [Channels for your clients](#channels-for-your-cl
    schedule's time zone starts as yours. The channel goes on air at once,
    playing its filler.
 3. On the channel's page, build the **Playlist** (below) and click **Save
-   schedule**. The channel follows it within a few seconds.
+   playlist**. The channel plays it within a few seconds.
 
 **Settings** on the channel's page changes its picture, bitrate, filler or
 live input (the channel restarts, so viewers reconnect once; the playlist is
@@ -73,34 +73,58 @@ files** that every channel may use (station idents, jingles, adverts):
 
 ### The playlist editor
 
-Each row is one item: when it starts, which video, a title, and optional in
-and out points (like `00:01:30`) to play only part of the file. **+ Description**
-under the title adds what the programme is about (up to 1,000 characters):
-TVs show it in their programme guide, and IPTV apps get it through XMLTV (see
-[Programme guide](#programme-guide)).
+A playlist plays as soon as you save it and goes round and round, so the
+channel is never empty: upload a few videos, add them, save. Each row is one
+item: when it plays, which video, a title. **+ Description** under the title
+adds what the programme is about (up to 1,000 characters): TVs show it in
+their programme guide, and IPTV apps get it through XMLTV (see
+[Programme guide](#programme-guide)). **+ In/out** plays only part of the
+file (like `00:01:30`).
 
 [![The playlist editor: items with start times, videos, titles and when each will play](/screens/schedule.webp)](/screens/schedule.webp)
 
-- **Loop the playlist:** switch it on and the videos play one after another,
-  round and round, all day, with no start times: upload a few videos, add
-  them, save, and the channel is never empty. **In each round** shows where
-  each video falls and how long one round takes. Saving a changed list starts
-  the loop again from the first video; after a restart the channel rejoins
-  the loop where it would be. Switch it off to go back to start times (the
-  ones you had come back).
-- **Repeat:** *Every day* uses times of day (the day repeats); *Once* uses
-  dates and times.
-- **Starts at:** an item with a start time begins exactly then and cuts
-  whatever plays before it. Leave it empty (the **×** button) for an item that
-  follows the previous one. The first item needs a start time.
-- **Plays** shows when each item will run and for how long, worked out from
-  the videos' lengths. Warnings show where filler plays in a gap, where an
-  item is cut short, and where a video is missing from Media.
+- **When** each item plays:
+  - **In the loop** (the default): the loop's items play one after another,
+    round and round.
+  - **Every day at**, **On chosen days at** (pick the days) or **On a date
+    at**: the item cuts in at that time, whatever is playing.
+  - **Right after the item above**: the item follows the fixed-time item
+    above it as one block, like the weather straight after the 19:00 news.
+
+  When a fixed-time block ends, the loop carries on where it stopped: a film
+  cut by the news continues after it. A fixed time also cuts a block that is
+  still playing.
+- **Starts:** *Now, when saved*, or *At a date and time*: until then the
+  channel plays its filler, and the loop then starts from its first item.
+- **Today** draws the day in the playlist's time zone: the loop, the fixed
+  times, filler, and a line at now.
+- **Next on air** shows when each item plays next (up to 8 days ahead). The
+  server works it out as you edit, before you save, from the videos' lengths.
+  Warnings show a video missing from Media, a time not chosen yet, or a fixed
+  item cut short by the next fixed time.
+- Saving keeps the loop's place: adding a fixed time, renaming an item or
+  changing the time zone carries on where the loop is. Adding, removing or
+  reordering the loop's own items starts it again from its first item.
+- A channel made with an earlier version, whose schedule puts items at times
+  of day or on dates, opens as the playlist that plays the same: each timed
+  item becomes a fixed time and the items after it play right after it.
+  Nothing changes on air; saving writes it the new way.
 - Rows move up and down, and can be duplicated or removed. Nothing changes
   on air until you save; the page asks before you leave with unsaved changes.
 - If someone else saved the playlist after you opened it, saving is refused
   and the page offers to load their version, so nobody's work is silently
   overwritten.
+
+### Next, Previous and Play now
+
+On the channel's page, **Next** puts the loop's next item on air now and
+**Previous** starts the item on air again (in its first few seconds: the
+item before). **Play now** on a loop item in the playlist puts that item on
+air. Viewers stay connected: the picture holds for a moment while the next
+video opens. The loop carries on from there, fixed times stay where they are,
+the programme guide follows, and the as-run log marks the item that was cut
+`skipped`. While a fixed-time item is on air the buttons are greyed out: it
+plays at its time, untouched. Anyone who can edit the channel can use them.
 
 ### Channels in unda.yaml
 
@@ -163,40 +187,41 @@ set in `unda.yaml`, or to generate schedules with your own tools. A
 dashboard channel's file is `<data folder>/playout/<name>.yaml` (edits made
 to it by hand are picked up within 5 seconds, like any schedule file).
 
-YAML or JSON. An item with a `start` begins exactly then, cutting whatever
-plays before it; an item without one follows the previous item. The first item
-needs a start.
+YAML or JSON. A playlist (`repeat: loop`) plays its items round and round;
+an item with `at` cuts in at that time instead, and items with `after: true`
+below it play right after it as one block. The loop then carries on where it
+stopped.
 
 ```yaml
 timezone: Africa/Accra       # default: the server's time zone
-items:
-  - start: "2026-10-01 06:00"
-    title: Morning show
-    description: News, weather and guests.   # optional: the programme guide's text
-    media: morning-show.mp4
-  - media: news.mp4          # right after the morning show
-  - start: "2026-10-01 12:00"
-    media: film.mp4
-    in: "00:00:30"           # skip the first 30 seconds
-    out: "01:35:00"          # stop here
-```
-
-For a schedule that repeats every day, add `repeat: daily` and give start times
-as times of day (`"06:00"`, `"18:30:00"`). The last item of the day is cut by
-the next day's first start.
-
-For a playlist that loops, add `repeat: loop` and give no start times: the
-items play one after another, round and round. `since` (written by the
-dashboard when you save) is when the first round began; without it the loop
-is anchored to a fixed moment, so a restart still rejoins it in place.
-
-```yaml
 repeat: loop
 items:
-  - media: ident.mp4
-  - media: channels/tv1/episode-1.mp4
-  - media: channels/tv1/episode-2.mp4
+  - media: film.mp4          # in the loop
+    title: The River
+    description: A family's journey down the Volta.   # optional: the programme guide's text
+    in: "00:00:30"           # skip the first 30 seconds
+    out: "01:35:00"          # stop here
+  - media: series-ep1.mp4    # in the loop
+  - media: news.mp4
+    at: "19:00"              # every day at 19:00
+  - media: weather.mp4
+    after: true              # right after the news
+  - media: service.mp4
+    at: "10:00"
+    days: [sun]              # only on Sundays (mon, tue, wed, thu, fri, sat, sun)
+  - media: final.mp4
+    at: "2026-10-25 15:00"   # once, on that date
 ```
+
+`start_at: "2026-10-26 06:00"` starts the playlist then (filler before). The
+server writes `since` and `offset` when you save or skip: where the loop was
+at that moment, so a restart rejoins it in place. Without them the loop is
+anchored to a fixed moment.
+
+Schedules written for earlier versions still play as they did: without
+`repeat`, an item with a `start` (`"2026-10-01 06:00"`) begins exactly then
+and items without one follow it; with `repeat: daily` the starts are times
+of day (`"06:00"`) and the day repeats.
 
 The server re-reads the file within a few seconds of it changing: edit it and
 save, no restart. A file with a mistake is refused with the reason (on the
@@ -249,8 +274,9 @@ programme before them.
 
 Everything that goes on air is recorded: each item, filler and live takeover,
 with its scheduled time, when it really started and ended, where in the file it
-started, and why it ended (`completed`, `cut` by the next start time, `live`,
-`error`, `stopped`). It is kept for 90 days (`playout.asrun_retention_days`).
+started, and why it ended (`completed`, `cut` by the next fixed time, `live`,
+`error`, `stopped`, `skipped` by Next, Previous or Play now, `schedule` when
+the playlist changed). It is kept for 90 days (`playout.asrun_retention_days`).
 
 ```bash
 curl -H "Authorization: Bearer $KEY" "https://tv.example.com/api/v1/playout/channels/tv1/asrun?format=csv" > asrun.csv

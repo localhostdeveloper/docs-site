@@ -29,6 +29,14 @@ database is backed up first.
   one stream.
 - Setting up two-factor sign-in shows a QR code to scan with the
   authenticator app, as well as the key to type.
+- Playlists play as soon as they are saved and go round and round. Any item
+  can instead cut in at a fixed time (every day, on chosen days, or on a
+  date), with items right after it as a block; the loop then carries on where
+  it stopped. A playlist can also start at a set date and time. The editor
+  draws today and shows when each item plays next, and **Next**, **Previous**
+  and **Play now** move a 24/7 channel's loop on air
+  ([24/7 channels](/guide/playout#the-playlist-editor)). Schedules made with
+  earlier versions open as the playlist that plays the same.
 - Sound meters on Multiview: every channel's left and right level, live. A
   channel silent for 10 seconds raises **No sound** (on the tile, in Needs
   attention and in Events), even when nobody is watching
