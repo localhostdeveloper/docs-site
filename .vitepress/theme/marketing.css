@@ -268,6 +268,7 @@ a.m-card:hover { border-color: var(--vp-c-brand-1); box-shadow: var(--m-shadow);
 .m-form .m-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .m-form label { display: block; margin-top: 16px; font-size: 14px; font-weight: 600; }
 .m-form .m-row label { margin-top: 0; }
+.m-form .m-row .m-other { margin-top: 10px; }
 .m-form .m-row + label, .m-form .m-row + .m-row { margin-top: 16px; }
 .m-form input, .m-form select, .m-form textarea {
   display: block;

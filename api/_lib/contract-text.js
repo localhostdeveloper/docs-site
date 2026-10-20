@@ -90,8 +90,28 @@ export const COUNTRIES = [
 // Shown first in the list, above all countries.
 export const COMMON_COUNTRIES = ["Ghana"];
 
+// The order page's other lists: picked, not typed, so a quote's figures can't
+// be mistyped ("GHC", "12 monhts"). The order function accepts only these,
+// except job titles, where "Other" lets the buyer type their own.
+export const CURRENCIES = [
+  { code: "GHS", name: "Ghana cedi" },
+  { code: "USD", name: "US dollar" },
+  { code: "EUR", name: "Euro" },
+];
+export const LICENCE_TERMS = ["1 month", "3 months", "6 months", "12 months", "24 months", "36 months"];
+export const BILLING_PERIODS = ["Monthly", "Every 3 months", "Every 6 months", "Yearly", "Once, in advance"];
+export const PAYMENT_DAYS = ["7", "14", "30", "45", "60"];
+export const JOB_TITLES = [
+  "Owner", "Chief Executive Officer", "Managing Director", "Director", "General Manager",
+  "Station Manager", "Operations Manager", "Technical Director", "Chief Engineer", "Head of IT",
+  "IT Manager", "Finance Manager", "Procurement Officer", "Programme Manager", "Producer",
+];
+// A job title typed after choosing "Other".
+export const OTHER_TITLE = "Other";
+
 // Part A's boxes, by the name each has in the PDF. max is what the order
-// function accepts; required applies online (a PDF can't insist).
+// function accepts; required applies online (a PDF can't insist); form is the
+// label on the order page where it differs (a list needs no "e.g.").
 export const FIELDS = {
   customer_name: { label: "Organisation’s full legal name", max: 150, required: true },
   customer_reg_no: { label: "Registration number, if any", max: 60 },
@@ -108,12 +128,12 @@ export const FIELDS = {
   domains: { label: "Domain names to lock the licence to (optional), e.g. tv.example.com", max: 250 },
   quote_number: { label: "Quote number", max: 40 },
   start_date: { label: "Start date", max: 40 },
-  licence_term: { label: "Licence term, e.g. 12 months", max: 40 },
+  licence_term: { label: "Licence term, e.g. 12 months", form: "Licence term", max: 40 },
   licence_fee: { label: "Licence fee", max: 40 },
-  currency: { label: "Currency, e.g. GHS or USD", max: 20 },
-  billing_period: { label: "Billed, e.g. yearly", max: 40 },
+  currency: { label: "Currency, e.g. GHS or USD", form: "Currency", max: 20 },
+  billing_period: { label: "Billed, e.g. yearly", form: "Billed", max: 40 },
   hosting_fee: { label: "Managed hosting fee (Managed only)", max: 40 },
-  payment_days: { label: "Pay invoices within (days; 14 if left blank)", max: 10 },
+  payment_days: { label: "Pay invoices within (days; 14 if left blank)", form: "Pay invoices within", max: 10 },
   special_terms: {
     label: "For example support response times, more than one installation, or a discount",
     max: 800, multiline: true,

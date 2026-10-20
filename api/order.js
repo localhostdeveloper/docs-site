@@ -18,7 +18,7 @@
 //                   the address verified in Resend for now)
 
 import { buildContract } from "./_lib/contract-pdf.js";
-import { FIELDS, PACKAGES, HOSTING, COUNTRIES, VERSION } from "./_lib/contract-text.js";
+import { FIELDS, PACKAGES, HOSTING, COUNTRIES, CURRENCIES, LICENCE_TERMS, BILLING_PERIODS, PAYMENT_DAYS, VERSION } from "./_lib/contract-text.js";
 import { apiKey, keyHint } from "./_lib/resend.js";
 
 const EMAIL = /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[^\s@<>()",;:]{2,}$/;
@@ -26,6 +26,18 @@ const SUPPORT = "support@undamedia.com";
 const FROM = `UndaMedia website <${SUPPORT}>`;
 // Nobody fills in a contract this fast; a script does.
 const MIN_FILL_MS = 8000;
+// A fee: 12000, 12,000 or 12,000.50.
+const AMOUNT = /^(\d{1,3}(,\d{3})+|\d+)(\.\d{1,2})?$/;
+// A Custom package's streams or members: a whole number.
+const COUNT = /^[1-9]\d{0,5}$/;
+// The quote's figures the order page offers as lists; anything else is a
+// mistake (or not the page).
+const LISTS = [
+  ["currency", CURRENCIES.map((c) => c.code), "the currency"],
+  ["licence_term", LICENCE_TERMS, "the licence term"],
+  ["billing_period", BILLING_PERIODS, "how often you are billed"],
+  ["payment_days", PAYMENT_DAYS, "the days to pay an invoice"],
+];
 
 function field(v, max) {
   return typeof v === "string" ? v.trim().slice(0, max) : "";
@@ -60,12 +72,23 @@ export function check(body, now = Date.now()) {
     values.start_date = dayInWords(values.start_date);
     if (!values.start_date) return { error: "Please pick the start date from the calendar." };
   }
+  for (const [name, list, what] of LISTS) {
+    if (values[name] && !list.includes(values[name])) return { error: `Please choose ${what} from the list.` };
+  }
+  for (const name of ["licence_fee", "hosting_fee"]) {
+    if (values[name] && !AMOUNT.test(values[name])) {
+      return { error: `Please write “${FIELDS[name].form || FIELDS[name].label}” as a number, e.g. 12000 or 12,000.00.` };
+    }
+  }
   values.package = field(body.package, 40);
   values.hosting = field(body.hosting, 40);
   if (!PACKAGES.some((p) => p.value === values.package)) return { error: "Please choose a package." };
   if (!HOSTING.some((h) => h.value === values.hosting)) return { error: "Please choose how Unda runs: self-hosted or managed." };
   if (values.package === "Custom" && (!values.custom_streams || !values.custom_members)) {
     return { error: "For the Custom package, please give the live streams and team members from our quote." };
+  }
+  if (values.package === "Custom" && (!COUNT.test(values.custom_streams) || !COUNT.test(values.custom_members))) {
+    return { error: "For the Custom package, please give the live streams and team members as whole numbers." };
   }
   values.customer_sign_name = oneLine(field(body.signer_name, 100));
   values.customer_sign_title = oneLine(field(body.signer_title, 100));
@@ -99,8 +122,10 @@ export function signing(at) {
 }
 
 export function compose(values, when, client) {
-  const label = (name) => (FIELDS[name] ? FIELDS[name].label : name);
-  const row = (name) => `${label(name)}: ${values[name] || "-"}`;
+  // The order page's labels: the PDF's carry examples ("e.g. 12 months").
+  const label = (name) => (FIELDS[name] ? FIELDS[name].form || FIELDS[name].label : name);
+  const shown = (name) => (name === "payment_days" && values[name] ? values[name] + " days" : values[name]);
+  const row = (name) => `${label(name)}: ${shown(name) || "-"}`;
   const pick = (names) => names.map(row).join("\n");
   const org = values.customer_name;
   return {

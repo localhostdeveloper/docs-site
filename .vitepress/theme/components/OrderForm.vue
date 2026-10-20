@@ -7,14 +7,21 @@
 // PDF. "website" is a trap field people never see; "started" lets the function
 // refuse forms sent faster than a person can fill them in.
 import { onMounted, reactive, ref } from "vue";
-import { FIELDS, PACKAGES, HOSTING, TERMS, COUNTRIES, COMMON_COUNTRIES, md } from "../../../api/_lib/contract-text.js";
+import {
+  FIELDS, PACKAGES, HOSTING, TERMS, COUNTRIES, COMMON_COUNTRIES, CURRENCIES, LICENCE_TERMS, BILLING_PERIODS,
+  PAYMENT_DAYS, JOB_TITLES, OTHER_TITLE, md,
+} from "../../../api/_lib/contract-text.js";
 
 const SUPPORT = "support@undamedia.com";
 const PDF = "/unda-licence-agreement.pdf";
 
 const v = reactive<Record<string, string>>(Object.fromEntries(Object.keys(FIELDS).map((k) => [k, ""])));
+v.payment_days = "14";
+// Job titles: picked from the list, or typed after choosing "Other".
+const titles = reactive({ contact: { pick: "", other: "" }, signer: { pick: "", other: "" } });
+const titleOf = (t: { pick: string; other: string }) => (t.pick === OTHER_TITLE ? t.other.trim() : t.pick);
 const choice = reactive({ package: "", hosting: "" });
-const signer = reactive({ name: "", title: "" });
+const signer = reactive({ name: "" });
 const agree = ref(false);
 const website = ref("");
 const started = ref(0);
@@ -25,7 +32,7 @@ const error = ref("");
 const copyURL = ref("");
 const copyName = ref("unda-licence-agreement.pdf");
 
-const label = (name: string) => FIELDS[name].label;
+const label = (name: string) => FIELDS[name].form || FIELDS[name].label;
 const max = (name: string) => FIELDS[name].max;
 
 onMounted(() => {
@@ -44,10 +51,11 @@ async function submit() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...v,
+        contact_title: titleOf(titles.contact),
         package: choice.package,
         hosting: choice.hosting,
         signer_name: signer.name,
-        signer_title: signer.title,
+        signer_title: titleOf(titles.signer),
         agree: agree.value,
         website: website.value,
         started: started.value,
@@ -106,9 +114,18 @@ async function submit() {
         <label>{{ label("contact_name") }}
           <input v-model.trim="v.contact_name" autocomplete="name" required :maxlength="max('contact_name')" />
         </label>
-        <label>{{ label("contact_title") }}
-          <input v-model.trim="v.contact_title" autocomplete="organization-title" :maxlength="max('contact_title')" />
-        </label>
+        <div>
+          <label>{{ label("contact_title") }}
+            <select v-model="titles.contact.pick">
+              <option value="">Choose a job title</option>
+              <option v-for="t in JOB_TITLES" :key="t" :value="t">{{ t }}</option>
+              <option :value="OTHER_TITLE">Other (type it)</option>
+            </select>
+          </label>
+          <label v-if="titles.contact.pick === OTHER_TITLE" class="m-other">Contact person’s job title
+            <input v-model="titles.contact.other" autocomplete="organization-title" required :maxlength="max('contact_title')" />
+          </label>
+        </div>
       </div>
       <div class="m-row">
         <label>{{ label("contact_email") }}
@@ -133,10 +150,10 @@ async function submit() {
       <template v-if="choice.package === 'Custom'">
         <div class="m-row">
           <label>{{ label("custom_streams") }}
-            <input v-model.trim="v.custom_streams" required :maxlength="max('custom_streams')" />
+            <input v-model.trim="v.custom_streams" inputmode="numeric" pattern="[1-9][0-9]{0,5}" title="A whole number, e.g. 20" required :maxlength="max('custom_streams')" />
           </label>
           <label>{{ label("custom_members") }}
-            <input v-model.trim="v.custom_members" required :maxlength="max('custom_members')" />
+            <input v-model.trim="v.custom_members" inputmode="numeric" pattern="[1-9][0-9]{0,5}" title="A whole number, e.g. 20" required :maxlength="max('custom_members')" />
           </label>
         </div>
         <label>{{ label("custom_tools") }}
@@ -167,26 +184,37 @@ async function submit() {
       </div>
       <div class="m-row">
         <label>{{ label("licence_term") }}
-          <input v-model.trim="v.licence_term" :maxlength="max('licence_term')" />
+          <select v-model="v.licence_term">
+            <option value="">Choose</option>
+            <option v-for="t in LICENCE_TERMS" :key="t" :value="t">{{ t }}</option>
+          </select>
         </label>
         <label>{{ label("licence_fee") }}
-          <input v-model.trim="v.licence_fee" :maxlength="max('licence_fee')" />
+          <input v-model.trim="v.licence_fee" inputmode="decimal" placeholder="e.g. 12,000" pattern="(\d{1,3}(,\d{3})+|\d+)(\.\d{1,2})?" title="A number, e.g. 12000 or 12,000.00" :maxlength="max('licence_fee')" />
         </label>
       </div>
       <div class="m-row">
         <label>{{ label("currency") }}
-          <input v-model.trim="v.currency" :maxlength="max('currency')" />
+          <select v-model="v.currency">
+            <option value="">Choose</option>
+            <option v-for="c in CURRENCIES" :key="c.code" :value="c.code">{{ c.name }} ({{ c.code }})</option>
+          </select>
         </label>
         <label>{{ label("billing_period") }}
-          <input v-model.trim="v.billing_period" :maxlength="max('billing_period')" />
+          <select v-model="v.billing_period">
+            <option value="">Choose</option>
+            <option v-for="b in BILLING_PERIODS" :key="b" :value="b">{{ b }}</option>
+          </select>
         </label>
       </div>
       <div class="m-row">
         <label v-if="choice.hosting === 'Managed'">{{ label("hosting_fee") }}
-          <input v-model.trim="v.hosting_fee" :maxlength="max('hosting_fee')" />
+          <input v-model.trim="v.hosting_fee" inputmode="decimal" placeholder="e.g. 1,500" pattern="(\d{1,3}(,\d{3})+|\d+)(\.\d{1,2})?" title="A number, e.g. 1500 or 1,500.00" :maxlength="max('hosting_fee')" />
         </label>
         <label>{{ label("payment_days") }}
-          <input v-model.trim="v.payment_days" inputmode="numeric" :maxlength="max('payment_days')" />
+          <select v-model="v.payment_days">
+            <option v-for="d in PAYMENT_DAYS" :key="d" :value="d">{{ d }} days</option>
+          </select>
         </label>
       </div>
 
@@ -214,9 +242,18 @@ async function submit() {
         <label>Your full name (this is your signature)
           <input v-model.trim="signer.name" autocomplete="name" required maxlength="100" />
         </label>
-        <label>Your job title
-          <input v-model.trim="signer.title" autocomplete="organization-title" required maxlength="100" />
-        </label>
+        <div>
+          <label>Your job title
+            <select v-model="titles.signer.pick" required>
+              <option value="" disabled>Choose a job title</option>
+              <option v-for="t in JOB_TITLES" :key="t" :value="t">{{ t }}</option>
+              <option :value="OTHER_TITLE">Other (type it)</option>
+            </select>
+          </label>
+          <label v-if="titles.signer.pick === OTHER_TITLE" class="m-other">Type your job title
+            <input v-model="titles.signer.other" autocomplete="organization-title" required maxlength="100" />
+          </label>
+        </div>
       </div>
       <label class="m-check">
         <input v-model="agree" type="checkbox" required />
