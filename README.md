@@ -23,4 +23,4 @@ npm run build     # the finished site in .vitepress/dist
   **Root Directory** to `docs-site`. Vercel detects VitePress.
 - Without Git: `npx vercel` in this folder uploads just this folder.
 
-Then add the domain (e.g. `docs.localstreamgh.com`) under **Settings → Domains**.
+Then add the domain (e.g. `docs.example.com`) under **Settings → Domains**.

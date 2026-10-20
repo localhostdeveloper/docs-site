@@ -42,6 +42,38 @@ function roundRect(w, h, r) {
 // Letters the standard fonts lack, spelled the nearest way they have.
 const SPELL = { "ɛ": "e", "Ɛ": "E", "ɔ": "o", "Ɔ": "O", "ŋ": "ng", "Ŋ": "Ng", "ƒ": "f" };
 
+// safeText rewrites text so a standard font can show it: accents the font
+// lacks are dropped, letters it lacks spelled nearby, anything else "?".
+function safeText(charset, s) {
+  let out = "";
+  for (const ch of s) {
+    const cp = ch.codePointAt(0);
+    if (ch === "\n" || charset.has(cp)) { out += ch; continue; }
+    if (SPELL[ch]) { out += SPELL[ch]; continue; }
+    const plain = ch.normalize("NFKD").replace(/[̀-ͯ]/g, "");
+    out += plain && [...plain].every((c) => charset.has(c.codePointAt(0))) ? plain : "?";
+  }
+  return out;
+}
+
+// formFont names the font the boxes' text is drawn in as the form's default
+// (AcroForm DR and DA). Each box asks for "Helvetica"; a PDF app that redraws
+// a box after typing looks the name up there, and without it some apps could
+// not fill the boxes at all (found on a buyer's signed agreement, 2026-10-20).
+function formFont(pdf, font) {
+  const acro = pdf.getForm().acroForm.dict;
+  acro.set(PDFName.of("DR"), pdf.context.obj({ Font: { Helvetica: font.ref } }));
+  acro.set(PDFName.of("DA"), PDFString.of("/Helvetica 10 Tf 0 g"));
+}
+
+// fitFontSize is the largest font size (start down to 6) at which a
+// one-line value fits a box w wide.
+function fitFontSize(font, value, w, start = 10) {
+  let size = start;
+  while (size > 6 && textWidth(font, value, size) > w - 4) size -= 0.5;
+  return size;
+}
+
 class Layout {
   constructor(pdf, fonts, fill) {
     this.pdf = pdf;
@@ -54,18 +86,8 @@ class Layout {
     this.newPage();
   }
 
-  // safe rewrites text so the standard fonts can show it: accents the font
-  // lacks are dropped, letters it lacks spelled nearby, anything else "?".
   safe(s) {
-    let out = "";
-    for (const ch of s) {
-      const cp = ch.codePointAt(0);
-      if (ch === "\n" || this.charset.has(cp)) { out += ch; continue; }
-      if (SPELL[ch]) { out += SPELL[ch]; continue; }
-      const plain = ch.normalize("NFKD").replace(/[̀-ͯ]/g, "");
-      out += plain && [...plain].every((c) => this.charset.has(c.codePointAt(0))) ? plain : "?";
-    }
-    return out;
+    return safeText(this.charset, s);
   }
 
   newPage() {
@@ -189,9 +211,9 @@ class Layout {
   // fitSize is the largest font size (10 down to 6) at which value fits a
   // box w × h, so a long name is smaller rather than cut off.
   fitSize(value, w, h, multiline) {
-    let size = multiline ? 9 : 10;
+    if (!multiline) return fitFontSize(this.F.reg, value, w);
+    let size = 9;
     const fits = (s) => {
-      if (!multiline) return textWidth(this.F.reg, value, s) <= w - 4;
       let lines = 0;
       for (const p of value.split("\n")) lines += Math.max(1, this.wrap([{ t: p, f: "reg" }], w - 4, s).lines.length);
       return lines * s * 1.2 <= h - 3;
@@ -417,5 +439,48 @@ export async function buildContract(fill) {
     : `Save the file and email it to **${EMAIL}**. We sign it and send a copy back to you.`), { size: 9.5, after: 0 });
 
   L.footers();
+  formFont(pdf, fonts.reg);
   return pdf.save();
+}
+
+// Our side of Part C, in the order the boxes appear.
+const OUR_BOXES = ["vendor_sign_name", "vendor_sign_title", "vendor_sign_signature", "vendor_sign_date"];
+
+// countersign signs our side of an agreement the buyer has signed (the PDF
+// from the order page, or the blank one they filled in): it types our name,
+// job title, signature and date into our four boxes in Part C, where they
+// are, so nothing on any page moves, and locks every box. Typing a name
+// counts as signing (Part B, 11.8). It refuses a PDF that is not this
+// agreement, or whose side is already signed. Returns the new PDF's bytes.
+export async function countersign(bytes, { name, title, date, signature }, at = new Date()) {
+  let pdf;
+  try {
+    pdf = await PDFDocument.load(bytes);
+  } catch {
+    throw new Error("This file could not be read as a PDF.");
+  }
+  const form = pdf.getForm();
+  const box = (n) => {
+    try {
+      return form.getTextField(n);
+    } catch {
+      throw new Error("This is not an Unda licence agreement with its boxes (no “" + n + "”). If it was printed or scanned, sign the paper copy instead.");
+    }
+  };
+  const boxes = OUR_BOXES.map(box);
+  if (boxes.some((b) => (b.getText() || "").trim())) throw new Error("Our side of Part C is already filled in.");
+  const font = await pdf.embedFont(StandardFonts.Helvetica);
+  const charset = new Set(font.getCharacterSet());
+  const values = [name, title, signature || name, date].map((v) => safeText(charset, String(v || "").replace(/\s+/g, " ").trim()));
+  if (!values[0] || !values[1] || !values[3]) throw new Error("Give our signer's name, job title and the date.");
+  boxes.forEach((b, i) => {
+    const w = b.acroField.getWidgets()[0].getRectangle().width;
+    b.setFontSize(fitFontSize(font, values[i], w));
+    b.setText(values[i]);
+    b.updateAppearances(font);
+  });
+  for (const f of form.getFields()) f.enableReadOnly();
+  formFont(pdf, font);
+  pdf.setModificationDate(at);
+  return pdf.save({ updateFieldAppearances: false });
 }
