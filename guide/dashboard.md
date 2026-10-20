@@ -61,6 +61,14 @@ see, with a tag for what is on air (**ENCODER**, **BACKUP ENCODER**,
 channel's Inputs tab. The Overview and the Streams count in the menu count
 such a channel once, as the licence does.
 
+Each tile has two sound meters at the right edge of its picture, for the left
+and right channel: green, yellow above -18 dBFS, red above -6 dBFS, with a
+line marking the last peak. A channel that has been silent for 10 seconds
+shows **NO SOUND** with how long, and a red border; a stream that carries no
+sound at all shows **No sound track**. The same alarm appears in **Needs
+attention** and in Events, whether or not anyone has Multiview open (see
+[No sound](/guide/monitoring#no-sound)).
+
 ## Viewers and events
 
 [![Sessions: every player watching now, with its address, player, start time and traffic](/screens/sessions.webp)](/screens/sessions.webp)

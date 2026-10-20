@@ -330,6 +330,10 @@ monitoring:
   # /metrics (Prometheus) and /debug/pprof/* are served behind the API token —
   # metrics carry live stream keys, which are publish credentials.
   # disable_pprof: true   # remove /debug/pprof/* entirely
+  # Every live channel's sound is measured (Multiview meters, the "no sound"
+  # alarm) when FFmpeg is found: about 0.5% of a CPU core and 15 MB a channel.
+  # silence_alarm_seconds: 10      # silent this long = "no sound" (3-3600)
+  # disable_audio_levels: true     # no meters, no alarm
 
 # Webhook alerts (M10). Nothing is sent unless at least one webhook is set.
 # alerts:

@@ -69,6 +69,26 @@ Unda raises these by itself; each one clears by itself once the cause is gone.
 | Certificate | the HTTPS certificate is close to expiry and not being renewed |
 | CPU high | CPU above 85% for a minute (critical above 95%): streams may stutter |
 | Possible leak | the server's memory keeps growing with the same load |
+| No sound | a channel has been silent for 10 seconds (critical after a minute), or carries no sound track; see [No sound](#no-sound) |
+
+## No sound
+
+Unda listens to every live channel all the time: the sound viewers get, not a
+channel's separate inputs. A channel is silent when its loudest moments stay
+below -60 dBFS on both left and right (true silence reads about -91; quiet
+speech and room noise are well above -60). After 10 seconds of silence it
+raises **No sound**, which turns critical after a minute and clears as soon
+as there is sound again. The Multiview shows each channel's level as it
+happens.
+
+```yaml
+monitoring:
+  silence_alarm_seconds: 10      # 3 to 3600
+  # disable_audio_levels: true   # no sound meters and no alarm
+```
+
+It needs FFmpeg on the server (as the Multiview pictures do). Each channel
+costs a small sound decoder: about 0.5% of a CPU core and 15 MB of memory.
 
 ## Messages to Slack, Discord or your own system
 

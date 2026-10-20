@@ -29,6 +29,10 @@ database is backed up first.
   one stream.
 - Setting up two-factor sign-in shows a QR code to scan with the
   authenticator app, as well as the key to type.
+- Sound meters on Multiview: every channel's left and right level, live. A
+  channel silent for 10 seconds raises **No sound** (on the tile, in Needs
+  attention and in Events), even when nobody is watching
+  ([No sound](/guide/monitoring#no-sound)).
 
 ### Fixed
 
@@ -49,6 +53,8 @@ database is backed up first.
   played, the sound broke up or was silent, the more so on a busy server.
   Playlist items, filler videos and looped videos now keep their sound, in
   step with the picture.
+- Multiview shows each picture as soon as its tile is on screen, not a few
+  seconds later.
 - SRT pushes, SRT broadcast outputs and SRT inputs that call out could leave
   a little memory behind each time they reconnected (the SRT library is
   updated).
