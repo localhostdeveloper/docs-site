@@ -72,7 +72,9 @@ RFC 3339 or unix seconds), `min_duration` (seconds), `sort` (`started`,
 | `GET /api/v1/playout/channels/{name}/schedule` | operator | The playlist: `timezone`, `repeat` (`loop`), `start_at`, `since`, `items` (`media`, `title`, `description`, `in`, `out`, and `at` + `days`, or `after`), `version`, `writable`, `error` if the file can't be used now. A schedule of times of day or dates is shown as the playlist that plays the same (`converted`) |
 | `PUT /api/v1/playout/channels/{name}/schedule` | operator | Save the whole playlist with the `version` you read. 400 lists the problems (`problems`, one per item); 409 if it changed since that version, or the server can't write the file. The channel follows it at once |
 | `POST /api/v1/playout/channels/{name}/schedule/preview` | operator | What a playlist would play if saved (nothing is saved): today's `slots` (`start`, `end`, `item`, `fixed`), `next` (when each item next starts, up to 8 days ahead), `on_air`, `round_s` |
-| `POST /api/v1/playout/channels/{name}/skip` | operator | `{"action": "next"\|"previous"\|"play", "item": N}`: move the loop on air (`play`: loop item N, 0-based). 409 while a fixed-time item is on air |
+| `POST /api/v1/playout/channels/{name}/skip` | operator | `{"action": "next"\|"previous"\|"play", "item": N}`: move the loop on air (`play`: loop item N, 0-based). 409 while a fixed-time item is on air, or while the channel is paused |
+| `POST /api/v1/playout/channels/{name}/pause` | operator | Take the channel off air: `state` `paused`, with `paused_at`, `paused_by` and, for a looping playlist, `resume` (`item`, `media`, `title`, `position_seconds`: where it carries on). Kept across restarts (until the next start for a channel from unda.yaml); audited. The preview of a paused channel's playlist has `paused` and `resume`, `on_air` -1, and no `next` for loop items |
+| `POST /api/v1/playout/channels/{name}/resume` | operator | Back on air; a looping playlist carries on where it was paused. 409 while the licence allows no more live streams; audited |
 | `GET /api/v1/media` | operator | The media folder: files (length, size, codecs, `state` ready/checking/error, `on_air`/`scheduled` channels), unfinished uploads, space |
 | `GET /api/v1/media/{name}` | operator | One file |
 | `DELETE /api/v1/media/{name}` | operator | Delete a file; 409 while it is on air. The answer lists channels whose schedule still names it |
@@ -169,9 +171,12 @@ The [programme guide](/guide/playout#programme-guide): a 24/7 channel's comes fr
 | `GET /api/v1/channels` | streamer | Channels you can see: whether each is live, its owner (`owner_id`, `owner_email`, `owner_name`), and for an offline one `last_live_at` (when it last stopped, while the event log still has it: 30 days) |
 | `POST /api/v1/channels` | streamer | `{"name":"main-show"}` (operators and above may add `"owner_id"`) |
 | `PATCH /api/v1/channels/{name}` | admin | `{"owner_id": 12}` gives the channel to that account, `0` to the house. Its keys stay the same; audited |
+| `GET /api/v1/channels/{name}` | streamer | One channel, as in the list (no key) |
 | `GET /api/v1/channels/{name}/key` | streamer | The channel's stream key |
 | `POST /api/v1/channels/{name}/rotate` | streamer | A new key; a stream using the old one is disconnected |
 | `DELETE /api/v1/channels/{name}` | streamer | Delete the channel |
+| `POST /api/v1/channels/{name}/pause` | streamer | Take the channel off air: a live encoder is disconnected (`disconnected`), its keys (the backup key too) are refused until it is resumed, and its inputs stop. The channel shows `paused_at` and `paused_by`; kept across restarts; audited. Pausing a paused channel changes nothing |
+| `POST /api/v1/channels/{name}/resume` | streamer | Its keys work again (encoders reconnect by themselves) and its inputs start; audited |
 
 ## Monitoring
 

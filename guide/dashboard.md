@@ -118,7 +118,14 @@ will make viewers buffer gets a warning with the fix.
   settings. Keys stay hidden until you choose the eye; **Copy** copies a key
   without showing it, which is safe while you share your screen.
 - The **⋯** menu holds the rest: **Copy stream key**, **New stream key**,
-  **New backup key**, **Change owner** (admins) and **Delete channel**.
+  **New backup key**, **Change owner** (admins), **Pause channel** and
+  **Delete channel**.
+- **Pause channel** takes a channel off air without deleting it: a live
+  encoder is disconnected, and its stream key (and backup key) is refused
+  until you choose **Resume** on its row or its page. Its pull stream and
+  playlist stop too. Its settings, keys, watch links, guide and recordings
+  are kept, it stays paused after a restart, and a paused channel doesn't
+  count toward your licence.
 
 **New channel** (top right) asks for the name, shows the watch link as you
 type it, and opens the new channel's encoder settings.
@@ -144,7 +151,9 @@ it, or delete it. See [Recording](/guide/recording).
 
 A [24/7 channel](/guide/playout) plays your files to a schedule and can hand
 over to a live stream. Its page shows what is on air and what comes next; the
-playlist is edited on the same page. Files are uploaded on the **Media** page.
+playlist is edited on the same page. **Pause** takes it off air until you
+choose **Resume**, which carries on where it stopped (see
+[Pausing a channel](/guide/playout#pausing-a-channel)). Files are uploaded on the **Media** page.
 The **Guide** page shows every channel's programmes for the coming days, with
 the XMLTV link for IPTV apps (see [Programme guide](/guide/playout#programme-guide)).
 A live channel's guide is typed in on its **EPG** tab (Streams → the

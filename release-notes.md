@@ -16,6 +16,15 @@ database is backed up first.
 
 ### New
 
+- Channels can be paused, without deleting them. Pausing an encoder
+  channel disconnects its encoder and refuses its keys until it is resumed;
+  pausing a 24/7 channel takes it off air (its guide is empty meanwhile), and
+  **Resume** carries its playlist on with the item it stopped in, from the
+  same point. Settings, keys, links and recordings are kept, a pause lasts
+  across restarts, and a paused channel doesn't count toward the licence.
+  **Pause channel** is in the Channels page's **⋯** menu and at the top of a
+  24/7 channel's page
+  ([Pausing a channel](/guide/playout#pausing-a-channel)).
 - Owners can download a backup of the database to their own computer from
   Server → Status, locked with a passphrase they choose: accounts, channels
   and their keys, every setting and the logs, without the licence file, who
@@ -88,6 +97,9 @@ database is backed up first.
   per item with when it plays next; click a line to open its fields under
   it, and the **⋯** menu moves, duplicates or removes it. A live channel's
   EPG tab lists its programmes the same way.
+- The dashboard and the watch page's player load faster on slow connections:
+  their files are sent compressed (about a third of the size), and the
+  dashboard asks for all its parts at once.
 
 ### Fixed
 

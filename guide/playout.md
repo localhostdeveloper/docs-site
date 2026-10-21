@@ -130,6 +130,26 @@ the programme guide follows, and the as-run log marks the item that was cut
 `skipped`. While a fixed-time item is on air the buttons are greyed out: it
 plays at its time, untouched. Anyone who can edit the channel can use them.
 
+### Pausing a channel
+
+**Pause** at the top of the channel's page takes it off air without deleting
+anything: its encoder stops, viewers see it offline, its programme guide (TV
+and XMLTV) is empty while it is paused, and it uses no CPU. Its playlist,
+settings and media are kept, and the playlist can still be edited.
+
+**Resume** puts it back on air. A looping playlist carries on with the item
+it stopped in, from the same point, however long it was paused; fixed times
+play at their times as always, and a schedule of times of day follows the
+clock. A paused channel isn't a live stream, so it doesn't count toward your
+licence; if the licence is full when you resume, the page says so and the
+channel stays paused. Next, Previous and Play now wait until it is resumed.
+
+It stays paused after the server restarts (a channel set in `unda.yaml`
+stays paused until the next restart). Anyone who can edit the channel can
+pause it: operators and above any channel, clients their own. Pauses and
+resumes are in the audit log and on the Events page, and the as-run log
+marks what was on air `paused`.
+
 ### Channels in unda.yaml
 
 A channel can also be set in `unda.yaml` (the way before the dashboard could
