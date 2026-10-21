@@ -150,6 +150,49 @@ pause it: operators and above any channel, clients their own. Pauses and
 resumes are in the audit log and on the Events page, and the as-run log
 marks what was on air `paused`.
 
+### The channel's logo
+
+The **Logo** card on the channel's page puts your logo on the channel's
+picture, in a corner. Choose a PNG (best with a transparent background) or a
+JPEG of up to 5 MB, pick the corner, the size and the opacity, and click
+**Save logo**. Beside the settings you see the channel's picture as it is
+now, with the logo where it will go; it moves as you change the settings.
+
+[![The Logo card: the channel's picture with the logo in its corner, and the image, corner, size and opacity](/screens/logo.webp)](/screens/logo.webp)
+
+- **It is on air from the next picture** after you save: the channel doesn't
+  restart and viewers see no pause. A new image, corner, size or opacity,
+  and **Remove**, all work the same way.
+- **Size** is the logo's height as a share of the picture's height, 3 to
+  30 % (10 % to start with). Transparent edges in the file are trimmed
+  first, so the size is the logo's own. A very wide logo is held to 40 % of
+  the picture's width.
+- **Corner:** the logo keeps 4 % of the picture's height from the edges.
+  **Opacity:** 10 to 100 % (85 % to start with).
+- The server draws the logo into the picture, so every output carries it:
+  the watch page, HLS and DASH, RTMP and SRT playback, restreams, recordings
+  and bundles. It stays on while a live stream takes the channel over.
+  Viewers can't turn it off.
+- It costs almost nothing: under 1 % of a CPU core for a 1080p channel at
+  50 fps.
+- The image is kept with the channel in the server's database (backups
+  include it), not in Media. It can be set while the channel is paused.
+  Deleting the channel deletes its logo.
+- Anyone who can edit the channel can set it: operators and above any
+  channel, clients their own. Changes are in the audit log.
+
+The logo is for 24/7 channels, which the server encodes anyway. A live
+encoder's channel goes out as the encoder sends it, so add the logo in OBS
+or vMix there.
+
+From a script, the same in one request:
+
+```bash
+curl -X PUT -H "Authorization: Bearer $UNDA_KEY" \
+  -F image=@logo.png -F corner=top-right -F size=10 -F opacity=85 \
+  https://tv.example.com/api/v1/playout/channels/tv1/logo
+```
+
 ### Channels in unda.yaml
 
 A channel can also be set in `unda.yaml` (the way before the dashboard could

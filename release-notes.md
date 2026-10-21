@@ -12,6 +12,20 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### Added
+
+- 24/7 channels can carry a logo: choose a PNG or JPEG on the channel's
+  page, pick the corner, size and opacity, and it is on the channel's
+  picture from the next frame, on every output, live takeover included. No
+  restart, almost no CPU. Clients can set the logo of their own channels
+  ([The channel's logo](/guide/playout#the-channels-logo)).
+
+### Upgrade notes
+
+No database change and nothing to configure.
+
 ## v0.1.38 {#v0-1-38}
 
 *21 October 2026*

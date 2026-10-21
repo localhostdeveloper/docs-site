@@ -43,6 +43,8 @@ async function submit() {
         started: started.value,
       }),
     });
+    // 429 comes from the site's firewall rule, not the function.
+    if (res.status === 429) throw new Error("Too many messages from your connection. Please wait 10 minutes and send it again.");
     const body = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(body.error || "");
     sent.value = true;
