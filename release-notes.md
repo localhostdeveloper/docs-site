@@ -12,7 +12,9 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
-## Next release
+## v0.1.38 {#v0-1-38}
+
+*21 October 2026*
 
 ### Changed
 
@@ -20,6 +22,10 @@ database is backed up first.
   the server's staff" (on the channel, its page and in Events), not the
   staff member's name or email. Staff still see who it was, and admins
   have it in the audit log.
+
+### Upgrade notes
+
+No database change and nothing to configure.
 
 ## v0.1.37 {#v0-1-37}
 
