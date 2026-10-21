@@ -175,7 +175,7 @@ The [programme guide](/guide/playout#programme-guide): a 24/7 channel's comes fr
 | `GET /api/v1/channels/{name}/key` | streamer | The channel's stream key |
 | `POST /api/v1/channels/{name}/rotate` | streamer | A new key; a stream using the old one is disconnected |
 | `DELETE /api/v1/channels/{name}` | streamer | Delete the channel |
-| `POST /api/v1/channels/{name}/pause` | streamer | Take the channel off air: a live encoder is disconnected (`disconnected`), its keys (the backup key too) are refused until it is resumed, and its inputs stop. The channel shows `paused_at` and `paused_by`; kept across restarts; audited. Pausing a paused channel changes nothing |
+| `POST /api/v1/channels/{name}/pause` | streamer | Take the channel off air: a live encoder is disconnected (`disconnected`), its keys (the backup key too) are refused until it is resumed, and its inputs stop. The channel shows `paused_at` and `paused_by` (to a client, `the server's staff` when staff paused it); kept across restarts; audited. Pausing a paused channel changes nothing |
 | `POST /api/v1/channels/{name}/resume` | streamer | Its keys work again (encoders reconnect by themselves) and its inputs start; audited |
 
 ## Monitoring
