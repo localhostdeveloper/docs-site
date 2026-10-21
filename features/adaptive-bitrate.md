@@ -32,7 +32,7 @@ description: One stream in, up to eight qualities out. Unda plans the qualities 
 <li>Keyframes aligned across qualities, so switching is smooth</li>
 </ul>
 </div>
-<div><a class="m-shot" href="/guide/transcoding"><img src="/screens/transcoding.webp" width="1280" height="800" alt="A stream's Transcoding tab: adaptive bitrate on, the source, and the ladder of qualities with how much each is watched" loading="lazy"></a></div>
+<div><a class="m-shot" href="/guide/transcoding"><img src="/screens/transcoding.webp" width="1280" height="800" alt="A stream's Output tab, Adaptive bitrate: on, the source, and the ladder of qualities with how much each is watched" loading="lazy"></a></div>
 </div>
 </div>
 </section>
@@ -53,7 +53,7 @@ description: One stream in, up to eight qualities out. Unda plans the qualities 
 <section class="m-section">
 <div class="m-wrap">
 <div class="m-specs">
-<div class="m-spec"><h3>Switched on where you need it</h3><ul><li>Off by default: streams are served as sent</li><li>Switched on per stream from its Transcoding tab, or for every stream</li><li>Switched off at any moment without stopping the stream</li></ul></div>
+<div class="m-spec"><h3>Switched on where you need it</h3><ul><li>Off by default: streams are served as sent</li><li>Switched on per stream from its Output tab, or for every stream</li><li>Switched off at any moment without stopping the stream</li></ul></div>
 <div class="m-spec"><h3>Server needs</h3><ul><li>About 1 to 2 CPU cores and 1 GB of memory per 1080p stream</li><li>A warning before you switch on when the server is already busy</li><li>A CPU graph and alert, so you see when to add capacity</li></ul></div>
 <div class="m-spec"><h3>Graphics cards</h3><ul><li>NVIDIA, Intel and AMD encoders through FFmpeg</li><li>The dashboard detects and test-encodes on what your server has</li><li>Ask us which card fits your channels</li></ul></div>
 <div class="m-spec"><h3>Kept running</h3><ul><li>A crashed converter restarts within about a second</li><li>Viewers carry on through a restart</li><li>The stream itself is never affected</li></ul></div>

@@ -24,7 +24,7 @@ database is backed up first.
   ([Backups and upgrades](/guide/install#8-backups-and-upgrades)).
 - Multiview shows one tile per channel: a channel with inputs shows what its
   viewers see, tagged with what is on air (encoder, backup encoder, pull,
-  playlist or slate). The channel's Inputs tab shows a small live picture of
+  playlist or slate). The channel's Input tab shows a small live picture of
   each input. The Overview and the menu count a channel with its inputs as
   one stream.
 - Setting up two-factor sign-in shows a QR code to scan with the
@@ -41,9 +41,68 @@ database is backed up first.
   channel silent for 10 seconds raises **No sound** (on the tile, in Needs
   attention and in Events), even when nobody is watching
   ([No sound](/guide/monitoring#no-sound)).
+- Live channels get a programme guide too: type their programmes in on the
+  channel's new **EPG** tab (every day, on chosen days or on a date, each
+  with a title, length and description, plus what to show between them). It
+  appears on the Guide page, in the XMLTV link and in the TV guide of every
+  bundle carrying the channel, 8 days ahead
+  ([Live channels](/guide/playout#live-channels-a-typed-in-guide)).
+- A stream's page has a live sound meter beside its preview, and a choice of
+  player under it: **HLS**, **Adaptive** (while the stream is transcoded) or
+  **Low latency** (WebRTC, when the server has it)
+  ([A stream's page](/guide/dashboard#a-streams-page)).
+- Admins can give a channel to another client, or to the house: **Channels →
+  ⋯ → Change owner**. Its keys stay the same, so a live encoder carries on.
+
+### Changed
+
+- A stream's tabs are now **Overview**, **Input**, **Restream**, **EPG** and
+  **Output**. Output holds what the Playback and Transcoding tabs did: every
+  address to watch the stream by, who can watch (signed links) and adaptive
+  bitrate. Old links to those tabs open Output.
+- Explanations across the dashboard sit behind a small **i** beside the
+  setting or title they explain (point at it, tap it, or Tab to it and press
+  Enter), so pages are shorter. Settings are laid out as rows with more room,
+  and tables keep figures and dates on one line.
+- Downloading a locked backup opens a dialog that lists what is inside and
+  what is left out, and checks the passphrase as you type.
+- The Channels page is a list you can search and filter by owner: each
+  channel shows whether it is live (and which input is on air), its owner,
+  viewers and time on air, or when it was last live. **Encoder settings**
+  opens everything an encoder needs, with the key hidden until shown and a
+  **Copy** that copies it without showing it; new keys, change owner and
+  delete are in the **⋯** menu. **New channel** shows the watch link as you
+  type. A client who can't make more channels is told so, instead of seeing
+  "1 of 0 channels" and a greyed button.
+- A stream with B-frames: the warning on the Output tab now says what Low
+  latency viewers see (pictures out of order), with the fix behind the **i**,
+  and the Overview shows it while its preview plays in Low latency. The
+  recommended encoder settings include B-frames 0 when the server has
+  WebRTC.
+- The broadcast settings when adding a restream destination, the new 24/7
+  channel form and the new bundle and input forms line their fields up in
+  equal columns, grouped (video, sound, transport stream), with the button
+  under the fields.
+- The playlist editor is tidier: it shows **The loop** and **Fixed times**
+  (each fixed time with the items right after it, listed by time), one line
+  per item with when it plays next; click a line to open its fields under
+  it, and the **⋯** menu moves, duplicates or removes it. A live channel's
+  EPG tab lists its programmes the same way.
 
 ### Fixed
 
+- With no `recordings_dir` in the configuration, recordings were written to
+  the server's working folder and the Recordings page listed none of them.
+  They now go to `recordings` inside the data folder. (The installer and the
+  Docker files set the folder, so their installs were not affected.)
+- The Overview's six figures fit in one row on a 1280-pixel screen.
+- A restream destination that worked again was still reported as failing for
+  up to ten minutes: in Needs attention, and in red on the Restream tab. It
+  now clears as soon as the stream reaches it again.
+- Wide tables, such as a multi-channel bundle's, scroll inside their card
+  instead of making the whole page wider than the window.
+- Small Multiview tiles kept the channel's name only while their figures and
+  tags fitted beside it; they now go on a line of their own.
 - A looped video as a channel's playlist input showed black instead of the
   video. Video fillers of 24/7 channels and backup sources that started
   before their file had been checked (after a restart) now switch to the
@@ -249,10 +308,10 @@ database is backed up first.
 ### Changed
 
 - SD H.264 TV outputs and bundle channels default to a 1300 kb/s transport
-  stream with AAC at 128 kb/s (video 960 kb/s), what Ghanaian stations take.
+  stream with AAC at 128 kb/s (video 960 kb/s), a common rate for SD channels.
   They were 2000 kb/s video with MP2 192 (2600 kb/s in all).
-- TV outputs' audio defaults to AAC with H.264 and HEVC (Ghana's receivers and
-  other DVB-T2 networks must play it; MP2 is optional for them), and to MP2
+- TV outputs' audio defaults to AAC with H.264 and HEVC (the receivers of
+  H.264-only DVB-T2 networks must play it; MP2 is optional for them), and to MP2
   with MPEG-2.
 - The Guide page has zoom levels, an "On now" strip and channel badges, and
   the multi-channel bundles under Server are laid out more clearly.

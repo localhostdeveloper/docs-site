@@ -31,7 +31,7 @@ description: See the health of every stream, get alerts in plain words, follow e
 <li>Bandwidth, CPU and memory over the last hour</li>
 </ul>
 </div>
-<div><a class="m-shot" href="/guide/dashboard#multiview"><img src="/screens/multiview.webp" width="1280" height="800" alt="Multiview: a still picture of every live stream, refreshed every few seconds" loading="lazy"></a></div>
+<div><a class="m-shot" href="/guide/dashboard#multiview"><img src="/screens/multiview.webp" width="1280" height="800" alt="Multiview: a picture of every channel with its sound levels, refreshed every few seconds" loading="lazy"></a></div>
 </div>
 <div class="m-split m-flip">
 <div>

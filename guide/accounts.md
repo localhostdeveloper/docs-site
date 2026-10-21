@@ -42,6 +42,8 @@ Authy…): scan the QR code shown there with the app, or type the key shown
 under it, then enter the 6-digit code the app gives. They also get 10
 one-time recovery codes: keep them somewhere safe.
 
+[![Setting up two-factor sign-in: a QR code to scan, the key to type instead, and the code to enter](/screens/totp.webp)](/screens/totp.webp)
+
 An admin can **require** two-factor sign-in for chosen roles under
 **Users → Security**; only the owner can require it for owners. Someone who
 loses their phone and codes can be reset by an admin (**Users → Reset 2FA**), or
@@ -54,17 +56,23 @@ A channel is a public **name** plus a secret **stream key**.
 - The **name** (lowercase letters, digits and dashes, e.g. `main-show`) is in
   every viewing address: `/watch/main-show`.
 - The **key** (`sk_…`) is what the encoder uses to go live. Treat it like a
-  password.
-- **New key** replaces the key at once; a stream using the old one is
-  disconnected. Use it whenever a key may have leaked.
-- **Deleting** a channel disconnects its live stream.
+  password. **Encoder settings** shows it with the server address; **Copy**
+  copies it without showing it.
+- **New stream key** (the channel's **⋯** menu) replaces the key at once; a
+  stream using the old one is disconnected. Use it whenever a key may have
+  leaked.
+- **Change owner** (admins, in the same menu) gives a channel to another
+  client, or to the house. Its keys stay the same, so a live encoder carries
+  on; the new owner sees the channel at once and the old one no longer does.
+- **Deleting** a channel disconnects its live stream and deletes its inputs,
+  programme guide and own media files.
 
 Streamers create their own channels, up to their channel limit; operators and
 above can create channels for anyone. A streamer's own
 [24/7 channels](/guide/playout#channels-for-your-clients) count toward the
 same limit.
 
-[![Channels: each channel's name, owner and hidden key, with a warning on one whose encoder settings will make viewers buffer](/screens/channels.webp)](/screens/channels.webp)
+[![Channels: every channel with whether it is live, its owner, viewers and time on air, and its Inputs and Encoder settings buttons](/screens/channels.webp)](/screens/channels.webp)
 
 ## API keys
 

@@ -41,7 +41,7 @@ description: UndaMedia makes Unda Media Server, live streaming software for orga
 <div class="m-wrap">
 <div class="m-prose">
 <span class="m-kicker">The company</span>
-<p>UndaMedia is a product of LocalCode Technology, a subsidiary of Richben Media and a sister company of LocalStream Ghana.</p>
+<p>UndaMedia is a product of LocalCode Technology.</p>
 </div>
 </div>
 </section>

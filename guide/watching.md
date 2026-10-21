@@ -15,7 +15,7 @@ stream with [signed links](/guide/protect-playback).
 | VLC, OBS or vMix over RTMP                                                     | `rtmp://tv.example.com:1935/live/main-show`          |
 | VLC, OBS or vMix over SRT                                                      | `srt://tv.example.com:6000?streamid=read:main-show`  |
 
-The stream's **Playback** tab in the dashboard lists every address, DASH
+The stream's **Output** tab in the dashboard lists every address, DASH
 included, with copy buttons.
 
 ## MPEG-TS over HTTP (IPTV)

@@ -81,6 +81,8 @@ raises **No sound**, which turns critical after a minute and clears as soon
 as there is sound again. The Multiview shows each channel's level as it
 happens.
 
+[![Multiview with sound meters: the field camera has been silent for over five minutes and is marked No sound](/screens/multiview.webp)](/screens/multiview.webp)
+
 ```yaml
 monitoring:
   silence_alarm_seconds: 10      # 3 to 3600

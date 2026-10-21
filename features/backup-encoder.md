@@ -33,7 +33,7 @@ description: Keep a channel on air when the encoder, the venue's internet or a s
 <div>
 <span class="m-kicker">How it works</span>
 <h2>Inputs in your order, switched for you</h2>
-<p>Switch on the channel's inputs on the stream's Inputs tab and rank them first, second, third. The channel gets a second key for a backup encoder. Unda always shows the best input that has pictures.</p>
+<p>Switch on the channel's inputs on the stream's Input tab and rank them first, second, third. The channel gets a second key for a backup encoder. Unda always shows the best input that has pictures.</p>
 <ul class="m-checks">
 <li>Live stream: your encoder, and a backup encoder with its own key</li>
 <li>Pull stream: a station's HLS link (operators can also pull RTMP servers and RTSP cameras)</li>
@@ -43,7 +43,7 @@ description: Keep a channel on air when the encoder, the venue's internet or a s
 <li>Every switch in the event log, and an alert while not on the first choice</li>
 </ul>
 </div>
-<div><a class="m-shot" href="/guide/channel-inputs"><img src="/screens/inputs.webp" width="1280" height="800" alt="A stream's Inputs tab: the live encoder on air, the pull stream ready as the second choice" loading="lazy"></a></div>
+<div><a class="m-shot" href="/guide/channel-inputs"><img src="/screens/inputs.webp" width="1280" height="800" alt="A stream's Input tab: the live encoder on air, the pull stream ready as the second choice" loading="lazy"></a></div>
 </div>
 </div>
 </section>

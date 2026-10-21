@@ -113,7 +113,7 @@ export function dayInWords(iso) {
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 // signing turns a moment into the date in Part C and the record line under
-// the buyer's signature (UTC: Ghana's own time).
+// the buyer's signature (UTC).
 export function signing(at) {
   const d = new Date(at);
   const date = `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;

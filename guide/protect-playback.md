@@ -11,7 +11,7 @@ SRT, MPEG-TS over HTTP and WebRTC. Publishing is unaffected (the encoder still u
 ## Protect a stream
 
 1. Open the stream in the dashboard (it doesn't have to be live) and go to its
-   **Playback** tab.
+   **Output** tab.
 2. Switch on **Require a signed link**.
 
 To protect every stream on the server, an administrator switches on **Require
@@ -22,9 +22,9 @@ and above can do it for any stream.
 
 ## Make a link in the dashboard
 
-On the **Playback** tab, choose how long new viewers can start watching (1 hour
-to 30 days) and click **Make a link**. Every address on the tab then carries
-the link, for example:
+On the **Output** tab, under **Who can watch**, choose how long new viewers can
+start watching (1 hour to 30 days) and click **Make a link**. Every address in
+**Watch links** then carries the link, for example:
 
 ```
 https://tv.example.com/watch/main-show?token=1790560829.rr8snjtkKtg3EJgQaeHvJQ
@@ -32,7 +32,7 @@ https://tv.example.com/watch/main-show?token=1790560829.rr8snjtkKtg3EJgQaeHvJQ
 
 Give that address to your viewers, or use its HLS form in your own player.
 
-[![A stream's Playback tab with signed links required and the link maker](/screens/playback.webp)](/screens/playback.webp)
+[![A stream's Output tab: the watch links, and Who can watch with signed links required, the devices per link and the link maker](/screens/playback.webp)](/screens/playback.webp)
 
 ## What the time limit means
 
@@ -51,8 +51,8 @@ connects.
 Anyone who has a link can use it, so a buyer could post a paid link in a group
 chat. To stop that, limit how many devices can watch with one link at once:
 
-- **On the stream:** the Playback tab's **Devices watching with one link at
-  once** (1, 2, 3, 5 or unlimited) applies to every link for that stream.
+- **On the stream:** the Output tab's **Devices per link** (1, 2, 3, 5 or
+  unlimited) applies to every link for that stream.
 - **On one link:** when making a link, choose its own number (a single ticket
   for 1 device, a family pass for 3). A website puts the number in the token
   (below).
@@ -74,7 +74,7 @@ useful.
 - A device counts over HLS by its player session (each browser tab), over DASH
   by its address and player, and over RTMP, SRT and MPEG-TS over HTTP by its
   connection (a stopped player is disconnected).
-- The Playback tab shows how many devices were stopped in the last 24 hours,
+- The Output tab shows how many devices were stopped in the last 24 hours,
   and the event log gets one line an hour per stream while it happens: a sign
   that links are being shared.
 

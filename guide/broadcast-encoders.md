@@ -24,7 +24,7 @@ or AC-3 audio, over UDP or RTP, as one channel or a multi-channel bundle (see
 | PCR interval | 40 ms or less |
 | Scrambling (BISS, CA) | Off: Unda can't descramble |
 | Video | H.264 Main or High |
-| Frame rate | 25 or 50 frames/s (in 50 Hz countries such as Ghana) |
+| Frame rate | 25 or 50 frames/s (in 50 Hz countries) |
 | GOP / keyframe interval | 1 to 2 seconds: 25 or 50 frames at 25 frames/s |
 | Audio | AAC-LC, 48 kHz, stereo, 128 or 192 kb/s |
 
@@ -106,11 +106,11 @@ as UDP inputs are. Both are described in
   progressive format (720p50 or 1080p25). Interlaced MPEG-2 converted by Unda
   is deinterlaced.
 - **B-frames** are fine. Only low-latency WebRTC playback prefers a stream
-  without them; the stream's Playback tab warns when it has them.
+  without them; the stream's Output tab warns when it has them.
 
 ### Audio
 
-- **AAC-LC, 48 kHz, stereo**, at 128 kb/s (what Ghanaian stations take) or
+- **AAC-LC, 48 kHz, stereo**, at 128 kb/s (a common rate for SD channels) or
   192 kb/s.
 - AAC can be packed two ways: **ADTS** works on both inputs; **LATM/LOAS** needs
   a Multi-channel input, which converts it.

@@ -20,14 +20,15 @@ destinations always get the original.
    Quick Sync, VAAPI devices, Apple VideoToolbox) and tests each one; an encoder
    that fails its test says why and can't be chosen. **Save** tests your choice
    again before applying it.
-3. On a stream's **Transcoding** tab, switch it on for that stream. It starts at
+3. On a stream's **Output** tab, under **Adaptive bitrate**, switch it on for
+   that stream. It starts at
    once and stays on when the encoder reconnects and when the server restarts.
 
-[![A stream's Transcoding tab: adaptive bitrate on, the source, and the ladder of qualities with how much each is watched](/screens/transcoding.webp)](/screens/transcoding.webp)
+[![A stream's Output tab, Adaptive bitrate: on, the source, and the ladder of qualities with how much each is watched](/screens/transcoding.webp)](/screens/transcoding.webp)
 
 There is no limit on how many streams are transcoded at once. When the CPU
 stays above 85% for a minute, the dashboard raises a **CPU** alert, and the
-Transcoding tab warns before you add another stream. You can still set a limit
+Output tab warns before you add another stream. You can still set a limit
 (**Streams at once**) if you prefer.
 
 ## What viewers get
@@ -60,7 +61,7 @@ Unda measures each stream for a few seconds and plans the qualities for it:
 The 144p quality plays on connections as slow as about 250 kbit/s.
 
 Sources bigger than 4K, over 120 fps, over 60 Mb/s or without video stay as
-they are; the Transcoding tab says why.
+they are; the stream's Output tab says why.
 
 ## Server cost
 

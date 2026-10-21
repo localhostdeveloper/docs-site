@@ -31,7 +31,7 @@ description: Run a TV channel that never stops from your own programmes. Upload 
 <li>Changes go on air in seconds; two people editing at once can't overwrite each other</li>
 </ul>
 </div>
-<div><a class="m-shot" href="/guide/playout#the-playlist-editor"><img src="/screens/schedule.webp" width="1280" height="800" alt="The playlist editor of a 24/7 channel, with each item's estimated start time" loading="lazy"></a></div>
+<div><a class="m-shot" href="/guide/playout#the-playlist-editor"><img src="/screens/schedule.webp" width="1280" height="800" alt="The playlist editor of a 24/7 channel: fixed times, today's strip and when each item plays next" loading="lazy"></a></div>
 </div>
 <div class="m-split m-flip">
 <div>

@@ -30,7 +30,7 @@ Channel inputs are in the Professional and Broadcast packages (see
 If the stream is live at that moment, its encoder is disconnected once and
 reconnects by itself (OBS and vMix do this automatically).
 
-[![The Inputs tab: the live encoder on air, the pull stream ready as the second choice](/screens/inputs.webp)](/screens/inputs.webp)
+[![The Input tab: a picture of each input, the live encoder on air, the pull stream and the looped video ready](/screens/inputs.webp)](/screens/inputs.webp)
 
 The channel's owner can do this, not only operators.
 
@@ -110,7 +110,7 @@ The videos are the channel's own files and the shared ones on the
 | The channel starts (the server restarted, or the first encoder connects) | The first input with pictures, at once |
 | No input has pictures | The stream ends after 10 seconds (your setting): an outage, with the usual alerts |
 
-The **Inputs** tab shows which input is on air and the last switch with its
+The **Input** tab shows which input is on air and the last switch with its
 reason; the event log records every switch. While the channel runs on
 anything but its first input, an alert says so.
 
@@ -182,7 +182,7 @@ limited to 16 channels, and changing its settings restarts the stream.
 | Pull stream | Professional, Broadcast (licence feature `pull`) |
 | Playlist or looped video, seamless switching | Professional, Broadcast (24/7 channels, licence feature `playout`) |
 
-On a Starter server the **Inputs** tab shows the live stream only, with
+On a Starter server the **Input** tab shows the live stream only, with
 **Pull stream** and **Playlist or looped video** greyed and the note **Not
 included in your licence**.
 
@@ -194,7 +194,7 @@ encoders, pull and playlist don't count separately.
 - Inputs protect against an encoder, a link or a station failing, not against
   this server failing.
 - One pull address per channel.
-- The switch log on the Inputs tab is kept for seamless switching only; with
+- The switch log on the Input tab is kept for seamless switching only; with
   direct switching, the event log records each switch.
 - Channel inputs are for channels created on the **Channels** page. 24/7
   channels from a schedule have their own live input (see

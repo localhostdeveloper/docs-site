@@ -127,8 +127,8 @@ MP2 or AC-3 audio, with the same settings as a
 [broadcast output](/guide/restreaming#broadcast-tv-terrestrial-and-satellite).
 A converted channel's `bitrate` is its whole share of the bundle, and its video
 is fitted into it: an SD H.264 channel with a 1300 kb/s share gets 960 kb/s of
-video and AAC at 128 kb/s. Without a share, SD H.264 takes 1300 kb/s (what
-Ghanaian stations take); set `video_kbps` in `encode` to choose the video rate
+video and AAC at 128 kb/s. Without a share, SD H.264 takes 1300 kb/s (a
+common rate for SD channels); set `video_kbps` in `encode` to choose the video rate
 yourself. The bundle table shows each channel's video and audio rates. Channel numbers,
 PIDs and names can be set to match the plan agreed with the receiving side;
 anything left out is chosen for you without clashes.
@@ -169,7 +169,10 @@ set-top boxes show two things:
 Both follow the playlist by themselves: save it and the guide changes within
 seconds. They are sent as DVB EIT on PID 0x12 (now and next every second, the
 8 days every 10 seconds), and the SDT marks those services as having them.
-Other channels carry no guide.
+
+A **live channel** (fed by an encoder) carries the guide typed in on its
+**EPG** tab ([how](/guide/playout#live-channels-a-typed-in-guide)) the same
+way, its "between programmes" title included. Other channels carry no guide.
 
 **Choose per bundle** what it sends: *now and next + 8 days* (the default),
 *now and next only*, or *off*. In the dashboard it is the **Guide** menu on each

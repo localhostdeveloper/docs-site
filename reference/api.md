@@ -31,6 +31,8 @@ the feature in your [license](/guide/license); without it they answer `403`.
 | `DELETE /api/v1/streams/{name}` | operator | Disconnect the encoder (it may reconnect by itself) |
 | `GET /api/v1/streams/{name}/consumers` | streamer | Everything reading the stream, and who is dropping frames |
 | `GET /api/v1/streams/{name}/thumbnail` | streamer | A JPEG of the latest keyframe (needs FFmpeg) |
+| `GET /api/v1/streams/{name}/sound` | streamer | The stream's sound now: `measured`, `peak` and `rms` (dBFS, left and right), `silent_s`, `no_track`, plus `silence_dbfs` and `alarm_after_s`. `measured` is false for a stream not metered (a channel's inputs). 501 without sound meters (needs FFmpeg) |
+| `GET /api/v1/audio/levels` | operator | Every metered stream's sound now (`streams`: the same fields per stream), as Multiview shows it |
 | `GET` / `POST /api/v1/streams/{name}/record` | operator | Recording status / `{"action":"start"}` or `{"action":"stop"}` |
 | `PUT /api/v1/streams/{name}/transcode` | operator | `{"enabled": true}` turns adaptive bitrate on for this stream |
 
@@ -132,6 +134,21 @@ curl -X POST -H "Authorization: Bearer $KEY" \
 
 The playlist is `GET`/`PUT …/failover/playlist` and `POST …/failover/switch` (operator) puts an input on air ahead of the others in both modes (`{"source":"main-show.pull"}`). Audit: `inputs_changed`, `channel_pull_set`, `channel_pull_removed` (never the address).
 
+## Programme guide
+
+The [programme guide](/guide/playout#programme-guide): a 24/7 channel's comes from its playlist, a live channel's is [typed in](/guide/playout#live-channels-a-typed-in-guide). Part of the licence's playout feature. Streamers reach their own channels only.
+
+| Method and path | Role | |
+|---|---|---|
+| `GET /api/v1/streams/{name}/guide` | streamer | A live channel's typed-in guide: `timezone`, `between` (what the guide shows between programmes), `programmes` (`at`: `"19:00"` or `"2026-10-25 15:00"`, `days`: `["mon","fri"]`, `title`, `description`, `length` in seconds), `version`, `plan` (`today` in the guide's zone, and `next`: when each programme is next on air or `on_now`, `null` when not in the next 8 days), `can_edit`. 404 for a stream that isn't a channel (`"code":"playout_channel"` for a 24/7 channel) |
+| `PUT /api/v1/streams/{name}/guide` | streamer | Save it with the `version` you read (`""` when it had none). 400 names the problems (one line per programme); 409 if it changed since. No programmes and no `between` removes it. Audit `live_guide_saved` |
+| `POST /api/v1/streams/{name}/guide/preview` | streamer | The `plan` of an unsaved guide, or its `problems`; nothing is saved |
+| `GET /api/v1/epg` | streamer | Every channel's programmes (`kind`: `playout` or `live`; `between` marks a live channel's time between programmes) from `from` to `to` (RFC 3339; default today from midnight UTC; at most 8 days) |
+| `GET /api/v1/epg/link` | streamer | Your XMLTV link (`path`, `enabled`) |
+| `POST /api/v1/epg/link/rotate` | admin | New links for everyone: every link given out before stops working |
+| `GET`/`PUT /api/v1/epg/settings` | admin | `{"xmltv": true\|false}` |
+| `GET /epg/{token}/xmltv.xml` (or `.xml.gz`) | the link | XMLTV for IPTV apps: no sign-in, the link is the key. 404 when it is wrong, replaced or switched off |
+
 ## Backup sources (failover)
 
 [Backup encoder](/guide/backup-encoder): the older form of the routes above, kept for existing scripts (a channel first switched on here gets seamless switching): with backup sources on, a channel's key publishes to `{name}.main`, its backup key to `{name}.backup`, and the server publishes `{name}` from the first source with pictures.
@@ -149,8 +166,9 @@ The playlist is `GET`/`PUT …/failover/playlist` and `POST …/failover/switch`
 
 | Method and path | Role | |
 |---|---|---|
-| `GET /api/v1/channels` | streamer | Channels you can see, with whether each is live |
+| `GET /api/v1/channels` | streamer | Channels you can see: whether each is live, its owner (`owner_id`, `owner_email`, `owner_name`), and for an offline one `last_live_at` (when it last stopped, while the event log still has it: 30 days) |
 | `POST /api/v1/channels` | streamer | `{"name":"main-show"}` (operators and above may add `"owner_id"`) |
+| `PATCH /api/v1/channels/{name}` | admin | `{"owner_id": 12}` gives the channel to that account, `0` to the house. Its keys stay the same; audited |
 | `GET /api/v1/channels/{name}/key` | streamer | The channel's stream key |
 | `POST /api/v1/channels/{name}/rotate` | streamer | A new key; a stream using the old one is disconnected |
 | `DELETE /api/v1/channels/{name}` | streamer | Delete the channel |

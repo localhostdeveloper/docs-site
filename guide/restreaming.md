@@ -143,17 +143,16 @@ restream:
         service_name: "News HD"
 ```
 
-### Ghana's DVB-T2 and DVB-S2 network
+### DVB-T2 and DVB-S2 networks that take H.264 only
 
-Ghana's national digital TV network (the NCA's receiver specification, built on
-GS 1099) carries H.264 only, and its set-top boxes must decode HE-AAC; MP2 is
-optional for them. So for a Ghanaian station:
+Many national digital TV networks carry H.264 only, and their set-top boxes
+must decode HE-AAC; MP2 is optional for them. For a station on such a network:
 
 - **Video:** H.264. MPEG-2 and HEVC won't play on its receivers.
 - **Audio:** AAC (the default). Try LATM packing if a station's receivers show
   the channel without sound.
-- **Bitrate:** what the station reserves for you. Stations take SD channels at
-  1300 kb/s, which is the SD default.
+- **Bitrate:** what the station reserves for you. Many stations take SD
+  channels at 1300 kb/s, which is the SD default.
 - The station's headend adds what the network needs on top: its network table
   (NIT), the time (TDT), channel numbers and conditional access.
 

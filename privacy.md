@@ -14,9 +14,9 @@ description: What UndaMedia collects on this website and through Unda Media Serv
 </section>
 <section class="m-section">
 <div class="m-wrap m-prose m-legal">
-<p class="m-legal-date">Last updated 18 October 2026</p>
+<p class="m-legal-date">Last updated 21 October 2026</p>
 <h2>Who we are</h2>
-<p>UndaMedia makes Unda Media Server. UndaMedia is a product of LocalCode Technology, a subsidiary of Richben Media. In this policy "we" and "us" mean UndaMedia. For anything about your information, email <a href="mailto:support@undamedia.com">support@undamedia.com</a>.</p>
+<p>UndaMedia makes Unda Media Server. UndaMedia is a product of LocalCode Technology. In this policy "we" and "us" mean UndaMedia. For anything about your information, email <a href="mailto:support@undamedia.com">support@undamedia.com</a>.</p>
 <h2>This website</h2>
 <h3>The contact form</h3>
 <p>When you send the form we receive your name, email address, organisation (if you give one), the topic you chose and your message. We use them only to answer you and, if you become a customer, to keep a record of what we discussed. We don't add you to a mailing list, and we won't send you marketing unless you ask for it.</p>

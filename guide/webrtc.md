@@ -48,9 +48,9 @@ In OBS 30 or newer, **Settings → Stream**:
 - **Server:** `https://tv.example.com/whip/main-show` (your channel's name)
 - **Bearer Token:** the channel's `sk_…` stream key
 
-The dashboard's **Channels** page shows these for each channel. In **Output**,
-set the keyframe interval to 1 or 2 seconds and turn B-frames off (WebRTC
-viewers can't show them in order).
+The dashboard shows these for each channel: **Channels → Encoder settings →
+WHIP**. In **Output**, set the keyframe interval to 1 or 2 seconds and turn
+B-frames off (WebRTC viewers can't show them in order).
 
 OBS sends Opus audio over WHIP; Unda converts it to AAC for everything else,
 keeping it in step with the picture (measured within 2 ms over several minutes).
@@ -77,7 +77,7 @@ already live is refused unless `rtmp.publish_policy` is `replace`.
   For a [protected stream](./protect-playback), the player sends the link's
   token as a bearer token (`Authorization: Bearer TOKEN`).
 
-The stream's **Playback** tab lists both addresses.
+The stream's **Output** tab lists both addresses.
 
 Viewers hear the sound when the server's FFmpeg has the Opus encoder
 (libopus; Ubuntu's FFmpeg package has it). **Server → Connect** says when it
@@ -122,9 +122,12 @@ are given only to players that were allowed to play.
 
 ## Good to know
 
-- **B-frames:** WebRTC players show frames in the order they arrive, so a
-  stream with B-frames looks jerky. The stream's Playback tab says when a
-  stream has them; set B-frames to 0 in the encoder.
+- **B-frames:** WebRTC players show pictures in the order they arrive, so
+  with B-frames some pictures are shown before ones that come earlier (seen
+  in Chrome with x264's default B-frames; in order with B-frames off). The
+  stream's Output tab says when a stream has them, and so does its Overview
+  while the preview plays in Low latency; set B-frames to 0 in the encoder
+  (OBS x264 options `bframes=0`, or NVENC "Max B-frames" 0).
 - **Joining:** a new viewer starts at the live picture at once, not at the
   last keyframe.
 - **Limits:** `webrtc.max_viewers` (500), `max_publishers` (64) and

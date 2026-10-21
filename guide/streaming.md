@@ -98,4 +98,4 @@ two people cannot accidentally fight over one channel.
 
 **Stop** on the stream's page disconnects the encoder, but OBS reconnects by
 itself; use **Stop and block key** to keep it off, then give the channel a new
-key (**Channels → New key**) when you want it back.
+key (**Channels → ⋯ → New stream key**) when you want it back.

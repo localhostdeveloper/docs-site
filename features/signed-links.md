@@ -23,7 +23,7 @@ description: Protect paid, private and members-only streams with signed links th
 <div>
 <span class="m-kicker">In the dashboard</span>
 <h2>Protect a stream in one switch</h2>
-<p>Open a stream's Playback tab, switch on "Require a signed link", choose how long new viewers can start watching, and make a link to send. Or protect every stream on the server at once.</p>
+<p>Open a stream's Output tab, switch on "Require a signed link", choose how long new viewers can start watching, and make a link to send. Or protect every stream on the server at once.</p>
 <ul class="m-checks">
 <li>Covers every way of watching: the player page, HLS, DASH, RTMP and SRT</li>
 <li>Links from 1 hour to 30 days</li>
@@ -31,7 +31,7 @@ description: Protect paid, private and members-only streams with signed links th
 <li>Viewers with an old or altered link see a clear message</li>
 </ul>
 </div>
-<div><a class="m-shot" href="/guide/protect-playback"><img src="/screens/playback.webp" width="1280" height="800" alt="A stream's Playback tab with signed links required and the link maker" loading="lazy"></a></div>
+<div><a class="m-shot" href="/guide/protect-playback"><img src="/screens/playback.webp" width="1280" height="800" alt="A stream's Output tab with signed links required and the link maker" loading="lazy"></a></div>
 </div>
 </div>
 </section>

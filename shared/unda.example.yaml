@@ -54,7 +54,7 @@ streams:
     - mykey
 
 paths:
-  recordings_dir: ./data/recordings
+  recordings_dir: ./data/recordings   # default <data_dir>/recordings
   hls_dir: ./data/hls
   # media_dir: ./data/media   # files that playout channels play (default <data_dir>/media)
   # The server's own state: the account database (unda.db), the license file
@@ -179,7 +179,7 @@ restream:
   #     broadcast:                   # 16:9, CBR MPEG-TS with DVB service information
   #       format: 576p25             # 576p25 (SD, default), 720p50 or 1080i25 (HD, interlaced)
   #       video_codec: h264          # h264 (default), hevc (576p25/720p50 only) or mpeg2 (576p25 only);
-  #                                  #   H.264-only networks (Ghana's DVB-T2/S2) can't show hevc or mpeg2
+  #                                  #   H.264-only DVB-T2/S2 networks can't show hevc or mpeg2
   #       mux_kbps: 1300             # constant total rate, null packets included: what the station takes.
   #                                  #   Default 1300 for SD h264; otherwise the minimum safe value for the video
   #       # video_kbps: 960          # default: fitted to mux_kbps (960 in 1300 with AAC 128); else h264 8000 HD,

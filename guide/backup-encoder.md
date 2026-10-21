@@ -27,8 +27,8 @@ The channel now has two keys:
 | The channel's key (unchanged) | The **main** encoder |
 | The **backup key** (new) | A **backup** encoder |
 
-The channel's owner sees the backup key on the **Channels** page, under the
-channel, and on the **Inputs** tab (**Show**).
+The channel's owner finds the backup key in the channel's **Encoder settings**
+(**Channels** page) and on the **Input** tab (**Show**).
 
 ## Set up the backup encoder
 

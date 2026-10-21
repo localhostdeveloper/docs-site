@@ -23,7 +23,7 @@ description: Unda Media Server is software. Customers decide what they stream wi
 <p>You are solely responsible for everything streamed, recorded or published with your copy of Unda, by you, your team, or your own clients if you provide streaming to others. That includes:</p>
 <ul>
 <li>holding the rights to what you stream: copyright, music, sports and broadcast rights, and the permission of the people shown;</li>
-<li>any broadcasting licence you need, and the rules of your regulator (in Ghana, the National Communications Authority and the National Media Commission);</li>
+<li>any broadcasting licence you need, and the rules of your country's broadcasting and media regulators;</li>
 <li>the laws that apply to what you publish, where you are and where your viewers are;</li>
 <li>the rules of the platforms and stations you send to, such as YouTube, Facebook or a TV network.</li>
 </ul>

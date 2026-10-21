@@ -9,6 +9,10 @@ People see only what their role allows. A streamer sees their own channels and
 streams; operators and admins see more (see
 [Accounts and channels](/guide/accounts#roles)).
 
+Explanations sit behind a small **i** beside a setting or title: point at it,
+tap it, or Tab to it and press Enter. What you need to see at once (status,
+warnings, errors) stays on the page.
+
 ## Overview
 
 [![The Overview page: live streams, viewers, ingest and egress for the last hour, and what needs attention](/screens/overview.webp)](/screens/overview.webp)
@@ -32,24 +36,34 @@ and whether any of them is falling behind.
 
 ## A stream's page
 
-[![A stream's page with a live preview, its input, health figures and viewers](/screens/stream.webp)](/screens/stream.webp)
+[![A stream's page with a live preview, its sound meter and player choice, its input, health figures and viewers](/screens/stream.webp)](/screens/stream.webp)
 
-A live preview, what the encoder is sending, and its health: frame rate,
-keyframe interval, audio/video drift, bitrate against its usual level and
-reconnects. From here you record, stop the stream, or open the player. The
-tabs hold the stream's other settings:
+A live preview with a sound meter, what the encoder is sending, and its health:
+frame rate, keyframe interval, audio/video drift, bitrate against its usual
+level and reconnects. From here you record, stop the stream, or open the
+player.
 
-- **Playback**: every address to watch it by, and
-  [signed links](/guide/protect-playback).
-- **Inputs**: the channel's [inputs in order](/guide/channel-inputs): its
+Under the preview, choose how it plays: **HLS** (the stream as it arrives, a
+few seconds behind live), **Adaptive** (the qualities of a transcoded stream)
+or **Low latency** (WebRTC, under a second behind, when the server has it).
+This browser remembers the choice. The meter beside the picture shows the
+sound reaching the server, also while the preview is muted; with HLS it moves
+a few seconds ahead of the picture, with Low latency in step with it.
+
+The tabs hold the stream's other settings:
+
+- **Input**: the channel's [inputs in order](/guide/channel-inputs): its
   live encoder (and a backup encoder), a pull stream and a playlist; the first
   one with pictures is on air.
-- **Transcoding**: [adaptive bitrate](/guide/transcoding) on or off.
 - **Restream**: [destinations](/guide/restreaming) such as YouTube and Facebook.
+- **EPG**: a live channel's [programme guide](/guide/playout#live-channels-a-typed-in-guide).
+- **Output**: every address to watch it by, who can watch
+  ([signed links](/guide/protect-playback)) and
+  [adaptive bitrate](/guide/transcoding).
 
 ## Multiview
 
-[![Multiview: a still picture of every live stream, refreshed every few seconds](/screens/multiview.webp)](/screens/multiview.webp)
+[![Multiview: a picture of every channel with its sound levels; a silent camera is marked No sound](/screens/multiview.webp)](/screens/multiview.webp)
 
 A picture of every live stream, refreshed every few seconds, with its bitrate
 and viewers. The pictures are stills, so the wall costs the server little,
@@ -58,7 +72,7 @@ however many streams there are.
 A channel with [inputs](/guide/channel-inputs) has one tile: what its viewers
 see, with a tag for what is on air (**ENCODER**, **BACKUP ENCODER**,
 **PULL**, **PLAYLIST** or **SLATE**). Pictures of its inputs are on the
-channel's Inputs tab. The Overview and the Streams count in the menu count
+channel's Input tab. The Overview and the Streams count in the menu count
 such a channel once, as the licence does.
 
 Each tile has two sound meters at the right edge of its picture, for the left
@@ -87,11 +101,29 @@ shown once with a count.
 
 ## Channels and people
 
-[![Channels: each channel's public name, owner, and secret stream key](/screens/channels.webp)](/screens/channels.webp)
+[![Channels: every channel with whether it is live, its owner, viewers and time on air, and its Inputs and Encoder settings buttons](/screens/channels.webp)](/screens/channels.webp)
 
 A **channel** is a public name for viewers and a secret key for the encoder.
-Keys stay hidden until you choose **Show key**. A channel streaming with
-settings that will make viewers buffer gets a warning with the fix.
+Each row shows whether it is live (and, for a channel with
+[inputs](/guide/channel-inputs), which one is on air), its owner, viewers and
+time on air; an offline channel shows when it was last live. Search and the
+owner filter help when there are many. A channel streaming with settings that
+will make viewers buffer gets a warning with the fix.
+
+- **Inputs** sets what the channel plays: its encoder, a pull stream or a
+  playlist.
+- **Encoder settings** has what to put in OBS or vMix: the server address and
+  the stream key (RTMP, or SRT and WHIP when the server has them), the backup
+  key when backup sources are on, the watch link and the recommended encoder
+  settings. Keys stay hidden until you choose the eye; **Copy** copies a key
+  without showing it, which is safe while you share your screen.
+- The **⋯** menu holds the rest: **Copy stream key**, **New stream key**,
+  **New backup key**, **Change owner** (admins) and **Delete channel**.
+
+**New channel** (top right) asks for the name, shows the watch link as you
+type it, and opens the new channel's encoder settings.
+
+<a href="/screens/encoder-settings.webp"><img src="/screens/encoder-settings.webp" width="560" alt="Encoder settings: the server address, the stream and backup keys hidden behind dots with Show and Copy buttons, the watch link and the recommended encoder settings" loading="lazy"></a>
 
 [![Users: inviting people and setting their roles](/screens/users.webp)](/screens/users.webp)
 
@@ -115,6 +147,10 @@ over to a live stream. Its page shows what is on air and what comes next; the
 playlist is edited on the same page. Files are uploaded on the **Media** page.
 The **Guide** page shows every channel's programmes for the coming days, with
 the XMLTV link for IPTV apps (see [Programme guide](/guide/playout#programme-guide)).
+A live channel's guide is typed in on its **EPG** tab (Streams → the
+channel).
+
+[![The Guide page: what each channel is showing now, and the day's programmes on a timeline](/screens/guide.webp)](/screens/guide.webp)
 
 ## Server settings
 
@@ -126,11 +162,14 @@ transcoding hardware, UDP inputs, [multi-channel bundles](/guide/mpts),
 capacity and signed playback.
 
 **Database backups** (Status tab, admins and owners) shows the newest daily
-copy. An owner can also **download a locked backup** to their own computer:
-a copy of the database locked with a passphrase they choose, after typing
-their password again. The licence file, who is signed in and the viewer
-history are left out. Restoring is one command on the server; see
-[Backups and upgrades](/guide/install#8-backups-and-upgrades).
+copy, how many days are kept and when the next one is made. An owner can also
+**download a locked backup** to their own computer: a copy of the database
+locked with a passphrase they choose, after typing their password again. The
+dialog lists what is inside and what is left out (the licence file, who is
+signed in, pending invitations and viewer history). Restoring is one command
+on the server; see [Backups and upgrades](/guide/install#8-backups-and-upgrades).
+
+<a href="/screens/backup-download.webp"><img src="/screens/backup-download.webp" width="560" alt="Download a locked backup: what is inside and left out, a passphrase typed twice, and your password" loading="lazy"></a>
 
 ## License
 

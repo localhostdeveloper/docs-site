@@ -32,8 +32,8 @@ This page is about streams and viewers.
 ## OBS says "Failed to connect" or stops immediately
 
 - Server must be `rtmp://your-server:1935/live` and the key the channel's
-  `sk_…` key, copied again from **Channels** (it changes when someone uses
-  **New key**).
+  `sk_…` key, copied again from **Channels → Encoder settings** (it changes
+  when someone uses **New stream key**).
 - Someone else is already live on that channel: only one encoder at a time.
 - The license's stream limit is reached (Events shows it).
 - Port 1935 (TCP) must be open on the server's firewall.

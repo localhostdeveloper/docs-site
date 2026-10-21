@@ -76,7 +76,7 @@ services:
       - unda-data:/data
       - ./unda.yaml:/etc/unda/unda.yaml:ro
     environment:
-      TZ: Africa/Accra      # your time zone: recording file names and logs
+      TZ: UTC               # your time zone (e.g. Europe/Paris): recording file names and logs
     read_only: true
     tmpfs: [/tmp]
     cap_drop: [ALL]
@@ -352,7 +352,7 @@ services:
       - unda-data:/data
       - ./unda.yaml:/etc/unda/unda.yaml:ro
     environment:
-      TZ: Africa/Accra          # your time zone: recording file names and logs
+      TZ: UTC                   # your time zone (e.g. Europe/Paris): recording file names and logs
     read_only: true
     tmpfs: [/tmp]
     cap_drop: [ALL]

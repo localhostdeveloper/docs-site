@@ -69,37 +69,41 @@ files** that every channel may use (station idents, jingles, adverts):
   shows when its other inputs have no pictures. It is listed under **Upload to**
   as "(backup picture)".
 
-[![A 24/7 channel's page: the item on air with its progress, and what plays next](/screens/playout.webp)](/screens/playout.webp)
+[![A 24/7 channel's page: the item on air with its progress, Previous and Next, and what plays next](/screens/playout.webp)](/screens/playout.webp)
 
 ### The playlist editor
 
 A playlist plays as soon as you save it and goes round and round, so the
-channel is never empty: upload a few videos, add them, save. Each row is one
-item: when it plays, which video, a title. **+ Description** under the title
-adds what the programme is about (up to 1,000 characters): TVs show it in
-their programme guide, and IPTV apps get it through XMLTV (see
-[Programme guide](#programme-guide)). **+ In/out** plays only part of the
-file (like `00:01:30`).
+channel is never empty: upload a few videos, add them, save. The editor shows
+it in two parts:
 
-[![The playlist editor: items with start times, videos, titles and when each will play](/screens/schedule.webp)](/screens/schedule.webp)
+- **The loop:** items that play one after another, round and round. **Add
+  to the loop** adds one.
+- **Fixed times:** items that cut in at a set time, **every day**, **on
+  chosen days** (pick the days) or **on a date**, whatever is playing. Each
+  can have items that play right after it as one block, like the weather
+  straight after the 19:00 news: open the fixed time and choose **Then
+  another item**. **Add a fixed time** adds one. They are listed by time.
 
-- **When** each item plays:
-  - **In the loop** (the default): the loop's items play one after another,
-    round and round.
-  - **Every day at**, **On chosen days at** (pick the days) or **On a date
-    at**: the item cuts in at that time, whatever is playing.
-  - **Right after the item above**: the item follows the fixed-time item
-    above it as one block, like the weather straight after the 19:00 news.
+When a fixed-time block ends, the loop carries on where it stopped: a film
+cut by the news continues after it. A fixed time also cuts a block that is
+still playing.
 
-  When a fixed-time block ends, the loop carries on where it stopped: a film
-  cut by the news continues after it. A fixed time also cuts a block that is
-  still playing.
+[![The playlist editor: when it starts, its time zone, today's strip, the loop's items and the fixed times (one with an item right after it), each with when it plays next](/screens/schedule.webp)](/screens/schedule.webp)
+
+Each item is one line: its title, video and length, when it plays next, and a
+**⋯** menu to move it up or down, duplicate it or remove it. Click a line to
+open its fields under it: the video, a title, when it plays (which moves it
+between the loop and the fixed times), where in the file it starts and stops
+(**In** and **Out**, like `00:01:30`), and a description of up to 1,000
+characters: TVs show it in their programme guide, and IPTV apps get it
+through XMLTV (see [Programme guide](#programme-guide)).
 - **Starts:** *Now, when saved*, or *At a date and time*: until then the
   channel plays its filler, and the loop then starts from its first item.
 - **Today** draws the day in the playlist's time zone: the loop, the fixed
   times, filler, and a line at now.
-- **Next on air** shows when each item plays next (up to 8 days ahead). The
-  server works it out as you edit, before you save, from the videos' lengths.
+- **When each item plays next** (up to 8 days ahead) is worked out by the
+  server as you edit, before you save, from the videos' lengths.
   Warnings show a video missing from Media, a time not chosen yet, or a fixed
   item cut short by the next fixed time.
 - Saving keeps the loop's place: adding a fixed time, renaming an item or
@@ -109,8 +113,8 @@ file (like `00:01:30`).
   of day or on dates, opens as the playlist that plays the same: each timed
   item becomes a fixed time and the items after it play right after it.
   Nothing changes on air; saving writes it the new way.
-- Rows move up and down, and can be duplicated or removed. Nothing changes
-  on air until you save; the page asks before you leave with unsaved changes.
+- Nothing changes on air until you save; the page asks before you leave with
+  unsaved changes.
 - If someone else saved the playlist after you opened it, saving is refused
   and the page offers to load their version, so nobody's work is silently
   overwritten.
@@ -193,12 +197,12 @@ below it play right after it as one block. The loop then carries on where it
 stopped.
 
 ```yaml
-timezone: Africa/Accra       # default: the server's time zone
+timezone: Europe/Paris       # default: the server's time zone
 repeat: loop
 items:
   - media: film.mp4          # in the loop
     title: The River
-    description: A family's journey down the Volta.   # optional: the programme guide's text
+    description: A family's journey down the river.   # optional: the programme guide's text
     in: "00:00:30"           # skip the first 30 seconds
     out: "01:35:00"          # stop here
   - media: series-ep1.mp4    # in the loop
@@ -232,6 +236,8 @@ reported and skipped.
 
 ## Programme guide
 
+[![The Guide page: what each channel is showing now, and the day's programmes on a timeline](/screens/guide.webp)](/screens/guide.webp)
+
 Each channel's playlist is also its programme guide: every item with its title
 (or file name) and description, laid out over the coming days. A live takeover
 isn't in it, because nobody knows in advance when one will happen. Short items
@@ -239,8 +245,9 @@ isn't in it, because nobody knows in advance when one will happen. Short items
 programme before them.
 
 - **The Guide page** (Content → Guide) shows every channel's programmes for
-  today and the next 7 days. Click a programme to see its description. Clients
-  see their own channels.
+  today and the next 7 days, live channels' typed-in guides too (see
+  [below](#live-channels-a-typed-in-guide)). Click a programme to see its
+  description. Clients see their own channels.
 - **TVs and set-top boxes** get the guide when the channel is in a
   [multi-channel bundle](/guide/mpts#programme-guide-epg): now and next, and
   the coming 8 days.
@@ -257,6 +264,37 @@ programme before them.
 - **Server → Guide** (administrators) switches XMLTV links off and on, and
   **Replace all links** makes new ones when a link got out: every link given
   out before stops working, and apps need the new one.
+
+### Live channels: a typed-in guide
+
+A channel fed by an encoder (OBS, vMix, a hardware encoder) has no playlist to
+work its guide out from, so you type it in: open the channel's page (Streams →
+the channel) and its **EPG** tab. The channel's owner and operators can
+change it.
+
+[![A live channel's EPG tab: what the guide shows between programmes, the time zone, today's strip, and the programmes by time, one open to change it](/screens/live-guide.webp)](/screens/live-guide.webp)
+
+- **Each programme** has a time, a title, a length and, if you like, a
+  description. The time is **every day**, **on chosen days** (Monday to
+  Friday, say) or **on a date** (a one-off, such as a match).
+- **Each programme runs its length, or until the next one starts.** A
+  programme on a date or on chosen days comes before an every-day one: an
+  every-day programme it overlaps is cut around it, so a Saturday match at
+  20:00 replaces the every-day news at 20:00 that Saturday only.
+- **Between programmes the guide shows** a title you choose, such as
+  "News 24 Live" (optional). Without one, the time between programmes is left
+  empty in the guide.
+- **The time zone** is where the times are; a new guide starts in your
+  browser's.
+
+Programmes are listed by time, one line each; click one to change it, and its
+**⋯** menu duplicates or removes it. The tab shows today as a strip and, for
+each programme, when it is next on air (or that it is on now), as you type;
+saving puts it on the Guide page, in the XMLTV link and in every
+[bundle](/guide/mpts#programme-guide-epg) carrying the channel, 8 days ahead. The guide says what is planned: it doesn't follow
+what the encoder actually sends, so a show that starts late is still listed
+at its time. Saving a guide with no programmes and nothing between them takes
+the channel out of the guide. Deleting the channel deletes its guide.
 
 ## What viewers see
 

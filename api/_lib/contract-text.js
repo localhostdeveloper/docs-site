@@ -18,7 +18,7 @@ export const VENDOR_ADDRESS = "";
 export const VENDOR_REG_NO = "";
 
 export const INTRO =
-  `This agreement is between **${VENDOR}**, of Ghana (“we”, “us”), and the ` +
+  `This agreement is between **${VENDOR}** (“we”, “us”), and the ` +
   "organisation named in Part A (“you”). It has three parts: **Part A**, what you " +
   "are buying; **Part B**, the terms; and **Part C**, the signatures.";
 
@@ -88,13 +88,12 @@ export const COUNTRIES = [
   "Zambia", "Zimbabwe",
 ];
 // Shown first in the list, above all countries.
-export const COMMON_COUNTRIES = ["Ghana"];
+export const COMMON_COUNTRIES = [];
 
 // The order page's other lists: picked, not typed, so a quote's figures can't
-// be mistyped ("GHC", "12 monhts"). The order function accepts only these,
+// be mistyped ("US", "12 monhts"). The order function accepts only these,
 // except job titles, where "Other" lets the buyer type their own.
 export const CURRENCIES = [
-  { code: "GHS", name: "Ghana cedi" },
   { code: "USD", name: "US dollar" },
   { code: "EUR", name: "Euro" },
 ];
@@ -130,7 +129,7 @@ export const FIELDS = {
   start_date: { label: "Start date", max: 40 },
   licence_term: { label: "Licence term, e.g. 12 months", form: "Licence term", max: 40 },
   licence_fee: { label: "Licence fee", max: 40 },
-  currency: { label: "Currency, e.g. GHS or USD", form: "Currency", max: 20 },
+  currency: { label: "Currency, e.g. USD or EUR", form: "Currency", max: 20 },
   billing_period: { label: "Billed, e.g. yearly", form: "Billed", max: 40 },
   hosting_fee: { label: "Managed hosting fee (Managed only)", max: 40 },
   payment_days: { label: "Pay invoices within (days; 14 if left blank)", form: "Pay invoices within", max: 10 },
@@ -208,7 +207,7 @@ export const TERMS = [
     ["11.4", "We may transfer this agreement to a company that takes over Unda; we will tell you if we do."],
     ["11.5", "Neither of us is liable for a delay or failure caused by events outside its reasonable control, such as power cuts, outages of networks or services it doesn’t run, natural disasters or government action. This does not excuse payment."],
     ["11.6", "If a part of this agreement is found invalid, the rest still applies."],
-    ["11.7", "The laws of the Republic of Ghana govern this agreement. If we have a dispute, we will first try to settle it in good faith for 30 days; after that, the courts of Ghana have jurisdiction."],
+    ["11.7", "If we have a dispute, we will first try to settle it in good faith for 30 days."],
     ["11.8", "This agreement may be signed electronically, including by typing a name in Part C, and signed copies may be exchanged by email. Each signed copy counts as an original."],
   ]],
 ];

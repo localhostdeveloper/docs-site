@@ -102,7 +102,7 @@ async function submit() {
           <select v-model="v.customer_country" autocomplete="country-name" required>
             <option value="" disabled>Choose a country</option>
             <option v-for="c in COMMON_COUNTRIES" :key="'common-' + c" :value="c">{{ c }}</option>
-            <option disabled>──────────</option>
+            <option v-if="COMMON_COUNTRIES.length" disabled>──────────</option>
             <option v-for="c in COUNTRIES" :key="c" :value="c">{{ c }}</option>
           </select>
         </label>
