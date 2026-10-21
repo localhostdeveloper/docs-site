@@ -12,6 +12,22 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.37 {#v0-1-37}
+
+*21 October 2026*
+
+### Fixed
+
+- Built with Go 1.27.3, which refuses a set of intermediate certificates
+  that are no longer trustworthy (GO-2026-6809). It concerns the
+  connections the server opens itself: restreams over RTMPS, Let's Encrypt,
+  alert webhooks and the update check. Viewers and encoders connecting to
+  the server were not affected.
+
+### Upgrade notes
+
+No database change and nothing to configure.
+
 ## v0.1.36 {#v0-1-36}
 
 *21 October 2026*
