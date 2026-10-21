@@ -12,7 +12,9 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
-## Next release
+## v0.1.36 {#v0-1-36}
+
+*21 October 2026*
 
 ### New
 
@@ -137,6 +139,13 @@ database is backed up first.
 - SRT pushes, SRT broadcast outputs and SRT inputs that call out could leave
   a little memory behind each time they reconnected (the SRT library is
   updated).
+
+### Upgrade notes
+
+One database change: a channel can now be paused (two new columns in the
+channels table). The upgrade backs the database up first; to go back to
+v0.1.35 afterwards, restore that copy (an older version refuses the newer
+database). Reload the dashboard after the upgrade: its files changed.
 
 ## v0.1.35 {#v0-1-35}
 
