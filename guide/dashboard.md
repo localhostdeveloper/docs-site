@@ -153,7 +153,7 @@ A [24/7 channel](/guide/playout) plays your files to a schedule and can hand
 over to a live stream. Its page shows what is on air and what comes next; the
 playlist is edited on the same page. **Pause** takes it off air until you
 choose **Resume**, which carries on where it stopped (see
-[Pausing a channel](/guide/playout#pausing-a-channel)). Files are uploaded on the **Media** page.
+[Pausing a channel](/guide/playout#pausing-a-channel)). A channel's own videos are uploaded with **Add videos** on its playlist; the **Media** page holds every file, shared ones included.
 The **Guide** page shows every channel's programmes for the coming days, with
 the XMLTV link for IPTV apps (see [Programme guide](/guide/playout#programme-guide)).
 A live channel's guide is typed in on its **EPG** tab (Streams → the

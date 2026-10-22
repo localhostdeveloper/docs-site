@@ -14,16 +14,18 @@ multi-channel bundle, exactly like a stream from an encoder.
 Everything is done in the dashboard, by operators and above, or by a client
 running their own channel (see [Channels for your clients](#channels-for-your-clients)):
 
-1. Upload the video files on the **Media** page. MP4, MOV, MKV, MPEG-TS, MXF
-   and the like all work. You can also copy files into the server's media
-   folder (`/var/lib/unda/media` with the installer; `paths.media_dir` to
-   change it) with `scp`, `rsync` or SFTP; they appear by themselves.
+1. Upload the files every channel shares (idents, adverts) on the **Media**
+   page. MP4, MOV, MKV, MPEG-TS, MXF and the like all work. You can also copy
+   files into the server's media folder (`/var/lib/unda/media` with the
+   installer; `paths.media_dir` to change it) with `scp`, `rsync` or SFTP;
+   they appear by themselves.
 2. On the **Playout** page, click **New channel**. Give it a name (the stream
    it publishes, like `tv1`), a picture size, what plays between items
    (black, or a video from Media looped) and, if you like, a live input. The
    schedule's time zone starts as yours. The channel goes on air at once,
    playing its filler.
-3. On the channel's page, build the **Playlist** (below) and click **Save
+3. On the channel's page, click **Add videos** on the **Playlist** to upload
+   the channel's own videos, build the playlist (below) and click **Save
    playlist**. The channel plays it within a few seconds.
 
 **Settings** on the channel's page changes its picture, bitrate, filler or
@@ -53,6 +55,9 @@ If you host streams for other organisations, each client can run their own
 Every channel has its own folder of files, and there is one set of **shared
 files** that every channel may use (station idents, jingles, adverts):
 
+- **Add videos** on a channel's playlist uploads straight into that channel's
+  folder: there is no folder to choose, and the files are in the playlist's
+  lists as soon as they have been checked.
 - On the **Media** page, **Upload to** chooses where a file goes: one of the
   channels, or (operators only) the shared files. A channel's own files are
   named `channels/<channel>/<file>`; everything else is shared.
@@ -66,8 +71,9 @@ files** that every channel may use (station idents, jingles, adverts):
   `channels/<channel>/` inside the media folder.
 - A streaming channel (from the **Channels** page) has a folder too, for the
   video or [playlist](/guide/channel-inputs#playlist-or-looped-video) it
-  shows when its other inputs have no pictures. It is listed under **Upload to**
-  as "(backup picture)".
+  shows when its other inputs have no pictures. Upload into it with **Add
+  videos** on the channel's Input tab, or choose it under **Upload to** on the
+  Media page, where it is listed as "(backup picture)".
 
 [![A 24/7 channel's page: the item on air with its progress, Previous and Next, and what plays next](/screens/playout.webp)](/screens/playout.webp)
 

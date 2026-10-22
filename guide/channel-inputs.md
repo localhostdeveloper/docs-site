@@ -97,8 +97,9 @@ moment, not at its first video. You can edit it at any time, even while it is
 on air.
 
 The videos are the channel's own files and the shared ones on the
-[Media](/guide/playout) page. To add your own, choose your channel under
-**Upload to** on the Media page.
+[Media](/guide/playout) page. To add your own, click **Add videos** next to
+**What plays**: the files go into the channel's own folder and can be looped
+or put in the playlist as soon as they have been checked.
 
 ## What viewers see
 

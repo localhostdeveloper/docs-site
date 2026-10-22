@@ -12,6 +12,18 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.40 {#v0-1-40}
+
+*22 October 2026*
+
+### Added
+
+- **Add videos** on a channel's playlist, and on a streaming channel's Input
+  tab, uploads straight into that channel's own folder: no folder to choose,
+  so nothing lands in the shared files by mistake. The videos are offered in
+  the playlist as soon as they have been checked
+  ([Each channel's own files](/guide/playout#each-channels-own-files-and-shared-files)).
+
 ## v0.1.39 {#v0-1-39}
 
 *21 October 2026*
