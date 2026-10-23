@@ -64,7 +64,7 @@ Create a directory, e.g. `/opt/unda`, with these two files.
 ```yaml
 services:
   unda:
-    image: ghcr.io/localhostdeveloper/unda:v0.1.40   # newest version: see the release notes
+    image: ghcr.io/localhostdeveloper/unda:v0.1.41   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "443:8443"          # HTTPS: dashboard, watch pages, HLS
@@ -198,7 +198,19 @@ Transcoding (adaptive quality for viewers) needs FFmpeg on the server
 already has it. Turn it on in the dashboard under **Server → Transcoding**, which
 lists the encoders this server has (the CPU, and NVIDIA, Intel or other GPUs),
 each tested. On an NVIDIA server, install the NVIDIA driver first so
-`nvidia-smi` works, and use an FFmpeg built with NVENC.
+`nvidia-smi` works, and use an FFmpeg built with NVENC. When a card in the
+machine isn't usable, the page says why under the list. Installs made before
+v0.1.41 hide graphics cards from Unda (`PrivateDevices=true`) and block the
+local sockets NVIDIA's encoder needs (`AF_UNIX`): run `install.sh` again (it
+writes the new unit), or
+
+```bash
+sudo mkdir -p /etc/systemd/system/unda.service.d
+printf '[Service]\nPrivateDevices=false\nRestrictAddressFamilies=\nRestrictAddressFamilies=AF_INET AF_INET6 AF_NETLINK AF_UNIX\n' | sudo tee /etc/systemd/system/unda.service.d/gpu.conf
+sudo systemctl daemon-reload && sudo systemctl restart unda
+```
+
+then press **Detect again** on that page.
 
 ---
 
@@ -341,7 +353,7 @@ dashboard shows encoders the ports Unda listens on.
 ```yaml
 services:
   unda:
-    image: ghcr.io/localhostdeveloper/unda:v0.1.40   # newest version: see the release notes
+    image: ghcr.io/localhostdeveloper/unda:v0.1.41   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "127.0.0.1:8090:8090"   # dashboard, watch pages, HLS: only nginx on this server reaches it

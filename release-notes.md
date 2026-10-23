@@ -12,6 +12,44 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.41 {#v0-1-41}
+
+*23 October 2026*
+
+### Fixed
+
+- A stream could freeze for HLS viewers until the channel was paused and
+  resumed, when the encoder's clock jumped: a vMix sending over SRT stepped
+  its clock back 39 minutes, and HLS stopped there. Unda now keeps each
+  incoming stream's time running forward across such jumps, and across the
+  wrap MPEG-TS clocks make every 26.5 hours, on RTMP, SRT, UDP, RTP, RIST and
+  multi-channel inputs. Should HLS still stop taking a stream's frames, it
+  now starts afresh by itself within a few seconds instead of staying frozen.
+- Graphics cards couldn't be used under the systemd service: it ran with
+  `PrivateDevices=true`, which hides `/dev/nvidia*` and `/dev/dri`, so
+  **Server → Transcoding** offered the CPU only; and with that fixed, NVIDIA's
+  test still failed (`cuInit(0) failed -> CUDA_ERROR_OPERATING_SYSTEM`)
+  because the service didn't allow local sockets (`AF_UNIX`), which NVIDIA's
+  CUDA library needs. The new service file allows both, and the installer
+  adds the `unda` user to the `video` and `render` groups.
+- **Server → Transcoding** now says why a card isn't usable: the driver isn't
+  running, the card is hidden from Unda, Unda may not open it, or FFmpeg has
+  no encoder for it. A card FFmpeg can't use stays in the list with the
+  reason instead of disappearing
+  ([When your graphics card isn't listed](/guide/transcoding#when-your-graphics-card-isnt-listed)).
+- An encoder that fails its test shows FFmpeg's real reason, in full (for
+  example "Cannot load libnvidia-encode.so.1"), not FFmpeg's closing line
+  "Nothing was written into output file…". VAAPI is no longer offered on an
+  NVIDIA card's device, nor Quick Sync on a server without Intel graphics:
+  neither could ever work there.
+
+### Upgrade notes
+
+Run the installer again to get the new service file (it keeps your
+settings); on a server with a graphics card, then press **Detect again**
+under Server → Transcoding. In Docker, change the image tag to v0.1.41. No
+database change.
+
 ## v0.1.40 {#v0-1-40}
 
 *22 October 2026*

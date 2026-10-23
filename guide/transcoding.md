@@ -78,5 +78,36 @@ everything else. A GPU takes most of that load off the CPU.
 Unda test-encodes with your NVIDIA, Intel or AMD (VAAPI) card before using it,
 and shows why if it fails.
 
+### When your graphics card isn't listed
+
+**Server → Transcoding** says why under the encoder list, and what to do:
+
+- **The driver isn't running.** Install the NVIDIA driver (on Ubuntu:
+  `sudo ubuntu-drivers install`) and restart the machine. With Secure Boot on,
+  the driver must be signed for it to load.
+- **Unda can't see the card's device files, or NVIDIA's test says
+  `cuInit(0) failed -> CUDA_ERROR_OPERATING_SYSTEM`.** Installs made before
+  v0.1.41 hide graphics cards from Unda (`PrivateDevices=true`) and block the
+  local sockets NVIDIA's encoder needs (`AF_UNIX`). Run the installer again,
+  or:
+
+  ```bash
+  sudo mkdir -p /etc/systemd/system/unda.service.d
+  printf '[Service]\nPrivateDevices=false\nRestrictAddressFamilies=\nRestrictAddressFamilies=AF_INET AF_INET6 AF_NETLINK AF_UNIX\n' | sudo tee /etc/systemd/system/unda.service.d/gpu.conf
+  sudo systemctl daemon-reload && sudo systemctl restart unda
+  ```
+
+  In Docker, give the container the card: `devices: [/dev/dri]` in
+  `docker-compose.yml` for an Intel or AMD card.
+- **Unda can't open the card.** Add the `unda` user to the `render` group
+  (`sudo usermod -aG render unda`) and restart Unda. The installer does this
+  itself from v0.1.41.
+- **This FFmpeg has no encoder for the card.** The card is listed but can't be
+  chosen. `ffmpeg -hide_banner -encoders | grep -E "nvenc|vaapi"` shows what
+  your FFmpeg has; Ubuntu's and Debian's own (`sudo apt install ffmpeg`)
+  includes both.
+
+After a change, press **Detect again**.
+
 If FFmpeg crashes it is restarted within a few seconds; after 10 failures in a
 row the stream carries on without adaptive bitrate.
