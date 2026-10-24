@@ -12,6 +12,45 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.42 {#v0-1-42}
+
+*24 October 2026*
+
+### Added
+
+- **Add many videos to a playlist at once:** **Add to the loop** (and **Then
+  another item**) opens the list of the channel's videos with tick boxes.
+  Tick as many as you want, in the order they should play, or search a series
+  and **Select all**, then add them in one go
+  ([The playlist editor](/guide/playout#the-playlist-editor)).
+- **A tidier 24/7 channel page:** what is on air sits at the top with
+  **Previous** and **Next** and the next three programmes, and the rest is in
+  tabs: **Playlist**, **Logo**, **As-run log** (a day at a time, 50 entries a
+  page) and **Output**. The playlist is two tables: tick programmes to move
+  them to the top or bottom of the loop or remove them, or drag one by its
+  handle. A bar at the bottom of the window shows unsaved changes, with
+  **Save playlist** and **Discard**
+  ([The channel's page](/guide/playout#channel-page)).
+- **The menu folds to icons:** the round button on the menu's edge folds it
+  to a slim strip of icons, which show their names when you point at them,
+  and back. Each browser remembers the choice. On phones the menu stays at
+  the top.
+
+### Changed
+
+- Page tabs (Server, a stream's page, Sessions, a 24/7 channel) have more
+  room and are underlined instead of packed in a box. When they don't fit on
+  one line they wrap onto the next, so every tab stays in view: before, the
+  Server page's last tabs could be hidden off the edge on a laptop or phone.
+
+### Fixed
+
+- On a channel's Input tab, the page no longer jumps back up every few
+  seconds after you click **Add videos** and scroll down, and the playlist
+  under the cursor no longer blinks. The tab was rebuilt on every refresh;
+  now only what changed is updated. The same goes for the stream page's
+  title bar and tabs.
+
 ## v0.1.41 {#v0-1-41}
 
 *23 October 2026*

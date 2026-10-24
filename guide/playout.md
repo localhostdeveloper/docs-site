@@ -28,10 +28,10 @@ running their own channel (see [Channels for your clients](#channels-for-your-cl
    the channel's own videos, build the playlist (below) and click **Save
    playlist**. The channel plays it within a few seconds.
 
-**Settings** on the channel's page changes its picture, bitrate, filler or
-live input (the channel restarts, so viewers reconnect once; the playlist is
-kept). The bin button deletes the channel and its own media files; its as-run
-log is kept.
+The **⋯** menu at the top of the channel's page has **Settings**, which
+changes its picture, bitrate, filler or live input (the channel restarts, so
+viewers reconnect once; the playlist is kept), and **Delete channel**, which
+deletes the channel and its own media files (its as-run log is kept).
 
 ### Channels for your clients
 
@@ -75,6 +75,22 @@ files** that every channel may use (station idents, jingles, adverts):
   videos** on the channel's Input tab, or choose it under **Upload to** on the
   Media page, where it is listed as "(backup picture)".
 
+### The channel's page {#channel-page}
+
+At the top is what is on air now: a small live preview, its title, how far it
+has got, and **Previous** and **Next**. Under it are the next three
+programmes, then four tabs:
+
+- **Playlist:** the playlist editor (below).
+- **Logo:** the channel's logo (see [The channel's logo](#the-channels-logo)).
+- **As-run log:** what went on air, newest first, a day at a time (pick the
+  day), 50 entries a page with **Older** and **Newer**, and **Download CSV**
+  for the day.
+- **Output:** the picture, bitrate, encoder, underruns and live input, and
+  the playlist file's state, with any item that can't play.
+
+Switching tabs keeps changes you haven't saved in the playlist.
+
 [![A 24/7 channel's page: the item on air with its progress, Previous and Next, and what plays next](/screens/playout.webp)](/screens/playout.webp)
 
 ### The playlist editor
@@ -84,12 +100,17 @@ channel is never empty: upload a few videos, add them, save. The editor shows
 it in two parts:
 
 - **The loop:** items that play one after another, round and round. **Add
-  to the loop** adds one.
+  to the loop** opens the list of the channel's videos (then the shared
+  ones): tick as many as you want and add them in one go. They join the loop
+  in the order you ticked them, and the list numbers them as you tick. To add
+  a whole series, type part of its name in the search box, then **Select
+  all**: ep 2 comes before ep 10.
 - **Fixed times:** items that cut in at a set time, **every day**, **on
   chosen days** (pick the days) or **on a date**, whatever is playing. Each
   can have items that play right after it as one block, like the weather
   straight after the 19:00 news: open the fixed time and choose **Then
-  another item**. **Add a fixed time** adds one. They are listed by time.
+  another item**, which opens the same list. **Add a fixed time** adds one.
+  They are listed by time.
 
 When a fixed-time block ends, the loop carries on where it stopped: a film
 cut by the news continues after it. A fixed time also cuts a block that is
@@ -97,13 +118,22 @@ still playing.
 
 [![The playlist editor: when it starts, its time zone, today's strip, the loop's items and the fixed times (one with an item right after it), each with when it plays next](/screens/schedule.webp)](/screens/schedule.webp)
 
-Each item is one line: its title, video and length, when it plays next, and a
-**⋯** menu to move it up or down, duplicate it or remove it. Click a line to
-open its fields under it: the video, a title, when it plays (which moves it
-between the loop and the fixed times), where in the file it starts and stops
-(**In** and **Out**, like `00:01:30`), and a description of up to 1,000
-characters: TVs show it in their programme guide, and IPTV apps get it
-through XMLTV (see [Programme guide](#programme-guide)).
+Each programme is a row: its title and file, its length, when it plays next
+(the one on air is marked), **Play now** in the loop, and a **⋯** menu to
+move it up or down, duplicate it or remove it.
+
+- **Several at once:** tick rows (or the box at the top of the table to tick
+  them all), then **Move to top**, **Move to bottom** or **Remove**. Removing
+  a fixed time removes the items right after it too.
+- **Drag a row by its handle** to move it within the loop, or within the
+  items right after a fixed time. With the keyboard: focus the handle and use
+  the up and down arrows. Fixed times stay in time order.
+- **Click a row** to open its fields under it: the video, a title, when it
+  plays (which moves it between the loop and the fixed times), where in the
+  file it starts and stops (**In** and **Out**, like `00:01:30`), and a
+  description of up to 1,000 characters: TVs show it in their programme
+  guide, and IPTV apps get it through XMLTV (see
+  [Programme guide](#programme-guide)).
 - **Starts:** *Now, when saved*, or *At a date and time*: until then the
   channel plays its filler, and the loop then starts from its first item.
 - **Today** draws the day in the playlist's time zone: the loop, the fixed
@@ -119,8 +149,11 @@ through XMLTV (see [Programme guide](#programme-guide)).
   of day or on dates, opens as the playlist that plays the same: each timed
   item becomes a fixed time and the items after it play right after it.
   Nothing changes on air; saving writes it the new way.
-- Nothing changes on air until you save; the page asks before you leave with
-  unsaved changes.
+- Nothing changes on air until you save. While there are changes, a bar at
+  the bottom of the window says what they are (programmes added, removed or
+  changed, the order) with **Save playlist** and **Discard**; it goes away if
+  you undo them by hand. The page asks before you leave with unsaved
+  changes.
 - If someone else saved the playlist after you opened it, saving is refused
   and the page offers to load their version, so nobody's work is silently
   overwritten.
@@ -248,10 +281,9 @@ hand appear by themselves.
 
 ## The Playout page
 
-**Playout** shows each channel: what is on air and how far in, a preview, the
-next items, the playlist editor, the schedule's state (and any item that
-can't play), the encoder, the live input, and the as-run log with a CSV
-download.
+**Playout** lists each channel: what is on air and how far in, what plays
+next, the live input and the output. Click a channel's name for
+[its page](#channel-page).
 
 ## The schedule file
 
