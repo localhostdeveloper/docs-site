@@ -345,9 +345,9 @@ export async function buildContract(fill) {
     bold: await pdf.embedFont(StandardFonts.HelveticaBold),
   };
   pdf.setTitle("Unda Media Server Licence Agreement", { showInWindowTitleBar: true });
-  pdf.setAuthor("LocalCode Technology");
+  pdf.setAuthor("LC Technology");
   pdf.setSubject("Licence agreement for Unda Media Server: order form, terms and signatures");
-  pdf.setKeywords(["Unda Media Server", "UndaMedia", "licence agreement", "LocalCode Technology"]);
+  pdf.setKeywords(["Unda Media Server", "UndaMedia", "licence agreement", "LC Technology"]);
   pdf.setCreator("UndaMedia");
   pdf.setProducer("UndaMedia");
   pdf.setLanguage("en-GB");
@@ -417,7 +417,7 @@ export async function buildContract(fill) {
   L.y += 10.5 * 1.43;
   L.para([{ t: "For " + VENDOR, f: "bold" }], { x: colX[1], width: half, size: 10.5, color: C.ink, after: 0 });
   L.para([{ t: "We complete this side.", f: "reg" }], { x: colX[1], width: half, size: 8.5, color: C.muted, after: 6 });
-  const sides = [["customer", "Customer", true], ["vendor", "LocalCode Technology", false]];
+  const sides = [["customer", "Customer", true], ["vendor", "LC Technology", false]];
   for (const [label, key, h] of [["Name", "name", 20], ["Job title", "title", 20], ["Signature (type your full name, or sign)", "signature", 36], ["Date", "date", 20]]) {
     const y = L.y;
     sides.forEach(([side, who, lock], i) => {

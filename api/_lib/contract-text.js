@@ -10,9 +10,9 @@ export const VERSION = "1.0";
 export const DATE = "October 2026";
 export const EMAIL = "support@undamedia.com";
 // The party to the agreement must be a legal person: UndaMedia is a brand of
-// LocalCode Technology, not a registered company or business name.
-export const VENDOR = "LocalCode Technology, trading as UndaMedia";
-// LocalCode Technology's registered details, printed under our signature
+// LC Technology, not a registered company or business name.
+export const VENDOR = "LC Technology, trading as UndaMedia";
+// LC Technology's registered details, printed under our signature
 // block once filled in. Left empty, the lines are not printed.
 export const VENDOR_ADDRESS = "";
 export const VENDOR_REG_NO = "";
@@ -141,7 +141,7 @@ export const FIELDS = {
 
 export const TERMS = [
   ["1", "The software and your licence", [
-    ["1.1", "**Unda** means Unda Media Server: its compiled programs, the updates we release and its documentation at undamedia.com. LocalCode Technology owns Unda and all rights in it. Nothing in this agreement transfers that ownership to you."],
+    ["1.1", "**Unda** means Unda Media Server: its compiled programs, the updates we release and its documentation at undamedia.com. LC Technology owns Unda and all rights in it. Nothing in this agreement transfers that ownership to you."],
     ["1.2", "While this agreement lasts, we give you a licence to install and use Unda for your organisation’s work, including streaming for your own clients and viewers, within the package in Part A. The licence is not exclusive, and you may not transfer it without our written consent."],
     ["1.3", "Your licence file sets your package’s limits: how many streams can be live at the same time, how many team members can sign in besides owners, which tools are switched on, and the end date. The licence puts no limit on viewers."],
     ["1.4", "The licence covers one installation of Unda (one running server), unless Part A says otherwise. Without a licence file, Unda runs in its free evaluation mode, which you may use for testing at any time."],

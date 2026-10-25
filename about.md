@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About us
-description: UndaMedia makes Unda Media Server, live streaming software for organisations that want their own platform. A product of LocalCode Technology.
+description: UndaMedia makes Unda Media Server, live streaming software for organisations that want their own platform. A product of LC Technology.
 ---
 
 <div class="m-page">
@@ -41,7 +41,7 @@ description: UndaMedia makes Unda Media Server, live streaming software for orga
 <div class="m-wrap">
 <div class="m-prose">
 <span class="m-kicker">The company</span>
-<p>UndaMedia is a product of LocalCode Technology.</p>
+<p>UndaMedia is a product of LC Technology.</p>
 </div>
 </div>
 </section>

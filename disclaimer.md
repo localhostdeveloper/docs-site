@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Disclaimer
-description: Unda Media Server is software. Customers decide what they stream with it and are responsible for it; LocalCode Technology and UndaMedia are not.
+description: Unda Media Server is software. Customers decide what they stream with it and are responsible for it; LC Technology and UndaMedia are not.
 ---
 
 <div class="m-page">
@@ -16,7 +16,7 @@ description: Unda Media Server is software. Customers decide what they stream wi
 <div class="m-wrap m-prose m-legal">
 <p class="m-legal-date">Last updated 16 October 2026</p>
 <h2>Who we are</h2>
-<p>UndaMedia makes Unda Media Server. UndaMedia is a product of LocalCode Technology. In this disclaimer "we" and "us" mean LocalCode Technology and UndaMedia, and "you" means a customer who licenses Unda, whether you run it yourself or we host it for you.</p>
+<p>UndaMedia makes Unda Media Server. UndaMedia is a product of LC Technology. In this disclaimer "we" and "us" mean LC Technology and UndaMedia, and "you" means a customer who licenses Unda, whether you run it yourself or we host it for you.</p>
 <h2>You decide what is streamed</h2>
 <p>When you buy a licence, you choose what is streamed, recorded, restreamed, sent to TV stations and published with your copy of Unda, and who may use your server. We don't choose, check or approve any of it.</p>
 <h2>You are responsible for your content</h2>
@@ -28,7 +28,7 @@ description: Unda Media Server is software. Customers decide what they stream wi
 <li>the rules of the platforms and stations you send to, such as YouTube, Facebook or a TV network.</li>
 </ul>
 <h2>We are not liable for your content</h2>
-<p>We are not responsible or liable for any content streamed, recorded or distributed with Unda, or for any loss, claim or penalty that arises from it. If anyone makes a claim against us because of your content, you are responsible for it. Your licence agreement with LocalCode Technology sets out these terms in full.</p>
+<p>We are not responsible or liable for any content streamed, recorded or distributed with Unda, or for any loss, claim or penalty that arises from it. If anyone makes a claim against us because of your content, you are responsible for it. Your licence agreement with LC Technology sets out these terms in full.</p>
 <h2>We don't see your streams</h2>
 <p>Unda runs on your server: your streams never pass through us, and we cannot see, monitor or remove them. We can sign in only when your server's owner gives us support access, for the time they choose.</p>
 <p>If we host your server for you, we run it on your behalf but do not watch or review what you stream. We may suspend a stream or the service when the law or a competent authority requires it.</p>
