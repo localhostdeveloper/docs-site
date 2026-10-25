@@ -12,6 +12,41 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### New
+
+- Viewers can go back in a live stream, up to a time you choose for each
+  stream, and return to live ([Rewind](/guide/watching#rewind)).
+- **Multiview finds channels faster:** filter by name, show only encoders,
+  24/7 channels, pull streams or the channels that need attention, and sort
+  them. Each tile gives the channel's name and what feeds it, and a problem
+  (no sound, a playlist item that can't play) takes the place of its figures
+  with a coloured border ([Multiview](/guide/dashboard#multiview)).
+- **The Playout page is a table:** each channel's latest picture, what is on
+  air and how far in, and what is next, with filter and sort, and Resume,
+  Settings, Pause and Delete on its row
+  ([The Playout page](/guide/playout#the-playout-page)).
+- **The dashboard's preview shows how fast your connection loads it.** When
+  your connection is too slow for the stream, it says so and can show a
+  picture every few seconds instead. **Link** and **Embed** copy the watch
+  page's address or the code to put it in your own web page
+  ([A stream's page](/guide/dashboard#a-streams-page)).
+
+### Changed
+
+- Saving a playlist no longer starts it again: the programme on air keeps
+  playing and the playlist carries on from it
+  ([The playlist editor](/guide/playout#the-playlist-editor)).
+- Live previews in the dashboard stop while the browser tab is in the
+  background, so they no longer use your internet connection when nobody is
+  watching them.
+- The dashboard's preview has its own controls: it starts muted, nothing is
+  written over the picture, and the quality is shown in the controls.
+- A 24/7 channel's page shows the channel's latest picture instead of a
+  video, so it no longer uses your connection; **Watch live** opens the
+  stream page's player.
+
 ## v0.1.42 {#v0-1-42}
 
 *24 October 2026*
@@ -47,9 +82,7 @@ database is backed up first.
 
 - On a channel's Input tab, the page no longer jumps back up every few
   seconds after you click **Add videos** and scroll down, and the playlist
-  under the cursor no longer blinks. The tab was rebuilt on every refresh;
-  now only what changed is updated. The same goes for the stream page's
-  title bar and tabs.
+  under the cursor no longer blinks.
 
 ## v0.1.41 {#v0-1-41}
 
@@ -57,30 +90,13 @@ database is backed up first.
 
 ### Fixed
 
-- A stream could freeze for HLS viewers until the channel was paused and
-  resumed, when the encoder's clock jumped: a vMix sending over SRT stepped
-  its clock back 39 minutes, and HLS stopped there. Unda now keeps each
-  incoming stream's time running forward across such jumps, and across the
-  wrap MPEG-TS clocks make every 26.5 hours, on RTMP, SRT, UDP, RTP, RIST and
-  multi-channel inputs. Should HLS still stop taking a stream's frames, it
-  now starts afresh by itself within a few seconds instead of staying frozen.
-- Graphics cards couldn't be used under the systemd service: it ran with
-  `PrivateDevices=true`, which hides `/dev/nvidia*` and `/dev/dri`, so
-  **Server → Transcoding** offered the CPU only; and with that fixed, NVIDIA's
-  test still failed (`cuInit(0) failed -> CUDA_ERROR_OPERATING_SYSTEM`)
-  because the service didn't allow local sockets (`AF_UNIX`), which NVIDIA's
-  CUDA library needs. The new service file allows both, and the installer
-  adds the `unda` user to the `video` and `render` groups.
-- **Server → Transcoding** now says why a card isn't usable: the driver isn't
-  running, the card is hidden from Unda, Unda may not open it, or FFmpeg has
-  no encoder for it. A card FFmpeg can't use stays in the list with the
-  reason instead of disappearing
+- A stream could freeze for HLS viewers when its encoder's clock jumped. The
+  stream now plays on, and HLS recovers by itself if it ever stops.
+- Graphics cards now work with the standard install. Before, **Server →
+  Transcoding** could offer only the CPU on a server with an NVIDIA card.
+- **Server → Transcoding** says why a graphics card can't be used, so you
+  know what to fix
   ([When your graphics card isn't listed](/guide/transcoding#when-your-graphics-card-isnt-listed)).
-- An encoder that fails its test shows FFmpeg's real reason, in full (for
-  example "Cannot load libnvidia-encode.so.1"), not FFmpeg's closing line
-  "Nothing was written into output file…". VAAPI is no longer offered on an
-  NVIDIA card's device, nor Quick Sync on a server without Intel graphics:
-  neither could ever work there.
 
 ### Upgrade notes
 

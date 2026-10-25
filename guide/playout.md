@@ -77,7 +77,8 @@ files** that every channel may use (station idents, jingles, adverts):
 
 ### The channel's page {#channel-page}
 
-At the top is what is on air now: a small live preview, its title, how far it
+At the top is what is on air now: the channel's latest picture (every 5
+seconds; **Watch live** plays it on the stream page), its title, how far it
 has got, and **Previous** and **Next**. Under it are the next three
 programmes, then four tabs:
 
@@ -142,9 +143,11 @@ move it up or down, duplicate it or remove it.
   server as you edit, before you save, from the videos' lengths.
   Warnings show a video missing from Media, a time not chosen yet, or a fixed
   item cut short by the next fixed time.
-- Saving keeps the loop's place: adding a fixed time, renaming an item or
-  changing the time zone carries on where the loop is. Adding, removing or
-  reordering the loop's own items starts it again from its first item.
+- Saving never starts the playlist again. The programme on air keeps
+  playing, wherever it now sits in the list, and the loop carries on from
+  it in the new order. If you remove the programme on air, the one that
+  followed it starts at once. To start from the top, use **Play now** on
+  the first item.
 - A channel made with an earlier version, whose schedule puts items at times
   of day or on dates, opens as the playlist that plays the same: each timed
   item becomes a fixed time and the items after it play right after it.
@@ -171,7 +174,8 @@ plays at its time, untouched. Anyone who can edit the channel can use them.
 
 ### Pausing a channel
 
-**Pause** at the top of the channel's page takes it off air without deleting
+**Pause** at the top of the channel's page (or **Pause channel** in its
+**⋯** menu on the Playout page) takes it off air without deleting
 anything: its encoder stops, viewers see it offline, its programme guide (TV
 and XMLTV) is empty while it is paused, and it uses no CPU. Its playlist,
 settings and media are kept, and the playlist can still be edited.
@@ -281,9 +285,16 @@ hand appear by themselves.
 
 ## The Playout page
 
-**Playout** lists each channel: what is on air and how far in, what plays
-next, the live input and the output. Click a channel's name for
-[its page](#channel-page).
+**Playout** lists every channel in a table: its latest picture, its name with
+its picture size and bitrate (or what needs attention), whether it is on air,
+what is on air and how far in, and what plays next. Click a channel's name or
+**Open** for [its page](#channel-page); a paused channel has **Resume** on its
+row, and the **⋯** menu has its stream page, **Settings**, **Pause channel**
+and **Delete channel**.
+
+Above the table, filter by name, show only the channels on air, paused or
+needing attention, and sort by name, needs attention first, or ending
+soonest (the programme on air nearest its end).
 
 ## The schedule file
 

@@ -80,6 +80,44 @@ adaptive bitrate is on, a **Quality** menu (Auto or a fixed quality).
 If the encoder drops out, the page shows _"Stream is offline — trying again…"_
 and resumes by itself when the stream is back: viewers never need to reload.
 
+## Rewind
+
+A stream can keep its last minutes so that viewers can go back in it while it
+is live, then return to live. Choose how far on the stream's **Output** tab,
+under **Rewind**: Off, 15 minutes, 30 minutes or 1 hour, up to the longest
+the server allows. Clients choose it for their own channels.
+
+- The player page and any HLS player get a seek bar over that window. In the
+  dashboard's preview, pointing at the bar shows the time of day, and **Go
+  live** returns to live.
+- With [adaptive bitrate](/guide/transcoding), every quality keeps the same
+  window.
+- Rewind is for HLS players. RTMP, SRT, Low latency (WebRTC) and MPEG-TS over
+  HTTP always play live.
+- Changing the setting makes players start again once, within seconds. When
+  the encoder reconnects, the window starts again empty.
+
+**Disk space.** The minutes are kept on the server's disk, not in memory. A
+stream takes its bitrate times its minutes: about 1.1 GB for 30 minutes of a
+5 Mb/s stream, plus its qualities' when it is transcoded. Administrators set
+the longest window under **Server → Playback → Rewind**, which also lists
+every stream that keeps one and the space it uses.
+
+The windows are kept in `paths.rewind_dir` (by default a `.rewind` folder
+inside `hls_dir`). If the server has a larger second disk, point it there.
+On an installer setup, a folder outside `/var/lib/unda` must also be opened
+to the service:
+
+```bash
+sudo systemctl edit unda
+# add these two lines, save, then: sudo systemctl restart unda
+[Service]
+ReadWritePaths=/mnt/data/unda-rewind
+```
+
+A new window needs 5 GB free on its disk. Below 2 GB free, windows stop and
+the streams carry on without one; an event on the **Events** page says so.
+
 ## Embedding on your website
 
 The player page can be put in a frame on any site:

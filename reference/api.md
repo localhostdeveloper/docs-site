@@ -117,6 +117,17 @@ curl -X POST -H "Authorization: Bearer $KEY" \
 | `GET /api/v1/playback/secret` | admin | The signing secret (hex) for a website that makes its own links; audited |
 | `POST /api/v1/playback/secret/rotate` | admin | A new secret; every link made before stops working; audited |
 
+## Rewind
+
+[Rewind](/guide/watching#rewind): how far back a stream's HLS viewers may go. A window is kept on disk; changing one makes the stream's players start again once.
+
+| Method and path | Role | |
+|---|---|---|
+| `GET /api/v1/streams/{name}/rewind` | streamer | `{"minutes", "applies", "max_minutes", "choices", "keeping_minutes", "keeping_bytes"}`: the window set, the window that applies (held to the server's longest), the choices offered, and what the stream keeps now |
+| `PUT /api/v1/streams/{name}/rewind` | streamer | `{"minutes": 30}` (0 = off, up to the server's longest); the stream need not be live |
+| `GET /api/v1/rewind` | operator | `{"max_minutes", "streams", "used_bytes"}`; administrators also get `dir`, `ladder_dir` and `free_bytes` |
+| `PUT /api/v1/rewind` | admin | `{"max_minutes": 120}` (0 = no rewind on this server, up to 1440); longer windows are held to it |
+
 ## WebRTC (WHIP and WHEP)
 
 [WebRTC](/guide/webrtc), standard WHIP (RFC 9725) and WHEP. Not under `/api/v1` and not behind an account: a WHIP publisher shows its stream key, a WHEP player its playback token, each as `Authorization: Bearer …` (refused over plain HTTP, 403 `https_required`). Any origin may call them (CORS); `Location`, `ETag`, `Link` and `Accept-Patch` are readable.

@@ -46,9 +46,21 @@ player.
 Under the preview, choose how it plays: **HLS** (the stream as it arrives, a
 few seconds behind live), **Adaptive** (the qualities of a transcoded stream)
 or **Low latency** (WebRTC, under a second behind, when the server has it).
-This browser remembers the choice. The meter beside the picture shows the
+This browser remembers the choice. The preview starts muted and plays only
+while the browser tab is in front. The meter beside the picture shows the
 sound reaching the server, also while the preview is muted; with HLS it moves
-a few seconds ahead of the picture, with Low latency in step with it.
+a few seconds ahead of the picture, with Low latency in step with it. On a
+stream that keeps a [rewind window](/guide/watching#rewind), a bar over the
+picture lets you go back in it, and **Go live** brings you back.
+
+Beside the choice are the stream's size, frame rate and bitrate, and under
+it how fast your connection loads the preview. **Link** copies the watch
+page's address and **Embed** the code that puts the watch page in your own
+web page. When your connection is too slow for the stream, a note under the
+preview says so: **Show a picture instead** shows its latest picture every
+few seconds rather than a video that keeps stopping (and holds up the rest of
+the page), and this browser remembers it until you click **Play video**;
+**Keep playing** leaves the video on.
 
 The tabs hold the stream's other settings:
 
@@ -58,28 +70,39 @@ The tabs hold the stream's other settings:
 - **Restream**: [destinations](/guide/restreaming) such as YouTube and Facebook.
 - **EPG**: a live channel's [programme guide](/guide/playout#live-channels-a-typed-in-guide).
 - **Output**: every address to watch it by, who can watch
-  ([signed links](/guide/protect-playback)) and
-  [adaptive bitrate](/guide/transcoding).
+  ([signed links](/guide/protect-playback)), how far back viewers can go
+  ([rewind](/guide/watching#rewind)) and [adaptive bitrate](/guide/transcoding).
 
 ## Multiview
 
 [![Multiview: a picture of every channel with its sound levels; a silent camera is marked No sound](/screens/multiview.webp)](/screens/multiview.webp)
 
-A picture of every live stream, refreshed every few seconds, with its bitrate
-and viewers. The pictures are stills, so the wall costs the server little,
-however many streams there are.
+A picture of every live channel, refreshed every few seconds. The pictures
+are stills, so the wall costs the server little, however many channels there
+are. Point at a picture to see how old it is.
+
+Under each picture is the channel's name, a tag for what feeds it
+(**ENCODER**, **24/7** or **PULL**), and one line with its size, bitrate and
+viewers. When a channel needs attention, that line says why instead, with a
+coloured border: red for no sound or a critical alert, yellow for a warning
+such as a playlist item that can't play.
+
+Above the wall, type in **Filter channels** to find one by name, show only
+**Encoders**, **24/7** channels, **Pull** streams or those that **Need
+attention**, and sort by name, needs attention first, most viewers or highest
+bitrate. This browser remembers the sort and the tile size.
 
 A channel with [inputs](/guide/channel-inputs) has one tile: what its viewers
-see, with a tag for what is on air (**ENCODER**, **BACKUP ENCODER**,
-**PULL**, **PLAYLIST** or **SLATE**). Pictures of its inputs are on the
-channel's Input tab. The Overview and the Streams count in the menu count
-such a channel once, as the licence does.
+see, its tag saying what is on air (**ENCODER**, **BACKUP**, **PULL**,
+**PLAYLIST** or **SLATE**). Pictures of its inputs are on the channel's
+Input tab. The Overview and the Streams count in the menu count such a
+channel once, as the licence does.
 
 Each tile has two sound meters at the right edge of its picture, for the left
 and right channel: green, yellow above -18 dBFS, red above -6 dBFS, with a
 line marking the last peak. A channel that has been silent for 10 seconds
 shows **NO SOUND** with how long, and a red border; a stream that carries no
-sound at all shows **No sound track**. The same alarm appears in **Needs
+sound at all shows **No sound track**, with a yellow one. The same alarm appears in **Needs
 attention** and in Events, whether or not anyone has Multiview open (see
 [No sound](/guide/monitoring#no-sound)).
 

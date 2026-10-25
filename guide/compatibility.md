@@ -198,9 +198,8 @@ load before adding more.
 - **One server per installation:** Unda has no clustering, load balancing or
   automatic failover between servers. [Channel inputs](/guide/channel-inputs)
   protect against an encoder or a source failing, not the server.
-- **Not available yet:** NDI, SDI/ASI, DRM (Widevine, FairPlay;
-  [signed playback links](/guide/protect-playback) are available), and
-  rewinding a live stream (DVR).
+- **Not available yet:** NDI, SDI/ASI, and DRM (Widevine, FairPlay;
+  [signed playback links](/guide/protect-playback) are available).
 
 If your equipment is marked "should work" or isn't listed, tell us what it is:
 we will test it with you before you go live.
