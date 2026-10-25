@@ -78,6 +78,21 @@ everything else. A GPU takes most of that load off the CPU.
 Unda test-encodes with your NVIDIA, Intel or AMD (VAAPI) card before using it,
 and shows why if it fails.
 
+### Graphics cards
+
+With an NVIDIA card chosen under **Server → Transcoding**, Unda shares the
+card between everything that encodes video: adaptive streams, 24/7 channels
+and TV outputs in H.264 or HEVC. Adaptive streams also decode and resize their
+pictures on the card. Each job goes to the card with the most room, and when
+every card is busy the job runs on the CPU instead. MPEG-2 and 1080i TV
+outputs always encode on the CPU.
+
+**Server → Transcoding** shows each card's load and how many jobs it has,
+and a stream's Output tab, a 24/7 channel's Output tab and the Restream rows
+say where each job runs. On a server with an RTX A5000, moving two 1080p
+adaptive streams and fourteen 720p 24/7 channels onto the card halved the CPU
+they used.
+
 ### When your graphics card isn't listed
 
 **Server → Transcoding** says why under the encoder list, and what to do:

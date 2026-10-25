@@ -12,12 +12,18 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
-## Next release
+## v0.1.43 {#v0-1-43}
+
+*25 October 2026*
 
 ### New
 
 - Viewers can go back in a live stream, up to a time you choose for each
   stream, and return to live ([Rewind](/guide/watching#rewind)).
+- **A graphics card is shared by everything that encodes video:** with an
+  NVIDIA card chosen under Server → Transcoding, adaptive streams, 24/7
+  channels and TV outputs encode on the card, and whatever doesn't fit runs
+  on the CPU ([Graphics cards](/guide/transcoding#graphics-cards)).
 - **Multiview finds channels faster:** filter by name, show only encoders,
   24/7 channels, pull streams or the channels that need attention, and sort
   them. Each tile gives the channel's name and what feeds it, and a problem
@@ -46,6 +52,20 @@ database is backed up first.
 - A 24/7 channel's page shows the channel's latest picture instead of a
   video, so it no longer uses your connection; **Watch live** opens the
   stream page's player.
+- The dashboard's text is a little smaller, so more fits on the screen.
+
+### Fixed
+
+- Streams that stay on air for more than 28 hours keep playing. Before, web
+  playback stopped for a moment at that point, and recordings and TV outputs
+  got a jump in time.
+- A pulled HLS channel whose source sends long pieces of video no longer
+  drops off air every few seconds.
+
+### Upgrade notes
+
+No database change and nothing to configure. In Docker, change the image
+tag to v0.1.43.
 
 ## v0.1.42 {#v0-1-42}
 
