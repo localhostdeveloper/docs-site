@@ -25,7 +25,7 @@ description: One stream in, up to eight qualities out. Unda plans the qualities 
 <h2>Qualities that fit what you send</h2>
 <p>Encoders are unpredictable: a phone in portrait, an old camera in 4:3, a 1080p stream at a low bitrate. Unda measures each stream when it starts and plans its qualities from what it finds, instead of applying one template to everything.</p>
 <ul class="m-checks">
-<li>Up to 8 qualities; by default 1080p, 720p, 480p, 360p, 240p and 144p</li>
+<li>Up to 8 qualities; by default 2160p (4K), 1080p, 720p, 480p, 360p, 240p and 144p</li>
 <li>Never upscaled: a 720p source gets 720p and below</li>
 <li>Portrait, 4:3 and widescreen kept in shape, with no black bars</li>
 <li>No quality uses more bitrate than the source justifies</li>

@@ -11,7 +11,7 @@ invited from **Users**.
 | **Owner** | Everything, including the license and vendor support access |
 | **Admin** | Users (except owners), security settings, API keys, audit log, plus everything an operator can |
 | **Operator** | All streams: stop, record, restream, adaptive bitrate, UDP inputs, the Server page and metrics |
-| **Streamer** | Only their own channels, including their own [24/7 channels](/guide/playout#channels-for-your-clients) and their files. Other streams do not exist for them, in the dashboard or the API |
+| **Streamer** | Only their own channels, including their own [24/7 channels](/guide/playout#channels-for-your-clients) and their files, and [adaptive bitrate](/guide/transcoding#choosing-the-qualities-yourself) for them. Other streams do not exist for them, in the dashboard or the API |
 
 ## Inviting people
 

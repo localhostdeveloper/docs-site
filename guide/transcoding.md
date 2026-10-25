@@ -23,6 +23,8 @@ destinations always get the original.
 3. On a stream's **Output** tab, under **Adaptive bitrate**, switch it on for
    that stream. It starts at
    once and stays on when the encoder reconnects and when the server restarts.
+   Clients can switch it on for their own channels too; the switch works while
+   the stream is offline, and then starts with its next broadcast.
 
 [![A stream's Output tab, Adaptive bitrate: on, the source, and the ladder of qualities with how much each is watched](/screens/transcoding.webp)](/screens/transcoding.webp)
 
@@ -41,6 +43,7 @@ The default qualities, which are **ceilings**:
 
 | Quality | Video | Audio |
 |---|---|---|
+| 2160p (4K) | 15000 kbps | 128 kbps |
 | 1080p | 5000 kbps | 128 kbps |
 | 720p | 2500 kbps | 128 kbps |
 | 480p | 1000 kbps | 96 kbps |
@@ -63,6 +66,29 @@ The 144p quality plays on connections as slow as about 250 kbit/s.
 Sources bigger than 4K, over 120 fps, over 60 Mb/s or without video stay as
 they are; the stream's Output tab says why.
 
+## Choosing the qualities yourself
+
+Under **Qualities** on the Output tab, **Auto** is the planning above.
+**Choose** lets you pick the qualities for one stream instead:
+
+- tick up to 8 sizes from 2160p, 1440p, 1080p, 720p, 576p, 480p, 360p, 240p
+  and 144p;
+- type each one's video bitrate; the suggested value is shown beside it, and
+  what you type is used as it is;
+- each smaller size needs less bitrate than the one above it;
+- sound follows the size (128 kbps down to 24 kbps), as in Auto.
+
+Sizes bigger than the source are left out, and each size keeps the source's
+shape, as in Auto. When you open **Choose**, it starts from the qualities Auto
+is making for the stream now, so **Save qualities** right away keeps them as
+they are.
+
+Saving changes a live stream at once: its adaptive bitrate starts again with
+the new qualities, and viewers watching it start again once. RTMP and SRT
+viewers, recordings and restreams are not affected. Clients choose the
+qualities of their own channels; operators of any stream. **Auto** goes back
+to the planning above.
+
 ## Server cost
 
 Per 1080p stream, with the default settings:
@@ -71,6 +97,12 @@ Per 1080p stream, with the default settings:
 |---|---|---|
 | Software (`hardware: none`) | about 1.2 CPU cores | about 0.9 GB |
 | Apple VideoToolbox | about 0.35 cores | about 0.2 GB |
+
+A 4K stream also gets the 2160p quality, which costs much more: in our test a
+4K stream took about 3.4 CPU cores and 2.8 GB, against about 2 cores and
+1.2 GB without 2160p. For 4K, use a graphics card, or leave 2160p out by
+listing your own qualities under `transcode: renditions:` in
+`unda.yaml` (the example file shows the format).
 
 A 4-core, 8 GB server runs about two adaptive streams on the CPU alongside
 everything else. A GPU takes most of that load off the CPU.

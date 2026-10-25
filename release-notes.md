@@ -12,6 +12,24 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.44 {#v0-1-44}
+
+*25 October 2026*
+
+### New
+
+- **Choose the qualities of each stream:** keep Auto, or pick the sizes and
+  type each bitrate on the stream's Output tab. Clients can switch adaptive
+  bitrate on and choose its qualities for their own channels
+  ([Choosing the qualities yourself](/guide/transcoding#choosing-the-qualities-yourself)).
+
+### Changed
+
+- **4K streams get a 4K quality:** adaptive bitrate now makes a 2160p
+  quality above 1080p for 4K sources. It takes much more processing on the
+  CPU, so use a graphics card for 4K streams where you can
+  ([Server cost](/guide/transcoding#server-cost)).
+
 ## v0.1.43 {#v0-1-43}
 
 *25 October 2026*

@@ -318,7 +318,7 @@ limits:
 #   # max_source_mbps: 60  refuse to transcode a source above this video bitrate (it is still served passthrough)
 #   # Rungs are ceilings: each stream gets rungs no bigger than itself, in its own aspect ratio,
 #   # at no more bitrate than it justifies (see the README).
-#   # renditions default to 1080p/720p/480p/360p/240p/144p; override with a list of
+#   # renditions default to 2160p/1080p/720p/480p/360p/240p/144p; override with a list of
 #   #   {name, width, height, video_kbps, audio_kbps} (even dimensions, name a-z0-9_-)
 
 # Dashboard multiview stills (one small JPEG per stream, decoded from the latest

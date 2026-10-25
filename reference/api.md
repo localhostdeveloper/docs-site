@@ -34,7 +34,9 @@ the feature in your [license](/guide/license); without it they answer `403`.
 | `GET /api/v1/streams/{name}/sound` | streamer | The stream's sound now: `measured`, `peak` and `rms` (dBFS, left and right), `silent_s`, `no_track`, plus `silence_dbfs` and `alarm_after_s`. `measured` is false for a stream not metered (a channel's inputs). 501 without sound meters (needs FFmpeg) |
 | `GET /api/v1/audio/levels` | operator | Every metered stream's sound now (`streams`: the same fields per stream), as Multiview shows it |
 | `GET` / `POST /api/v1/streams/{name}/record` | operator | Recording status / `{"action":"start"}` or `{"action":"stop"}` |
-| `PUT /api/v1/streams/{name}/transcode` | operator | `{"enabled": true}` turns adaptive bitrate on for this stream |
+| `GET /api/v1/streams/{name}/transcode` | streamer | Adaptive bitrate for this stream: `mode` (`on`, `off`, `config`, or empty for off by default), `server_on`, `qualities` (its own choice, largest first; `null` is Auto), `sizes` (what can be chosen, with suggested bitrates), `auto` (the server's qualities), `max_qualities`. Answers while the stream is offline |
+| `PUT /api/v1/streams/{name}/transcode` | streamer | `{"enabled": true}` turns adaptive bitrate on for this stream (clients: their own channels) |
+| `PUT /api/v1/streams/{name}/transcode/qualities` | streamer | `{"mode": "auto"}`, or `{"mode": "manual", "qualities": [{"size": 1080, "video_kbps": 4000}, {"size": 720, "video_kbps": 2500}]}`: up to 8 sizes from `sizes`, 50-50000 kbps, each smaller size with less bitrate than the one above. A live stream's adaptive bitrate starts again with them |
 
 ## Viewer sessions
 
