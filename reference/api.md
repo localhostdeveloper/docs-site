@@ -16,6 +16,8 @@ curl -H "Authorization: Bearer $KEY" https://tv.example.com/api/v1/streams
 A key can do what its role can do (see [roles](/guide/accounts#roles)). A
 streamer's key sees only that streamer's channels; any other stream answers
 `404`. Repeated wrong keys from one address are refused with `429` for a while.
+A streamer's changes to a stream's adaptive bitrate and rewind settings are
+limited to 30 a minute; beyond that they answer `429` with `Retry-After`.
 
 Only `GET /api/v1/health` works without a key.
 
@@ -36,7 +38,7 @@ the feature in your [license](/guide/license); without it they answer `403`.
 | `GET` / `POST /api/v1/streams/{name}/record` | operator | Recording status / `{"action":"start"}` or `{"action":"stop"}` |
 | `GET /api/v1/streams/{name}/transcode` | streamer | Adaptive bitrate for this stream: `mode` (`on`, `off`, `config`, or empty for off by default), `server_on`, `qualities` (its own choice, largest first; `null` is Auto), `sizes` (what can be chosen, with suggested bitrates), `auto` (the server's qualities), `max_qualities`. Answers while the stream is offline |
 | `PUT /api/v1/streams/{name}/transcode` | streamer | `{"enabled": true}` turns adaptive bitrate on for this stream (clients: their own channels) |
-| `PUT /api/v1/streams/{name}/transcode/qualities` | streamer | `{"mode": "auto"}`, or `{"mode": "manual", "qualities": [{"size": 1080, "video_kbps": 4000}, {"size": 720, "video_kbps": 2500}]}`: up to 8 sizes from `sizes`, 50-50000 kbps, each smaller size with less bitrate than the one above. A live stream's adaptive bitrate starts again with them |
+| `PUT /api/v1/streams/{name}/transcode/qualities` | streamer | `{"mode": "auto"}`, or `{"mode": "manual", "qualities": [{"size": 1080, "video_kbps": 4000}, {"size": 720, "video_kbps": 2500}]}`: up to 8 sizes from `sizes`, 50 kbps up to each size's `max_video_kbps` (clients: twice the suggested bitrate; staff: 50000), each smaller size with less bitrate than the one above. Each is used up to what the source justifies. A live stream's adaptive bitrate starts again with them, at most once every 30 seconds |
 
 ## Viewer sessions
 

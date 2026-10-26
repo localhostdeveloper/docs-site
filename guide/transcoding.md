@@ -73,10 +73,16 @@ Under **Qualities** on the Output tab, **Auto** is the planning above.
 
 - tick up to 8 sizes from 2160p, 1440p, 1080p, 720p, 576p, 480p, 360p, 240p
   and 144p;
-- type each one's video bitrate; the suggested value is shown beside it, and
-  what you type is used as it is;
+- type each one's video bitrate; the suggested value is shown beside it;
 - each smaller size needs less bitrate than the one above it;
 - sound follows the size (128 kbps down to 24 kbps), as in Auto.
+
+What you type is used up to what the source justifies, as in Auto: a quality
+can't look better than the stream it is made from, so a higher bitrate would
+only cost viewers and the server. The stream's Output tab shows the bitrates
+in use and, under the **i** beside **Quality**, which ones were held back.
+Clients can give each size up to twice its suggested bitrate (1080p up to
+10000 kbps); operators up to 50000 kbps.
 
 Sizes bigger than the source are left out, and each size keeps the source's
 shape, as in Auto. When you open **Choose**, it starts from the qualities Auto
@@ -85,7 +91,8 @@ they are.
 
 Saving changes a live stream at once: its adaptive bitrate starts again with
 the new qualities, and viewers watching it start again once. RTMP and SRT
-viewers, recordings and restreams are not affected. Clients choose the
+viewers, recordings and restreams are not affected. Several changes within
+30 seconds start it again once, with the last one. Clients choose the
 qualities of their own channels; operators of any stream. **Auto** goes back
 to the planning above.
 
@@ -118,6 +125,13 @@ and TV outputs in H.264 or HEVC. Adaptive streams also decode and resize their
 pictures on the card. Each job goes to the card with the most room, and when
 every card is busy the job runs on the CPU instead. MPEG-2 and 1080i TV
 outputs always encode on the CPU.
+
+Unda keeps the card's encoder below about 85 % and leaves the rest of the work
+to the CPU. It learns what your card really costs while its jobs run and
+keeps that, so after a restart the same jobs go to the card. If the card's
+encoder still stays above 95 % for 30 seconds, Unda moves one adaptive
+stream to the CPU, then checks again; viewers of that adaptive stream start
+again once. 24/7 channels and TV outputs stay where they started.
 
 **Server → Transcoding** shows each card's load and how many jobs it has,
 and a stream's Output tab, a 24/7 channel's Output tab and the Restream rows

@@ -12,6 +12,33 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.45 {#v0-1-45}
+
+*26 October 2026*
+
+On a server that shares an NVIDIA graphics card, the first start after
+upgrading plans with a cautious estimate of the card until it has measured
+it, so a few more jobs may run on the CPU until the next restart.
+
+### Changed
+
+- A quality chosen by hand is held to what the stream itself justifies, as
+  Auto does: a higher bitrate could not look better and only cost viewers and
+  the server. Clients can give each size up to twice its suggested bitrate
+  ([Choosing the qualities yourself](/guide/transcoding#choosing-the-qualities-yourself)).
+- Clients see the transcoder's state in plain words, without technical
+  detail about the server.
+- **A graphics card is shared more evenly:** Unda learns what your card
+  really costs and keeps it, so a restart puts the same jobs on the card each
+  time instead of sometimes filling it. When the card stays nearly full, an
+  adaptive stream moves to the CPU by itself
+  ([Graphics cards](/guide/transcoding#graphics-cards)).
+
+### Fixed
+
+- **Save** under Server → Transcoding works while the graphics card is busy,
+  and a busy card is no longer shown as "Not usable".
+
 ## v0.1.44 {#v0-1-44}
 
 *25 October 2026*
