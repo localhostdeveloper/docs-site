@@ -115,7 +115,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <section class="m-section">
 <div class="m-wrap">
 <div class="m-grid m-grid-3">
-<div class="m-card"><h3>Try it free first</h3><p>Without a licence, Unda runs in evaluation mode with every tool switched on: 2 live streams and 2 team members, for as long as you like. Install it, test it with your own encoder, and buy when you're ready. Your settings stay when you add a licence.</p><a class="m-more" href="/guide/install">Install guide →</a></div>
+<div class="m-card"><h3>Try it free first</h3><p>Without a licence, Unda runs in evaluation mode with every tool switched on: 2 live streams and 2 team members, for 30 days. Install it, test it with your own encoder, and buy when you're ready. Your settings stay when you add a licence.</p><a class="m-more" href="/guide/install">Install guide →</a></div>
 <div class="m-card"><h3>Self-hosted or managed</h3><p>Run Unda on your own server, in your own building or in the cloud, or let us run the server for you. Either way your team signs in to the same dashboard, and your viewers watch on your website.</p><a class="m-more" href="/contact">Ask about managed hosting →</a></div>
 <div class="m-card"><h3>Ready to buy?</h3><p>Once you have our quote, sign the licence agreement online, on a computer or a phone, or download it as a PDF and email it back. We sign it and send it to you with your invoice.</p><a class="m-more" href="/order">Sign online →</a><a class="m-more" href="/unda-licence-agreement.pdf" download>PDF →</a></div>
 </div>

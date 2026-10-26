@@ -45,8 +45,9 @@ on a set-top box over UDP, with nothing to configure.
   **100 Mbit/s carries about 25 viewers at 3 Mb/s**, 1 Gbit/s about 250 (see
   [How far one server goes](/guide/compatibility#how-far-one-server-goes)).
 - A domain name pointing at the server, for HTTPS.
-- A license file from your vendor. Without one Unda runs in evaluation mode:
-  everything works, for up to 2 live streams and 2 accounts besides the owner.
+- A license file from your vendor. Without one Unda runs in evaluation mode
+  for 30 days: everything works, for up to 2 live streams and 2 accounts
+  besides the owner.
 
 ## How big a server
 

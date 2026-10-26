@@ -10,8 +10,8 @@ You need:
 - a DNS name pointing at it, e.g. `tv.example.com` (needed for HTTPS);
 - the Unda **Docker image** (`ghcr.io/localhostdeveloper/unda`) or **binary** from your vendor, and your
   **license file** (`something.license.json`). Without a license Unda runs
-  in evaluation mode: everything works, up to 2 live streams and 2 accounts
-  besides the owner.
+  in evaluation mode for 30 days: everything works, up to 2 live streams and
+  2 accounts besides the owner.
 
 Steps:
 
@@ -64,7 +64,7 @@ Create a directory, e.g. `/opt/unda`, with these two files.
 ```yaml
 services:
   unda:
-    image: ghcr.io/localhostdeveloper/unda:v0.1.45   # newest version: see the release notes
+    image: ghcr.io/localhostdeveloper/unda:v0.1.46   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "443:8443"          # HTTPS: dashboard, watch pages, HLS
@@ -353,7 +353,7 @@ dashboard shows encoders the ports Unda listens on.
 ```yaml
 services:
   unda:
-    image: ghcr.io/localhostdeveloper/unda:v0.1.45   # newest version: see the release notes
+    image: ghcr.io/localhostdeveloper/unda:v0.1.46   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "127.0.0.1:8090:8090"   # dashboard, watch pages, HLS: only nginx on this server reaches it
@@ -529,7 +529,8 @@ What the states mean:
 | expiring | a banner shows from 30 days before the end date |
 | grace | expired less than 14 days ago; everything still works and the banner counts down |
 | expired | **new** streams are refused; streams already live keep going. Install a renewed license: it takes effect at once |
-| evaluation | no license file: 2 live streams, 2 accounts besides owners |
+| evaluation | no license file: 2 live streams, 2 accounts besides the first owner, for 30 days |
+| evaluation_ended | the 30 days are over: new streams are refused until a license is installed |
 | invalid | the file is damaged or not for this server: evaluation limits until a valid one is installed |
 
 A license can be issued for your domain(s). Then it only works on a server

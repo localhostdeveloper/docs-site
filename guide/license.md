@@ -2,7 +2,8 @@
 
 Your license is a small file (`something.license.json`) from your vendor. It
 sets how many streams can be live at once, how many accounts you can have
-besides owners, which features are included and until when.
+besides the first owner (further owners count too), which features are
+included and until when.
 
 | Feature | What it switches on |
 |---|---|
@@ -29,6 +30,11 @@ after a restart once the license includes `udp`.
 
 A new license that adds SRT, UDP, adaptive bitrate or restream destinations in
 the configuration file needs a restart for those to start.
+
+A license issued or renewed from 26 October 2026 needs Unda v0.1.46 or later;
+the license you have keeps working. If installing it says *"the license was
+signed with a key this build does not know"*, upgrade Unda first
+([Backups and upgrades](/guide/install#8-backups-and-upgrades)), then install the license again.
 
 [![The License page: who the license is for, its expiry, how much of it is in use and its features](/screens/license.webp)](/screens/license.webp)
 
@@ -57,11 +63,17 @@ The **License** page, and a banner for operators and above, show where you are:
 | Expiring | Less than 30 days left: time to renew |
 | Grace | Up to 14 days past the end date: everything still works |
 | Expired | Streams already live carry on; **new streams are refused** until a new license is installed |
-| Evaluation | No license installed: everything works for 2 live streams and 2 accounts besides the owner |
+| Evaluation | No license installed: everything works for 30 days, for 2 live streams and 2 accounts besides the owner. The page says how many days are left |
+| Evaluation ended | The 30 days are over: streams already live carry on; **new streams are refused** until a license is installed |
 | Invalid | The file is damaged or not meant for this server: evaluation limits apply. Ask your vendor for a new file |
 
-When the stream limit is reached, the next encoder is refused with a message
-saying so; streams already live are never cut off.
+The 30 days count from the first time the server ran without a license.
+
+When the stream limit is reached, the next stream is refused with a message
+saying so, whether it comes from an encoder, a pull, a UDP input, a channel
+of a multi-channel input, a 24/7 channel or a channel switching between its
+inputs; streams already live are never cut off. A channel's inputs (its
+backup encoder, pull and playlist) count as part of that channel.
 
 ## Support access for your vendor
 

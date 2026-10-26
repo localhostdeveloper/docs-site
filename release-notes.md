@@ -12,6 +12,33 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.46 {#v0-1-46}
+
+*26 October 2026*
+
+Versions before v0.1.46 are no longer available to download: please upgrade.
+Your current licence keeps working, but a licence issued or renewed from now
+on needs v0.1.46 or later. With Docker, set the image tag to `v0.1.46`.
+
+### Changed
+
+- **Licences issued or renewed from now on need v0.1.46 or later.** The
+  licence you have keeps working on this version
+  ([License](/guide/license#installing-or-replacing-it)).
+- **Evaluation mode lasts 30 days.** Without a licence, Unda works for 30
+  days from the first time it runs without one; after that streams already
+  live carry on and new streams need a licence. On a server already running
+  without a licence, the 30 days start with this version
+  ([License](/guide/license#states)).
+- Every owner after the first now counts toward the licence's number of
+  accounts, and the stream limit applies to every kind of input, a channel's
+  inputs counting as part of their channel.
+
+### Fixed
+
+- The dashboard can no longer be shown inside another website's page, and
+  its pages only run the dashboard's own scripts.
+
 ## v0.1.45 {#v0-1-45}
 
 *26 October 2026*
