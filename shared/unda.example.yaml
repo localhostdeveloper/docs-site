@@ -57,8 +57,9 @@ paths:
   recordings_dir: ./data/recordings   # default <data_dir>/recordings
   hls_dir: ./data/hls
   # media_dir: ./data/media   # files that playout channels play (default <data_dir>/media)
-  # rewind_dir: ./data/hls/.rewind   # streams' rewind windows (default <hls_dir>/.rewind):
-  #                                  # a window takes bitrate x minutes, e.g. 1.1 GB for 30 min at 5 Mb/s
+  # rewind_dir: ./data/hls/.rewind   # streams' rewind windows and every stream's few HLS segments
+  #                                  # (default <hls_dir>/.rewind): a window takes bitrate x minutes,
+  #                                  # e.g. 1.1 GB for 30 min at 5 Mb/s
   # The server's own state: the account database (unda.db), the license file
   # and the first-run setup token. Keep it private to the server's user and back
   # it up (`unda admin backup <file>` is safe while the server runs).
@@ -76,6 +77,14 @@ hls:
   # full URL, either make it ignore the query string or set this to true (viewers
   # are then counted by address + User-Agent).
   disable_session_ids: false
+  # Each stream is packaged for HLS from the moment it goes live, so a viewer
+  # opening a channel nobody is watching starts at once instead of waiting for a
+  # segment to be made. true packages a stream only once someone asks for it.
+  on_demand: false
+  # Segments are written to paths.rewind_dir (a few MB per stream, written at
+  # the stream's bitrate): about 0.3 MB of memory per stream instead of about
+  # 14 at 3 Mb/s. true keeps them in memory instead (no disk writes).
+  segments_in_memory: false
 
 api:
   # DEPRECATED: an owner-level bearer token for scripts and Prometheus, from

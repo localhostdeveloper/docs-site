@@ -142,6 +142,23 @@ Or use the HLS address with your own player (hls.js, Video.js, JW Player,
 native players on iOS, Android and smart TVs). Cross-origin requests are
 allowed, so it works from any domain.
 
+## Starting to play
+
+Unda packages every stream for HLS from the moment it goes live, so a viewer
+opening a channel nobody else is watching finds segments ready instead of
+waiting for one to be made. Measured in Chrome on the server itself: the first
+picture 0.2 s after opening the page, against 3.3 s when packaging waited for
+the first viewer. Over a real connection, add the time to download the first
+segment. Apple's players (iPhone, iPad, Apple TV, Safari) start only once the
+playlist holds about three segments; a stream packaged from the start already
+has them.
+
+It costs about 0.5 % of a CPU core and under 1 MB of memory per live stream,
+and a few MB of disk per stream for its segments (written to the rewind folder
+at the stream's bitrate). In the configuration file, `hls.on_demand: true`
+packages a stream only once someone asks for it, and
+`hls.segments_in_memory: true` keeps the segments in memory instead of on disk.
+
 ## Delay behind live
 
 | How                                                    | Delay                                                                              |

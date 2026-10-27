@@ -20,6 +20,7 @@ mean: [Releases and support](/guide/releases).
 
 ## Next release
 
+- A viewer opening a stream nobody else was watching now sees it start almost at once instead of after a few seconds: Unda prepares every stream for HLS as soon as it goes live, and keeps its segments on disk, so this costs very little memory.
 - TR 101 290 reports and their alerts now say what most likely caused the errors and what to do about it: packets lost on the network, a damaged satellite signal, an encoder setting, or a TV output's encoder that can't keep up with the server.
 
 ## v0.1.47 {#v0-1-47}
