@@ -111,7 +111,7 @@ description: The live streaming and broadcast server you run yourself. RTMP, SRT
 <tbody>
 <tr><td>Processor</td><td>4 cores</td></tr>
 <tr><td>Memory</td><td>8 GB</td></tr>
-<tr><td>Upload</td><td>100 Mb/s or more: about 30 viewers at 3 Mb/s</td></tr>
+<tr><td>Upload</td><td>100 Mb/s or more: about 25 viewers at 3 Mb/s</td></tr>
 <tr><td>System</td><td>Ubuntu or Debian, or anything that runs Docker</td></tr>
 <tr><td>Name</td><td>A domain name pointing at the server, for HTTPS</td></tr>
 </tbody>

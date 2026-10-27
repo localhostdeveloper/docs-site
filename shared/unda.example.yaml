@@ -98,7 +98,8 @@ auth:
 license:
   # The signed license file. Default: <paths.data_dir>/license.json, which is
   # where the dashboard (License page) and "unda license install" write it.
-  # No license = evaluation mode (2 live streams, 2 accounts besides the owner).
+  # No license = evaluation mode for 30 days (2 live streams, 2 accounts besides
+  # the owner); after that new streams are refused until a license is installed.
   # file: /var/lib/unda/state/license.json
 
 srt:

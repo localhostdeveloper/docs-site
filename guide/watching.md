@@ -159,8 +159,12 @@ count.
 
 **Behind a CDN** every HLS viewer's addresses are unique (they carry a session
 id), which stops the CDN from caching them. Either set the CDN to ignore the
-query string when caching, or set `hls.disable_session_ids: true`, in which
-case viewers are counted by address and browser instead.
+query string when caching, or set `hls.disable_session_ids: true`. Most
+viewers are then served from the CDN's copies and never reach this server, so
+the dashboard counts the CDN's own computers rather than your audience: use the
+CDN's statistics for viewer numbers. For streams protected with signed links,
+see [With a CDN](/guide/protect-playback#with-a-cdn) first: a caching CDN would
+hand them to anyone.
 
 ## Too many viewers for your connection
 

@@ -193,8 +193,10 @@ load before adding more.
 ## Beyond one server
 
 - **More viewers:** put a CDN in front of HLS. Set
-  `hls.disable_session_ids: true` so the CDN can cache segments (viewer counts
-  are then per address).
+  `hls.disable_session_ids: true` so the CDN can cache segments; viewer
+  numbers then come from the CDN's statistics. Streams protected with signed
+  links need the CDN to check its own links, or no caching
+  ([With a CDN](/guide/protect-playback#with-a-cdn)).
 - **One server per installation:** Unda has no clustering, load balancing or
   automatic failover between servers. [Channel inputs](/guide/channel-inputs)
   protect against an encoder or a source failing, not the server.

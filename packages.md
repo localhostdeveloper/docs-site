@@ -25,9 +25,9 @@ description: Unda Media Server packages. Every package is the full server with u
 <li>Recording</li>
 <li>Restreaming to YouTube, Facebook and other social media</li>
 <li>Signed playback links</li>
-<li class="m-no">Adaptive bitrate</li>
-<li class="m-no">24/7 channels, backup encoder, pull and playlist inputs</li>
-<li class="m-no">UDP, RTP, SRT and TV outputs</li>
+<li class="m-no">Not included: adaptive bitrate (from Professional)</li>
+<li class="m-no">Not included: 24/7 channels, backup encoder, pull and playlist inputs (from Professional)</li>
+<li class="m-no">Not included: UDP, RTP, SRT and TV outputs (Broadcast)</li>
 </ul>
 <p class="m-price">Price on request</p>
 <a class="m-btn m-btn-ghost" href="/contact?package=Starter">Ask for a price</a>
@@ -44,7 +44,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <li>Channel inputs in your order: live and backup encoder, a pull stream, a playlist</li>
 <li>WebRTC: about a second of delay (WHIP in, WHEP out)</li>
 <li>Pull inputs: HLS links, RTMP servers, RTSP cameras</li>
-<li class="m-no">UDP, RTP, SRT and TV outputs</li>
+<li class="m-no">Not included: UDP, RTP, SRT and TV outputs (Broadcast)</li>
 </ul>
 <p class="m-price">Price on request</p>
 <a class="m-btn m-btn-primary" href="/contact?package=Professional">Ask for a price</a>
@@ -131,7 +131,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <details><summary>How do I buy?</summary><p>Ask us for a price. With our quote, <a href="/order">sign the licence agreement online</a>, on a computer or a phone. You can also download it as a <a href="/unda-licence-agreement.pdf" download>PDF</a>, fill it in on a computer and email it to <a href="mailto:support@undamedia.com">support@undamedia.com</a>, or print it, sign it and email us a scan. We sign it and send it back with your invoice, and your licence file follows once the first invoice is paid.</p></details>
 <details><summary>What counts as a live stream?</summary><p>Each stream being received at the same moment counts once: a camera, an encoder, or a 24/7 channel. A stream with a backup encoder still counts as one. Streams that are not live don't count, so you can create as many channels as you like.</p></details>
 <details><summary>What counts as a team member?</summary><p>Anyone with their own sign-in to the dashboard, apart from the owners: admins, operators and streamers. Invitations not yet accepted count too. Support access you give us for a few days does not.</p></details>
-<details><summary>Is there really no limit on viewers?</summary><p>None in the licence. The limit is your server's upload: a 100 Mb/s connection carries about 30 viewers of a 3 Mb/s stream, a 1 Gb/s port about 300. You can set a cap so the server never promises more than it can send.</p></details>
+<details><summary>Is there really no limit on viewers?</summary><p>None in the licence. The limit is your server's upload: a 100 Mb/s connection carries about 25 viewers of a 3 Mb/s stream, a 1 Gb/s port about 250 (leaving some room, as the server's own bandwidth cap does). You can set a cap so the server never promises more than it can send.</p></details>
 <details><summary>Can I change package later?</summary><p>Yes. We send you a new licence file, the owner installs it from the License page, and most changes apply at once. A few tools need a restart; the dashboard tells you which.</p></details>
 <details><summary>What happens when a licence ends?</summary><p>The dashboard warns 30 days before. After the end date there are 14 days of grace. Then new streams can't start, but streams already live carry on, so a licence never cuts a broadcast off in the middle.</p></details>
 <details><summary>Who is responsible for what we stream?</summary><p>You are. Unda is the software; you choose what is streamed with it, and you hold the rights and any broadcasting licence it needs. We don't see or review your streams. See our <a href="/disclaimer">disclaimer</a>.</p></details>

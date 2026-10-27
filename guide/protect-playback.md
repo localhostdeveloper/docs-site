@@ -195,6 +195,25 @@ and MPEG-TS over HTTP viewers carry on until they reconnect. Use it if the secre
 
 ## With a CDN
 
-Each viewer's addresses carry their own token, so a CDN in front must ignore
-the query string in its cache key (it already has to for the per-viewer
-`?sid=`), and pass the query through to this server.
+A CDN keeps copies of the playlists and video pieces and hands them to every
+viewer who asks, without asking this server again. So **behind a caching CDN,
+a signed link is only checked when the CDN fetches from this server**: anyone
+who knows a protected stream's address gets the copies the CDN already holds,
+with or without a link. Devices per link don't work through a CDN either: this
+server sees the CDN's computers, not the viewers.
+
+To keep a stream protected with a CDN in front, do one of these:
+
+- **Let the CDN check the links.** Use the CDN's own signed URLs or token
+  authentication (most CDNs have one) and have your website make those links
+  instead. Switch **Require a signed link** off for the stream here, since the
+  CDN's requests carry no link of this server's, and make sure viewers can't go
+  round the CDN: let only the CDN reach this server's `/hls/` addresses, for
+  example with a firewall rule for the CDN's published address ranges.
+- **Don't cache the protected stream.** Keep the query string in the CDN's
+  cache key for it, or bypass the cache for its path. Every request then
+  reaches this server and its link is checked, but the CDN saves you nothing
+  on that stream.
+
+Streams that aren't protected can be cached freely: see
+[Viewer counts](/guide/watching#viewer-counts) for the one setting a CDN needs.

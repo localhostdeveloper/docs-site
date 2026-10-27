@@ -6,7 +6,7 @@
 //
 // Files under api/ whose names start with "_" are not turned into functions.
 
-export const VERSION = "1.0";
+export const VERSION = "1.1";
 export const DATE = "October 2026";
 export const EMAIL = "support@undamedia.com";
 // The party to the agreement must be a legal person: UndaMedia is a brand of
@@ -144,7 +144,7 @@ export const TERMS = [
     ["1.1", "**Unda** means Unda Media Server: its compiled programs, the updates we release and its documentation at undamedia.com. LC Technology owns Unda and all rights in it. Nothing in this agreement transfers that ownership to you."],
     ["1.2", "While this agreement lasts, we give you a licence to install and use Unda for your organisation’s work, including streaming for your own clients and viewers, within the package in Part A. The licence is not exclusive, and you may not transfer it without our written consent."],
     ["1.3", "Your licence file sets your package’s limits: how many streams can be live at the same time, how many team members can sign in besides owners, which tools are switched on, and the end date. The licence puts no limit on viewers."],
-    ["1.4", "The licence covers one installation of Unda (one running server), unless Part A says otherwise. Without a licence file, Unda runs in its free evaluation mode, which you may use for testing at any time."],
+    ["1.4", "The licence covers one installation of Unda (one running server), unless Part A says otherwise. Without a licence file, Unda runs in its free evaluation mode, which you may use for testing for 30 days from the first time it runs without a licence; after that it starts no new streams until a licence is installed."],
     ["1.5", "You may not: (a) copy, modify, translate or build other works on Unda, beyond installing and running it; (b) sell, rent, lend or sublicense Unda, or share your licence file with another organisation; (c) reverse engineer, decompile or disassemble Unda, except where the law allows it despite this term; (d) remove or get around Unda’s licence checks or our copyright notices."],
     ["1.6", "You own your content and your data. Unda includes open-source components that stay under their own licences, which this agreement does not change. FFmpeg is not part of Unda; it is installed separately under its own licence."],
   ]],
