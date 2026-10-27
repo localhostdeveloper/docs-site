@@ -195,6 +195,46 @@ same output, with the guide.
 Programme guides for IPTV apps (XMLTV) are described on the
 [24/7 channels](/guide/playout#programme-guide) page.
 
+### Network and time tables
+
+Every bundle also sends the two DVB tables receivers use to list channels and
+set their clocks:
+
+- **NIT** (network information): the network's name and the bundle's channels
+  with their type. TVs and set-top boxes read the channel list from it when
+  they scan.
+- **TDT and TOT** (time): UTC every 5 seconds and, when you set a time zone and
+  country, the local time with its next daylight-saving change, so receivers
+  show the right clock.
+
+They are on by default. Set them under **Network and time tables** when you
+make a bundle, or with **DVB tables** on a bundle that is already sending
+(changes apply at once):
+
+| Setting | What it does |
+|---|---|
+| Network name | The name receivers show for the network; empty uses the provider's name |
+| Local time | A time zone, for the local time and its daylight-saving changes; "UTC only" leaves the local time out |
+| Country | The country's three-letter code (e.g. FRA); needed with a time zone |
+| Send network and time tables | Untick it when equipment further down the chain inserts its own |
+
+In the configuration file:
+
+```yaml
+mpts_outputs:
+  - name: iptv-bundle-1
+    # ...
+    network_name: "Example Network"
+    time_zone: Europe/Paris
+    country: FRA
+    # network_tables: false     # leave the NIT and TDT/TOT to other equipment
+```
+
+Each channel is announced with the type its picture calls for: SD or HD H.264,
+HEVC or MPEG-2 for converted channels, and SD or HD H.264 for channels sent
+as they are (read from the stream itself). Receivers use it to label the
+channel and pick their decoder.
+
 ### Sending over RIST
 
 `rist://host:port` sends the bundle with RIST Simple Profile: the receiver
@@ -241,15 +281,59 @@ has no such limit).
 The **Server** page lists each bundle with its channels: which stream feeds
 each one (and, for channels sent as it is, what the stream sends), whether it
 is on air (or showing black or the slate), how far ahead of time its pictures
-arrive, and any late pictures or dropped packets. The server also checks everything it sends the way broadcast test
-equipment does (ETSI TR 101 290: sync, PAT and PMT, continuity, missing PIDs,
-CRC, and PCR timing). Each bundle shows **TR 101 290 clean**, or the errors
-counted in the last minute, and each channel shows its own. The counts are also
-in `/metrics` (`unda_mpts_tr101290_errors_total`). A channel whose stream
-goes offline raises a warning (and an entry in the event log); late pictures,
-dropped packets and a bundle that cannot be sent raise critical alerts, and
-transport-stream errors, pictures with little time to spare and streams not
-shaped for DVB raise a warning.
+arrive, and any late pictures or dropped packets. Every packet sent is also
+checked the way broadcast test equipment does: see
+[Transport-stream checks](#transport-stream-checks-tr-101-290) below. A channel
+whose stream goes offline raises a warning (and an entry in the event log);
+late pictures, dropped packets and a bundle that cannot be sent raise critical
+alerts, and transport-stream errors, pictures with little time to spare and
+streams not shaped for DVB raise a warning.
+
+### Transport-stream checks (TR 101 290)
+
+Unda checks every packet of each bundle it sends and each bundle it receives
+the way broadcast test equipment does (ETSI TR 101 290):
+
+- **Priority 1**, needed to decode the stream at all: sync, the PAT and PMTs,
+  continuity (lost or repeated packets) and missing streams.
+- **Priority 2**, needed for a steady picture and sound: packets the sender
+  marked as damaged, table CRCs, the PCR clock (interval, jumps, accuracy),
+  timestamps (PTS) and the conditional-access table.
+- **Priority 3**, the DVB service information TVs read: the network table
+  (NIT), channel names (SDT), now and next (EIT), the time (TDT), how often
+  each table repeats, and packets on PIDs no table names.
+
+Each bundle shows **TR 101 290 clean**, or the errors counted in the last
+minute. Click it for the full report, refreshed every 3 seconds while it is
+open:
+
+- every check, with its count over the last minute and since the bundle
+  started (the "i" beside each says what it means and what to look at);
+- the latest errors, with the time, PID, channel and what exactly was wrong
+  (for example "counter 7 after 5" or "52 ms apart");
+- each PID: what it carries, its bitrate, continuity errors, PCR interval
+  (shortest, average, longest) and longest gap between timestamps;
+- each table: how many copies came and the shortest and longest interval
+  between them;
+- what the tables say: the network name and its channels, each channel's name,
+  provider and type, and the time the stream carries compared with the
+  server's clock.
+
+A bundle Unda sends must carry every table from the start (the NIT and TDT only
+when its network and time tables are on). A bundle Unda receives is held to a
+table only once it has carried it, because many satellite and IPTV feeds carry
+no network or time table: its priority 3 results are in the report, but they
+don't change its pill or raise an alert. Priority 1 and 2 errors raise a
+warning on both. The counts are also in `/metrics`
+(`unda_mpts_tr101290_errors_total`, `unda_mpts_input_tr101290_errors_total`
+and the same per channel).
+
+The same check runs on single-channel UDP and RTP inputs and on streams
+published over SRT (as inputs: priorities 1 and 2 alert), and on TV outputs
+and UDP, RTP, RIST and SRT destinations (as outputs): see
+[UDP / MPEG-TS](/guide/udp), [SRT](/guide/srt) and
+[Restreaming](/guide/restreaming). To check any other stream for a while,
+without receiving it as an input, use the [stream analyser](/guide/analyser).
 
 ### Checking it yourself
 

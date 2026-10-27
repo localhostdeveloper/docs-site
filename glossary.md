@@ -136,6 +136,14 @@ The delay between something happening in front of the camera and viewers
 seeing it. Through Unda it is about a tenth of a second for RTMP and SRT
 viewers, and around 7 seconds for HLS with 2-second keyframes.
 
+## MDI
+
+The Media Delivery Index (RFC 4445): two figures for a stream carried over an
+IP network, shown as DF:MLR. The delay factor (DF) is how much the network
+bunched or spread the packets, in milliseconds: the buffer a receiver needs.
+The media loss rate (MLR) is how many packets were lost a second. Unda's
+[stream analyser](/guide/analyser) measures both for UDP and RTP feeds.
+
 ## MPEG-TS
 
 MPEG transport stream: the container format of digital television, made of
@@ -155,6 +163,13 @@ Unicast sends a separate copy of a stream to each receiver. Multicast sends
 one copy onto a network, and every receiver that has joined the group gets it.
 IPTV networks use multicast to reach many set-top boxes without multiplying
 the traffic.
+
+## NIT
+
+Network Information Table: the DVB table that names a network and lists its
+transport streams and channels. Set-top boxes read it when they scan for
+channels. Unda's bundles and TV outputs send one. See
+[Network and time tables](/guide/mpts#network-and-time-tables).
 
 ## Packet loss
 
@@ -227,11 +242,20 @@ channel. Anyone with the key can stream to that channel, so keep it private.
 In Unda each channel has its own key, separate from the public name viewers
 watch by.
 
+## TDT and TOT
+
+Time and Date Table and Time Offset Table: the DVB tables that carry the
+current time (UTC) and the local offset with its next daylight-saving change.
+Receivers set their clocks from them. Unda's bundles and TV outputs send both
+(the TOT when a time zone is set).
+
 ## TR 101 290
 
 The ETSI checklist broadcast engineers use to judge a transport stream's
-health: synchronisation, continuity, tables and timing. Unda checks its own
-multi-channel outputs against it continuously.
+health: synchronisation, continuity, tables and timing. Unda checks against
+it continuously everything it sends as MPEG-TS (bundles, TV outputs, UDP, RTP,
+RIST and SRT destinations) and the MPEG-TS it receives (UDP, RTP and SRT
+inputs, multi-channel inputs).
 
 ## Transcoding
 

@@ -46,6 +46,12 @@ Use the exact URL and key the platform gives you.
   Switching it on starts sending at once if the stream is live. A paused
   destination stays paused after a restart and raises no "not connected"
   notice.
+- **MPEG-TS destinations are checked as they are sent.** Every packet sent to
+  a UDP, RTP, RIST or SRT destination or a TV output is checked against
+  [TR 101 290](/guide/mpts#transport-stream-checks-tr-101-290) (TV outputs on all three
+  priorities, their network and time tables included). While it delivers, the
+  destination's row shows **TR 101 290 clean** or the errors of the last
+  minute; click it for the full report. An error raises a warning.
 - **Your platform keys stay secret:** after you add a destination, the dashboard,
   the API and the logs only ever show it as `rtmp://a.rtmp.youtube.com/live2/****`.
 - **Destinations are kept across restarts.** Destinations added in the
@@ -125,6 +131,13 @@ re-encoded to what TV equipment expects:
   null packets), with your channel name and provider in the service
   information (SDT), the service type receivers expect (SD or HD H.264,
   HEVC), and the service ID and PIDs your multiplexer expects.
+- **Network and time tables:** the NIT (network name and the channel) and the
+  TDT/TOT (UTC and, with a time zone and country, the local time), as a
+  [bundle](/guide/mpts#network-and-time-tables) sends them. They are on by
+  default and travel in the padding, so the bitrate doesn't change. Set them
+  under **Network and time tables** in the form (`network_name`, `time_zone`,
+  `country`, or `network_tables: false` in the configuration file's
+  `broadcast:` block).
 
 In the configuration file:
 

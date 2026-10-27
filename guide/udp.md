@@ -51,6 +51,14 @@ senders with `allow` and firewall rules. Use SRT over untrusted networks.
   itself when they return.
 - **Packet loss** is measured and shown per stream. The stream's dot turns
   yellow at 0.1% loss and red at 1% (over the last minute).
+- **What arrives is checked the way broadcast test equipment does**
+  ([TR 101 290](/guide/mpts#transport-stream-checks-tr-101-290)). The input's row
+  under _UDP inputs_ and its stream page show **TR 101 290 clean**, or the
+  errors counted in the last minute; click it for the full report: lost
+  packets, the PCR interval, each PID and the tables the sender carries.
+  Priority 1 and 2 errors raise a warning. The sender's DVB tables (network
+  name, time) are in the report but never raise an alert, since many feeds
+  carry none.
 - A short delay (200 ms) smooths out bursts. Raw MPEG-TS has no sequence numbers
   and cannot be reordered; RTP inputs use RTP sequence numbers to restore order.
 - At high bitrates, raise Linux's receive buffer limit:
@@ -79,3 +87,9 @@ instead of leaving in one burst, which a set-top box or a busy switch would
 partly drop (the picture breaks up while the sound plays on). This adds up to
 about half a second of delay. Add `pace=0` to the address to send every frame
 at once.
+
+The stream repeats its tables (PAT and PMT) every 100 ms and its clock (PCR)
+at least every 35 ms, as DVB asks, so a receiver locks on quickly. Every packet
+sent is checked against [TR 101 290](/guide/mpts#transport-stream-checks-tr-101-290): the destination's row on the
+Restream tab shows **TR 101 290 clean** while it sends, and clicking it opens
+the full report.

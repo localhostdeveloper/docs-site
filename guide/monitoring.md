@@ -134,6 +134,10 @@ Main metrics: `unda_streams_active`, `unda_stream_viewers{stream,protocol}`,
 `unda_stream_input_bitrate_bps{stream}`, `unda_egress_bitrate_bps`,
 `unda_dropped_frames_total`, `unda_restream_target_up{stream,target}`,
 `unda_ffmpeg_restarts_total`, plus memory and CPU (`process_*`, `go_*`).
+TR 101 290 errors by check: `unda_udp_input_tr101290_errors_total{input,check}`,
+`unda_srt_publisher_tr101290_errors_total{stream,check}`,
+`unda_restream_tr101290_errors_total{stream,target,check}` (MPEG-TS
+destinations and TV outputs) and the bundles' `unda_mpts_*tr101290*` series.
 
 ## Health check
 

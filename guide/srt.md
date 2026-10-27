@@ -32,7 +32,18 @@ ffmpeg -re -i show.mp4 -c:v libx264 -g 60 -b:v 3M -c:a aac -f mpegts \
        "srt://tv.example.com:6000?streamid=publish:sk_…"
 ```
 
+The stream page's **Input** card shows a **Transport stream** line: what
+the encoder sends, checked against [TR 101 290](/guide/mpts#transport-stream-checks-tr-101-290)
+(priorities 1 and 2) while it publishes. Click it for the full report: lost
+packets, the PCR interval, each PID and the tables the encoder carries. Errors
+in the last minute raise a warning.
+
 ## Watching over SRT
+
+Unda sends MPEG-TS over SRT (to viewers and to SRT destinations) in messages
+of whole TS packets, seven at most (1316 bytes), the size hardware decoders
+and gateways expect.
+
 
 ```
 srt://tv.example.com:6000?streamid=read:main-show

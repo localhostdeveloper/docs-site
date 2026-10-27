@@ -12,6 +12,53 @@ database is backed up first.
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## v0.1.47 {#v0-1-47}
+
+*27 October 2026*
+
+Bundles and TV outputs start sending the DVB network and time tables after
+the upgrade. If equipment further down your chain inserts its own, switch
+them off on each output (**DVB tables** on a bundle, or **Network and time
+tables** in a TV output's settings).
+
+### New
+
+- **Network and time tables on TV outputs:** bundles and single-channel TV
+  outputs now send the NIT (your network's name and its channels) and the
+  time (UTC, and the local time when you set a time zone), as DVB receivers
+  and modulators expect. They are on by default and set per output
+  ([Network and time tables](/guide/mpts#network-and-time-tables)).
+- **Full TR 101 290 report:** bundles, sent or received, are now checked on
+  all three TR 101 290 priorities, including the DVB tables TVs read. Click a
+  bundle's **TR 101 290** label to see every check, the latest errors and
+  what caused them, each PID's bitrate and PCR interval, and how often each
+  table comes ([Transport-stream checks](/guide/mpts#transport-stream-checks-tr-101-290)).
+- **The same checks on every transport stream:** UDP and RTP inputs, SRT
+  publishers, TV outputs and UDP, RTP, RIST and SRT destinations now have the
+  same **TR 101 290** label and report, and their errors raise a warning.
+  MPEG-TS sent over UDP, RTP, RIST and SRT now repeats its tables every 100 ms
+  and its clock at least every 35 ms, as DVB asks, so receivers lock on
+  quickly.
+- **Stream analyser:** Server → Analyse checks any stream (UDP, RTP, SRT,
+  RIST or MPEG-TS over HTTP) against TR 101 290 for a minute up to a day,
+  judged as an incoming feed or as a finished TV output. It also measures the
+  rate and the network's jitter and loss (MDI), shows errors minute by minute,
+  and gives a report to download ([Stream analyser](/guide/analyser)).
+
+### Fixed
+
+- **SRT outputs** (SRT destinations and viewers pulling over SRT) now send
+  whole TS packets in each SRT message, as hardware decoders and gateways
+  expect. Multi-channel inputs over SRT also accept senders that don't.
+- Channels sent as they are in a bundle are announced as SD or HD H.264, not
+  as MPEG-2, so receivers label them correctly.
+- The stream page of an RTP input now shows its packet loss, as a UDP
+  input's does.
+- **Publishing over WHIP (low latency) on real internet connections:**
+  pictures whose packets were lost on the way and sent again by the encoder
+  are now used. Before, losing even a few packets could leave a WHIP stream
+  showing only a picture every few seconds.
+
 ## v0.1.46 {#v0-1-46}
 
 *26 October 2026*

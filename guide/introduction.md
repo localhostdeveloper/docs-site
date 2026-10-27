@@ -20,7 +20,7 @@ in a single file, and gets its own HTTPS certificate.
 | **Broadcast TV and IPTV** | Standard-definition H.264 or MPEG-2 at a constant bitrate with DVB channel names for multiplexers and modulators; several streams bundled as the channels of one transport stream (MPTS) |
 | **Recording** | Record any live stream to files, split every hour, with optional automatic clean-up |
 | **Dashboard** | Streams, multiview, viewers, health, alerts and events live; channels, users, API keys and settings |
-| **Monitoring** | Stream health, packet loss on UDP inputs, TR 101 290 checks on broadcast outputs, Prometheus metrics and webhook alerts |
+| **Monitoring** | Stream health, packet loss on UDP inputs, TR 101 290 checks on transport streams in and out, a stream analyser, Prometheus metrics and webhook alerts |
 
 [A tour of the dashboard](/guide/dashboard) shows what running it looks like.
 

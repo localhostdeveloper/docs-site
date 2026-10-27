@@ -33,6 +33,7 @@ the feature in your [license](/guide/license); without it they answer `403`.
 | `DELETE /api/v1/streams/{name}` | operator | Disconnect the encoder (it may reconnect by itself) |
 | `GET /api/v1/streams/{name}/consumers` | streamer | Everything reading the stream, and who is dropping frames |
 | `GET /api/v1/streams/{name}/thumbnail` | streamer | A JPEG of the latest keyframe (needs FFmpeg) |
+| `GET /api/v1/streams/{name}/tr101290` | streamer | The full TR 101 290 report of what a stream's sender sends, for a stream published over SRT or received on a UDP or RTP input (404 otherwise). The stream's `tr101290` field carries the counts |
 | `GET /api/v1/streams/{name}/sound` | streamer | The stream's sound now: `measured`, `peak` and `rms` (dBFS, left and right), `silent_s`, `no_track`, plus `silence_dbfs` and `alarm_after_s`. `measured` is false for a stream not metered (a channel's inputs). 501 without sound meters (needs FFmpeg) |
 | `GET /api/v1/audio/levels` | operator | Every metered stream's sound now (`streams`: the same fields per stream), as Multiview shows it |
 | `GET` / `POST /api/v1/streams/{name}/record` | operator | Recording status / `{"action":"start"}` or `{"action":"stop"}` |
@@ -100,6 +101,7 @@ RFC 3339 or unix seconds), `min_duration` (seconds), `sort` (`started`,
 | `POST /api/v1/streams/{name}/push` | streamer | `{"name":"youtube","url":"rtmp://a.rtmp.youtube.com/live2/KEY"}` |
 | `PATCH /api/v1/streams/{name}/push/{id}` | streamer | `{"paused": true}` stops sending but keeps the destination; `{"paused": false}` starts it again |
 | `DELETE /api/v1/streams/{name}/push/{id}` | streamer | Remove a destination; returns once it is disconnected |
+| `GET /api/v1/streams/{name}/push/{id}/tr101290` | streamer | The full TR 101 290 report of what an MPEG-TS destination or TV output is sent (404 for RTMP, or before it has sent). Each destination's `tr101290` field in the list carries the counts |
 
 ```bash
 curl -X POST -H "Authorization: Bearer $KEY" \
@@ -218,6 +220,7 @@ The [programme guide](/guide/playout#programme-guide): a 24/7 channel's comes fr
 | `GET /api/v1/udp/inputs` | operator | Inputs with packet counts and loss |
 | `POST /api/v1/udp/inputs` | operator | `{"name":"sat-feed","listen":":5001","allow":["192.168.1.20"]}` or `{"name":"…","multicast":"239.1.1.1:5000","interface":"eth1"}` |
 | `DELETE /api/v1/udp/inputs/{name}` | operator | Remove an input |
+| `GET /api/v1/udp/inputs/{name}/tr101290` | operator | The full TR 101 290 report of what an input receives; the list's `tr101290` field carries the counts |
 
 ## Pull inputs
 
@@ -239,16 +242,30 @@ guard).
 | Method and path | Role | |
 |---|---|---|
 | `GET /api/v1/mpts/inputs` | operator | Bundles being received, with their channels, state, bitrates and TR 101 290 counts |
+| `GET /api/v1/mpts/inputs/{name}/tr101290` | operator | The full TR 101 290 report of a bundle being received: counts per check, the latest errors, each PID, each table and what the tables say |
 | `GET /api/v1/mpts/inputs/{name}/programs` | operator | The channels a bundle carries: number, name, provider, PMT and PCR PIDs, and each track's PID, codec and language |
 | `POST /api/v1/mpts/inputs` | operator | `{"name":"sat","source":"udp://239.1.1.1:5000","programs":[{"program":101,"stream":"sports-hd"}]}`; add `"discover_only":true` to only list the channels |
 | `DELETE /api/v1/mpts/inputs/{name}` | operator | Stop receiving a bundle (its channels' streams end) |
 | `PUT /api/v1/mpts/inputs/{name}/programs/{program}` | operator | Publish one channel of a running bundle: `{"stream":"sports-hd"}` (optional `audio_pid`, `audio_language`, `transcode_video`); changes only that channel |
 | `DELETE /api/v1/mpts/inputs/{name}/programs/{program}` | operator | Stop publishing that channel (the bundle keeps running) |
 | `GET /api/v1/mpts` | operator | Bundles being sent, with their channels and TR 101 290 counts |
+| `GET /api/v1/mpts/{name}/tr101290` | operator | The same report for a bundle being sent |
 | `POST /api/v1/mpts` | operator | `{"name":"bundle","url":"udp://239.2.2.1:6000","total_kbps":12000,"programs":[{"stream":"cam","program":1,"name":"Channel 1","bitrate_kbps":4000}]}`; add `"no_epg":true` to send no now/next for playout channels |
 | `POST /api/v1/mpts/{name}/programs` | operator | Add a channel to a running bundle |
 | `DELETE /api/v1/mpts/{name}/programs/{program}` | operator | Remove a channel from a running bundle |
 | `DELETE /api/v1/mpts/{name}` | operator | Stop sending a bundle |
+
+## Stream analyser
+
+Needs the `udp` licence feature (Broadcast). See [Stream analyser](/guide/analyser).
+
+| Method and path | Role | |
+|---|---|---|
+| `GET /api/v1/analyses` | operator | Analyses, running and finished, newest first: source (without secrets), protocol, state, time left, TR 101 290 counts, MDI |
+| `POST /api/v1/analyses` | operator | `{"source":"udp://239.1.1.1:5000","interface":"eth1","duration_seconds":3600,"as_output":false}`. Sources: `udp://`, `rtp://`, `srt://`, `rist://`, `http(s)://` (MPEG-TS). 10 s to 24 h; two at once (409 for a third, or for a port one of the server's inputs uses) |
+| `GET /api/v1/analyses/{id}` | operator | The status, the full TR 101 290 report (`detail`), the rate measured from the PCR (`rate`), MDI and the minute-by-minute `timeline` |
+| `POST /api/v1/analyses/{id}/stop` | operator | End it now; the report is kept |
+| `DELETE /api/v1/analyses/{id}` | operator | Stop it if it runs, and remove its report |
 
 ## Users and security
 

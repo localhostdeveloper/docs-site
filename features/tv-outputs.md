@@ -55,8 +55,9 @@ description: Take channels in over UDP, RTP, SRT or RIST, choose channels from m
 <div class="m-split">
 <div>
 <span class="m-kicker">Checked as it is sent</span>
-<h2>TR 101 290 on every bundle</h2>
-<p>Unda analyses every packet it sends against the TR 101 290 checks used by broadcast engineers: sync, continuity, tables and timing. Errors in the last minute show on the dashboard and raise an alert.</p>
+<h2>TR 101 290 on every stream, in and out</h2>
+<p>Unda analyses every packet of its bundles, TV outputs and MPEG-TS destinations, and of the UDP, RTP and SRT feeds it receives, against the TR 101 290 checks used by broadcast engineers: sync, continuity, tables and timing, and the DVB service information. Errors in the last minute show on the dashboard and raise an alert, and each stream has a full report.</p>
+<p>The <a href="/guide/analyser">stream analyser</a> checks any other stream for a minute or a whole day without receiving it as a channel: a satellite receiver's IP output, a partner's feed, your own output as a receiver sees it. It also measures the rate and the network's jitter and loss (MDI).</p>
 <p>We also analysed Unda's bundles with TSDuck, an independent transport stream analyser, over a 12-minute run: no errors, and every timing reference within a tick of where it should be.</p>
 </div>
 <div>

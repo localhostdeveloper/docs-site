@@ -47,10 +47,10 @@ those, even when the feed carries one channel.
 :::
 
 When in doubt, use a Multi-channel input. It lists what the feed carries (each
-channel's number, name and formats) before anything goes live, it checks the
-feed the way broadcast test equipment does (TR 101 290, including the PCR
-interval), and inputs made in the dashboard are kept when the server restarts,
-as UDP inputs are. Both are described in
+channel's number, name and formats) before anything goes live, and inputs made
+in the dashboard are kept when the server restarts, as UDP inputs are. Both
+check the feed the way broadcast test equipment does (TR 101 290, including
+the PCR interval). Both are described in
 [UDP / MPEG-TS](/guide/udp) and [Multi-channel (MPTS)](/guide/mpts).
 
 ## Encoder settings
@@ -86,7 +86,7 @@ as UDP inputs are. Both are described in
   a TV bundle as it is: its rate must stay below its share there, or pictures
   reach TVs late (Unda raises an alert when that happens).
 - **PCR every 40 ms or less** (DVB's limit). A Multi-channel input reports a
-  longer interval as a TR 101 290 error; a UDP input does not measure it.
+  longer interval as a TR 101 290 error, and so does a UDP input.
 - **No scrambling:** BISS and conditional access must be off on the output
   sent to Unda.
 
@@ -146,9 +146,13 @@ Before the first broadcast, send a test feed and check it here:
 - The channel appears under **Streams** with its picture size and frame rate.
   A UDP input's stream page shows its **packet loss** (the dot turns yellow at
   0.1 % and red at 1 % over the last minute) and what was discarded:
-  duplicates, malformed packets, senders not on the allow list.
+  duplicates, malformed packets, senders not on the allow list, and a
+  **Transport stream** line with its TR 101 290 check: click it for the full
+  report.
 - A Multi-channel input lists every channel of the feed with its formats on
   Server → Multi-channel, and each published channel's TR 101 290 errors.
+  Click the feed's **TR 101 290** label for the full report: which packets
+  were lost, the PCR interval, and the tables the encoder sends.
 - **Nothing arrives?** Check the server's firewall and the encoder's
   destination. Then check the packet size (188, not 204) and whether RTP is
   ticked on the input when the encoder sends RTP: both mismatches show as
