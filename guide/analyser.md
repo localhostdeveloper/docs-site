@@ -77,7 +77,10 @@ every 3 seconds.
   analysis), red for priority 1 errors, yellow for priority 2, blue for
   priority 3, green for a clean minute, grey where nothing arrived. Point at
   a bar for its counts, bitrate, worst DF and lost packets.
-- Below that, the full TR 101 290 report: every check with its count, the
+- Below that, the full TR 101 290 report. It starts with the likely cause of
+  the errors over the whole analysis and what to do about it (packets lost on
+  the way, a damaged satellite signal, a sender's table or PCR settings,
+  packets arriving in bursts), then every check with its count, the
   latest errors and what caused them, each PID with its bitrate and PCR
   interval, how often each table comes, and the channel names, network and
   time the tables carry. The checks are explained in

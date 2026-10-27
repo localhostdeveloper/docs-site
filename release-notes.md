@@ -18,6 +18,10 @@ mean: [Releases and support](/guide/releases).
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+- TR 101 290 reports and their alerts now say what most likely caused the errors and what to do about it: packets lost on the network, a damaged satellite signal, an encoder setting, or a TV output's encoder that can't keep up with the server.
+
 ## v0.1.47 {#v0-1-47}
 
 *27 October 2026*

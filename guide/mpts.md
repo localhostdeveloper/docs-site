@@ -312,6 +312,13 @@ Each bundle shows **TR 101 290 clean**, or the errors counted in the last
 minute. Click it for the full report, refreshed every 3 seconds while it is
 open:
 
+- **Likely cause and what to do**, first: Unda works out what most likely
+  caused the errors from what it knows about the stream (packets lost on the
+  way and how many, its own queue overflowing, a TV output's encoder falling
+  behind, a busy processor, how the stream arrives) and says what to do about
+  it. For example, continuity errors on a UDP feed point to packets lost on
+  the network, and PCR interval errors that no loss explains to the encoder's
+  PCR setting. The alert for the errors names the likely cause too;
 - every check, with its count over the last minute and since the bundle
   started (the "i" beside each says what it means and what to look at);
 - the latest errors, with the time, PID, channel and what exactly was wrong
