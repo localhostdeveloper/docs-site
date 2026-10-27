@@ -19,6 +19,56 @@ const repoLinks: Record<string, string> = {
 
 const SITE = "https://www.undamedia.com";
 
+const ORGANIZATION = {
+  "@type": "Organization",
+  name: "UndaMedia",
+  url: `${SITE}/`,
+  logo: `${SITE}/favicon.svg`,
+  email: "support@undamedia.com",
+  sameAs: ["https://www.facebook.com/undamedia", "https://x.com/undamedia"],
+};
+
+// The section a page sits in, for its breadcrumb trail (Home > Section > Page).
+const SECTIONS: Record<string, { name: string; url: string }> = {
+  features: { name: "Features", url: `${SITE}/features/` },
+  solutions: { name: "Solutions", url: `${SITE}/solutions/` },
+  blog: { name: "Blog", url: `${SITE}/blog/` },
+  guide: { name: "Guide", url: `${SITE}/guide/introduction` },
+  reference: { name: "Reference", url: `${SITE}/reference/api` },
+};
+
+// schema.org data for a page: the organisation and website on the home page,
+// an article on blog posts, a breadcrumb trail on pages inside a section.
+function structuredData(path: string, url: string, pageData: any, description: string): object[] {
+  if (path === "") {
+    return [ORGANIZATION, { "@type": "WebSite", name: "UndaMedia", url: `${SITE}/` }];
+  }
+  const out: object[] = [];
+  const section = SECTIONS[path.split("/")[0]];
+  if (section) {
+    const trail = [{ name: "Home", url: `${SITE}/` }, section];
+    if (url !== section.url) trail.push({ name: pageData.title, url });
+    out.push({
+      "@type": "BreadcrumbList",
+      itemListElement: trail.map((t, i) => ({ "@type": "ListItem", position: i + 1, name: t.name, item: t.url })),
+    });
+  }
+  if (pageData.frontmatter.date) {
+    out.push({
+      "@type": "BlogPosting",
+      headline: pageData.title,
+      description,
+      image: `${SITE}/og.jpg`,
+      datePublished: pageData.frontmatter.date,
+      ...(pageData.lastUpdated ? { dateModified: new Date(pageData.lastUpdated).toISOString() } : {}),
+      mainEntityOfPage: url,
+      author: ORGANIZATION,
+      publisher: ORGANIZATION,
+    });
+  }
+  return out;
+}
+
 // The docs' sidebar, shown on the guides, the reference and the release notes.
 const docsSidebar = [
   {
@@ -90,15 +140,22 @@ export default defineConfig({
     ["meta", { name: "twitter:card", content: "summary_large_image" }],
     ["meta", { name: "twitter:site", content: "@undamedia" }],
   ],
-  // Each page's own title, description and address in its link preview.
+  // Each page's own title, description and address in its link preview,
+  // and structured data for search engines (schema.org JSON-LD).
   transformHead({ pageData, title, description }) {
+    // The 404 page is also served at /404 with status 200: keep it out of search.
+    if (pageData.isNotFound) return [["meta", { name: "robots", content: "noindex" }]];
     const path = pageData.relativePath.replace(/(^|\/)index\.md$/, "$1").replace(/\.md$/, "");
+    const url = `${SITE}/${path}`;
     return [
       ["meta", { property: "og:type", content: pageData.frontmatter.date ? "article" : "website" }],
       ["meta", { property: "og:title", content: title }],
       ["meta", { property: "og:description", content: description }],
-      ["meta", { property: "og:url", content: `${SITE}/${path}` }],
-      ["link", { rel: "canonical", href: `${SITE}/${path}` }],
+      ["meta", { property: "og:url", content: url }],
+      ["link", { rel: "canonical", href: url }],
+      ...structuredData(path, url, pageData, description).map(
+        (d) => ["script", { type: "application/ld+json" }, JSON.stringify({ "@context": "https://schema.org", ...d }).replace(/</g, "\\u003c")] as any,
+      ),
     ];
   },
   markdown: {

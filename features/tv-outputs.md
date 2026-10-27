@@ -1,7 +1,7 @@
 ---
 layout: page
 title: TV and IPTV outputs (UDP, RTP, RIST, MPTS)
-description: Take channels in over UDP, RTP, SRT or RIST, choose channels from multi-channel feeds, and send constant-bitrate SD and HD transport streams with DVB channel names and now/next to multiplexers, set-top boxes and partners.
+description: "Take channels in over UDP, RTP, SRT or RIST, split multi-channel feeds, and send constant-bitrate SD and HD transport streams with DVB names and a guide."
 ---
 
 <div class="m-page">

@@ -1,3 +1,8 @@
+---
+title: "24/7 channels and playout scheduling"
+description: "Run 24/7 TV channels from your video files: playlists and fixed times, live shows that take over, a logo, an 8-day programme guide and an as-run log."
+---
+
 # 24/7 channels (playout)
 
 A playout channel turns video files into a channel that never stops: it plays

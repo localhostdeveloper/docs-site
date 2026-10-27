@@ -1,4 +1,10 @@
 {
   "outputDirectory": ".vitepress/dist",
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/guide", "destination": "/guide/introduction", "permanent": false },
+    { "source": "/guide/", "destination": "/guide/introduction", "permanent": false },
+    { "source": "/reference", "destination": "/reference/api", "permanent": false },
+    { "source": "/reference/", "destination": "/reference/api", "permanent": false }
+  ]
 }

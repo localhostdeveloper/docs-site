@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Internet TV channels
-description: "Run an internet TV channel from your own server: programmes on a schedule around the clock, live shows that take over, every quality for mobile viewers, and the channel on your website, apps, social media and TV equipment."
+description: "Run an internet TV channel from your own server: programmes around the clock, live shows that take over, qualities for mobile, on the web, apps and TV."
 ---
 
 <div class="m-page">

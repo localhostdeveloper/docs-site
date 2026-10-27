@@ -1,7 +1,7 @@
 ---
 layout: page
 title: IPTV operators and broadcasters
-description: Take channels in over UDP, RTP, SRT and RIST, pick channels from multi-channel feeds, and deliver them to set-top boxes, multiplexers, partners and the web from one server, with transport stream checks built in.
+description: "Take channels in over UDP, RTP, SRT and RIST, pick channels from multi-channel feeds, and deliver them to set-top boxes, partners and the web from one server."
 ---
 
 <div class="m-page">

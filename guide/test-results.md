@@ -1,3 +1,8 @@
+---
+title: "Test results: capacity, delay and long runs"
+description: "What has been measured on Unda Media Server: 24-hour runs, viewer capacity, delay, lossy networks, broadcast outputs and adaptive bitrate."
+---
+
 # Test results
 
 What has been measured, how, and the result. The figures come from recorded

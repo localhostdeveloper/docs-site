@@ -1,3 +1,8 @@
+---
+title: "Unda Media Server release notes"
+description: "What changed in each Unda Media Server release, newest first, and how to upgrade a server installed with the installer or with Docker."
+---
+
 # Release notes
 
 Changes in each Unda release, newest first. Servers check for new releases and

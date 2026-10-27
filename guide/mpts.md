@@ -1,3 +1,8 @@
+---
+title: "Multi-channel transport streams (MPTS)"
+description: "Split a multi-channel transport stream (MPTS) into separate channels, or combine your streams into a bundle with DVB channel names and a programme guide."
+---
+
 # Multi-channel (MPTS)
 
 Unda works with **multi-channel transport streams** (MPTS) both ways: it can

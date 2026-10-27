@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Recording live streams
-description: Record any live stream with one click, safe against a crash or power cut. Play, download or delete recordings in the browser, with automatic splitting and optional clean-up.
+description: "Record any live stream with one click, safe against a crash or power cut, split automatically. Play, download or delete recordings in the browser."
 ---
 
 <div class="m-page">

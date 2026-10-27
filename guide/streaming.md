@@ -1,3 +1,8 @@
+---
+title: "Stream from OBS, vMix or ffmpeg to your server"
+description: "Settings for OBS Studio, vMix, ffmpeg and hardware encoders: the server address, stream key, keyframe interval and bitrate that Unda needs."
+---
+
 # Stream from OBS, vMix or ffmpeg
 
 Every stream goes to a **channel**. Create one under **Channels** in the

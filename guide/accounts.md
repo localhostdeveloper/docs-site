@@ -1,3 +1,8 @@
+---
+title: "Accounts, roles and channels"
+description: "Roles, invites, two-factor sign-in, channels and stream keys, API keys and the audit log in Unda Media Server, and what to do if you are locked out."
+---
+
 # Accounts and channels
 
 ## Roles

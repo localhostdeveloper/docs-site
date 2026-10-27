@@ -1,3 +1,8 @@
+---
+title: "Adaptive bitrate streaming (transcoding)"
+description: "Turn on adaptive bitrate in Unda: several qualities of each stream, from 4K down to 144p, on the CPU or an NVIDIA card, planned for you or chosen by you."
+---
+
 # Adaptive bitrate
 
 Without adaptive bitrate every viewer receives exactly what the encoder sends.

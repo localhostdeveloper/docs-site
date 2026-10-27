@@ -1,3 +1,8 @@
+---
+title: "Restream to YouTube, Facebook and Twitch"
+description: "Restream a live stream to YouTube, Facebook, Twitch and other servers at once over RTMP, RTMPS, SRT, UDP or RTP, including broadcast TV outputs."
+---
+
 # Restreaming
 
 Send a live stream to other platforms at the same time: YouTube, Facebook,

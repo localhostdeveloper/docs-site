@@ -1,3 +1,8 @@
+---
+title: "Backup encoder failover for live streams"
+description: "Set up a backup encoder so a live stream stays on air when the main encoder or the venue's internet drops, and goes back to the main when it returns."
+---
+
 # Backup encoder (failover)
 
 When the encoder of a live stream drops (OBS crashes, the venue's internet

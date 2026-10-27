@@ -1,3 +1,8 @@
+---
+title: "Ways to earn with your own streaming server"
+description: "How customers earn with Unda Media Server: streaming events for clients, ticketed and pay-per-view events, their own TV channel, and hosting for others."
+---
+
 # Ways to earn with Unda
 
 Unda does not charge your viewers itself: it has no payment page and inserts

@@ -1,3 +1,8 @@
+---
+title: "A tour of the Unda dashboard"
+description: "Pictures of every page of the Unda dashboard: streams, Multiview, viewers and events, channels and people, recordings, 24/7 channels and server settings."
+---
+
 # A tour of the dashboard
 
 Everything in Unda is run from the dashboard at `https://your-server/dashboard`:

@@ -1,6 +1,6 @@
 ---
 title: Staying on air when the encoder fails
-description: Encoders crash, cables get pulled and venue internet drops. How to plan a live event that doesn't go dark, from the connection to a backup encoder, and what viewers see when something fails.
+description: "Encoders crash, cables get pulled and venue internet drops. How to plan a live event that doesn't go dark, from the connection to a backup encoder."
 date: "2026-10-06"
 ---
 

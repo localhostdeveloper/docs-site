@@ -1,3 +1,8 @@
+---
+title: "Monitoring, alerts and Prometheus metrics"
+description: "Stream health, alerts and viewer sessions in the Unda dashboard, a no-sound alarm, webhooks to Slack or Discord, and Prometheus metrics for Grafana."
+---
+
 # Monitoring and alerts
 
 ## In the dashboard

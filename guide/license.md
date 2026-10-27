@@ -1,3 +1,8 @@
+---
+title: "Your Unda license: limits and features"
+description: "How the Unda license works: live stream and account limits, the features it switches on, installing it, licenses for a domain, and the 30-day evaluation."
+---
+
 # License
 
 Your license is a small file (`something.license.json`) from your vendor. It

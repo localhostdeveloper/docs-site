@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Your own live streaming server
-description: Unda Media Server takes in your live streams and delivers them to every screen, from a server you run yourself. Recording, adaptive quality, restreaming and 24/7 channels, with a dashboard for your team.
+description: "Unda Media Server delivers your live streams to every screen from a server you run yourself, with recording, adaptive quality, restreaming and 24/7 channels."
 ---
 
 <div class="m-page">

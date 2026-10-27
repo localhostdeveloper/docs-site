@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Production companies and streaming services
-description: "Stream events for many clients from one server: a channel, key and sign-in per client, every platform at once, the recording to hand over, a backup encoder, and viewer figures for the invoice."
+description: "Stream events for many clients from one server: a channel and sign-in per client, every platform at once, the recording to hand over, and viewer figures."
 ---
 
 <div class="m-page">

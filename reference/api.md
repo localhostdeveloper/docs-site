@@ -1,3 +1,8 @@
+---
+title: "REST API reference"
+description: "The Unda Media Server REST API: API keys, streams, channels, recordings, restreaming, 24/7 channels, inputs, monitoring and every call the dashboard makes."
+---
+
 # REST API
 
 Everything the dashboard does goes through this API, so scripts can do it too.

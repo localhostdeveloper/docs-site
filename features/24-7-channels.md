@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 24/7 channels (playout)
-description: Run a TV channel that never stops from your own programmes. Upload videos, plan the day in the dashboard, and let live shows take over and hand back by themselves. With an as-run log.
+description: "Run a TV channel that never stops from your own programmes: plan the day in the dashboard, let live shows take over and hand back, with an as-run log."
 ---
 
 <div class="m-page">

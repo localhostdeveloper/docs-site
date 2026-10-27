@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Adaptive bitrate (transcoding)
-description: One stream in, up to eight qualities out. Unda plans the qualities for each source, keeps portrait and 4:3 in shape, and lets viewers on slow mobile data keep watching while fast connections get full HD.
+description: "One stream in, up to eight qualities out, planned for each source. Viewers on slow mobile data keep watching while fast connections get full HD."
 ---
 
 <div class="m-page">

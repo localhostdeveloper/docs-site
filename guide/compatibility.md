@@ -1,3 +1,8 @@
+---
+title: "Compatible encoders, players and equipment"
+description: "Encoders, players and broadcast equipment that work with Unda Media Server, from OBS, vMix and VLC to hardware encoders, receivers and set-top boxes."
+---
+
 # What works with Unda
 
 Unda is not tied to OBS or vMix. It speaks the standard protocols of live video

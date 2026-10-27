@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Packages
-description: Unda Media Server packages. Every package is the full server with unlimited viewers; they differ in live streams, team members and tools. Starter from $20 a month; the other packages are quoted.
+description: "Unda Media Server packages: the full server with unlimited viewers in each, sized by live streams, team members and tools. Starter from $20 a month."
 ---
 
 <div class="m-page">

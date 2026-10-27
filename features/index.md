@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Features
-description: "What Unda Media Server does, feature by feature: restreaming, 24/7 channels, backup encoders, adaptive bitrate, recording, signed playback links, TV and IPTV outputs, and monitoring."
+description: "What Unda Media Server does: restreaming, 24/7 channels, backup encoders, adaptive bitrate, recording, signed links, TV and IPTV outputs, and monitoring."
 ---
 
 <div class="m-page">

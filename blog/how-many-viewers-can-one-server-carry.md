@@ -1,6 +1,6 @@
 ---
 title: How many viewers can one server carry?
-description: Viewer capacity is arithmetic on your server's upload, not a question of processor power. How to work it out, what restreaming and adaptive bitrate change, and what to check before a big event.
+description: "Viewer capacity is arithmetic on your server's upload, not processor power. How to work it out, what restreaming and adaptive bitrate change, what to check."
 date: "2026-10-06"
 ---
 

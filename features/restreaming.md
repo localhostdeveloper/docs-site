@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Restreaming to YouTube, Facebook and more
-description: Send one live stream to YouTube, Facebook, Twitch and other servers at the same time from your own server. Each destination is independent, keys stay secret, and destinations are kept for the next event.
+description: "Send one live stream to YouTube, Facebook, Twitch and other servers at once from your own server, each destination independent, every key kept secret."
 ---
 
 <div class="m-page">

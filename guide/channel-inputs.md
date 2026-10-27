@@ -1,3 +1,8 @@
+---
+title: "Channel inputs: live, pull and playlist failover"
+description: "Rank a channel's live encoder, a pull stream and a playlist: the first with pictures is on air, the next takes over when it fails, and viewers keep watching."
+---
+
 # Channel inputs (live, pull, playlist)
 
 A channel can have up to three inputs, ranked first, second and third:

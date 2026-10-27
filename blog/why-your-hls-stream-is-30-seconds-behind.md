@@ -1,6 +1,6 @@
 ---
 title: Why your stream is 30 seconds behind (and how to get it to 7)
-description: The keyframe interval in your encoder decides how far behind live your browser viewers are, how long they wait for a picture, and whether they freeze. We measured it, and one setting fixes it.
+description: "Your encoder's keyframe interval decides how far behind live browser viewers are, how long they wait for a picture and if they freeze. One setting fixes it."
 date: "2026-10-06"
 ---
 

@@ -1,3 +1,8 @@
+---
+title: "SRT streaming: publish and play over SRT"
+description: "Publish and watch over SRT with Unda: the port, OBS and VLC settings, latency for lossy networks, and passphrase encryption."
+---
+
 # SRT
 
 SRT (Secure Reliable Transport) carries live video over the open internet much

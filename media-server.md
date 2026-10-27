@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Unda Media Server
-description: The live streaming and broadcast server you run yourself. RTMP, SRT, UDP, RTP and RIST in; HLS, DASH, RTMP, SRT, restreaming and broadcast transport streams out. Adaptive bitrate, recording, 24/7 channels, backup encoders and a dashboard for your team.
+description: "The live streaming and broadcast server you run yourself: RTMP, SRT, UDP and RIST in; HLS, DASH, restreaming and broadcast TV out, with a dashboard."
 ---
 
 <div class="m-page">

@@ -1,3 +1,8 @@
+---
+title: "Configuration file reference (unda.yaml)"
+description: "Every setting in unda.yaml, the Unda Media Server configuration file, with its default value, and how to keep secrets out of the file."
+---
+
 # Configuration file
 
 Unda reads one YAML file: `/etc/unda/unda.yaml` with the installer,

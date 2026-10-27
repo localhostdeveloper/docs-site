@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Backup encoder and channel inputs (failover)
-description: Keep a channel on air when the encoder, the venue's internet or a station's link fails. Each channel ranks its live encoder, a backup encoder, a pull stream and a playlist; Unda puts the best one with pictures on air and goes back when the first choice returns.
+description: "Keep a channel on air when the encoder or the internet fails: rank a live encoder, a backup encoder, a pull stream and a playlist; the best one airs."
 ---
 
 <div class="m-page">

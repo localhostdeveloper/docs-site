@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Live streaming for churches and ministries
-description: Stream services to your own website, Facebook and YouTube at once, recorded for the week, with a backup if the internet at church drops. From a server your church or your media team controls.
+description: "Stream services to your church website, Facebook and YouTube at once, recorded for the week, with a backup if the internet drops, from a server you control."
 ---
 
 <div class="m-page">

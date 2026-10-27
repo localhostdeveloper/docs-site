@@ -1,3 +1,8 @@
+---
+title: "Watch and embed live streams (HLS, DASH, RTMP)"
+description: "Every way to watch a stream from Unda: the built-in player, HLS, DASH, MPEG-TS over HTTP for IPTV, RTMP and SRT, plus rewind and embedding."
+---
+
 # Watching and embedding
 
 A live channel called `main-show` on `tv.example.com` can be watched in these

@@ -1,6 +1,6 @@
 ---
 title: Glossary of live streaming terms
-description: Live streaming and broadcast terms explained in plain words, from adaptive bitrate and HLS to keyframes, SRT, MPEG-TS and TR 101 290, with where each one appears in Unda Media Server.
+description: "Live streaming and broadcast terms in plain words, from adaptive bitrate and HLS to keyframes, SRT, MPEG-TS and TR 101 290, and where each appears in Unda."
 outline: [2, 2]
 ---
 

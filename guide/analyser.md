@@ -1,3 +1,8 @@
+---
+title: "Transport stream analyser (TR 101 290)"
+description: "Check any transport stream the way broadcast test equipment does: TR 101 290 errors, rate, PCR, MDI and DVB tables, for a minute or a whole day."
+---
+
 # Stream analyser
 
 **Server → Analyse** checks any transport stream the way broadcast test

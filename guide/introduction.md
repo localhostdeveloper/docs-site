@@ -1,3 +1,8 @@
+---
+title: "What is Unda Media Server?"
+description: "Unda Media Server is a live streaming server you run yourself: RTMP, SRT, UDP and WebRTC in; HLS, DASH, RTMP and restreaming out. What it does and needs."
+---
+
 # What is Unda?
 
 Unda Media Server is a live streaming server you run yourself. Encoders such as

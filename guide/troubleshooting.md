@@ -1,3 +1,8 @@
+---
+title: "Troubleshooting streams and viewers"
+description: "Fixes for streams and viewers: buffering and slow starts, a live stream shown as offline, OBS connection errors and reconnects, and a frozen picture."
+---
+
 # Troubleshooting
 
 Problems with installing, HTTPS, ports and signing in are in the

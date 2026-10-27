@@ -1,3 +1,8 @@
+---
+title: "UDP and RTP MPEG-TS input and output"
+description: "Take MPEG-TS in over UDP or RTP, unicast or multicast, from encoders, headends and receivers, and send it out to set-top boxes and IPTV systems."
+---
+
 # UDP / MPEG-TS
 
 Plain MPEG-TS over UDP is what hardware encoders, IPTV headends, satellite

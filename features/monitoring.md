@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Monitoring, alerts and viewer sessions
-description: See the health of every stream, get alerts in plain words, follow every viewer session with history and CSV export, and connect Prometheus, Grafana, Slack or Discord.
+description: "See the health of every stream, get alerts in plain words, follow every viewer session, and connect Prometheus, Grafana, Slack or Discord."
 ---
 
 <div class="m-page">

@@ -1,3 +1,8 @@
+---
+title: "Signed playback links for private streams"
+description: "Protect paid or private streams with signed links that expire, limit the devices per link, and make links on your own website. Works with every player."
+---
+
 # Protecting playback with signed links
 
 By default anyone who knows a stream's name can watch it. For paid or private

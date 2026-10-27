@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Signed playback links
-description: Protect paid, private and members-only streams with signed links that expire, and limit how many devices can watch on one link. Works with every way of watching.
+description: "Protect paid, private and members-only streams with signed links that expire, and limit how many devices can watch on one link."
 ---
 
 <div class="m-page">

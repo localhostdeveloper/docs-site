@@ -1,3 +1,8 @@
+---
+title: "Broadcast encoders and IRDs over UDP or RTP"
+description: "Set up a broadcast encoder or IRD (ARRIS, Harmonic, Ericsson, Cisco) to send MPEG-TS to Unda over UDP or RTP: the settings it needs and how to check it."
+---
+
 # Broadcast encoders (IP output)
 
 How to set up a broadcast encoder or IRD with an IP output (Motorola / ARRIS,

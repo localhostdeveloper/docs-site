@@ -1,3 +1,8 @@
+---
+title: "Recording live streams"
+description: "Record live streams in Unda with one click: MPEG-TS files that survive a crash, a new file every hour, and playing, downloading or deleting them in the browser."
+---
+
 # Recording
 
 Open a live stream in the dashboard and press **Record**; **Stop recording**

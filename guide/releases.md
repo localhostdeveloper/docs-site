@@ -1,3 +1,8 @@
+---
+title: "Releases, upgrades and support"
+description: "How often Unda Media Server is released, what version 1.0 will mean, which versions get fixes, and how upgrades and licenses work."
+---
+
 # Releases and support
 
 How Unda is released, what version 1.0 will mean, and how upgrades work.
