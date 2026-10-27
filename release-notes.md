@@ -4,7 +4,8 @@ Changes in each Unda release, newest first. Servers check for new releases and
 show a notice to admins and owners under Overview → Other notices. To upgrade,
 re-run the installer, or with Docker change the image tag and pull
 ([Backups and upgrades](/guide/install#8-backups-and-upgrades)). The
-database is backed up first.
+database is backed up first. How often releases come and what 1.0 will
+mean: [Releases and support](/guide/releases).
 
 <!-- Unreleased changes go in a "## Next release" section here. At release,
      rename it to "## vX.Y.Z {#vX-Y-Z}" (the anchor the update notice links

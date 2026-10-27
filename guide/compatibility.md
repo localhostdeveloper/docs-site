@@ -13,6 +13,9 @@ This page separates three things:
   with Unda.
 - **Not supported:** don't plan on it.
 
+The measurements behind it (long runs, capacity, delay, lossy networks,
+broadcast analysis) are on [Test results](/guide/test-results).
+
 ## Sending to Unda
 
 | Source | Connects with | Status |

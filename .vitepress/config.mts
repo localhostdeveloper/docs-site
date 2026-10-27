@@ -28,6 +28,8 @@ const docsSidebar = [
       { text: "A tour of the dashboard", link: "/guide/dashboard" },
       { text: "Ways to earn with Unda", link: "/guide/earning" },
       { text: "What works with Unda", link: "/guide/compatibility" },
+      { text: "Test results", link: "/guide/test-results" },
+      { text: "Releases and support", link: "/guide/releases" },
       { text: "Install", link: "/guide/install" },
       { text: "Stream from OBS, vMix or ffmpeg", link: "/guide/streaming" },
       { text: "Watching and embedding", link: "/guide/watching" },

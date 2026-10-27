@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Packages
-description: Unda Media Server packages. Every package is the full server with unlimited viewers; they differ in live streams, team members and tools. Prices on request.
+description: Unda Media Server packages. Every package is the full server with unlimited viewers; they differ in live streams, team members and tools. Starter from $20 a month; the other packages are quoted.
 ---
 
 <div class="m-page">
@@ -9,7 +9,7 @@ description: Unda Media Server packages. Every package is the full server with u
 <div class="m-wrap">
 <span class="m-kicker">Packages</span>
 <h1>Pay for the size you need, not for every viewer</h1>
-<p class="m-lead">Every package is the full Unda Media Server, with unlimited viewers. Packages differ in how many streams can be live at the same time, how many people can sign in to the dashboard, and which tools are switched on. Prices depend on your setup, so we quote each one.</p>
+<p class="m-lead">Every package is the full Unda Media Server, with unlimited viewers. Packages differ in how many streams can be live at the same time, how many people can sign in to the dashboard, and which tools are switched on. Starter has a fixed price; the other packages depend on your setup, so we quote them.</p>
 </div>
 </section>
 <section class="m-section">
@@ -29,8 +29,8 @@ description: Unda Media Server packages. Every package is the full server with u
 <li class="m-no">Not included: 24/7 channels, backup encoder, pull and playlist inputs (from Professional)</li>
 <li class="m-no">Not included: UDP, RTP, SRT and TV outputs (Broadcast)</li>
 </ul>
-<p class="m-price">Price on request</p>
-<a class="m-btn m-btn-ghost" href="/contact?package=Starter">Ask for a price</a>
+<p class="m-price">$20 a month, or $220 a year</p>
+<a class="m-btn m-btn-ghost" href="/contact?package=Starter">Get Starter</a>
 </div>
 <div class="m-plan m-plan-pick">
 <span class="m-plan-badge">Recommended</span>
@@ -107,6 +107,9 @@ description: Unda Media Server packages. Every package is the full server with u
 <tr><td>24/7 channels, media library, backup encoder</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>Channel inputs in order (live, backup encoder, pull, playlist), switched by themselves</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>UDP, RTP, RIST, SRT destinations, multi-channel, TV outputs</td><td class="m-c m-dash">—</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
+<tr><td>Support by email, Monday to Friday, 9:00-19:00 GMT</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td></tr>
+<tr><td>Serious problems (a channel off air) handled until 22:00 GMT</td><td class="m-c m-dash">—</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td></tr>
+<tr><td>Price</td><td class="m-c">$20 a month or $220 a year</td><td class="m-c">On request</td><td class="m-c">On request</td><td class="m-c">On request</td></tr>
 </tbody>
 </table>
 </div>
@@ -128,7 +131,8 @@ description: Unda Media Server packages. Every package is the full server with u
 <h2>Good to know before you buy</h2>
 </div>
 <div class="m-faq">
-<details><summary>How do I buy?</summary><p>Ask us for a price. With our quote, <a href="/order">sign the licence agreement online</a>, on a computer or a phone. You can also download it as a <a href="/unda-licence-agreement.pdf" download>PDF</a>, fill it in on a computer and email it to <a href="mailto:support@undamedia.com">support@undamedia.com</a>, or print it, sign it and email us a scan. We sign it and send it back with your invoice, and your licence file follows once the first invoice is paid.</p></details>
+<details><summary>How do I buy?</summary><p>Starter costs $20 a month or $220 a year (US dollars, before any tax that applies): tell us through the <a href="/contact?package=Starter">contact form</a> and we send you a quote with those fees. For the other packages, ask us for a price. With our quote, <a href="/order">sign the licence agreement online</a>, on a computer or a phone. You can also download it as a <a href="/unda-licence-agreement.pdf" download>PDF</a>, fill it in on a computer and email it to <a href="mailto:support@undamedia.com">support@undamedia.com</a>, or print it, sign it and email us a scan. We sign it and send it back with your invoice, and your licence file follows once the first invoice is paid.</p></details>
+<details><summary>When can we reach support?</summary><p>By email at <a href="mailto:support@undamedia.com">support@undamedia.com</a>, Monday to Friday, 9:00 to 19:00 GMT. On Broadcast and custom packages, a serious problem that needs attention at once, such as a channel off air, is handled until 22:00 GMT on those days.</p></details>
 <details><summary>What counts as a live stream?</summary><p>Each stream being received at the same moment counts once: a camera, an encoder, or a 24/7 channel. A stream with a backup encoder still counts as one. Streams that are not live don't count, so you can create as many channels as you like.</p></details>
 <details><summary>What counts as a team member?</summary><p>Anyone with their own sign-in to the dashboard, apart from the owners: admins, operators and streamers. Invitations not yet accepted count too. Support access you give us for a few days does not.</p></details>
 <details><summary>Is there really no limit on viewers?</summary><p>None in the licence. The limit is your server's upload: a 100 Mb/s connection carries about 25 viewers of a 3 Mb/s stream, a 1 Gb/s port about 250 (leaving some room, as the server's own bandwidth cap does). You can set a cap so the server never promises more than it can send.</p></details>
