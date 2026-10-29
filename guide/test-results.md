@@ -12,7 +12,7 @@ server software can do, not what a given network or server will. The
 equipment and players that have been tested are listed in
 [What works with Unda](/guide/compatibility).
 
-*Last updated 27 October 2026, Unda v0.1.47.*
+*Last updated 29 October 2026, Unda v0.1.48.*
 
 ## Long runs
 
@@ -43,6 +43,7 @@ it back from what the player shows (Chrome).
 | WebRTC (WHIP) in, WebRTC out | 0.14 s |
 | RTMP in, HLS out, keyframe every 2 s | 6.8 s |
 | RTMP in, HLS out, keyframe every 8 s | 28.8 s (keep keyframes at 2 s) |
+| RTMP in, HLS out: the first picture for a viewer who opens it | 0.2 s (3.3 s before v0.1.48) |
 
 ## Lossy networks
 
@@ -89,7 +90,7 @@ Docker image) and 9.
 - Test coverage of the core and the protocol packages: 64 % to 100 % (the
   core: 96 %).
 - Each release is checked for known vulnerabilities in Go and every library
-  used (govulncheck): none reachable in v0.1.47.
+  used (govulncheck): none reachable in v0.1.48.
 
 See [Releases and support](/guide/releases) for how releases are made, and
 the [release notes](/release-notes) for what each one changed.

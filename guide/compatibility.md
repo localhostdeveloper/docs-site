@@ -73,7 +73,7 @@ warning. Plan 1 to 2 CPU cores per HD channel converted like this.
 
 1. On the encoder, set the IP output to the server's address and a port
    (unicast, the simplest), or to a multicast group.
-2. In `unda.yaml` (or the dashboard: Server → Multi-channel → Receiving):
+2. In `unda.yaml` (or the dashboard: Server → MPTS inputs):
 
    ```yaml
    mpts_inputs:

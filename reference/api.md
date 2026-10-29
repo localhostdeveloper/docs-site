@@ -18,9 +18,10 @@ KEY=gsk_…
 curl -H "Authorization: Bearer $KEY" https://tv.example.com/api/v1/streams
 ```
 
-A key can do what its role can do (see [roles](/guide/accounts#roles)). A
-streamer's key sees only that streamer's channels; any other stream answers
-`404`. Repeated wrong keys from one address are refused with `429` for a while.
+A key can do what its role can do (see [roles](/guide/accounts#roles)).
+A streamer-role key belongs to no account, so it sees no channel. To give a
+client their channel's viewer figures for their own website or app, make the
+channel a [figures link](#viewer-figures) instead. Repeated wrong keys from one address are refused with `429` for a while.
 A streamer's changes to a stream's adaptive bitrate and rewind settings are
 limited to 30 a minute; beyond that they answer `429` with `Retry-After`.
 
@@ -45,6 +46,20 @@ the feature in your [license](/guide/license); without it they answer `403`.
 | `GET /api/v1/streams/{name}/transcode` | streamer | Adaptive bitrate for this stream: `mode` (`on`, `off`, `config`, or empty for off by default), `server_on`, `qualities` (its own choice, largest first; `null` is Auto), `sizes` (what can be chosen, with suggested bitrates), `auto` (the server's qualities), `max_qualities`. Answers while the stream is offline |
 | `PUT /api/v1/streams/{name}/transcode` | streamer | `{"enabled": true}` turns adaptive bitrate on for this stream (clients: their own channels) |
 | `PUT /api/v1/streams/{name}/transcode/qualities` | streamer | `{"mode": "auto"}`, or `{"mode": "manual", "qualities": [{"size": 1080, "video_kbps": 4000}, {"size": 720, "video_kbps": 2500}]}`: up to 8 sizes from `sizes`, 50 kbps up to each size's `max_video_kbps` (clients: twice the suggested bitrate; staff: 50000), each smaller size with less bitrate than the one above. Each is used up to what the source justifies. A live stream's adaptive bitrate starts again with them, at most once every 30 seconds |
+
+## Viewer figures
+
+| Method and path | Role | |
+|---|---|---|
+| `GET /api/v1/streams/{name}/audience?from=YYYY-MM-DD&to=YYYY-MM-DD` | streamer | The stream's viewer figures from day `from` to day `to` (the server's days; today when left out; up to 400 days back): `totals` (`peak`, `peak_at`, `viewers`, `sessions`, `watch_seconds`, `bytes`), `points` (every 15 minutes for one day, every hour for up to 8 days, every day beyond: `resolution`), `protocols` and `devices` (watch seconds; viewers when `exact`), `days`, `since` (the first day with figures), `partial`, `time_zone`, `utc_offset`. Viewers are exact up to 8 days, estimated within about 3 % beyond. `&format=csv` gives a line per day. A channel's input answers `400` |
+| `GET /api/v1/streams/{name}/public` | streamer | Whether the live viewer count is public: `on`, `path` |
+| `PUT /api/v1/streams/{name}/public` | streamer | `{"on": true}` lets anyone read the live count |
+| `GET /api/v1/public/{name}/viewers` | anyone | `stream`, `live`, `viewers` (now), `peak_today`, `at`; `Access-Control-Allow-Origin: *`, refreshed every 5 seconds. `404` unless switched on |
+| `GET /api/v1/streams/{name}/stats-link` | streamer | The channel's private figures link: `path` (`""` = none made) |
+| `POST /api/v1/streams/{name}/stats-link` | streamer | Makes a new link (`path`); one made before stops working |
+| `DELETE /api/v1/streams/{name}/stats-link` | streamer | Ends the link |
+| `GET /api/v1/stats-link`, `POST`, `DELETE` | admin | The same for the link to every channel's figures |
+| `GET /stats/{token}.json` | the link | The figures: `channel`, `live`, `watching_now`, `today`, `yesterday`, `last_7_days`, `last_30_days`, `this_month`, `last_month` (each `views`, `viewers`, `viewers_estimated`, `most_at_once`, `most_at_once_at`, `watch_hours`, `average_watch_minutes`, `data_gb`), `figures_from`, `time_zone`, `utc_offset`, `updated_at`. `?from=&to=` gives `total` and `days` instead. The all-channels link gives `channels`: one such entry per channel (with `?from=&to=`, each channel's `total`). Any site may read it; `404` for a link that isn't (or no longer is) one, or while the channel's owner is disabled. At most 30 custom periods a minute per link (`429` with `Retry-After`). Only channels can have one (`400` otherwise), and a change of owner ends it |
 
 ## Viewer sessions
 

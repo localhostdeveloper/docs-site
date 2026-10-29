@@ -82,20 +82,44 @@ The tabs hold the stream's other settings:
 
 [![Multiview: a picture of every channel with its sound levels; a silent camera is marked No sound](/screens/multiview.webp)](/screens/multiview.webp)
 
-A picture of every live channel, refreshed every few seconds. The pictures
+Every channel on air at a glance. A bar at the top sums them up: how many
+are on air, how many have an alarm or a warning, how many people are watching,
+and (for staff) what the server is sending and its CPU. Choose **Wall** or
+**List** at the top right; this browser remembers the choice, the sort and the
+tile size.
+
+**Wall.** A picture of every channel, refreshed every few seconds. The pictures
 are stills, so the wall costs the server little, however many channels there
-are. Point at a picture to see how old it is.
+are. Point at a picture to see how old it is. Under each picture is the
+channel's name, a tag for what feeds it (**ENCODER**, **24/7** or **PULL**),
+and one line with its bitrate, picture size, viewers and a small graph of its
+bitrate, or, when it needs attention, what is wrong. Click a picture to see the
+channel's details on the right: a larger picture, its figures, viewers over
+the last 30 minutes, its sound, what a 24/7 channel is playing, its recent
+events, and buttons to its stream page, its watch page and its viewer
+figures. On screens narrower than about 1100 pixels there is no room for the
+details, and a picture opens the channel's stream page instead. **Full
+screen** fills the screen with Multiview, for a wall monitor.
 
-Under each picture is the channel's name, a tag for what feeds it
-(**ENCODER**, **24/7** or **PULL**), and one line with its size, bitrate and
-viewers. When a channel needs attention, that line says why instead, with a
-coloured border: red for no sound or a critical alert, yellow for a warning
-such as a playlist item that can't play.
+**List.** One line per channel, grouped into encoders, 24/7 channels and
+pulled streams: its picture, status, bitrate and graph, sound, viewers, what
+is on air (or how long it has been up), what needs attention, and **Open**.
 
-Above the wall, type in **Filter channels** to find one by name, show only
-**Encoders**, **24/7** channels, **Pull** streams or those that **Need
-attention**, and sort by name, needs attention first, most viewers or highest
-bitrate. This browser remembers the sort and the tile size.
+**Colours.** A red frame means the channel's viewers are losing it: nothing
+coming in, no sound, a 24/7 channel off air or out of pictures, a pull that
+has been off the air for minutes, or heavy packet loss. Everything else that
+needs a look is orange: a failing restream, keyframes too far apart, an encoder
+reconnecting, a low bitrate. A channel on a [backup source](/guide/backup-encoder)
+is never red: viewers still get it, so it is orange and says it is on its backup,
+even when the backup is silent.
+
+Above the wall or list, type in **Filter channels** to find one by name, show
+only **Encoders**, **24/7** channels, **Pull** streams or those that **Need
+attention**, and sort: needs attention first, by name (either way), most or
+fewest viewers, highest or lowest bitrate, longest or shortest on air, by type
+(encoders, then 24/7, then pull), largest picture, or quietest sound first. In
+the list, click a column heading (Channel, Bitrate, Sound, Viewers, On air,
+Problem) to sort by it, and again to turn the order round.
 
 A channel with [inputs](/guide/channel-inputs) has one tile: what its viewers
 see, its tag saying what is on air (**ENCODER**, **BACKUP**, **PULL**,
@@ -103,13 +127,13 @@ see, its tag saying what is on air (**ENCODER**, **BACKUP**, **PULL**,
 Input tab. The Overview and the Streams count in the menu count such a
 channel once, as the licence does.
 
-Each tile has two sound meters at the right edge of its picture, for the left
-and right channel: green, yellow above -18 dBFS, red above -6 dBFS, with a
-line marking the last peak. A channel that has been silent for 10 seconds
-shows **NO SOUND** with how long, and a red border; a stream that carries no
-sound at all shows **No sound track**, with a yellow one. The same alarm appears in **Needs
-attention** and in Events, whether or not anyone has Multiview open (see
-[No sound](/guide/monitoring#no-sound)).
+Each picture has two sound meters at its right edge, for the left and right
+channel: green, yellow above -18 dBFS, red above -6 dBFS, with a line marking
+the last peak (in the list they lie across the Sound column). A channel that
+has been silent for 10 seconds shows **NO SOUND** with how long; a stream that
+carries no sound at all shows **No sound track**, in orange. The same alarm
+appears in **Needs attention** and in Events, whether or not anyone has
+Multiview open (see [No sound](/guide/monitoring#no-sound)).
 
 ## Viewers and events
 

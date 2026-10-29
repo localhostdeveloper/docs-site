@@ -58,6 +58,94 @@ server database, and survive restarts. Viewer addresses are personal data in
 many countries: set `sessions.disabled: true` to keep no history (the
 **Watching now** view still works).
 
+## Viewer figures for each channel
+
+Every stream page, and every 24/7 channel's page, has a **Viewers** tab: how many watched the channel today,
+yesterday, over the last 7 or 30 days, this month, last month or the last 12
+months. A client sees it for their own channels only, so you can give a
+channel's owner a sign-in and let them follow their audience themselves.
+
+[![A channel's Viewers tab over the last 30 days: most at once, viewers, views, watch time, average watch and data sent, and the most viewers at once each day](/screens/viewers.webp)](/screens/viewers.webp)
+
+- **Watching now** (today only), split by how they watch.
+- **Most at once**, and when.
+- **Viewers**: different devices that watched. A device is known by its
+  internet address and its player, so phones sharing one mobile-network
+  address with the same browser count once; the real number can be a little
+  higher. Over more than eight days it is estimated, within about 3 %.
+- **Views** (times someone started watching), **Watch time**, **Average
+  watch** and **Data sent**.
+- A chart of the most viewers at once: every 15 minutes for one day, every
+  hour for up to eight days, every day beyond.
+- **How they watched** (HLS, low latency, RTMP, SRT…) and **Devices**
+  (phones and tablets, computers, TVs, player apps), as shares of watch time.
+- **Day by day** for longer ranges, and **Download CSV**.
+
+The figures are totals only: no viewer's address or player is shown. Days
+run midnight to midnight on the server's clock. Unda keeps a summary of each
+day for 13 months, long after the sessions themselves are deleted, and after
+an upgrade it fills in the days whose sessions are still kept (30 days by
+default). A server with `sessions.disabled: true` keeps no figures beyond the
+viewers watching now.
+
+### The figures in a website or app
+
+**Figures for your website or app**, in the tab's **Use these figures
+elsewhere** card, makes a private link to the channel's figures as a JSON
+file. Give it to whoever shows them: a website, an app's admin page, a
+report. No sign-in or key is needed, any website may read it, and nobody can
+guess another channel's link.
+
+```json
+{
+  "channel": "news",
+  "live": true,
+  "watching_now": 132,
+  "time_zone": "GMT",
+  "utc_offset": "+00:00",
+  "today":        { "views": 1840, "viewers": 1210, "most_at_once": 410, "most_at_once_at": "2026-10-29T20:15:03Z",
+                    "watch_hours": 612.5, "average_watch_minutes": 20, "data_gb": 210.4 },
+  "yesterday":    { … },
+  "last_7_days":  { … },
+  "last_30_days": { … },
+  "this_month":   { … },
+  "last_month":   { … },
+  "figures_from": "2026-09-29",
+  "updated_at": "2026-10-29T20:31:07Z"
+}
+```
+
+Add `?from=2026-10-01&to=2026-10-31` to the link for that period's `total`
+and a `days` list (one entry a day, `no_figures` on days before figures
+began). Over more than eight days `viewers_estimated` is true (within about
+3 %). The figures are worked out at most once a minute.
+
+Anyone with the link can read the figures (nothing can be changed with it).
+If it reaches the wrong people, **Make a new link**: the old one stops working
+at once. **Remove** ends it. Deleting the channel, or giving it to another
+owner, ends it too, and it stops answering while its owner's account is
+disabled. A link may ask for up to 30 custom periods (`?from=&to=`) a minute;
+the usual periods are worked out at most once a minute and are not limited.
+Links and public counts are only for channels made on the Channels or 24/7
+pages.
+
+**All channels' viewer figures**, on the **Channels** page (admins only),
+makes one private link with every channel's figures in one file
+(`channels`: one entry each, as above). With `?from=&to=` each channel
+gives its total for the period; its own link gives the days. It shows every
+client's figures, so keep it to yourself.
+
+**Live viewer count on your website**, in the same card, lets anyone read
+how many watch the channel now from `/api/v1/public/<channel>/viewers`, for a
+"132 watching" on a public page. It updates every 5 seconds and shows nothing
+else:
+
+```json
+{"stream":"news","live":true,"viewers":132,"peak_today":410,"at":"2026-10-29T19:20:05Z"}
+```
+
+Switched off, or for a channel that doesn't exist, it answers `404`.
+
 ## Alerts on the dashboard
 
 Unda raises these by itself; each one clears by itself once the cause is gone.

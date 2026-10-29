@@ -18,10 +18,45 @@ mean: [Releases and support](/guide/releases).
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
-## Next release
+## v0.1.48 {#v0-1-48}
 
-- A viewer opening a stream nobody else was watching now sees it start almost at once instead of after a few seconds: Unda prepares every stream for HLS as soon as it goes live, and keeps its segments on disk, so this costs very little memory.
-- TR 101 290 reports and their alerts now say what most likely caused the errors and what to do about it: packets lost on the network, a damaged satellite signal, an encoder setting, or a TV output's encoder that can't keep up with the server.
+*29 October 2026*
+
+The database gains tables for viewer figures. On its first start the server
+sums up the viewer sessions it already keeps (the last 30 days unless you
+changed that), so the new Viewers tab has history at once. Streams are now
+prepared for HLS as soon as they go live, which uses a few MB of disk per
+live stream ([Starting to play](/guide/watching#starting-to-play)). With
+Docker, set the image tag to `v0.1.48`.
+
+### New
+
+- **Viewer figures for each channel:** every channel has a **Viewers** tab
+  with viewers now, today, yesterday, the last 7 or 30 days, this month,
+  last month and 12 months, by device and by how people watch, with a CSV
+  download. Clients see it for their own channels. A private link gives a
+  channel's figures as a JSON file for a website or app (admins can make one
+  link for every channel), and a channel's live viewer count can be shown on
+  a public page ([Viewer figures](/guide/monitoring#viewer-figures-for-each-channel)).
+- **Multiview has a new look:** a summary bar, a wall of pictures with a
+  details panel for the channel you click, and a list grouped by type, with
+  more ways to sort. Red now means viewers are losing a channel; a channel on
+  a backup source shows orange.
+- **TR 101 290 reports and their alerts say what to do:** the most likely
+  cause of the errors (packets lost on the network, a damaged satellite
+  signal, an encoder setting, a TV output whose encoder can't keep up) and
+  how to fix it.
+- The Server page's Multi-channel tab is now two: **MPTS inputs** (bundles
+  received) and **MPTS outputs** (bundles sent). A bundle's channel list
+  offers every 24/7 channel, on air or not.
+
+### Fixed
+
+- A viewer opening a stream nobody else was watching now sees it start
+  almost at once, instead of after a few seconds.
+- The Guide page no longer shows a live channel as off air for its first
+  seconds after the page opens.
+- Security updates to the networking libraries Unda is built with.
 
 ## v0.1.47 {#v0-1-47}
 

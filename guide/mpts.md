@@ -53,7 +53,7 @@ UDP: both resend what the network loses.
 The input's line on the Server page shows whether the SRT link is up (and why
 not), and for RIST how many packets the network lost and were resent.
 
-**In the dashboard:** Server → Multi-channel → **Receiving → New input**. Give it
+**In the dashboard:** Server → **MPTS inputs** → **New input**. Give it
 a name and the address it arrives on. Once packets arrive, every channel of the
 bundle is listed with its name, tracks and bitrate: click **Publish** on the ones
 you want, choose the stream name and audio track, and they go live. **Stop**
@@ -87,13 +87,14 @@ number, and the whole bundle is sent at a constant bitrate.
 
 ### Set it up
 
-In the dashboard: **Server → Multi-channel → New bundle** (operators). Give it a
+In the dashboard: **Server → MPTS outputs → New bundle** (operators). Give it a
 name, where to send it and a total bitrate, then add the channels: for each,
-the stream, its channel number and name, and whether it is sent as it is or
+its source (a channel, a [24/7 channel](/guide/playout) whether on air or not,
+or any other live stream), its channel number and name, and whether it is sent as it is or
 converted to standard definition. **Add channel** adds one to a running bundle.
 Bundles made in the dashboard are kept when the server restarts.
 
-[![Server → Multi-channel: a bundle of three channels being sent, with its PIDs and a clean TR 101 290 check](/screens/mpts.webp)](/screens/mpts.webp)
+[![Server → MPTS outputs: a bundle of three channels being sent, with its PIDs and a clean TR 101 290 check](/screens/mpts.webp)](/screens/mpts.webp)
 
 Or in the configuration file:
 
@@ -181,7 +182,7 @@ way, its "between programmes" title included. Other channels carry no guide.
 
 **Choose per bundle** what it sends: *now and next + 8 days* (the default),
 *now and next only*, or *off*. In the dashboard it is the **Guide** menu on each
-bundle (Server → Multi-channel), changeable while the bundle is on air; in the
+bundle (Server → MPTS outputs), changeable while the bundle is on air; in the
 configuration file, `epg: schedule | now_next | off`. Turn it off when
 equipment further down the chain inserts its own EIT, so the two don't conflict.
 A channel can also be left out on its own (its **guide** tick box, or

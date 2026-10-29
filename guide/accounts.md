@@ -85,6 +85,10 @@ For scripts and monitoring, **API keys** creates a key (`gsk_…`) with a role.
 Send it as `Authorization: Bearer gsk_…`. It is shown once; revoke it when it
 is no longer needed. See the [REST API](/reference/api).
 
+A client who wants their channel's viewer figures in their own website or app
+needs no key: make the channel a figures link on its **Viewers** tab and give
+it to them. See [Viewer figures for each channel](/guide/monitoring#the-figures-in-a-website-or-app).
+
 Like passwords, keys are accepted only over HTTPS (or from the server itself):
 over plain HTTP from another machine the server answers 403 `https_required`
 without checking the key. A closed studio LAN without HTTPS can set

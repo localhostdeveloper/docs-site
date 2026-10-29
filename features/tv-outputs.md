@@ -33,7 +33,7 @@ description: "Take channels in over UDP, RTP, SRT or RIST, split multi-channel f
 <li>Channels added and removed while the bundle is on air</li>
 </ul>
 </div>
-<div><a class="m-shot" href="/guide/mpts#sending-a-bundle-out"><img src="/screens/mpts.webp" width="1280" height="800" alt="Server → Multi-channel: a bundle of three channels being sent, with its PIDs and a clean TR 101 290 check" loading="lazy"></a></div>
+<div><a class="m-shot" href="/guide/mpts#sending-a-bundle-out"><img src="/screens/mpts.webp" width="1280" height="800" alt="Server → MPTS outputs: a bundle of three channels being sent, with its PIDs and a clean TR 101 290 check" loading="lazy"></a></div>
 </div>
 </div>
 </section>
