@@ -10,7 +10,7 @@ All requests and responses are JSON.
 
 ## Authentication
 
-Create an API key in the dashboard under **API keys** (admins), with the role
+Create an API key in the dashboard under **Server → API keys** (admins), with the role
 it should have, and send it on every request:
 
 ```bash
@@ -22,8 +22,9 @@ A key can do what its role can do (see [roles](/guide/accounts#roles)).
 A streamer-role key belongs to no account, so it sees no channel. To give a
 client their channel's viewer figures for their own website or app, make the
 channel a [figures link](#viewer-figures) instead. Repeated wrong keys from one address are refused with `429` for a while.
-A streamer's changes to a stream's adaptive bitrate and rewind settings are
-limited to 30 a minute; beyond that they answer `429` with `Retry-After`.
+A streamer's changes to a stream's adaptive bitrate, rewind, picture-check and
+logo settings are limited to 30 a minute, and their channel reports to another 30
+a minute; beyond that they answer `429` with `Retry-After`.
 
 Only `GET /api/v1/health` works without a key.
 
@@ -41,6 +42,8 @@ the feature in your [license](/guide/license); without it they answer `403`.
 | `GET /api/v1/streams/{name}/thumbnail` | streamer | A JPEG of the latest keyframe (needs FFmpeg) |
 | `GET /api/v1/streams/{name}/tr101290` | streamer | The full TR 101 290 report of what a stream's sender sends, for a stream published over SRT or received on a UDP or RTP input (404 otherwise). The stream's `tr101290` field carries the counts |
 | `GET /api/v1/streams/{name}/sound` | streamer | The stream's sound now: `measured`, `peak` and `rms` (dBFS, left and right), `silent_s`, `no_track`, plus `silence_dbfs` and `alarm_after_s`. `measured` is false for a stream not metered (a channel's inputs). 501 without sound meters (needs FFmpeg) |
+| `GET /api/v1/streams/{name}/picture-check` | streamer | The stream's picture now (`state`: `moving`, `frozen` or `black`, `seconds` it has been so), whether a still picture is normal for it (`still_ok`), and the alarms' delays (`frozen_after_s`, `black_after_s`). `available` is false where pictures aren't checked (no FFmpeg) |
+| `PUT /api/v1/streams/{name}/picture-check` | streamer | `{"still_ok": true}` turns the frozen-picture alarm off for a channel whose picture stands still on purpose (a black picture still alarms); audited |
 | `GET /api/v1/audio/levels` | operator | Every metered stream's sound now (`streams`: the same fields per stream), as Multiview shows it |
 | `GET` / `POST /api/v1/streams/{name}/record` | operator | Recording status / `{"action":"start"}` or `{"action":"stop"}` |
 | `GET /api/v1/streams/{name}/transcode` | streamer | Adaptive bitrate for this stream: `mode` (`on`, `off`, `config`, or empty for off by default), `server_on`, `qualities` (its own choice, largest first; `null` is Auto), `sizes` (what can be chosen, with suggested bitrates), `auto` (the server's qualities), `max_qualities`. Answers while the stream is offline |
@@ -55,6 +58,9 @@ the feature in your [license](/guide/license); without it they answer `403`.
 | `GET /api/v1/streams/{name}/public` | streamer | Whether the live viewer count is public: `on`, `path` |
 | `PUT /api/v1/streams/{name}/public` | streamer | `{"on": true}` lets anyone read the live count |
 | `GET /api/v1/public/{name}/viewers` | anyone | `stream`, `live`, `viewers` (now), `peak_today`, `at`; `Access-Control-Allow-Origin: *`, refreshed every 5 seconds. `404` unless switched on |
+| `GET /api/v1/public/{name}/watch` | anyone | What a channel's watch page shows: `title`, `tagline`, `live`, `viewers` (when the page shows it), `schedule` (from half a day ago to three days ahead: `start`, `stop`, `title`, `description`, `between`; absent when the page hides it), `now` (the server's clock). Refreshed every 10 seconds. A protected stream's needs its link (`?token=`), else `403`; `404` for a name that isn't a channel |
+| `GET /api/v1/public/{name}/logo` | anyone | The watch page's logo (a PNG), kept 5 minutes by browsers; `404` without one |
+| `GET /api/v1/public/{name}/still` | anyone | The channel's picture now (a JPEG), for an embed waiting to be played; kept 10 seconds. A protected stream's needs its link |
 | `GET /api/v1/streams/{name}/stats-link` | streamer | The channel's private figures link: `path` (`""` = none made) |
 | `POST /api/v1/streams/{name}/stats-link` | streamer | Makes a new link (`path`); one made before stops working |
 | `DELETE /api/v1/streams/{name}/stats-link` | streamer | Ends the link |
@@ -118,8 +124,13 @@ RFC 3339 or unix seconds), `min_duration` (seconds), `sort` (`started`,
 | Method and path | Role | |
 |---|---|---|
 | `GET /api/v1/streams/{name}/push` | streamer | Destinations with their state (`live` only once the destination accepted the stream), `last_error` in plain words, `error_detail` (the underlying error), `failing_since`, and `paused_reason` when the server switched a destination off after 30 minutes of failures (URLs shown with the key hidden) |
-| `POST /api/v1/streams/{name}/push` | streamer | `{"name":"youtube","url":"rtmp://a.rtmp.youtube.com/live2/KEY"}` |
-| `PATCH /api/v1/streams/{name}/push/{id}` | streamer | `{"paused": true}` stops sending but keeps the destination; `{"paused": false}` starts it again |
+| `POST /api/v1/streams/{name}/push` | streamer | `{"name":"youtube","url":"rtmp://a.rtmp.youtube.com/live2/KEY"}`. A TV output (operators) adds `"broadcast":{…}`; `"ad_cues":true` in it sends SCTE 35 ad cues (`"cue_pid"`, default 258). A TV output can wait for its receiver: `"url":"srt://:9000?passphrase=…"` (or `allow=` addresses); the list then shows `srt_listen` as for bundles. A destination without `broadcast` can't listen (400) |
+| `GET /api/v1/streams/{name}/inputs/logo` | streamer | A channel's playlist logo (drawn on its playlist or looped video only): `{"logo": {...}}` or `{"logo": null}`. `PUT` takes the same form as a 24/7 channel's logo (`corner`, `size`, `opacity`, `image`) or JSON settings; `DELETE` removes it; `…/inputs/logo/image` is the image; `…/inputs/still` the playlist's picture now without the logo (404 while it isn't playing). For the channel's owner and operators |
+| `GET /api/v1/streams/{name}/watch-page` | streamer | A channel's watch page settings: `title`, `tagline`, `color`, `hide_schedule`, `show_viewers`, `logo` (its address, when there is one), with `default_title`, `default_color`, `watch_url`, `guide` (the channel has a schedule) and `still` (embeds can show a picture). `PUT` changes the fields given (title up to 80 characters, tagline 160, colour `#rrggbb` or `""` for the default; audited); `PUT …/watch-page/logo` takes a multipart form with `image` (PNG or JPEG, up to 5 MB), `DELETE …/watch-page/logo` removes it. Channels only (`400` for other streams); a client's changes are limited to 30 a minute |
+| `GET /api/v1/streams/{name}/ad-break` | operator | The stream's ad break: `state` (`""`, `announced`, `on`, `ending`), `seconds`, `out_at`, `return_at`, and `outputs` that send its cues |
+| `POST /api/v1/streams/{name}/ad-break` | operator | `{"seconds":60}` (5-1800): starts an ad break, leaving the programme 4 s later. 409 when nothing sends the stream's cues, the stream is not live or a break is on; 429 for more than one change every 2 s per stream |
+| `DELETE /api/v1/streams/{name}/ad-break` | operator | End now: the programme comes back 2 s later, or a break that has not begun is withdrawn |
+| `PATCH /api/v1/streams/{name}/push/{id}` | streamer | `{"paused": true}` stops sending but keeps the destination; `{"paused": false}` starts it again. `{"name", "url", "broadcast"}` edit it: an absent or empty `url` keeps the saved address and its key; `"broadcast": {…}` re-encodes it for TV (operators), `null` sends it as it is. It restarts with the new settings; a paused one stays paused. One from `unda.yaml` is 409 |
 | `DELETE /api/v1/streams/{name}/push/{id}` | streamer | Remove a destination; returns once it is disconnected |
 | `GET /api/v1/streams/{name}/push/{id}/tr101290` | streamer | The full TR 101 290 report of what an MPEG-TS destination or TV output is sent (404 for RTMP, or before it has sent). Each destination's `tr101290` field in the list carries the counts |
 
@@ -225,9 +236,11 @@ The [programme guide](/guide/playout#programme-guide): a 24/7 channel's comes fr
 | Method and path | Role | |
 |---|---|---|
 | `GET /api/v1/health` | none | `{"status":"ok"}` |
-| `GET /api/v1/alerts` | streamer | Open alerts, then those resolved in the last 10 minutes |
+| `GET /api/v1/alerts` | streamer | Open alerts, then those resolved in the last 10 minutes; `open`, and `cleared`, how many of the open ones someone has cleared |
+| `POST /api/v1/alerts/{id}/clear` | operator | Clears an open alert for everyone: it stays open and listed, with `cleared_by` and `cleared_at`, until it gets worse (warning to critical) or ends. A stream's `health.alert_level` leaves cleared alerts out (`cleared_alerts` counts them). `DELETE` shows it again. `404` when the alert isn't open; audited |
 | `GET /api/v1/events?limit=20&before=<id>` | streamer | Events, newest first, kept 30 days in the database (`before` pages back through them). A line that repeats within an hour is one entry with `count` and `first_ts`; a repeat replaces the earlier line (`replaces` names it) |
-| `GET /api/v1/metrics/history?metric=egress&range=1h` | streamer | The last hour, one point every 5 s. `metric`: `ingest`, `egress`, `viewers`, `heap`, `goroutines`, `bitrate` (with `stream=`); `range`: `5m`, `15m`, `30m`, `1h` |
+| `GET /api/v1/metrics/history?metric=egress&range=1h` | streamer | The last hour, one point every 5 s. `metric`: `ingest`, `egress`, `viewers`, `streams`, `cpu`, `heap`, `goroutines`, `consumers`, `bitrate` (with `stream=`); `range`: `5m`, `15m`, `30m`, `1h`. Longer ranges (`6h`, `24h`, `7d`, `30d`, `13mo`) come from the figures kept in the database as `[time, average, highest]` per period (a minute to a day, at most about 800 points). A client reads the bitrate and viewers of their own streams only |
+| `GET /api/v1/reports/channels?from=YYYY-MM-DD&to=YYYY-MM-DD` | streamer | Each channel's record for whole days on the server's clock (the last 7 by default, at most 400): `on_air_seconds`, `interruptions` (the encoder away and back within 5 minutes), `interrupted_seconds`, `longest_interruption_s`, `stops` (away longer, or not back yet), `avg_kbps`, `peak_viewers`. `stream=` for one channel, `format=csv` for a file. A client sees their own channels |
 | `GET /api/v1/metrics/peaks` | streamer | Today's peak viewers, overall and per stream |
 | `GET /api/v1/live` | streamer | A live feed (Server-Sent Events): a heartbeat every 5 s and each event as it happens |
 | `GET /api/v1/server` | streamer | Ports, addresses and limits in force |
@@ -238,7 +251,8 @@ The [programme guide](/guide/playout#programme-guide): a 24/7 channel's comes fr
 | Method and path | Role | |
 |---|---|---|
 | `GET /api/v1/udp/inputs` | operator | Inputs with packet counts and loss |
-| `POST /api/v1/udp/inputs` | operator | `{"name":"sat-feed","listen":":5001","allow":["192.168.1.20"]}` or `{"name":"…","multicast":"239.1.1.1:5000","interface":"eth1"}` |
+| `POST /api/v1/udp/inputs` | operator | `{"name":"sat-feed","listen":":5001","allow":["192.168.1.20"]}` or `{"name":"…","multicast":"239.1.1.1:5000","interface":"eth1"}`. RTP inputs (`"rtp":true`) may take a second path, `"path2"` and `"interface2"`: the status then has `paths` (each path's `packets`, `missing`, `last_packet`) and `merged` |
+| `PATCH /api/v1/udp/inputs/{name}` | operator | Change an input: any of `listen`, `multicast`, `interface`, `rtp`, `path2`, `interface2`, `allow`, `timeout_seconds` (a field left out keeps its value; `listen` replaces `multicast` and the other way round). Its socket opens again and its stream starts again with the next packets; settings that can't open (a port in use) leave it as it was (400 with the reason). Inputs from the configuration file: 409. Saved |
 | `DELETE /api/v1/udp/inputs/{name}` | operator | Remove an input |
 | `GET /api/v1/udp/inputs/{name}/tr101290` | operator | The full TR 101 290 report of what an input receives; the list's `tr101290` field carries the counts |
 
@@ -261,17 +275,26 @@ guard).
 
 | Method and path | Role | |
 |---|---|---|
-| `GET /api/v1/mpts/inputs` | operator | Bundles being received, with their channels, state, bitrates and TR 101 290 counts |
+| `GET /api/v1/relays` | operator | Relays: each with `source` (without secrets), `input` (`receiving`, `since`, `kbps`, `sender`, `stats` with lost packets, `tr101290`, and `link`/`rist`/`paths` for SRT, RIST and two-path RTP), `destinations` (each `url` without secrets, `state` connecting/live/backoff, `last_error`, `kbps`, `dropped_packets`, `srt_listen`, `rist`, `paths`), and `error` for one that could not start |
+| `POST /api/v1/relays` | operator | `{"name":"station","source":"udp://239.1.1.1:5000","interface":"eth1","allow":["10.0.0.5"],"destinations":["srt://receiver.example.net:9000?passphrase=…"],"timeout_seconds":5}` (1 to 4 destinations: udp://, rtp://, srt:// calling or waiting, rist://). Needs TV outputs in the licence. Saved |
+| `GET /api/v1/relays/{name}` | operator | One relay |
+| `PATCH /api/v1/relays/{name}` | operator | Change a relay: `source` (left out or empty keeps the saved one, passphrase included), `interface`, `allow`, `timeout_seconds`, `destinations` as `[{"keep":1},{"url":"udp://10.0.0.9:5000"}]` (`keep` = a current destination by its place in the list, 1 = the first; left out keeps them all). Kept destinations stay connected; a new source, interface or sender list reopens the receiving side only, and one that can't open leaves the relay as it was (400 with the reason). A relay that could not start is tried again with its new settings. Saved |
+| `DELETE /api/v1/relays/{name}` | operator | Stop a relay (a destination waiting for its receiver closes its port) and forget it |
+| `GET /api/v1/relays/{name}/tr101290` | operator | The full TR 101 290 report on what a relay receives and passes on, with `passed_on: true` |
+| `GET /api/v1/mpts/inputs` | operator | Bundles being received, with their channels, state, bitrates and TR 101 290 counts. A RIST source has `rist`: `packets`, `recovered`, `lost`; for Main Profile also `profile` (`main`), `encrypted`, `key_bits` (the sender's AES key length) and what couldn't be read (`wrong_passphrase`, `unreadable` (made-up or damaged packets, not another passphrase), `not_encrypted`, `need_passphrase`, `not_main_profile`, `srp`, with `last_refusal` and `last_refusal_at`). The `url` shows `secret=****` |
 | `GET /api/v1/mpts/inputs/{name}/tr101290` | operator | The full TR 101 290 report of a bundle being received: counts per check, the latest errors, each PID, each table and what the tables say |
 | `GET /api/v1/mpts/inputs/{name}/programs` | operator | The channels a bundle carries: number, name, provider, PMT and PCR PIDs, and each track's PID, codec and language |
-| `POST /api/v1/mpts/inputs` | operator | `{"name":"sat","source":"udp://239.1.1.1:5000","programs":[{"program":101,"stream":"sports-hd"}]}`; add `"discover_only":true` to only list the channels |
+| `POST /api/v1/mpts/inputs` | operator | `{"name":"sat","source":"udp://239.1.1.1:5000","programs":[{"program":101,"stream":"sports-hd"}]}`; add `"discover_only":true` to only list the channels. RIST Main Profile, encrypted: `"source":"rist://@:5001?secret=…"` |
+| `PATCH /api/v1/mpts/inputs/{name}` | operator | Change an input: `source` (a udp://, rtp://, srt:// or rist:// address; left out or empty keeps the saved one, passphrase included), `interface`, `allow`, `timeout_seconds`, `discover_only`, `on_new_program`. The channels it publishes stay; it receives again and they start again with the next packets. Settings that can't open leave it as it was (400 with the reason). Inputs from the configuration file: 409. Saved |
 | `DELETE /api/v1/mpts/inputs/{name}` | operator | Stop receiving a bundle (its channels' streams end) |
 | `PUT /api/v1/mpts/inputs/{name}/programs/{program}` | operator | Publish one channel of a running bundle: `{"stream":"sports-hd"}` (optional `audio_pid`, `audio_language`, `transcode_video`); changes only that channel |
 | `DELETE /api/v1/mpts/inputs/{name}/programs/{program}` | operator | Stop publishing that channel (the bundle keeps running) |
-| `GET /api/v1/mpts` | operator | Bundles being sent, with their channels and TR 101 290 counts |
+| `GET /api/v1/mpts` | operator | Bundles being sent, with their channels and TR 101 290 counts. A bundle waiting for its receivers (`srt://:port`) has `srt_listen`: `addr`, `receivers` (each `addr`, `since`, `bytes`, `resent`), `refused` with `last_refusal` and `last_refusal_at` |
 | `GET /api/v1/mpts/{name}/tr101290` | operator | The same report for a bundle being sent |
 | `POST /api/v1/mpts` | operator | `{"name":"bundle","url":"udp://239.2.2.1:6000","total_kbps":12000,"programs":[{"stream":"cam","program":1,"name":"Channel 1","bitrate_kbps":4000}]}`; add `"no_epg":true` to send no now/next for playout channels |
 | `POST /api/v1/mpts/{name}/programs` | operator | Add a channel to a running bundle |
+| `PATCH /api/v1/mpts/{name}` | operator | Change a bundle. `url` (left out or empty keeps the saved one, passphrase included), `provider`, `total_kbps` (0 = the channels' sum plus headroom), `vbr`, `offline` (`black` or `none`) build it again with its channels, PIDs, guide and network tables (every channel off air a few seconds; settings that can't start leave it as it was, 400 with the reason). `epg` (`off`, `now_next`, `schedule`) and `network_tables` (`network_name`, `country`, `time_zone`, `no_network_tables`) change while it runs. Bundles from the configuration file: 400. Saved |
+| `PATCH /api/v1/mpts/{name}/programs/{program}` | operator | Change one channel: `stream`, `name`, `provider`, `bitrate_kbps`, `encode` (the encoder settings, or `null` to send it as it is), `pmt_pid`, `video_pid`, `audio_pid`, `cue_pid` (0 = automatic), `ad_cues`; a field left out keeps its value. Only that channel restarts; settings that don't fit leave it as it was (400 with the reason). `{"epg":false}` alone leaves it out of the guide without a restart. Saved |
 | `DELETE /api/v1/mpts/{name}/programs/{program}` | operator | Remove a channel from a running bundle |
 | `DELETE /api/v1/mpts/{name}` | operator | Stop sending a bundle |
 
@@ -285,6 +308,7 @@ Needs the `udp` licence feature (Broadcast). See [Stream analyser](/guide/analys
 | `POST /api/v1/analyses` | operator | `{"source":"udp://239.1.1.1:5000","interface":"eth1","duration_seconds":3600,"as_output":false}`. Sources: `udp://`, `rtp://`, `srt://`, `rist://`, `http(s)://` (MPEG-TS). 10 s to 24 h; two at once (409 for a third, or for a port one of the server's inputs uses) |
 | `GET /api/v1/analyses/{id}` | operator | The status, the full TR 101 290 report (`detail`), the rate measured from the PCR (`rate`), MDI and the minute-by-minute `timeline` |
 | `POST /api/v1/analyses/{id}/stop` | operator | End it now; the report is kept |
+| `POST /api/v1/analyses/{id}/again` | operator | Start a finished analysis again with the same settings (its address as given, passphrase included); answers like `POST /api/v1/analyses`. 400 while it still runs |
 | `DELETE /api/v1/analyses/{id}` | operator | Stop it if it runs, and remove its report |
 
 ## Users and security

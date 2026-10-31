@@ -89,7 +89,9 @@ So that you can plan for it:
 
 - **No payments.** Tickets, subscriptions and invoices are handled by your
   own website or billing system.
-- **No automatic ad breaks.** Adverts are part of the programme you play.
+- **No ad insertion of its own.** Adverts are part of the programme you play.
+  For an ad inserter at a head-end or TV operator, Unda can announce your ad
+  breaks with SCTE 35 cues ([Ad breaks](/guide/restreaming#ad-breaks-scte-35)).
 - **No public catch-up library.** Recordings are for your team in the
   dashboard; to publish them, download them and post them where your viewers
   watch.

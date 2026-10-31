@@ -17,7 +17,7 @@ internet, use [SRT](/guide/srt).
 
 ## Input
 
-Add an input on the dashboard's **Server** page (_UDP inputs_) or in the
+Add an input on the dashboard's **Broadcast** page (_UDP inputs_) or in the
 configuration file. Each input publishes as a stream with the name you give it,
 and is immediately available on every output. A UDP input takes H.264 video
 with AAC audio; for other formats, and for the settings a broadcast encoder
@@ -46,6 +46,34 @@ udp:
       allow: [192.168.1.20]
 ```
 
+### Two paths (SMPTE 2022-7)
+
+An RTP feed can arrive two ways at once, over two networks or two links, so a
+packet lost on one is taken from the other and the stream carries on if one
+link fails. Give the input a second address with `path2` (a port, an address
+or a multicast group; `interface2` joins that group on another interface):
+
+```yaml
+udp:
+  inputs:
+    - name: contribution
+      multicast: "239.1.1.1:5000"
+      interface: eth1
+      rtp: true
+      path2: "239.2.1.1:5000"
+      interface2: eth2
+```
+
+In the dashboard, tick **The sender wraps MPEG-TS in RTP** and fill in
+**Second path**. The input's row shows each path's own losses (what that path
+alone would have lost) and how many packets came both ways; **1 of 2 paths**
+shows while one has gone quiet, and Events notes when a path stops or comes
+back. Viewers see nothing of it while the other path brings everything. Both
+paths must carry the same RTP stream (one sender, or two outputs of one
+encoder sending the same packets); the copies are matched by packet number
+within the input's delay (200 ms). Plain UDP can't be merged (it has no
+packet numbers). MPTS inputs take `rtp://@239.1.1.1:5000?path2=@239.2.1.1:5000&iface2=eth2`.
+
 Send a test stream with `ffmpeg -re -i input.ts -c copy -f rtp_mpegts
 "rtp://SERVER:5004"`. The server reorders packets within its jitter window and
 reports RTP packets, loss and duplicates in the UDP input API. RTP has no
@@ -58,12 +86,13 @@ senders with `allow` and firewall rules. Use SRT over untrusted networks.
   yellow at 0.1% loss and red at 1% (over the last minute).
 - **What arrives is checked the way broadcast test equipment does**
   ([TR 101 290](/guide/mpts#transport-stream-checks-tr-101-290)). The input's row
-  under _UDP inputs_ and its stream page show **TR 101 290 clean**, or the
-  errors counted in the last minute; click it for the full report: lost
-  packets, the PCR interval, each PID and the tables the sender carries.
-  Priority 1 and 2 errors raise a warning. The sender's DVB tables (network
-  name, time) are in the report but never raise an alert, since many feeds
-  carry none.
+  under _UDP inputs_ and its stream page show **TR 101 290 clean**, **Plays
+  fine** when the sender only has faults that can't reach your viewers, or
+  **Viewers may see glitches** with what went wrong in the last minute
+  ([what reaches viewers](/guide/mpts#plays-fine-or-viewers-may-see-glitches)).
+  Click it for the report: what the errors mean, what to do, and the full
+  check (lost packets, the PCR interval, each PID and the tables the sender
+  carries). Only errors viewers can notice raise a warning.
 - A short delay (200 ms) smooths out bursts. Raw MPEG-TS has no sequence numbers
   and cannot be reordered; RTP inputs use RTP sequence numbers to restore order.
 - At high bitrates, raise Linux's receive buffer limit:
@@ -72,6 +101,13 @@ senders with `allow` and firewall rules. Use SRT over untrusted networks.
 - Inputs added in the dashboard are kept when the server restarts. One that
   can't start then (its port taken by another program, its network interface
   not up yet) is reported in Events and tried again at the next start.
+- **Edit** on an input's row changes its address, interface, RTP, second
+  path, allowed senders and timeout; the name stays (it is the stream's
+  name). Saving opens the socket again, so a live stream starts again with
+  the next packets (viewers lose it for a few seconds; Unda asks first). If
+  the new settings can't open (the port is in use), the input goes on with
+  the old ones and the reason is shown. Inputs listed in the configuration
+  file are changed there.
 
 ## Output
 

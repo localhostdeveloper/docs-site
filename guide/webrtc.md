@@ -85,7 +85,7 @@ already live is refused unless `rtmp.publish_policy` is `replace`.
 The stream's **Output** tab lists both addresses.
 
 Viewers hear the sound when the server's FFmpeg has the Opus encoder
-(libopus; Ubuntu's FFmpeg package has it). **Server → Connect** says when it
+(libopus; Ubuntu's FFmpeg package has it). **Server → Encoders** says when it
 doesn't. One converter per stream serves all its viewers.
 
 ## Networks that block UDP: a TURN relay

@@ -133,14 +133,33 @@ outputs always encode on the CPU.
 
 Unda keeps the card's encoder below about 85 % and leaves the rest of the work
 to the CPU. It learns what your card really costs while its jobs run and
-keeps that, so after a restart the same jobs go to the card. If the card's
-encoder still stays above 95 % for 30 seconds, Unda moves one adaptive
-stream to the CPU, then checks again; viewers of that adaptive stream start
-again once. 24/7 channels and TV outputs stay where they started.
+keeps that, so after a restart the same jobs go to the card.
 
-**Server → Transcoding** shows each card's load and how many jobs it has,
-and a stream's Output tab, a 24/7 channel's Output tab and the Restream rows
-say where each job runs. On a server with an RTX A5000, moving two 1080p
+Jobs don't have to stay where they started. Unda moves them by itself, with
+no restart needed:
+
+- **The card is full** (encoder above 95 % for 30 seconds): one job at a
+  time moves to the CPU, as long as the CPU has room (under 70 %).
+- **The CPU is overloaded** (85 % or more for 30 seconds): jobs on the CPU
+  go back to the card at once, up to four at a time, while it has room.
+- **Otherwise**, work on the CPU still goes back to a card with room, one
+  job at a time.
+
+What a move costs depends on the job, so they don't all move the same way:
+
+| Job | When it moves | What viewers notice |
+|---|---|---|
+| Adaptive stream | First, whenever needed | Nothing much: players carry on |
+| 24/7 channel | While the card or the CPU is overloaded, the least watched first; otherwise only while nobody watches it, or as a programme starts | The stream restarts: players reload (about 10 seconds on the watch page), restreams and recordings reconnect |
+| TV output | Only while the card or the CPU is overloaded, last | A break of a few seconds on that output |
+
+A job that moved stays put for 10 minutes, so nothing goes back and forth.
+When the card and the CPU are both full, nothing moves, and the CPU alert
+says the server has no encoding room left.
+
+**Server → Transcoding** shows each card's load, where every job runs and the
+latest moves, and each move is in **Events**. A stream's Output tab, a 24/7
+channel's Output tab and the Restream rows also say where each job runs. On a server with an RTX A5000, moving two 1080p
 adaptive streams and fourteen 720p 24/7 channels onto the card halved the CPU
 they used.
 

@@ -41,7 +41,7 @@ password when they open it.
 
 ## Two-factor sign-in
 
-Each person can turn on two-factor sign-in under **Account** with any
+Each person can turn on two-factor sign-in under **Account** (staff: **Server → Account**) with any
 authenticator app (Google Authenticator, Microsoft Authenticator, 1Password,
 Authy…): scan the QR code shown there with the app, or type the key shown
 under it, then enter the 6-digit code the app gives. They also get 10
@@ -81,7 +81,7 @@ same limit.
 
 ## API keys
 
-For scripts and monitoring, **API keys** creates a key (`gsk_…`) with a role.
+For scripts and monitoring, **Server → API keys** creates a key (`gsk_…`) with a role.
 Send it as `Authorization: Bearer gsk_…`. It is shown once; revoke it when it
 is no longer needed. See the [REST API](/reference/api).
 

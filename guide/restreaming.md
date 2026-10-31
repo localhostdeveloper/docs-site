@@ -24,6 +24,14 @@ URL, key included:
 
 Use the exact URL and key the platform gives you.
 
+**Edit** on a destination's row changes its name, its address or how it is
+sent (as it is, or re-encoded for broadcast TV) without removing it. Leave
+the address empty to keep the saved one and its key: the key is never shown
+again, so you don't have to type it again either. A destination that is
+sending restarts with the new settings (Unda asks first), so its receiving
+side loses the stream for a few seconds; a paused one stays paused.
+Destinations listed in `unda.yaml` are changed in the file.
+
 [![A stream's Restream tab: a live YouTube destination, a paused Facebook one, and the form to add another](/screens/restream.webp)](/screens/restream.webp)
 
 ## How it behaves
@@ -103,7 +111,26 @@ adds 1/`fec_d` to the bitrate (10 % at the default), row FEC another
 and `fec_l` × `fec_d` at most 100. Use the values from your receiver's
 documentation or the operator's spec sheet; the FEC ports (+2 and +4) must be
 open on the way. A receiver without FEC ignores them and plays the stream as
-usual. Over the internet, prefer SRT or RIST, which resend what was lost.
+usual. Over the internet, prefer SRT or RIST, which resend what was lost (RIST
+can also be encrypted: [Encrypted RIST](/guide/mpts#encrypted-rist-main-profile)).
+
+### Two paths (SMPTE 2022-7)
+
+To send over two networks at once, so the receiver can take each packet from
+whichever path brought it, add a second destination with `path2` (and
+`iface2` for its multicast interface):
+
+```
+rtp://239.1.1.20:5000?path2=239.2.1.20:5000&iface2=eth2
+rist://gateway-a.example.net:5000?path2=gateway-b.example.net:5000
+```
+
+Every packet goes both ways, byte for byte (with RTP, its FEC too), so a
+receiver that merges two paths (SMPTE 2022-7, or a RIST receiver with two
+inputs) loses nothing while either path works. One path failing doesn't stop
+the output: the destination's row shows **2 paths** and names a path whose
+sends fail; for RIST, a path whose receiver stops reporting. SRT outputs
+don't take a second path.
 
 ## Broadcast TV (terrestrial and satellite)
 
@@ -176,7 +203,91 @@ must decode HE-AAC; MP2 is optional for them. For a station on such a network:
 
 Send it with `udp://` (unicast or multicast), `rtp://` (with
 [SMPTE 2022-1 FEC](#error-correction-for-rtp-smpte-2022-1) if the equipment
-expects it) or `srt://` (over the internet, encrypted). Ask the multiplexer operator for the bitrate reserved for
+expects it) or `srt://` (over the internet, encrypted; `srt://:port` when the
+station's receiver connects to you, see [below](#letting-the-receiver-connect-srt-listener)). Ask the multiplexer operator for the bitrate reserved for
 your service, and enter it as the constant total bitrate. Each broadcast
 destination runs its own encoder: plan for about a third of a CPU core for SD
 H.264, about one core for HD H.264 and about two for HEVC.
+
+### Letting the receiver connect (SRT listener)
+
+Some teleports and stations pull the channel: their receiver is an SRT
+*caller* and connects to you. Then give the TV output's destination an address without a host, and
+Unda waits on that port:
+
+```
+srt://:9000?passphrase=a-long-passphrase
+```
+
+- Give the receiving side this server's address, the port and the
+  passphrase. Open the UDP port in the server's firewall.
+- A listener needs a **passphrase** (10 to 79 characters) or the receivers'
+  **addresses**: `allow=203.0.113.7,198.51.100.0/24` takes only those. Use
+  both when you can. Without either, anyone who found the port could take the
+  channel, so Unda refuses the address.
+- `streamid=…` takes only receivers that ask for that stream ID;
+  `latency=` (milliseconds) is as for sending.
+- Up to 8 receivers at once (a main and a backup receiver, for example), each
+  sent the whole channel. A receiver that can't keep up is let go; its gear
+  connects again.
+- The encoder keeps running while nobody is connected, so a receiver gets the
+  channel the moment it connects. The row says who is connected, or that it is
+  waiting, and shows a refused receiver with the reason (wrong passphrase, an
+  address not allowed).
+- Pick a port nothing else on the server uses: not the server's own SRT port,
+  an input's or another output's.
+
+The receiver stays connected when the source stops and starts again: it
+gets the channel again as soon as there is something to send. Only TV
+outputs and bundles listen. A stream sent on as it is needs no listener: the
+receiver pulls it from the server's own SRT port with
+`streamid=read:<name>` ([SRT](/guide/srt)).
+
+Tested with TSDuck 3.45 (libsrt 1.5.7) as the receiver: the SD channel arrived
+at exactly 1300 kb/s with its tables and no continuity errors.
+
+### Ad breaks (SCTE 35)
+
+If a cable or IPTV head-end, a teleport or a TV operator puts its own adverts
+into your channel, its ad inserter needs to know when your programme makes
+room for them. Unda tells it with SCTE 35 cues.
+
+**Turn cues on** for each output that goes to such equipment:
+
+- **A TV output:** when adding it, tick **Re-encode for broadcast TV**, then
+  **Send ad cues (SCTE 35)**. The cues go on PID 258 unless you set another
+  under **PIDs**.
+- **A bundle channel:** tick its box in the bundle's **Cues** column (the
+  channel restarts, a few seconds off air), or tick **Send ad cues** under the
+  channel's PIDs when you add it. The PID is chosen automatically.
+
+The cue PID is listed in the channel's tables (PMT, with SCTE 35's `CUEI`
+registration), so equipment finds it by itself. In unda.yaml it is
+`ad_cues: true` (and `cue_pid:` if you need a fixed one) in a destination's
+`broadcast:` block or on a bundle channel.
+
+**Run a break** from the stream's page: the **Ad break** card on the
+**Overview** tab appears for operators once one of the stream's outputs sends
+cues. Choose how long the break lasts and press **Start ad break**:
+
+1. The programme leaves 4 seconds later. The cue goes out once a second until
+   then, so equipment that misses one still gets it.
+2. The card counts down while the break runs. The inserter comes back by
+   itself when it ends (the cue carries the break's length), and Unda also
+   sends a cue to come back.
+3. **End now** brings the programme back 2 seconds later. Pressed before the
+   break has begun, it withdraws the break.
+
+Each output places its cues in its own picture timeline, so a re-encoded output
+is as exact as one sent as it is. Between breaks a short keep-alive cue goes out
+every second, so monitoring equipment sees the cue stream alive. Cues that
+arrive in a feed are never passed on: a contribution feed can't make equipment
+downstream replace your programme.
+
+Breaks are started by operators and above, at most one change every 2 seconds
+per stream, and each is recorded in the audit log and the event log. Scripts
+can use `POST /api/v1/streams/NAME/ad-break` with `{"seconds": 60}`, and
+`DELETE` for End now ([API](/reference/api)). Checked with TSDuck's splice
+monitor on a TV output and a bundle channel: every cue reads back with its
+time, length and automatic return, the bitrate stays exact, and the stream
+has no errors.

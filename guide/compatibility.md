@@ -58,8 +58,9 @@ Also good to know:
 
 - **Scrambled channels** (BISS, conditional access) can't be descrambled by
   Unda. The receiver must send them in the clear.
-- Each stream keeps **one video and one audio track**. Subtitles, teletext and
-  SCTE-35 cue messages are not carried through.
+- Each stream keeps **one video and one audio track**, with the closed
+  captions inside the video ([CEA-608/708](/guide/watching#closed-captions)).
+  Subtitles, teletext and SCTE-35 cue messages are not carried through.
 
 ### Example: a broadcast encoder on the same network
 
@@ -73,7 +74,7 @@ warning. Plan 1 to 2 CPU cores per HD channel converted like this.
 
 1. On the encoder, set the IP output to the server's address and a port
    (unicast, the simplest), or to a multicast group.
-2. In `unda.yaml` (or the dashboard: Server → MPTS inputs):
+2. In `unda.yaml` (or the dashboard: Broadcast → MPTS inputs):
 
    ```yaml
    mpts_inputs:

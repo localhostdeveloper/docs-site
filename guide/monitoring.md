@@ -156,13 +156,37 @@ Unda raises these by itself; each one clears by itself once the cause is gone.
 | No data | nothing received from the encoder for 5 seconds |
 | Bitrate low | the stream fell under half its usual bitrate for 10 seconds |
 | Keyframe interval | keyframes further apart than 4 s (critical above 10 s) |
+| Adaptive bitrate | a stream set to adaptive bitrate has none: it failed, or it can't be made (for example, a stream with no picture). Viewers still get the stream as sent |
 | Reconnects | the encoder reconnected 3 or more times in an hour |
 | Near the bandwidth cap | egress above 80% of `limits.max_egress_mbps` |
-| Recording disk | the recordings disk is 85% full (critical at 95%) |
+| Disk | a disk Unda writes to (database, recordings, HLS segments, media) is 85% full or has under 5 GB free; critical at 95% or under 2 GB |
 | Certificate | the HTTPS certificate is close to expiry and not being renewed |
 | CPU high | CPU above 85% for a minute (critical above 95%): streams may stutter |
+| Memory low | the machine has under 10% of its memory free, or under 500 MB (critical under 5% or 250 MB): the system may soon stop a program to free some (Linux) |
 | Possible leak | the server's memory keeps growing with the same load |
 | No sound | a channel has been silent for 10 seconds (critical after a minute), or carries no sound track; see [No sound](#no-sound) |
+| Picture frozen | a channel's picture has not moved for 20 seconds (critical a minute later); see [Frozen or black picture](#frozen-or-black-picture) |
+| Picture black | a channel's picture has been black for 10 seconds (critical a minute later) |
+| Internal error | a fault inside Unda was caught: only that job (one channel, one restream) stopped and started again. Shown for an hour; please send the server log to support |
+
+### Clearing an alert
+
+When you have seen an alert and there is nothing more to do for now (a guest
+on a weak connection, a channel you know is silent for a while), clear it: the
+✓ button on its Multiview tile, **Clear** in the Multiview list or details, or
+**Clear** under it in **Needs attention** on the Overview.
+
+It is cleared for everyone. The tile goes back to its normal colours with a
+small grey **1 cleared** mark, the alert leaves the count beside Overview in
+the menu, and Needs attention shows it faded, with who cleared it and when.
+Point at the mark to read the alert, or choose **Show again** from it.
+
+A cleared alert comes back by itself when it gets worse (a warning turning
+critical) or when it ends and happens again. A restart of the server starts
+the alerts afresh, so anything still wrong is raised again. Operators and
+above can clear alerts; a client sees that the server's staff cleared their
+channel's alert. Clearing doesn't change the messages sent to Slack, Discord
+or your own system.
 
 ## No sound
 
@@ -184,6 +208,53 @@ monitoring:
 
 It needs FFmpeg on the server (as the Multiview pictures do). Each channel
 costs a small sound decoder: about 0.5% of a CPU core and 15 MB of memory.
+
+## Frozen or black picture
+
+Unda also watches every live channel's picture. Every few seconds it
+compares the newest keyframe with the one before. When the picture stops
+moving (a camera or capture card that froze, a stuck player while the sound
+goes on) it raises **Picture frozen** after 20 seconds; a black picture
+raises **Picture black** after 10 seconds. Both turn critical a minute
+later, show red in the Multiview, and clear as soon as the picture moves
+again.
+
+A channel whose picture stands still on purpose, such as a radio station
+showing its logo or a channel of slides, can switch the frozen-picture alarm
+off: on the channel's **Output** tab, turn on **A still picture is normal**.
+Black still raises its alarm. A channel showing its slate (backup sources) or
+its filler between programmes (24/7 channels) raises neither: the backup and
+playout alerts already say so. The stream page's **Overview** shows the
+picture as Moving, Not moving or Black.
+
+```yaml
+monitoring:
+  frozen_alarm_seconds: 20       # 5 to 3600
+  black_alarm_seconds: 10        # 3 to 3600
+  # disable_picture_check: true  # no picture alarms
+```
+
+It needs FFmpeg on the server. Each channel costs one small decoder that
+reads one keyframe every few seconds.
+
+## History and channel reports
+
+Server → **History** draws the server's figures over the last 24 hours, 7
+days, 30 days or 13 months: viewers, what it sends and receives, streams on
+air, CPU and memory. Each point is a period's average, and the peak shown is
+the highest moment. Unda keeps a figure every minute for 2 days, every 15
+minutes for a month and every hour for 13 months, in its database (so the
+daily backups carry them). A year of figures for a server with 30 channels
+takes about 45 MB.
+
+Below the charts, the **Channel report** gives each channel's record for the
+last 7 or 30 days, this month or last month: how long it was on air, its
+**interruptions** (the encoder's connection dropped and came back within 5
+minutes, with the time lost and the longest), its **stops** (away longer, or
+stopped on purpose), its average bitrate and its most viewers at once.
+**Download CSV** gives the same as a file. A graceful restart of the server
+is not counted against any channel. Clients see their own channels' on-air
+time and interruptions on each channel's **Viewers** tab.
 
 ## Messages to Slack, Discord or your own system
 

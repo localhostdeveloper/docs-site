@@ -106,6 +106,19 @@ The videos are the channel's own files and the shared ones on the
 **What plays**: the files go into the channel's own folder and can be looped
 or put in the playlist as soon as they have been checked.
 
+### A logo on the playlist
+
+The **Logo** card on the Input tab puts your logo on the playlist or looped
+video, so viewers still see it while the live feed is down. It works like a
+[24/7 channel's logo](/guide/playout#the-channels-logo): choose a PNG or
+JPEG, the corner, the size and the opacity, and **Save logo**. It is on air
+from the playlist's next picture. The card appears once the playlist is one
+of the channel's inputs.
+
+The logo goes on the playlist or looped video only. The live encoder and pull
+streams are passed on as they come, with no logo added, in both direct and
+seamless switching. The logo is removed with the channel.
+
 ## What viewers see
 
 | Moment | Viewers see |
@@ -176,7 +189,7 @@ limited to 16 channels, and changing its settings restarts the stream.
 | Switch inputs on or off, choose the order | ✓ | ✓ |
 | The timings above | ✓ | ✓ |
 | Pull address | public HLS and HTTP links | any address, RTMP, RTSP |
-| The playlist or looped video | ✓ | ✓ |
+| The playlist or looped video, and its logo | ✓ | ✓ |
 | **Use now**, extra inputs (a [UDP input](/guide/udp), a program of a [multi-channel input](/guide/mpts), another channel) | | ✓ |
 | Seamless switching and its picture settings | | ✓ |
 
@@ -228,6 +241,10 @@ server, and HLS and RTMP viewers decoding every frame:
 - A client account entering a public HTTPS HLS link (it played), and an
   address on a private network (refused).
 - A Starter licence: the greyed options.
+- The playlist logo, measured in the pictures viewers get: on the looped video,
+  not on the live encoder while it was on air, back on the video when the
+  encoder stopped (direct switching); and in seamless switching, none on the
+  live encoder's pictures and the logo once the backup took over.
 
 For direct switching, set every encoder feeding the channel the same way
 (see "encoded alike" above), OBS and vMix included.

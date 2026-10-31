@@ -24,7 +24,10 @@ recordings/main-show/2026-09-25_19-30-00.ts
   every file plays on its own. Change it with `record.split_duration_minutes`.
 - **Clean-up:** `record.retention_days: 30` deletes recordings older than 30
   days. It is off by default: nothing is deleted unless you ask.
-- The dashboard warns when the recordings disk is 85% full, and again at 95%.
+- The dashboard warns when the recordings disk is 85% full or has under 5 GB
+  free, and again at 95% or under 2 GB. With under 2 GB free a recording won't
+  start, and under 1 GB running recordings stop, their files closed cleanly,
+  so a full disk can't cut a file off or starve live viewers.
 
 Recording can also be controlled from scripts:
 

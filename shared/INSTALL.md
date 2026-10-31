@@ -70,6 +70,7 @@ services:
       - "443:8443"          # HTTPS: dashboard, watch pages, HLS
       - "80:8080"           # HTTP: redirects to HTTPS, answers Let's Encrypt
       - "1935:1935"         # RTMP (encoders)
+      - "1936:1936"         # RTMPS (encoders, encrypted)
       - "6000:6000/udp"     # SRT (encoders, optional)
       - "8189:8189/udp"     # WebRTC media: WHIP encoders, low-latency viewers (optional)
     volumes:
@@ -317,6 +318,10 @@ the certificate comes from is up to you, from most to least independent:
      --https-port 8443 --rtmp-port 1936
    ```
 
+   RTMPS then takes port 1937 (1936 is plain RTMP's here): encoders use
+   `rtmps://unda.example.com:1937/live`. Add `--rtmps-port N` for another
+   port, or `--rtmps-port 0` for none.
+
 2. **A certificate you bought**, or one the other program already renews for
    the same name: the same `--cert-file`/`--key-file` options. Unda then
    depends on that program keeping it renewed.
@@ -501,14 +506,14 @@ read -rs PW && printf '%s\n' "$PW" | docker compose exec -T unda \
   unda admin -config /etc/unda/unda.yaml create-user you@example.com owner "Your Name"
 ```
 
-Then, under **Account**, turn on **two-factor sign-in** (any authenticator app)
+Then, under **Server → Account**, turn on **two-factor sign-in** (any authenticator app)
 and store the recovery codes in your password manager.
 
 ---
 
 ## 4. Install the license
 
-As the owner: **License** → *Install a license* → choose your `.license.json`
+As the owner: **Server → License** → *Install a license* → choose your `.license.json`
 file → **Install**. Or from the shell:
 
 ```bash
@@ -542,7 +547,7 @@ server:
   public_domains: [tv.example.com]
 ```
 
-The License page shows the domains a license is for, and says so when this
+**Server → License** shows the domains a license is for, and says so when this
 server's domain is not one of them.
 
 The license is checked on the server, offline. Nothing is sent to your vendor.
@@ -567,7 +572,7 @@ Useful settings:
 - **Users → Security**: require two-factor sign-in for roles (for example
   owner, admin and operator). People in those roles must set it up at their
   next sign-in before they can do anything else.
-- **API keys** (admin): for scripts and Prometheus. Each key has a role, is
+- **Server → API keys** (admin): for scripts and Prometheus. Each key has a role, is
   shown once and can be revoked. Prometheus: `authorization.credentials_file`
   holding an operator key, scraping `https://tv.example.com/metrics`.
 - **Audit log** (admin): who did what — sign-ins, failed sign-ins, role
@@ -593,7 +598,9 @@ the only thing that lets someone go live on it.
    a streamer; a streamer creates their own.
 2. The page shows the encoder settings. In OBS: **Settings → Stream → Service
    “Custom…”**, then:
-   - Server: `rtmp://tv.example.com:1935/live`
+   - Server: `rtmp://tv.example.com:1935/live`, or over the internet
+     `rtmps://tv.example.com:1936/live` (RTMPS: the key and the pictures
+     travel encrypted; OBS, vMix and FFmpeg support it)
    - Stream key: the `sk_…` key
 3. Start streaming. Within a few seconds it appears under **Streams** as
    `main-show`.
@@ -622,9 +629,17 @@ Open only what is used:
 sudo ufw allow 443/tcp     # HTTPS: dashboard, watch pages, HLS
 sudo ufw allow 80/tcp      # Let's Encrypt checks and the HTTP → HTTPS redirect
 sudo ufw allow 1935/tcp    # RTMP encoders
+sudo ufw allow 1936/tcp    # RTMPS encoders (RTMP over TLS, encrypted)
 sudo ufw allow 6000/udp    # SRT encoders (if used)
 sudo ufw allow 8189/udp    # WebRTC media: WHIP encoders, low-latency viewers (if used)
 ```
+
+RTMPS is on by default whenever Unda has HTTPS: same certificate, port 1936
+(1937 if plain RTMP was moved to 1936). Plain RTMP sends the stream key and
+the pictures as they are, so anyone on the path can copy the key: over the
+internet prefer RTMPS, SRT with a passphrase, or WHIP. `server.rtmps_addr`
+sets another port, or `off` turns RTMPS off. If its port is taken by another
+program, Unda starts without RTMPS and says so in its log.
 
 WebRTC's signalling goes through HTTPS (443); its audio and video use the one
 UDP port `webrtc.udp_port` (8189). Behind 1:1 NAT (Docker's bridge, a cloud
@@ -849,7 +864,7 @@ Your vendor has **no account and no way in** unless you give them one.
 | “signing in over plain HTTP is only allowed from this machine” | Use the HTTPS address. Behind a proxy, check `server.trusted_proxies` lists it and that it sends `X-Forwarded-Proto` |
 | “cross-site request refused” | The proxy changes the `Host` header; keep it (`proxy_set_header Host $host`) |
 | Dashboard stays on “Reconnecting…” behind nginx | Add `proxy_buffering off` (live updates are a long-lived response) |
-| An encoder is refused with “license limit” | The license's concurrent stream limit is reached (or evaluation's 2). See **License** |
+| An encoder is refused with “license limit” | The license's concurrent stream limit is reached (or evaluation's 2). See **Server → License** |
 | The encoder is refused and the key looks right | The channel's key was replaced (**New key**), or the channel was deleted. Copy the key again from **Channels** |
 | “… is at schema version N, newer than this build knows” | An older version was started on a database from a newer one: restore the pre-upgrade backup or run the newer version |
 | The banner says “invalid” | The license file is damaged or signed for another build: ask your vendor for a new file |

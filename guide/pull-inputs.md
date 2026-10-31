@@ -29,7 +29,7 @@ stream, from public HLS and HTTP links only, as one of its
 
 ## Add one
 
-On the dashboard, open **Server → Pull inputs**, give the stream a name and
+On the dashboard, open **Broadcast → Pull inputs**, give the stream a name and
 paste the source address:
 
 | Source | Address |
@@ -75,7 +75,8 @@ curl -X POST -H "Authorization: Bearer $KEY" \
 - **Audio:** AAC is passed through; anything else (MP2, AC-3, a camera's
   G.711) is converted to AAC by itself. The row says "audio converted".
 - **One video and one audio track** are kept: the first of each (for HLS, those
-  of the chosen quality). Subtitles are not carried.
+  of the chosen quality), with the closed captions inside the video. Subtitles
+  are not carried.
 - **Pacing:** what the source hands over in a burst (the first HLS segments,
   FFmpeg's probe) is released at the stream's own pace, so viewers, bundles and
   TV outputs get a steady stream.

@@ -18,6 +18,41 @@ mean: [Releases and support](/guide/releases).
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+The installer opens port 1936 (RTMPS) in ufw when ufw is on; open it in your
+provider's firewall too, and with Docker publish `1936:1936`. Set
+`server.rtmps_addr: off` if you don't want RTMPS.
+
+- **RTMPS for encoders:** OBS, vMix and FFmpeg can publish over RTMPS (RTMP with encryption) on port 1936 whenever the server has HTTPS, so the stream key and the pictures can't be copied on the way. A channel's encoder settings now show it first ([Stream from OBS](/guide/streaming#obs-studio)).
+- Work now moves between the graphics card and the CPU by itself. When the CPU is overloaded, jobs go back to the card as soon as it has room; when the card is full, jobs go to the CPU. A restart no longer leaves the CPU struggling beside a card with room ([Graphics cards](/guide/transcoding#graphics-cards)).
+- A fault in one channel, restream or viewer no longer stops the whole server: only that job starts again, and the dashboard says so for an hour.
+- A server that stops responding restarts itself instead of staying frozen.
+- When a disk is nearly full, recordings stop cleanly and streams keep playing. The dashboard warns for every disk Unda writes to, and when the machine is nearly out of memory.
+- A 24/7 channel that keeps falling behind starts its playback again by itself, without viewers losing the stream.
+- RTMP viewers of a 24/7 channel on air for more than 49 days keep their picture.
+- When an encoder changes its resolution mid-stream, HLS viewers' players start afresh with the new picture instead of showing it broken.
+- Transport-stream checks on incoming feeds now say what matters to your viewers. A feed whose sender only has faults Unda corrects (its clock or tables) shows **Plays fine** and raises no alert; lost or damaged packets show **Viewers may see glitches** with what to do ([Transport-stream checks](/guide/mpts#plays-fine-or-viewers-may-see-glitches)).
+- Unda reopens its RTMP and SRT ports by itself if the system closes them, and warns while one is down.
+- Unda now notices when a channel's picture freezes or goes black, even while its sound carries on, and raises an alarm. A channel whose picture stands still on purpose, such as a radio station showing its logo, can turn the frozen-picture alarm off ([Frozen or black picture](/guide/monitoring#frozen-or-black-picture)).
+- Closed captions inside the picture now stay with streams that arrive over SRT, UDP, RTP or RIST, from bundles and from pull inputs, as they already did over RTMP. They reach HLS, recordings, TV outputs and every quality of adaptive bitrate, and the dashboard's player has a CC button ([Closed captions](/guide/watching#closed-captions)).
+- The server's figures are now kept for 13 months, not just the last hour: Server → History shows viewers, bandwidth, CPU and memory over a day, a week, a month or a year, and a channel report gives each channel's time on air, interruptions and stops, also as a CSV file ([History and channel reports](/guide/monitoring#history-and-channel-reports)).
+- **A logo on a channel's backup playlist:** a live channel's playlist or looped video can carry your logo, so viewers still see it while the live feed is down. The live encoder and pull streams are left as they come ([A logo on the playlist](/guide/channel-inputs#a-logo-on-the-playlist)).
+- **Ad breaks for TV operators (SCTE 35):** start an ad break from a stream's page, and its TV outputs and bundle channels tell the ad inserter downstream when to leave the programme and when to come back, with a countdown and End now. Cues arriving in a feed are never passed on ([Ad breaks](/guide/restreaming#ad-breaks-scte-35)).
+- **Encrypted RIST:** bundles, TV outputs and restreams can be sent, and bundle inputs received, with RIST Main Profile and a passphrase (AES-128 or AES-256), so a feed crossing the internet can't be watched on the way. It works with librist-based equipment and software, and a wrong passphrase is named on the input and in its alert ([Encrypted RIST](/guide/mpts#encrypted-rist-main-profile)).
+- The Overview stays accurate when something goes wrong: a figure that stops arriving says "not updated" instead of showing an old or empty value, and a part of the page that can't be shown no longer stops the rest. A stream whose adaptive bitrate fails is now an alert, so it shows on Multiview too and can be cleared.
+- **A new watch page.** `/watch/<channel>` is now the channel's own page: its logo, title and tagline, a player with its own controls (quality with what each costs, LIVE and going back, low latency, captions, full screen), what's on now and next, and the day's schedule. On a phone it fits the screen, and sideways the player fills it. Set it up on the channel's Output tab ([The player page](/guide/watching#the-player-page)).
+- **Put a channel on another website:** the Output tab gives the code for a player in the site's own colour, which waits for a tap before it plays ([Embedding on your website](/guide/watching#embedding-on-your-website)).
+- **Clear an alert you have seen:** on the Multiview (a tile, the list or the details) and in the Overview's Needs attention, clearing an alert calms it for everyone, with who cleared it. It comes back by itself if it gets worse or happens again ([Clearing an alert](/guide/monitoring#clearing-an-alert)).
+- RTP and RIST can now use two network paths at once (SMPTE 2022-7): outputs send every packet both ways, and inputs merge the two, so a packet lost on one path is taken from the other and a failed link goes unnoticed by viewers ([UDP inputs](/guide/udp#two-paths-smpte-2022-7), [outputs](/guide/restreaming#two-paths-smpte-2022-7)).
+- SRT streams Unda sends no longer fill the receiving equipment's log with an error several times a second, and that equipment now measures the round trip properly. It affected SRT receivers built on libsrt, which most hardware and software uses.
+- Encoders and gateways that start an SRT stream with a very short first message, or send one transport-stream packet per UDP datagram, are now accepted. Before, Unda dropped them as soon as they connected.
+- A multicast input, relay or analysis with no network interface chosen now joins its group on the right network card by itself. On a Mac it used to fail with "can't assign requested address".
+- **A tidier menu:** broadcast work (UDP, pull and MPTS inputs, MPTS outputs, relays and the stream analyser) has its own **Broadcast** page, and **API keys**, **License** and **Account** are now tabs of the **Server** page, so the Server page has one row of tabs and the menu is shorter. Old links and bookmarks still open the right page ([A tour of the dashboard](/guide/dashboard)).
+- **Relays:** pass a transport stream on exactly as it arrives, for example an encoder's UDP output to a TV station over SRT, with every channel, sound track, subtitle and table, to up to four destinations. Unda checks what arrives, counts lost packets, and raises an alert when the feed stops or a destination can't be reached ([Relays](/guide/relays)).
+- **Let the station's receiver connect to you:** a TV output or a bundle can wait on an SRT port for the station's or teleport's receiver, with a passphrase or a list of allowed addresses, instead of Unda connecting out. Up to 8 receivers at once, and the page shows who is connected ([TV outputs](/guide/restreaming#letting-the-receiver-connect-srt-listener), [bundles](/guide/mpts#letting-the-receiver-connect-srt-listener)).
+- **Edit instead of remove and add:** restream destinations, relays, UDP and MPTS inputs, bundles and each bundle channel now have **Edit**. Leave an address empty to keep it with its passphrase or stream key, only what you change restarts (a relay's other destinations and a bundle's other channels carry on), and settings that can't start leave things as they were. A finished analysis can be run again with one click.
+
 ## v0.1.48 {#v0-1-48}
 
 *29 October 2026*

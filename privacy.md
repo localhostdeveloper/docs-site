@@ -39,7 +39,7 @@ description: What UndaMedia collects on this website and through Unda Media Serv
 </ul>
 <p>The licence is a signed file checked on your server. There is no activation call and no usage reporting to us.</p>
 <h3>Support access</h3>
-<p>We can sign in to your server only when its owner gives us support access from the License page. That access ends by itself at the time the owner chose, or sooner if they remove it, and everything we do is in your audit log. We use what we see only to help with the problem you asked about.</p>
+<p>We can sign in to your server only when its owner gives us support access under Server → License in the dashboard. That access ends by itself at the time the owner chose, or sooner if they remove it, and everything we do is in your audit log. We use what we see only to help with the problem you asked about.</p>
 <h3>Managed hosting</h3>
 <p>If we run the server for you, your data is on a server we manage on your behalf. We access it only to run, maintain and support it, and the details are in our agreement with you.</p>
 <h2>Who we share information with</h2>

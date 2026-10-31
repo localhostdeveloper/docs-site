@@ -25,7 +25,8 @@ warnings, errors) stays on the page.
 The first page after signing in. Live streams, viewers, incoming and outgoing
 bandwidth (with a bandwidth cap set, how many more viewers the server has room
 for), and charts of the last hour. **Needs attention** lists open alerts, worst first: here, a
-camera whose keyframes are too far apart. The dot at the bottom of the sidebar
+camera whose keyframes are too far apart. **Clear** calms one you have seen, for everyone, until
+it gets worse or happens again ([Clearing an alert](/guide/monitoring#clearing-an-alert)). The dot at the bottom of the sidebar
 shows the live connection to the server; if it drops, the page greys out and
 says so.
 
@@ -100,6 +101,11 @@ events, and buttons to its stream page, its watch page and its viewer
 figures. On screens narrower than about 1100 pixels there is no room for the
 details, and a picture opens the channel's stream page instead. **Full
 screen** fills the screen with Multiview, for a wall monitor.
+
+An alert you have seen can be cleared with the ✓ beside its tile's line (or
+**Clear** in the list and the details): the tile calms down for everyone, with
+a small grey **1 cleared** mark, until the alert gets worse or happens again
+([Clearing an alert](/guide/monitoring#clearing-an-alert)).
 
 **List.** One line per channel, grouped into encoders, 24/7 channels and
 pulled streams: its picture, status, bitrate and graph, sound, viewers, what
@@ -187,7 +193,7 @@ type it, and opens the new channel's encoder settings.
 [![Users: inviting people and setting their roles](/screens/users.webp)](/screens/users.webp)
 
 People join by invitation, with a role: owner, admin, operator or streamer.
-Two-factor sign-in can be required per role. **API keys** and the
+Two-factor sign-in can be required per role. **Server → API keys** and the
 **Audit log** sit next to it in the sidebar.
 
 ## Recordings
@@ -213,14 +219,26 @@ channel).
 
 [![The Guide page: what each channel is showing now, and the day's programmes on a timeline](/screens/guide.webp)](/screens/guide.webp)
 
+## Broadcast
+
+TV and IPTV delivery, for operators and above, from what comes in to what goes
+out: **UDP inputs** (hardware encoders and IPTV headends), **Pull inputs**
+(streams the server fetches), **MPTS inputs** and **MPTS outputs**
+([multi-channel bundles](/guide/mpts)), **Relays** ([a transport stream passed
+on untouched](/guide/relays)) and **Analyse** ([the stream
+analyser](/guide/analyser)).
+
 ## Server settings
 
 [![The Server page: bandwidth, CPU and memory now and over the last hour](/screens/server.webp)](/screens/server.webp)
 
 How the server is doing (bandwidth, CPU, memory over the last hour, refused
-requests), plus tabs for the addresses to give encoders, HTTPS certificates,
-transcoding hardware, UDP inputs, [multi-channel bundles](/guide/mpts),
-capacity and signed playback.
+requests), with tabs for its **History** over days and months, **Capacity**,
+**Encoders** (the addresses and keys to give OBS, vMix or an encoder),
+**HTTPS** certificates, **Transcoding**, **Playback** (signed links and
+rewind), the programme **Guide** links, **API keys** (admins), the
+**License** and your **Account**. Clients don't see this page: their
+**Account** is in the menu.
 
 **Database backups** (Status tab, admins and owners) shows the newest daily
 copy, how many days are kept and when the next one is made. An owner can also
@@ -234,7 +252,9 @@ on the server; see [Backups and upgrades](/guide/install#8-backups-and-upgrades)
 
 ## License
 
-[![The License page: who the license is for, its expiry, limits and features](/screens/license.webp)](/screens/license.webp)
+**Server → License** (operators and above).
+
+[![Server → License: who the license is for, its expiry, limits and features](/screens/license.webp)](/screens/license.webp)
 
 Who the license is for, when it ends, how much of it is in use, and which
 features it includes. The owner installs a new license here, and can give the
@@ -243,7 +263,7 @@ vendor time-limited support access. See [License](/guide/license).
 ## Light or dark
 
 The dashboard is light by default. The moon button at the bottom of the
-sidebar switches to dark, and **Account → Appearance** can follow your
+sidebar switches to dark, and **Server → Account → Appearance** (clients: **Account → Appearance**) can follow your
 computer's setting instead.
 
 [![The Overview page in the dark theme](/screens/overview-dark.webp)](/screens/overview-dark.webp)

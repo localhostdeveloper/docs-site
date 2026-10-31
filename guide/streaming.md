@@ -15,8 +15,14 @@ stream key (`sk_…`) to paste into your encoder. In the examples below,
 **Settings → Stream**
 
 - Service: **Custom…**
-- Server: `rtmp://tv.example.com:1935/live`
+- Server: `rtmps://tv.example.com:1936/live` (or `rtmp://tv.example.com:1935/live`)
 - Stream Key: `sk_…`
+
+**Use `rtmps://` over the internet.** Plain RTMP sends the stream key and the
+pictures as they are, so anyone on the way can copy the key and take over the
+channel. RTMPS is the same with encryption, on port 1936, using the server's
+HTTPS certificate; it is on whenever the server has HTTPS. The channel's
+encoder settings in the dashboard show both addresses.
 
 **Settings → Output** (Output Mode: *Advanced*) **→ Streaming**
 
@@ -62,7 +68,7 @@ enabled on the server (see [SRT](/guide/srt)).
 Open the streaming settings (the gear next to **Stream**):
 
 - Destination: **Custom RTMP Server**
-- URL: `rtmp://tv.example.com:1935/live`
+- URL: `rtmps://tv.example.com:1936/live` (or `rtmp://tv.example.com:1935/live`)
 - Stream Name or Key: `sk_…`
 - Quality: a profile with **H.264 video and AAC audio**, with the keyframe
   interval set to 2 seconds.

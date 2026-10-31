@@ -102,6 +102,7 @@ const docsSidebar = [
       { text: "Broadcast encoders (IP)", link: "/guide/broadcast-encoders" },
       { text: "Pull inputs (HLS, RTSP…)", link: "/guide/pull-inputs" },
       { text: "Multi-channel (MPTS)", link: "/guide/mpts" },
+      { text: "Relays", link: "/guide/relays" },
       { text: "Stream analyser", link: "/guide/analyser" },
       { text: "Monitoring and alerts", link: "/guide/monitoring" },
       { text: "License", link: "/guide/license" },

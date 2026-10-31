@@ -40,10 +40,10 @@ encoder sends:
 
 | The encoder sends | Add | Where |
 |---|---|---|
-| One channel, H.264 video and AAC audio (ADTS) | A UDP input (the lightest), or a Multi-channel input | Server → UDP inputs |
-| H.264 with MP2, AC-3, or AAC packed as LATM/LOAS | An MPTS input: it converts the audio to AAC | Server → MPTS inputs |
-| MPEG-2 or HEVC video | An MPTS input with `transcode_video: true`: it converts the video to H.264, about 1 to 2 CPU cores per HD channel | Server → MPTS inputs |
-| Several channels (an MPTS bundle) | An MPTS input | Server → MPTS inputs |
+| One channel, H.264 video and AAC audio (ADTS) | A UDP input (the lightest), or a Multi-channel input | Broadcast → UDP inputs |
+| H.264 with MP2, AC-3, or AAC packed as LATM/LOAS | An MPTS input: it converts the audio to AAC | Broadcast → MPTS inputs |
+| MPEG-2 or HEVC video | An MPTS input with `transcode_video: true`: it converts the video to H.264, about 1 to 2 CPU cores per HD channel | Broadcast → MPTS inputs |
+| Several channels (an MPTS bundle) | An MPTS input | Broadcast → MPTS inputs |
 
 ::: warning MP2 or HEVC on a plain UDP input
 A plain UDP input takes H.264 with AAC only. A feed with MP2 sound goes live
@@ -155,7 +155,7 @@ Before the first broadcast, send a test feed and check it here:
   **Transport stream** line with its TR 101 290 check: click it for the full
   report.
 - An MPTS input lists every channel of the feed with its formats on
-  Server → MPTS inputs, and each published channel's TR 101 290 errors.
+  Broadcast → MPTS inputs, and each published channel's TR 101 290 errors.
   Click the feed's **TR 101 290** label for the full report: which packets
   were lost, the PCR interval, and the tables the encoder sends.
 - **Nothing arrives?** Check the server's firewall and the encoder's

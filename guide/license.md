@@ -26,7 +26,7 @@ after a restart once the license includes `udp`.
 
 ## Installing or replacing it
 
-- **Dashboard**: **License** page (owner only) → upload the file. It applies at
+- **Dashboard**: **Server → License** (owner only) → upload the file. It applies at
   once.
 - **Server shell**:
   `sudo -u unda unda license -config /etc/unda/unda.yaml install new.license.json`.
@@ -41,13 +41,13 @@ the license you have keeps working. If installing it says *"the license was
 signed with a key this build does not know"*, upgrade Unda first
 ([Backups and upgrades](/guide/install#8-backups-and-upgrades)), then install the license again.
 
-[![The License page: who the license is for, its expiry, how much of it is in use and its features](/screens/license.webp)](/screens/license.webp)
+[![Server → License: who the license is for, its expiry, how much of it is in use and its features](/screens/license.webp)](/screens/license.webp)
 
 ## Licenses for a domain
 
 A license can be issued for your domain(s), for example `tv.example.com`.
 It then works only on a server whose HTTPS certificate is for those names; the
-License page shows which domains it is for. If Unda runs behind Caddy or nginx
+**Server → License** shows which domains it is for. If Unda runs behind Caddy or nginx
 (so it has no certificate of its own), list the names in the configuration
 file:
 
@@ -60,7 +60,7 @@ Moving to a new domain needs a new license file from your vendor.
 
 ## States
 
-The **License** page, and a banner for operators and above, show where you are:
+**Server → License**, and a banner for operators and above, show where you are:
 
 | State | What it means |
 |---|---|
@@ -83,6 +83,6 @@ backup encoder, pull and playlist) count as part of that channel.
 ## Support access for your vendor
 
 If you want your vendor to look at your server, the owner can grant **support
-access** on the License page: a time-limited admin account (72 hours by default,
+access** under **Server → License**: a time-limited admin account (72 hours by default,
 14 days at most) that you can end at any moment. Everything it does is in the
 audit log. There is no other way for the vendor to get in.

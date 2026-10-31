@@ -37,7 +37,8 @@ UDP: both resend what the network loses.
 ```yaml
     source: srt://ird.example.com:9000?streamid=sat&passphrase=...   # Unda connects to the sender
     source: srt://:9000?passphrase=...                                # or waits for the sender to connect
-    source: rist://@:5000                                             # RIST: Unda receives on port 5000
+    source: rist://@:5000                                             # RIST: Unda receives on port 5000 (?path2=@:5002 for a second path)
+    source: rist://@:5001?secret=...                                  # RIST Main Profile, encrypted with the sender's passphrase
 ```
 
 - **SRT:** with a host, Unda connects to the sender (an IRD or encoder set up as
@@ -49,17 +50,38 @@ UDP: both resend what the network loses.
   control traffic, so open both in the firewall. `buffer` (milliseconds,
   default 1000) is how long lost packets can be recovered, and should match the
   sender's. Tested with VLC's RIST (librist).
+- **RIST Main Profile**, encrypted: add the sender's passphrase,
+  `rist://@:5001?secret=...` (or `profile=main` for Main Profile without
+  encryption). Everything comes in on the one port you give (any port), so
+  open just that one. Unda takes AES-128 or AES-256 from the sender; see
+  [Encrypted RIST](#encrypted-rist-main-profile).
 
-The input's line on the Server page shows whether the SRT link is up (and why
-not), and for RIST how many packets the network lost and were resent.
+The input's line on the Broadcast page shows whether the SRT link is up (and why
+not), and for RIST how many packets the network lost and were resent. When
+packets arrive that Unda can't read (another passphrase, a sender in clear, a
+sender that isn't using Main Profile), the input says **can't read the
+sender** with the reason, and the "receives nothing" alert names it too.
+Packets that can't be read and don't come from a sender with another
+passphrase (made up, or damaged on the way) show as **unreadable packets**
+instead, in grey while the feed itself arrives: if they keep coming, list your
+sender under **Allowed senders**.
 
-**In the dashboard:** Server → **MPTS inputs** → **New input**. Give it
+**In the dashboard:** Broadcast → **MPTS inputs** → **New input**. Give it
 a name and the address it arrives on. Once packets arrive, every channel of the
 bundle is listed with its name, tracks and bitrate: click **Publish** on the ones
 you want, choose the stream name and audio track, and they go live. **Stop**
 takes a channel off air and keeps your choices. Inputs made there are kept when
 the server restarts. When the provider adds a channel later, it is listed (or,
 with the right setting, added or published by itself).
+
+**Edit** on an input changes where it receives from, its interface, allowed
+senders and what happens to new channels; the channels it publishes stay as
+they are. Leave the address empty to keep the one it has (a passphrase in it
+included). Saving makes the input receive again, so its channels start again
+with the next packets (a few seconds off air; Unda asks first while it is
+receiving). If the new address can't open (the port is in use), the input
+goes on with the old one and says why. Inputs from the configuration file are
+changed there.
 
 **Not sure what the bundle carries?** Set `discover_only: true` first: Unda
 lists every channel with its name, provider and tracks (codec and language)
@@ -74,8 +96,8 @@ What gets published depends on the channel's formats:
 | H.264 video, MP2 or AC-3 audio | Converts the audio to AAC | Very little |
 | MPEG-2 or HEVC video | Listed, not published, until you set `transcode_video: true` for it | About one CPU core per HD channel |
 
-Each channel keeps one video and one audio track (subtitles and teletext are
-not carried). If one channel in the bundle stops or has errors, the others
+Each channel keeps one video and one audio track, and the closed captions
+inside the video (subtitles and teletext are not carried). If one channel in the bundle stops or has errors, the others
 carry on.
 
 ## Sending a bundle out
@@ -87,21 +109,39 @@ number, and the whole bundle is sent at a constant bitrate.
 
 ### Set it up
 
-In the dashboard: **Server → MPTS outputs → New bundle** (operators). Give it a
+In the dashboard: **Broadcast → MPTS outputs → New bundle** (operators). Give it a
 name, where to send it and a total bitrate, then add the channels: for each,
 its source (a channel, a [24/7 channel](/guide/playout) whether on air or not,
 or any other live stream), its channel number and name, and whether it is sent as it is or
 converted to standard definition. **Add channel** adds one to a running bundle.
 Bundles made in the dashboard are kept when the server restarts.
 
-[![Server → MPTS outputs: a bundle of three channels being sent, with its PIDs and a clean TR 101 290 check](/screens/mpts.webp)](/screens/mpts.webp)
+**Edit** changes a running bundle without making it again:
+
+- **On a channel's row:** its stream, name, share, how it is carried
+  (as it is, or converted), its PIDs and ad cues. Only that channel restarts
+  (off air a few seconds); the others carry on, and its packets continue the
+  counters receivers follow, so the change doesn't show as transport errors.
+  If the new settings don't fit (more than the bundle's total, a PID already
+  used), it goes on with the old ones and says why. The channel number stays.
+- **On the bundle:** where it is sent, the provider name, the bitrate
+  (constant or variable, and the total) and what an offline channel shows.
+  Leave the destination empty to keep it, passphrase included. The bundle is
+  built again with its channels, PIDs, guide and network tables, so every
+  channel is off air for a few seconds; if the new settings can't start, it
+  goes on with the old ones. The guide and the network tables have their own
+  controls and change without a restart.
+
+Bundles from the configuration file are changed there.
+
+[![Broadcast → MPTS outputs: a bundle of three channels being sent, with its PIDs and a clean TR 101 290 check](/screens/mpts.webp)](/screens/mpts.webp)
 
 Or in the configuration file:
 
 ```yaml
 mpts_outputs:
   - name: iptv-bundle-1
-    destination: udp://239.2.2.1:6000     # or rtp://... (?fec=2d adds SMPTE 2022-1 FEC), srt://host:port?streamid=..., rist://host:5000
+    destination: udp://239.2.2.1:6000     # or rtp://... (?fec=2d adds SMPTE 2022-1 FEC), srt://host:port?streamid=..., srt://:9000?passphrase=... (the receiver connects), rist://host:5000
     interface: eth0                       # for multicast: the network card to send on
     ttl: 4
     provider: "Unda Community TV"
@@ -155,8 +195,14 @@ By default a bundle is **constant bitrate**: padded to its total with null
 packets, which DVB multiplexers, modulators and many IRDs require. For an IP
 network that does not need a constant rate, set `total_bitrate: vbr` (or
 choose *Variable* in the dashboard): the bundle then sends only what its
-channels carry, with no padding, and has no total to outgrow. The Server page
+channels carry, with no padding, and has no total to outgrow. The Broadcast page
 shows what it is sending now.
+
+### Ad cues (SCTE 35)
+
+A channel can announce its stream's ad breaks to an ad inserter downstream:
+tick its box in the bundle's **Cues** column, or **Send ad cues** under its
+PIDs when you add it. See [Ad breaks](/guide/restreaming#ad-breaks-scte-35).
 
 ### Programme guide (EPG)
 
@@ -182,7 +228,7 @@ way, its "between programmes" title included. Other channels carry no guide.
 
 **Choose per bundle** what it sends: *now and next + 8 days* (the default),
 *now and next only*, or *off*. In the dashboard it is the **Guide** menu on each
-bundle (Server → MPTS outputs), changeable while the bundle is on air; in the
+bundle (Broadcast → MPTS outputs), changeable while the bundle is on air; in the
 configuration file, `epg: schedule | now_next | off`. Turn it off when
 equipment further down the chain inserts its own EIT, so the two don't conflict.
 A channel can also be left out on its own (its **guide** tick box, or
@@ -250,6 +296,66 @@ port; the next one carries the control traffic. It also works for single
 streams (restream destinations) and broadcast outputs. Like UDP, only operators
 can add RIST destinations.
 
+### Encrypted RIST (Main Profile)
+
+Add a passphrase to send with RIST Main Profile, encrypted:
+
+```
+rist://receiver.example.net:5000?secret=a-long-passphrase&aes-type=256
+```
+
+- `secret` is the passphrase, 8 to 128 characters; the receiver needs the
+  same one. Use a long one (16 characters or more): someone who records the
+  stream could try passphrases against it at leisure.
+- `aes-type` is `128` (the default) or `256`, and must match the
+  receiver's setting.
+- `profile=main` without a secret sends Main Profile in clear.
+- Main Profile uses one port each way (any port, odd too) and carries the
+  control traffic inside it, so a firewall needs only that port open.
+- `buffer`, `path2` (two paths) and `cname` (the name the receiver sees)
+  work as with Simple Profile.
+
+The passphrase never appears in the dashboard, the API's answers or the logs
+(`secret=***`). It keeps the stream private on the way; like SRT's, it does
+not prove who sent a packet, so keep receiving inputs' **Allow** list to your
+senders. Unda supports the passphrase form of encryption; RIST's user name and
+password sign-in (SRP) and null-packet deletion are not supported: turn them
+off at the other end.
+
+Tested with librist 0.2.20's `ristsender` and `ristreceiver`
+(`--profile 1`, AES-128 and AES-256), both ways, through 5 % loss.
+
+### Letting the receiver connect (SRT listener)
+
+Some teleports and stations pull the channel: their receiver is an SRT
+*caller* and connects to you. Then give the bundle's destination an address without a host, and
+Unda waits on that port:
+
+```
+srt://:9000?passphrase=a-long-passphrase
+```
+
+- Give the receiving side this server's address, the port and the
+  passphrase. Open the UDP port in the server's firewall.
+- A listener needs a **passphrase** (10 to 79 characters) or the receivers'
+  **addresses**: `allow=203.0.113.7,198.51.100.0/24` takes only those. Use
+  both when you can. Without either, anyone who found the port could take the
+  channel, so Unda refuses the address.
+- `streamid=…` takes only receivers that ask for that stream ID;
+  `latency=` (milliseconds) is as for sending.
+- Up to 8 receivers at once (a main and a backup receiver, for example), each
+  sent the whole channel. A receiver that can't keep up is let go; its gear
+  connects again.
+- The encoder keeps running while nobody is connected, so a receiver gets the
+  channel the moment it connects. The row says who is connected, or that it is
+  waiting, and shows a refused receiver with the reason (wrong passphrase, an
+  address not allowed).
+- Pick a port nothing else on the server uses: not the server's own SRT port,
+  an input's or another output's.
+
+Tested with TSDuck 3.45 (libsrt 1.5.7) as the receiver: the bundle arrived at
+its constant rate with no continuity errors.
+
 Channels can be added and removed while a bundle runs (in the dashboard or
 through the API, `/api/v1/mpts`); receivers pick up the change by themselves.
 Set the total bitrate with room to spare if you plan to add channels later: it
@@ -284,7 +390,7 @@ has no such limit).
 - Each channel runs its own encoder process; sending as it is costs very little
   CPU, converting costs about a third of a core per channel.
 
-The **Server** page lists each bundle with its channels: which stream feeds
+The **Broadcast** page lists each bundle with its channels: which stream feeds
 each one (and, for channels sent as it is, what the stream sends), whether it
 is on air (or showing black or the slate), how far ahead of time its pictures
 arrive, and any late pictures or dropped packets. Every packet sent is also
@@ -310,10 +416,14 @@ the way broadcast test equipment does (ETSI TR 101 290):
   each table repeats, and packets on PIDs no table names.
 
 Each bundle shows **TR 101 290 clean**, or the errors counted in the last
-minute. Click it for the full report, refreshed every 3 seconds while it is
-open:
+minute; a bundle Unda receives shows what they mean for viewers (see
+[below](#plays-fine-or-viewers-may-see-glitches)). Click it for the report,
+refreshed every 3 seconds while it is open. It opens with a sentence on what
+the errors mean for viewers, then what to do; the notes for the sender's
+engineer and the full report are folded underneath (the full report stays
+open once you open it):
 
-- **Likely cause and what to do**, first: Unda works out what most likely
+- **Likely cause and what to do**: Unda works out what most likely
   caused the errors from what it knows about the stream (packets lost on the
   way and how many, its own queue overflowing, a TV output's encoder falling
   behind, a busy processor, how the stream arrives) and says what to do about
@@ -333,16 +443,34 @@ open:
   server's clock.
 
 A bundle Unda sends must carry every table from the start (the NIT and TDT only
-when its network and time tables are on). A bundle Unda receives is held to a
-table only once it has carried it, because many satellite and IPTV feeds carry
-no network or time table: its priority 3 results are in the report, but they
-don't change its pill or raise an alert. Priority 1 and 2 errors raise a
-warning on both. The counts are also in `/metrics`
+when its network and time tables are on), and every error on it raises a
+warning: TVs and receivers take it as it is. A bundle Unda receives is held to
+a table only once it has carried it, because many satellite and IPTV feeds
+carry no network or time table. The counts are also in `/metrics`
 (`unda_mpts_tr101290_errors_total`, `unda_mpts_input_tr101290_errors_total`
 and the same per channel).
 
+#### Plays fine, or viewers may see glitches
+
+Unda doesn't send a stream it receives on as it arrives. It takes the pictures
+and sound out and builds a new clock, new timestamps and new tables for
+everything it sends (HLS, RTMP, its own MPEG-TS outputs, TV outputs and
+bundles). So on a stream Unda receives, only some errors can reach your
+viewers:
+
+| Can reach viewers | Can't reach viewers |
+| --- | --- |
+| Lost packets (continuity), damaged packets (transport error), sync loss, a missing picture or sound stream (missing PID), a stall (PTS), scrambled packets (CAT) | The sender's clock (PCR interval, jump, accuracy), its tables (PAT/PMT timing, CRC, SI repetition, NIT, SDT, EIT, TDT) and unreferenced PIDs |
+
+A stream whose errors are all in the second column shows **Plays fine** and
+raises no alert: the report lists them as notes for the sender's engineer,
+since they matter to equipment that takes the same feed directly. Errors in
+the first column show **Viewers may see glitches**, raise a warning and come
+first in the report, with what to do. A late PAT or PMT only means a channel
+takes a moment longer to start after a break.
+
 The same check runs on single-channel UDP and RTP inputs and on streams
-published over SRT (as inputs: priorities 1 and 2 alert), and on TV outputs
+published over SRT (as inputs: only errors viewers can notice alert), and on TV outputs
 and UDP, RTP, RIST and SRT destinations (as outputs): see
 [UDP / MPEG-TS](/guide/udp), [SRT](/guide/srt) and
 [Restreaming](/guide/restreaming). To check any other stream for a while,

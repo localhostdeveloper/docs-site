@@ -5,7 +5,7 @@ description: "Check any transport stream the way broadcast test equipment does: 
 
 # Stream analyser
 
-**Server → Analyse** checks any transport stream the way broadcast test
+**Broadcast → Analyse** checks any transport stream the way broadcast test
 equipment does, for a minute or up to a whole day, without publishing it.
 Use it to:
 
@@ -29,17 +29,20 @@ for operators and above.
 | RTP (MPEG-TS in RTP) | `rtp://239.1.1.1:5004` or `rtp://:5004` |
 | SRT, this server calls the sender | `srt://encoder.example.com:9000` (add `?streamid=…&passphrase=…` as the sender needs) |
 | SRT, the sender calls this server | `srt://:9000` |
-| RIST | `rist://@:5000` |
+| RIST | `rist://@:5000`, or `rist://@:5001?secret=…` for an encrypted Main Profile sender |
 | MPEG-TS over HTTP | `http://…/channel.ts` (an IPTV channel's link, another server's `/ts` link) |
 
 Choose how long it runs (1 minute to 24 hours) and how to judge it:
 
 - **Incoming feed** (the default): a table counts once it has been seen, as
   for any input. Many satellite and IPTV feeds carry no network or time
-  table, and that is not an error for a feed.
+  table, and that is not an error for a feed. Errors in the sender's clock or
+  tables are notes, since Unda builds its own for everything it sends; the
+  report says **Plays fine** when those are all there is
+  ([what reaches viewers](/guide/mpts#plays-fine-or-viewers-may-see-glitches)).
 - **TV output**: every table DVB asks for (PAT, PMT, SDT, NIT, TDT) is
-  expected from the start, as a modulator or a set-top box needs. Use it for
-  a stream about to go on air.
+  expected from the start, as a modulator or a set-top box needs, and every
+  error counts. Use it for a stream about to go on air.
 
 Two analyses can run at once. A port one of this server's inputs listens on
 can't be analysed (the input already has its own report: click its
@@ -52,7 +55,10 @@ shown without it.
 ## The report
 
 Click **View** on an analysis to see its report. A running one refreshes
-every 3 seconds.
+every 3 seconds. It opens with a sentence on what the errors over the whole
+analysis mean for viewers, then what to do; notes for the sender's engineer
+and the full TR 101 290 report are folded underneath. The downloaded report
+starts the same way.
 
 - **Rate**: measured from the PCR, padding included. **Constant** means
   every 10-second window agrees within 50 parts per million, as a
@@ -91,7 +97,9 @@ table), to keep or to send.
 
 An analysis ends by itself when its time is up, or with **Stop**; its report
 stays until you remove it. The last ten finished analyses are kept until the
-server restarts.
+server restarts. **Run again** on a finished one starts a new analysis with
+the same address, length and judging (a passphrase in the address included,
+so there is nothing to type again); the earlier report stays beside it.
 
 ## Reading it
 
