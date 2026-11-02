@@ -24,7 +24,9 @@ What the relay adds over a plain gateway: it checks what arrives against TR
 destination can't be reached, and keeps each destination up on its own.
 
 Relays need a licence with TV outputs (the Broadcast package) and are for
-operators and above. They are kept when the server restarts.
+operators and above. Each running relay counts as one live stream toward the
+licence's limit, however many channels its feed carries; at the limit a new
+relay is refused with the reason. They are kept when the server restarts.
 
 ## Making a relay
 
@@ -112,7 +114,8 @@ makes its own tables. Its alerts follow the same line.
 - **Relay cannot send to a destination** (after 15 seconds), with the
   reason. Critical.
 - **Relay isn't running:** a saved relay that couldn't start when the server
-  started (its port taken, no licence). It stays saved and is tried again at
+  started (its port taken, no licence, or the licence's live streams all in
+  use). It stays saved and is tried again at
   the next start; **Edit** and **Save** to try again now.
 - **Errors in the stream it passes on:** priority 1 and 2 errors in the last
   minute. A warning.

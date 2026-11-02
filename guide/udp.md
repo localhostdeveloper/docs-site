@@ -34,6 +34,17 @@ udp:
       interface: eth1
 ```
 
+Several multicast inputs can use the same port (`239.1.1.1:5000`,
+`239.1.1.2:5000`, …), as head-ends often send them: each input receives its own
+group only.
+
+An input that listens on **all addresses** (`:5000`) or joins a multicast group
+with no `allow` list would take a stream from anyone who can reach the port, so
+the dashboard and API refuse to create one. Give it an `allow` list with the
+sender's address, bind it to one address, or — to accept everyone on purpose
+(a closed lab network) — set `allow: ["0.0.0.0/0"]`. An input already in your
+configuration file keeps working and only logs a warning.
+
 For RTP carrying MPEG-TS (RFC 2250), set `rtp: true` on the input. The RTP
 payload type must be 33 and contain complete 188-byte TS packets:
 

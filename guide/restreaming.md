@@ -151,7 +151,7 @@ re-encoded to what TV equipment expects:
   576p25 and 720p50, since HEVC services are progressive) or MPEG-2 (older
   DVB-T / DVB-S receivers; SD only). SD H.264 is sized by the whole
   transport stream: **1300 kb/s by default**, the video filling what the audio
-  and the stream's overhead leave (960 kb/s with AAC at 128). Type another total
+  and the stream's overhead leave (1040 kb/s with AAC at 128). Type another total
   and the video is fitted to it, or set the video rate yourself. Other
   defaults: H.264 8 Mb/s HD; HEVC 1.2 Mb/s SD, 4 Mb/s HD; MPEG-2 4 Mb/s.
 - **Audio:** AAC (the default; 128 kb/s), MPEG-1 Layer II (MP2; the default

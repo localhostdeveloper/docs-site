@@ -172,7 +172,7 @@ what the stream uses at its busiest) or **converted** for TV equipment with
 MP2 or AC-3 audio, with the same settings as a
 [broadcast output](/guide/restreaming#broadcast-tv-terrestrial-and-satellite).
 A converted channel's `bitrate` is its whole share of the bundle, and its video
-is fitted into it: an SD H.264 channel with a 1300 kb/s share gets 960 kb/s of
+is fitted into it: an SD H.264 channel with a 1300 kb/s share gets 1040 kb/s of
 video and AAC at 128 kb/s. Without a share, SD H.264 takes 1300 kb/s (a
 common rate for SD channels); set `video_kbps` in `encode` to choose the video rate
 yourself. The bundle table shows each channel's video and audio rates. Channel numbers,

@@ -43,6 +43,29 @@ It stops before changing anything if a port is taken or a download does not
 match its checksum. `--help` lists the options (`--staging`,
 `--with-ffmpeg`, the port options, `--cert-file`). The manual ways follow.
 
+**The same in Docker:** add `--docker`. It installs Docker and its compose
+plugin from your system's packages if they are missing, writes
+`/opt/unda/docker-compose.yml` and `/opt/unda/unda.yaml`, pulls the image,
+starts it and prints the setup link. Running it again with `--docker`
+upgrades to the new image and keeps your settings and data.
+
+- **With `--domain`** (a server the internet reaches): the ports are
+  published as in [A. Docker](#a-docker) below, and HTTPS comes from Let's
+  Encrypt (or `--cert-file`).
+- **Without `--domain`** (a PC on your own network): Unda uses the
+  machine's network directly, so multicast inputs and outputs work with
+  nothing more to set up, and the dashboard is on
+  `https://<this machine's address>:8443` with a certificate made for the
+  machine. Browsers warn about it once: choose Advanced, then continue.
+
+```bash
+curl -fsSL https://RELEASE-URL/install.sh | sudo bash -s -- --docker
+```
+
+An Intel graphics card is given to the container for transcoding (the image
+carries Intel's driver on 64-bit Intel/AMD machines). AMD and NVIDIA cards
+are not: install without `--docker` to use one.
+
 **Another program already holds ports 80 and 443** (a web server, another
 media server)? Let's Encrypt can then not reach Unda. Give Unda other ports
 and a certificate file instead: see "Sharing a server" in [section 2](#2-https-options).
@@ -139,7 +162,11 @@ you add them. Publish each one under `ports:` as well, e.g.
 `- "5000:5000/udp"` (RIST uses the port and the one after it, so publish
 both). Multicast (`udp://239.…`) does not pass Docker's port mapping:
 to receive or send it, give the service `network_mode: host` and remove its
-`ports:` list (the container then uses the server's ports directly).
+`ports:` list (the container then uses the server's ports directly). Unda
+then listens on `:8443` and `:8080` itself, and it runs without root rights,
+so it can't take ports 443 and 80: Let's Encrypt can't reach it, so give it
+your own certificate, or use `install.sh --docker` without `--domain` for a
+machine on your own network.
 
 ### B. Binary + systemd
 

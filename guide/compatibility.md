@@ -125,6 +125,7 @@ ffmpeg -rtsp_transport tcp -i "rtsp://user:pass@192.168.1.64/stream1" \
 | VLC | RTMP, SRT, HLS | Tested |
 | OBS as a receiver | SRT (Media Source) | Tested |
 | vMix as a receiver | UDP | In use by a customer |
+| PikoTV transcoder (a TV station's receiver) | SRT, Unda calling: an SD TV output (720×576 H.264, AAC, 1.5 Mb/s constant bitrate) | In use by a TV station |
 | YouTube, Facebook | RTMP, RTMPS | Tested in production |
 | Twitch and other RTMP platforms | RTMP | Should work |
 | DASH players | MPEG-DASH, one quality or the adaptive-bitrate ladder | Tested with dash.js and Shaka Player in Chrome, and VLC |

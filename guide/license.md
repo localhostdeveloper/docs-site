@@ -76,9 +76,10 @@ The 30 days count from the first time the server ran without a license.
 
 When the stream limit is reached, the next stream is refused with a message
 saying so, whether it comes from an encoder, a pull, a UDP input, a channel
-of a multi-channel input, a 24/7 channel or a channel switching between its
-inputs; streams already live are never cut off. A channel's inputs (its
-backup encoder, pull and playlist) count as part of that channel.
+of a multi-channel input, a 24/7 channel, a channel switching between its
+inputs or a relay; streams already live are never cut off. A channel's inputs
+(its backup encoder, pull and playlist) count as part of that channel, and a
+running relay counts as one stream, however many channels its feed carries.
 
 ## Support access for your vendor
 

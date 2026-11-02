@@ -256,6 +256,30 @@ stopped on purpose), its average bitrate and its most viewers at once.
 is not counted against any channel. Clients see their own channels' on-air
 time and interruptions on each channel's **Viewers** tab.
 
+## Logs
+
+When something doesn't work and the dashboard's message isn't enough, the
+server's own log lines say what happened, second by second. You can download
+them from the dashboard, without signing in to the server:
+
+- **One channel:** the **Logs** button on the channel's page.
+- **The whole server, or any channel:** Server → Status → **Logs**.
+
+Pick the period (the last minute up to the last 24 hours) and, if you like,
+text the lines must contain, such as a port or an address. You get a text
+file with one line per event, its time on the server's clock first.
+
+A channel's file holds the lines about the channel itself, its inputs (main
+and backup encoders, pull, playlist), the MPTS bundles that carry it, and
+anything about an address it sends to, such as an analysis of one of its
+destinations. Lines about other channels are left out, even when they send
+to the same platform.
+
+The server keeps the last 24 hours of lines in memory. After a restart the
+file starts from the restart; older lines are still in the system's own log
+(`journalctl -u unda`, or `docker compose logs unda` in Docker). Operators,
+admins and owners can download logs; each download is noted in the audit log.
+
 ## Messages to Slack, Discord or your own system
 
 Unda can post to webhooks when a stream drops, comes back, or its bitrate

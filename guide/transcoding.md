@@ -125,11 +125,14 @@ and shows why if it fails.
 ### Graphics cards
 
 With an NVIDIA card chosen under **Server → Transcoding**, Unda shares the
-card between everything that encodes video: adaptive streams, 24/7 channels
-and TV outputs in H.264 or HEVC. Adaptive streams also decode and resize their
-pictures on the card. Each job goes to the card with the most room, and when
-every card is busy the job runs on the CPU instead. MPEG-2 and 1080i TV
-outputs always encode on the CPU.
+card between adaptive streams and 24/7 channels. Adaptive streams also decode
+and resize their pictures on the card. Each job goes to the card with the most
+room, and when every card is busy the job runs on the CPU instead.
+
+TV outputs and bundle channels always encode on the CPU. TV equipment needs a
+bitrate that never goes above the one set, and in our tests NVIDIA's encoder
+went above it in busy scenes, so pictures reached the TV too late to show.
+The CPU's encoder holds the rate exactly.
 
 Unda keeps the card's encoder below about 85 % and leaves the rest of the work
 to the CPU. It learns what your card really costs while its jobs run and
@@ -151,7 +154,6 @@ What a move costs depends on the job, so they don't all move the same way:
 |---|---|---|
 | Adaptive stream | First, whenever needed | Nothing much: players carry on |
 | 24/7 channel | While the card or the CPU is overloaded, the least watched first; otherwise only while nobody watches it, or as a programme starts | The stream restarts: players reload (about 10 seconds on the watch page), restreams and recordings reconnect |
-| TV output | Only while the card or the CPU is overloaded, last | A break of a few seconds on that output |
 
 A job that moved stays put for 10 minutes, so nothing goes back and forth.
 When the card and the CPU are both full, nothing moves, and the CPU alert
