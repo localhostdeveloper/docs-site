@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import { writeLLMFiles } from "./llms";
 
 // GitHub's heading anchors ("## 8. Backups and upgrades" -> #8-backups-and-upgrades),
 // so the table of contents inside deploy/INSTALL.md, which is included as-is,
@@ -25,7 +26,7 @@ const ORGANIZATION = {
   url: `${SITE}/`,
   logo: `${SITE}/favicon.svg`,
   email: "support@undamedia.com",
-  sameAs: ["https://www.facebook.com/undamedia", "https://x.com/undamedia"],
+  sameAs: ["https://www.youtube.com/@undamediaserver"],
 };
 
 // The section a page sits in, for its breadcrumb trail (Home > Section > Page).
@@ -119,9 +120,12 @@ const docsSidebar = [
   },
 ];
 
+const DESCRIPTION =
+  "Unda Media Server: the live streaming and broadcast server you run on your own server. RTMP, SRT, HLS, adaptive bitrate, recording, restreaming and 24/7 channels, with a dashboard for your team.";
+
 export default defineConfig({
   title: "UndaMedia",
-  description: "Unda Media Server: the live streaming and broadcast server you run on your own server. RTMP, SRT, HLS, adaptive bitrate, recording, restreaming and 24/7 channels, with a dashboard for your team.",
+  description: DESCRIPTION,
   lang: "en",
   // shared/ holds copies of repository files that pages include; not pages themselves.
   srcExclude: ["shared/**", "README.md"],
@@ -132,6 +136,8 @@ export default defineConfig({
   appearance: { initialValue: "light" } as any,
   head: [
     ["link", { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
+    // The whole site as one plain-text file, for AI assistants.
+    ["link", { rel: "alternate", type: "text/plain", title: "The whole site as plain text", href: "/llms-full.txt" }],
     // The picture shown when a link is shared (WhatsApp, Facebook, X, LinkedIn…).
     ["meta", { property: "og:site_name", content: "UndaMedia" }],
     ["meta", { property: "og:image", content: `${SITE}/og.jpg` }],
@@ -141,6 +147,17 @@ export default defineConfig({
     ["meta", { name: "twitter:card", content: "summary_large_image" }],
     ["meta", { name: "twitter:site", content: "@undamedia" }],
   ],
+  // llms.txt and llms-full.txt for AI assistants: the site in one file, made
+  // from the same sources as the pages (see llms.ts).
+  buildEnd(site) {
+    writeLLMFiles(site.srcDir, site.outDir, site.pages, {
+      site: SITE,
+      title: "Unda Media Server",
+      description: DESCRIPTION,
+      sidebar: docsSidebar,
+      repoLinks,
+    });
+  },
   // Each page's own title, description and address in its link preview,
   // and structured data for search engines (schema.org JSON-LD).
   transformHead({ pageData, title, description }) {
@@ -233,14 +250,9 @@ export default defineConfig({
     // Inline icons: VitePress would otherwise load them from another website.
     socialLinks: [
       {
-        icon: { svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Facebook</title><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>' },
-        link: "https://www.facebook.com/undamedia",
-        ariaLabel: "UndaMedia on Facebook",
-      },
-      {
-        icon: { svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>X</title><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>' },
-        link: "https://x.com/undamedia",
-        ariaLabel: "UndaMedia on X",
+        icon: { svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>' },
+        link: "https://www.youtube.com/@undamediaserver",
+        ariaLabel: "Unda Media Server on YouTube",
       },
     ],
     // Only the docs have a sidebar; the site's own pages (home, Media Server,

@@ -44,6 +44,11 @@ Choose how long it runs (1 minute to 24 hours) and how to judge it:
   expected from the start, as a modulator or a set-top box needs, and every
   error counts. Use it for a stream about to go on air.
 
+Analysing an address one of your outputs sends to over SRT makes Unda a
+second caller there, and most SRT receivers take only one: the output can't
+connect while the analysis runs. Analyse what arrives at the receiver
+instead, or stop the analysis when you are done.
+
 Two analyses can run at once. A port one of this server's inputs listens on
 can't be analysed (the input already has its own report: click its
 **TR 101 290** label); a multicast group that an input has joined can.

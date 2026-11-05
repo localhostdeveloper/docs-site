@@ -133,6 +133,9 @@ RFC 3339 or unix seconds), `min_duration` (seconds), `sort` (`started`,
 | `PATCH /api/v1/streams/{name}/push/{id}` | streamer | `{"paused": true}` stops sending but keeps the destination; `{"paused": false}` starts it again. `{"name", "url", "broadcast"}` edit it: an absent or empty `url` keeps the saved address and its key; `"broadcast": {…}` re-encodes it for TV (operators), `null` sends it as it is. It restarts with the new settings; a paused one stays paused. One from `unda.yaml` is 409 |
 | `DELETE /api/v1/streams/{name}/push/{id}` | streamer | Remove a destination; returns once it is disconnected |
 | `GET /api/v1/streams/{name}/push/{id}/tr101290` | streamer | The full TR 101 290 report of what an MPEG-TS destination or TV output is sent (404 for RTMP, or before it has sent). Each destination's `tr101290` field in the list carries the counts |
+| `GET /api/v1/streams/{name}/push/{id}/link` | operator | A TV output receivers pull (`"url":"http-pull://?allow=…&plain=1"`): `{"path": "/tv/<token>.ts"}`, the link on this server. Every look is audited. The list never shows the token; it shows `tv_link` with the `receivers` (address, since, bytes), `allow`, `plain` and the last refusal. 404 for other destinations |
+| `POST /api/v1/streams/{name}/push/{id}/link` | operator | A new link: the old one stops at once and its receivers are cut off; the encoder carries on. Returns `{"path"}`. 409 for one from `unda.yaml` |
+| `GET /tv/<token>.ts` | anyone with the link | The TV output as one continuous MPEG-TS. 404 for a wrong link, 403 over plain HTTP when the output is HTTPS only or from an address not allowed, 503 (Retry-After) while it is switched off or already has 8 receivers |
 
 ```bash
 curl -X POST -H "Authorization: Bearer $KEY" \

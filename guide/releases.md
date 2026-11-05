@@ -1,11 +1,12 @@
 ---
 title: "Releases, upgrades and support"
-description: "How often Unda Media Server is released, what version 1.0 will mean, which versions get fixes, and how upgrades and licenses work."
+description: "How often Unda Media Server is released, what version 1.0 will mean, which versions get fixes, how upgrades and licenses work, and how to reach support."
 ---
 
 # Releases and support
 
-How Unda is released, what version 1.0 will mean, and how upgrades work.
+How Unda is released, what version 1.0 will mean, how upgrades work, and how
+to reach support.
 
 ## How often
 
@@ -38,6 +39,13 @@ its release notes then say so and which version to install instead.
 
 After 1.0, a stable line will receive fixes only, for a period announced
 with 1.0, so you can stay on it while new features arrive in later releases.
+
+## Support
+
+By email at [support@undamedia.com](mailto:support@undamedia.com), Monday to
+Friday, 9:00 to 19:00 GMT. On Broadcast and custom packages, a serious problem
+that needs attention at once, such as a channel off air, is handled until
+22:00 GMT on those days. See [Packages](/packages).
 
 ## Upgrading
 

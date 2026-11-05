@@ -10,29 +10,47 @@ Twitch, another Unda server, anything that takes RTMP, RTMPS, SRT, UDP or RTP.
 
 ## From the dashboard
 
-Open the stream, **Restream** tab, add a destination with a name and its full
-URL, key included:
+Open the stream, **Restream** tab. Destinations are in two lists:
+**Platforms and servers** get the stream as it arrives, and **TV outputs**
+are re-encoded for broadcast. A line above them counts what is sending,
+failing and switched off, and how many receivers are connected.
 
-| Platform                 | URL                                                        |
-| ------------------------ | ---------------------------------------------------------- |
-| YouTube                  | `rtmp://a.rtmp.youtube.com/live2/YOUR-STREAM-KEY`          |
-| Facebook                 | `rtmps://live-api-s.facebook.com:443/rtmp/YOUR-STREAM-KEY` |
-| Twitch                   | `rtmp://live.twitch.tv/app/YOUR-STREAM-KEY`                |
-| Another server over SRT  | `srt://host:port?streamid=...&passphrase=...`              |
-| A local network over UDP | `udp://239.1.1.10:5000`                                    |
-| MPEG-TS over RTP         | `rtp://192.168.1.50:5004`                                  |
+**Add destination** asks what kind first (clients go straight to the first):
 
-Use the exact URL and key the platform gives you.
+- **A platform or another server:** a name, then the **server link** and the
+  **stream key**, as your service shows them:
 
-**Edit** on a destination's row changes its name, its address or how it is
-sent (as it is, or re-encoded for broadcast TV) without removing it. Leave
-the address empty to keep the saved one and its key: the key is never shown
-again, so you don't have to type it again either. A destination that is
-sending restarts with the new settings (Unda asks first), so its receiving
-side loses the stream for a few seconds; a paused one stays paused.
-Destinations listed in `unda.yaml` are changed in the file.
+  | Service | Server link | Stream key |
+  |---|---|---|
+  | YouTube | `rtmp://a.rtmp.youtube.com/live2` | from YouTube Studio |
+  | Facebook | `rtmps://live-api-s.facebook.com:443/rtmp` | from Live Producer |
+  | Twitch | `rtmp://live.twitch.tv/app` | from the Creator Dashboard |
+  | Another server over SRT | `srt://host:port?passphrase=...` | its stream ID, if it uses one |
+  | A local network over UDP (operators) | `udp://239.1.1.10:5000` | none |
+  | MPEG-TS over RTP (operators) | `rtp://192.168.1.50:5004` | none |
 
-[![A stream's Restream tab: a live YouTube destination, a paused Facebook one, and the form to add another](/screens/restream.webp)](/screens/restream.webp)
+  Use exactly what your service gives you: Unda fills nothing in, so any
+  service works. For RTMP the key goes after the link, for SRT it becomes the
+  `streamid`; a link that already holds everything takes no key. Well-known
+  services (YouTube, Facebook, Instagram, Twitch, TikTok, X, Vimeo,
+  Dailymotion, Telegram and Rumble) are recognised from their server and show
+  their logo; other servers show their protocol.
+- **A TV output Unda sends** and **A TV output the receiver fetches:** see
+  [Broadcast TV](#broadcast-tv-terrestrial-and-satellite) below.
+
+Each row has a switch (off stops sending but keeps the destination and its
+key) and a **⋯** menu with **Edit**, **Remove** and, for TV outputs, the
+TR 101 290 report. **Edit** opens the same dialog, filled in. For an RTMP
+destination the server link is shown and the key isn't: leave the key empty
+to keep it, or type the new one (a destination whose key was refused shows
+**Change key** under its row, with the reason). For other addresses, leave the
+link empty to keep the saved one. A destination that is sending restarts with
+the new settings (Unda asks first), so its receiving side loses the stream for
+a few seconds; a switched-off one stays off. Closing a half-filled form asks
+before discarding what you typed. Destinations listed in `unda.yaml` are
+changed in the file.
+
+[![A stream's Restream tab: YouTube sending, Facebook refused its key with Change key beside the reason, a switched-off SRT server, and three TV outputs, one pulled by two receivers](/screens/restream.webp)](/screens/restream.webp)
 
 ## How it behaves
 
@@ -53,6 +71,12 @@ Destinations listed in `unda.yaml` are changed in the file.
   error behind "Technical detail". A destination failing for more than two
   minutes raises one alert per stream, however many destinations fail and
   however often they retry; the event log shows one line per failure run.
+- **An SRT receiver usually takes one caller at a time.** If an SRT
+  destination keeps saying the receiver didn't respond while something else
+  calls the same address (an analysis of it under **Broadcast → Analyse**,
+  another server, an earlier connection), stop that, then switch the
+  destination off and on to retry at once. The channel's **Logs** button
+  downloads every line about that address ([Logs](/guide/monitoring#logs)).
 - **Pause instead of delete.** The switch next to each destination stops
   sending to it without deleting it, so the same destination (and its key) can
   be switched back on later, for the next event, without typing the key again.
@@ -134,9 +158,15 @@ don't take a second path.
 
 ## Broadcast TV (terrestrial and satellite)
 
-For a DVB multiplexer, IP modulator or satellite uplink, tick **Re-encode for
-broadcast TV** when adding a destination (operators only). The stream is
-re-encoded to what TV equipment expects:
+For a DVB multiplexer, IP modulator or satellite uplink (operators only),
+choose **Add destination**, then **A TV output Unda sends**, or **A TV output
+the receiver fetches** when the station's receiver comes to you
+([SRT](#letting-the-receiver-connect-srt-listener) or
+[an HTTP link](#letting-the-receiver-pull-a-link-http)). The dialog has four
+short steps: **Delivery** (where it goes, or how the receiver gets it),
+**Picture and sound**, **Channel details** (what receivers list) and
+**Extras** (network and time tables, ad cues). The stream is re-encoded to
+what TV equipment expects:
 
 - **Picture:** 16:9 in one of three formats. A 4:3 or portrait source gets
   black bars at the sides; nothing is cropped.
@@ -212,7 +242,9 @@ H.264, about one core for HD H.264 and about two for HEVC.
 ### Letting the receiver connect (SRT listener)
 
 Some teleports and stations pull the channel: their receiver is an SRT
-*caller* and connects to you. Then give the TV output's destination an address without a host, and
+*caller* and connects to you. In the dialog choose **A TV output the receiver
+fetches**, then **Calls in over SRT**, with the port, a passphrase and who may
+connect. Through the API or `unda.yaml` it is an address without a host, and
 Unda waits on that port:
 
 ```
@@ -246,6 +278,46 @@ receiver pulls it from the server's own SRT port with
 Tested with TSDuck 3.45 (libsrt 1.5.7) as the receiver: the SD channel arrived
 at exactly 1300 kb/s with its tables and no continuity errors.
 
+### Letting the receiver pull a link (HTTP)
+
+Cable headends, IRDs and many gateways can fetch a channel over HTTP. Choose
+**A TV output the receiver fetches**, then **Pulls an HTTP link**: when it is
+added, Unda shows the link to give the station, on your server's own address:
+
+```
+https://tv.example.com/tv/3pX0b2Vq7mQkA1sLz9TfRw.ts
+```
+
+- The link is the secret: anyone who has it can pull the channel, unless you
+  list the addresses allowed (**Who may pull it**). Use the list when you know
+  where the station's receiver connects from.
+- It works over HTTPS. Turn on **Plain HTTP too** for receivers that can't use
+  HTTPS; the channel then also answers on the server's plain HTTP port, and
+  crosses the network unencrypted. On a server without HTTPS the link is plain
+  HTTP.
+- **⋯ → Show the link** or **Copy the link** gives it again; every look is in
+  the audit log. **Make a new link** ends the old one at once: receivers using
+  it are cut off until the station has the new one, and the encoder carries
+  on.
+- Up to 8 receivers at once, each sent the whole channel. A receiver that falls
+  10 seconds behind is let go; its gear connects again. The row shows who is
+  pulling and how much each has received, and a receiver that was refused
+  (an address not on the list, plain HTTP when the link is HTTPS only).
+- The encoder runs whether or not anyone is pulling, so a receiver gets the
+  channel at once. Receivers stay connected when you edit the output or its
+  source restarts; switching the output off or removing it cuts them off, and
+  the link then answers "switched off" (or "not found" once removed).
+
+In `unda.yaml` or through the API the destination is
+`http-pull://?allow=203.0.113.7&plain=1`. Unda adds a `token` (the link's
+secret) when it saves one. A destination in `unda.yaml` without
+`token=` gets a new link at every start, so give it one of 22 letters, digits,
+`-` or `_` to keep the link. Behind a reverse proxy, forward `/tv/` like the
+rest of the server.
+
+Tested with FFmpeg as the receiver: it pulled and decoded the SD channel
+(H.264 720×576 with AAC), and switching the output off cut it off at once.
+
 ### Ad breaks (SCTE 35)
 
 If a cable or IPTV head-end, a teleport or a TV operator puts its own adverts
@@ -254,9 +326,8 @@ room for them. Unda tells it with SCTE 35 cues.
 
 **Turn cues on** for each output that goes to such equipment:
 
-- **A TV output:** when adding it, tick **Re-encode for broadcast TV**, then
-  **Send ad cues (SCTE 35)**. The cues go on PID 258 unless you set another
-  under **PIDs**.
+- **A TV output:** in its **Extras** step, tick **Send ad cues (SCTE 35)**.
+  The cues go on PID 258 unless you set another there.
 - **A bundle channel:** tick its box in the bundle's **Cues** column (the
   channel restarts, a few seconds off air), or tick **Send ad cues** under the
   channel's PIDs when you add it. The PID is chosen automatically.

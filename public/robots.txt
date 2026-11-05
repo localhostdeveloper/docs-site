@@ -1,4 +1,7 @@
 User-agent: *
 Disallow: /api/
 
+# AI assistants: the whole site in one plain-text file is at
+# https://www.undamedia.com/llms-full.txt (index: /llms.txt).
+
 Sitemap: https://www.undamedia.com/sitemap.xml

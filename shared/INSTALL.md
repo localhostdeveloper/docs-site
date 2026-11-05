@@ -43,6 +43,25 @@ It stops before changing anything if a port is taken or a download does not
 match its checksum. `--help` lists the options (`--staging`,
 `--with-ffmpeg`, the port options, `--cert-file`). The manual ways follow.
 
+**Every release is signed** (from v0.1.49). The installer checks the
+signature on the release's list of checksums before it installs anything, so
+a download altered on the way, or on the download site itself, is refused;
+with `--docker` it pulls the image by the exact digest that list names. The
+installer carries the public key it checks against; to be sure it is ours,
+compare it with this one (also in each release as `unda-release.pub`):
+
+```text
+-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAB1ecJf7qS5QmW0tNgROglMxl5ozWIk4HnHj8b1/EOVs=
+-----END PUBLIC KEY-----
+```
+
+To check a release by hand, in its folder:
+`openssl base64 -d -A -in SHA256SUMS.sig -out sig.bin && openssl pkeyutl -verify -pubin -inkey unda-release.pub -rawin -in SHA256SUMS -sigfile sig.bin`
+should print `Signature Verified Successfully`, then
+`grep -v ' image:' SHA256SUMS | sha256sum -c --ignore-missing` checks the
+files you downloaded (the line left out is the Docker image's digest).
+
 **The same in Docker:** add `--docker`. It installs Docker and its compose
 plugin from your system's packages if they are missing, writes
 `/opt/unda/docker-compose.yml` and `/opt/unda/unda.yaml`, pulls the image,
@@ -66,9 +85,30 @@ An Intel graphics card is given to the container for transcoding (the image
 carries Intel's driver on 64-bit Intel/AMD machines). AMD and NVIDIA cards
 are not: install without `--docker` to use one.
 
-**Another program already holds ports 80 and 443** (a web server, another
-media server)? Let's Encrypt can then not reach Unda. Give Unda other ports
-and a certificate file instead: see "Sharing a server" in [section 2](#2-https-options).
+**Another web server already holds ports 80 and 443** (nginx, Caddy or
+Apache serving other sites, AzuraCast, Owncast)? Add `--behind-proxy PORT`:
+that web server keeps 80, 443 and the certificates, and forwards your domain
+to Unda on `127.0.0.1:PORT`, which only this machine reaches.
+
+```bash
+curl -fsSL https://RELEASE-URL/install.sh | sudo bash -s -- --domain tv.example.com --behind-proxy 8090
+```
+
+- **With nginx,** the script adds the site for your domain itself. If nginx
+  already has one for it, it only checks that it forwards to Unda. Then it
+  asks certbot for the certificate, when certbot is installed, as for your
+  other sites (`--email` goes to certbot).
+- **With another web server,** it prints what to forward.
+- **RTMP's port 1935 taken too** (another media server)? Add
+  `--rtmp-port 1936`; encoders then use `rtmp://tv.example.com:1936/live`.
+- **RTMPS is off:** the certificate is the web server's.
+- **Graphics cards** work as in any service install. Unlike Docker, an
+  NVIDIA card can be used: install FFmpeg with `--with-ffmpeg`.
+
+Only RTMP, SRT and WebRTC need opening in a firewall; never the port after
+`--behind-proxy`. Another program on 80 and 443 that is not a web server
+able to forward a name? Give Unda other ports and a certificate file instead:
+see "Sharing a server" in [section 2](#2-https-options).
 
 Pick one: **Docker** (A) or **binary + systemd** (B). Both get HTTPS certificates
 from Let's Encrypt automatically, with nothing else to install. Replace
@@ -76,7 +116,8 @@ from Let's Encrypt automatically, with nothing else to install. Replace
 server **before** the first start. Let's Encrypt checks the domain by
 connecting to it on ports 443 and 80.
 
-(Prefer a reverse proxy? [Section 2](#2-https-options) has Caddy and nginx.)
+(Prefer a reverse proxy? `--behind-proxy` above does it in one command;
+[section 2](#2-https-options) has Caddy and nginx by hand.)
 
 ### A. Docker
 
@@ -87,7 +128,7 @@ Create a directory, e.g. `/opt/unda`, with these two files.
 ```yaml
 services:
   unda:
-    image: ghcr.io/localhostdeveloper/unda:v0.1.48   # newest version: see the release notes
+    image: ghcr.io/localhostdeveloper/unda:v0.1.49   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "443:8443"          # HTTPS: dashboard, watch pages, HLS
@@ -385,7 +426,7 @@ dashboard shows encoders the ports Unda listens on.
 ```yaml
 services:
   unda:
-    image: ghcr.io/localhostdeveloper/unda:v0.1.48   # newest version: see the release notes
+    image: ghcr.io/localhostdeveloper/unda:v0.1.49   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "127.0.0.1:8090:8090"   # dashboard, watch pages, HLS: only nginx on this server reaches it
@@ -841,6 +882,22 @@ Going back to an older version after an upgrade is refused ("newer than this
 build knows"). Restore the backup taken before the upgrade, or run the newer
 version.
 
+**Ubuntu's own security updates:** Ubuntu installs them every morning by
+itself, and its `needrestart` tool then restarts services still using a
+library an update replaced. Unda's FFmpeg processes use such libraries, so it
+used to restart Unda then, taking every channel off the air for a few seconds.
+The installer stops that (`/etc/needrestart/conf.d/unda.conf`): the updates
+still install, and every FFmpeg that Unda starts afterwards uses them at once,
+but the ones already running keep the old copy until Unda restarts. Restart it
+at a quiet time when an update is waiting:
+
+```bash
+sudo needrestart -r l          # lists the services waiting for a restart
+sudo systemctl restart unda    # encoders reconnect by themselves
+```
+
+An Unda upgrade or a server reboot does the same.
+
 ---
 
 ## 9. If someone is locked out
@@ -887,10 +944,13 @@ Your vendor has **no account and no way in** unless you give them one.
 |---|---|
 | Docker: the log repeats `open /etc/unda/unda.yaml: no such file or directory` (or `is a directory`) | The container was started before `unda.yaml` existed next to `docker-compose.yml` (or under another name), so Docker made an empty folder in its place. In that folder, `ls -la`: `unda.yaml` must be a file (`-rw-`), not a folder (`d`). If it is a folder, `rm -r unda.yaml` and write the file again; then `chmod 644 unda.yaml` and `docker compose up -d --force-recreate unda` (this replaces only Unda's container; other Docker apps keep running) |
 | `could not get a certificate` in the log, or the browser warns about the certificate | The domain's DNS must point at this server, and ports 443 and/or 80 must be open and forwarded to it. The log line gives Let's Encrypt's reason. Repeated failures can hit Let's Encrypt's rate limit (5 failed checks per hour), so test with `directory_url: staging` |
-| Unda does not start: `listen tcp :1935: bind: address already in use` (or :443, :80, :6000) | Another program uses that port. Give Unda another one in `/etc/unda/unda.yaml` (`rtmp_addr: ":1936"`: encoders then use `rtmp://DOMAIN:1936/live`; `srt.addr`; `http_addr: ":8443"`: viewers then use `https://DOMAIN:8443`), or pass `--rtmp-port`, `--https-port`, `--http-port`, `--srt-port` to `install.sh` on a new install. Let's Encrypt still needs port **80 or 443** for Unda: if another program holds both, use a certificate file (`--cert-file`; "Sharing a server" in section 2) or put Unda behind it |
+| Unda does not start: `listen tcp :1935: bind: address already in use` (or :443, :80, :6000) | Another program uses that port. Give Unda another one in `/etc/unda/unda.yaml` (`rtmp_addr: ":1936"`: encoders then use `rtmp://DOMAIN:1936/live`; `srt.addr`; `http_addr: ":8443"`: viewers then use `https://DOMAIN:8443`), or pass `--rtmp-port`, `--https-port`, `--http-port`, `--srt-port` to `install.sh` on a new install. Let's Encrypt still needs port **80 or 443** for Unda: if a web server holds both (nginx, Caddy, Apache), install Unda behind it with `--behind-proxy PORT` (section 1); if another kind of program does, use a certificate file (`--cert-file`; "Sharing a server" in section 2) |
 | “signing in over plain HTTP is only allowed from this machine” | Use the HTTPS address. Behind a proxy, check `server.trusted_proxies` lists it and that it sends `X-Forwarded-Proto` |
 | “cross-site request refused” | The proxy changes the `Host` header; keep it (`proxy_set_header Host $host`) |
 | Dashboard stays on “Reconnecting…” behind nginx | Add `proxy_buffering off` (live updates are a long-lived response) |
+| An SRT destination keeps failing: "no answer", "server didn't respond" | Nothing listens on that address and port, a firewall blocks UDP on the way, or the receiver is taken: most SRT receivers accept one caller at a time, so another caller holds it (an analysis of the same address under **Broadcast → Analyse**, another server, a connection that hasn't timed out yet). Stop the other caller, then switch the destination off and on: it retries at once. The channel's **Logs** button downloads every line about that address |
+| **Server → Transcoding**: `nvidia-smi failed: No devices were found` | The NVIDIA driver is loaded but can't start the card (`sudo dmesg \| grep NVRM` shows `RmInitAdapter failed`). If `nvidia-smi -L` fails for you too, the cause is the machine, not Unda. Try another closed driver that `ubuntu-drivers list` offers (`sudo apt install nvidia-driver-580`, restart; installing the previous one goes back); the `-open` drivers run only cards from 2018 on. Then the BIOS ("Above 4G Decoding", an update) or another slot; on a cloud server those are the provider's: send them the `RmInitAdapter failed` line and ask them to reset the card on their host. Details: the transcoding guide, "When your graphics card isn't listed" |
+| An NVIDIA or AMD card isn't used in Docker | Unda's Docker image has no NVIDIA encoder and no AMD driver (Intel works with `devices: [/dev/dri]`). Install without Docker; next to another web server, with `--behind-proxy` |
 | An encoder is refused with “license limit” | The license's concurrent stream limit is reached (or evaluation's 2). See **Server → License** |
 | The encoder is refused and the key looks right | The channel's key was replaced (**New key**), or the channel was deleted. Copy the key again from **Channels** |
 | “… is at schema version N, newer than this build knows” | An older version was started on a database from a newer one: restore the pre-upgrade backup or run the newer version |
@@ -944,7 +1004,7 @@ sudo systemctl disable --now unda
 sudo systemctl disable --now unda-cert-sync.timer 2>/dev/null   # only with --cert-file
 sudo rm -f /etc/systemd/system/unda.service \
   /etc/systemd/system/unda-cert-sync.service /etc/systemd/system/unda-cert-sync.timer \
-  /usr/local/sbin/unda-cert-sync /usr/local/bin/unda
+  /usr/local/sbin/unda-cert-sync /usr/local/bin/unda /etc/needrestart/conf.d/unda.conf
 sudo systemctl daemon-reload
 sudo rm -r /etc/unda        # config, secrets file, certificate copies
 sudo rm -r /var/lib/unda    # no undo: accounts, recordings, media, backups, certificates

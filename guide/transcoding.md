@@ -184,8 +184,33 @@ they used.
   sudo systemctl daemon-reload && sudo systemctl restart unda
   ```
 
-  In Docker, give the container the card: `devices: [/dev/dri]` in
-  `docker-compose.yml` for an Intel or AMD card.
+- **Unda runs in Docker.** Only an Intel card can be given to the container
+  (`devices: [/dev/dri]` in `docker-compose.yml`): Unda's image has no AMD
+  driver and no NVIDIA encoder. For an AMD or NVIDIA card, install Unda
+  without Docker. On a server whose web server already holds ports 80 and
+  443 (nginx, Caddy, Apache), use the installer's `--behind-proxy`
+  ([Install](/guide/install)).
+- **NVIDIA's test says "No devices were found".** The driver is loaded, but
+  it can't start the card. First run `nvidia-smi -L` yourself: if it says
+  the same, the cause is the machine, not Unda, and nothing on the machine can
+  use the card. `sudo dmesg | grep NVRM` then shows
+  `RmInitAdapter failed`. What to try, in this order:
+  1. **Another driver version.** `ubuntu-drivers list` shows the versions
+     Ubuntu offers for the card. Install another closed one, for example
+     `sudo apt install nvidia-driver-580`, then restart the machine. Older
+     cards (GeForce 10 and Quadro P series, 2016-2017) can fail on one version
+     and start on another. Installing the previous version goes back.
+  2. **The closed driver, not `-open`.** NVIDIA's open drivers
+     (`nvidia-driver-XXX-open`) only run cards from 2018 (Turing) on.
+  3. **The machine.** If no driver starts the card: turn on "Above 4G
+     Decoding" in the BIOS, update the board's BIOS, or try the card in
+     another slot. A card that starts nowhere may be faulty.
+  4. **On a cloud server, ask the provider.** The BIOS and the card are
+     theirs. `systemd-detect-virt` printing `kvm`, `vmware` or similar means
+     a virtual machine with the card passed into it: then the usual cause is
+     on their host, often a card that didn't reset when the machine
+     restarted. Send them the `RmInitAdapter failed` line and ask them to
+     reset the card on the host and check that it works there.
 - **Unda can't open the card.** Add the `unda` user to the `render` group
   (`sudo usermod -aG render unda`) and restart Unda. The installer does this
   itself from v0.1.41.

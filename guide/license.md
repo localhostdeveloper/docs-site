@@ -17,7 +17,9 @@ included and until when.
 | `srt` | SRT input and SRT playback |
 | `transcode` | Adaptive bitrate |
 | `playout` | 24/7 channels, the media library and backup encoders |
-| `udp` | UDP, RTP and RIST inputs and destinations, SRT destinations, multi-channel (MPTS) inputs and bundles, and broadcast TV outputs |
+| `udp` | UDP, RTP and RIST inputs and destinations, SRT destinations, multi-channel (MPTS) inputs and bundles, broadcast TV outputs (with ad breaks and the link stations pull), relays and the stream analyser |
+| `webrtc` | WebRTC: publishing with WHIP and low-latency playback with WHEP |
+| `pull` | Pull inputs: HLS links, MPEG-TS over HTTP, other RTMP servers and RTSP cameras |
 
 Without `udp`, a UDP, RTP, RIST or SRT destination or a broadcast output can't be
 added or switched on. One saved before (or added under an earlier license) is

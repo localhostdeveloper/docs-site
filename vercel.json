@@ -6,5 +6,23 @@
     { "source": "/guide/", "destination": "/guide/introduction", "permanent": false },
     { "source": "/reference", "destination": "/reference/api", "permanent": false },
     { "source": "/reference/", "destination": "/reference/api", "permanent": false }
+  ],
+  "headers": [
+    {
+      "source": "/llms.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    },
+    {
+      "source": "/llms-full.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    }
   ]
 }

@@ -18,11 +18,12 @@ in a single file, and gets its own HTTPS certificate.
 
 | | |
 |---|---|
-| **Takes streams in** | RTMP / RTMPS (OBS, vMix, ffmpeg), SRT (contribution over the internet), MPEG-TS over UDP or RTP, unicast or multicast (hardware encoders, IPTV) |
-| **Gives them out** | A browser player page, HLS for websites and apps, MPEG-DASH, RTMP and SRT for VLC / OBS / vMix, UDP or RTP for set-top boxes |
+| **Takes streams in** | RTMP / RTMPS (OBS, vMix, ffmpeg), SRT (contribution over the internet), WebRTC with WHIP (OBS, a browser), MPEG-TS over UDP or RTP, unicast or multicast, and RIST (hardware encoders, IPTV), multi-channel feeds (MPTS) |
+| **Fetches streams** | HLS links, MPEG-TS over HTTP, other RTMP servers and RTSP cameras, published like any other stream |
+| **Gives them out** | A browser player page, HLS for websites and apps, MPEG-DASH, WebRTC with WHEP (about a second of delay), RTMP and SRT for VLC / OBS / vMix, MPEG-TS over HTTP for IPTV apps, UDP, RTP or RIST for set-top boxes |
 | **Adaptive bitrate** | Several qualities of one stream (4K down to 144p) so every viewer gets one their connection can carry. On the CPU or a GPU; optional; needs FFmpeg |
-| **Restreaming** | The same stream to YouTube, Facebook, Twitch or other servers at once |
-| **Broadcast TV and IPTV** | Standard-definition H.264 or MPEG-2 at a constant bitrate with DVB channel names for multiplexers and modulators; several streams bundled as the channels of one transport stream (MPTS) |
+| **Restreaming** | The same stream to YouTube, Facebook, Twitch or other servers at once, over RTMP, RTMPS or SRT |
+| **Broadcast TV and IPTV** | SD (576p25) and HD (720p50, 1080i25) in H.264, HEVC or MPEG-2 (SD only), at a constant bitrate with DVB channel names, network and time tables and a programme guide, for multiplexers and modulators; several streams bundled as the channels of one transport stream (MPTS); a feed passed on untouched with a relay |
 | **Recording** | Record any live stream to files, split every hour, with optional automatic clean-up |
 | **Dashboard** | Streams, multiview, viewers, health, alerts and events live; channels, users, API keys and settings |
 | **Monitoring** | Stream health, packet loss on UDP inputs, TR 101 290 checks on transport streams in and out, a stream analyser, Prometheus metrics and webhook alerts |
@@ -49,7 +50,9 @@ on a set-top box over UDP, with nothing to configure.
 - Upload bandwidth for your viewers: every viewer needs the stream's bitrate, so
   **100 Mbit/s carries about 25 viewers at 3 Mb/s**, 1 Gbit/s about 250 (see
   [How far one server goes](/guide/compatibility#how-far-one-server-goes)).
-- A domain name pointing at the server, for HTTPS.
+- A domain name pointing at the server, for HTTPS on the internet. On your
+  own network, the Docker install works without one: it makes its own
+  certificate.
 - A license file from your vendor. Without one Unda runs in evaluation mode
   for 30 days: everything works, for up to 2 live streams and 2 accounts
   besides the owner.

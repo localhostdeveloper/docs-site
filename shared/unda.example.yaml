@@ -189,7 +189,7 @@ restream:
   #     name: twitch
   #     url_env: UNDA_PUSH_TWITCH_URL     # or: url_file: /run/secrets/twitch_url
   #   - stream: mykey                # broadcast TV: re-encoded for a DVB multiplexer,
-  #     name: dtt-mux                #   IP modulator or satellite uplink (udp://, rtp://, srt:// or rist://)
+  #     name: dtt-mux                #   IP modulator or satellite uplink (udp://, rtp://, srt://, rist:// or http-pull://)
   #     url: udp://239.1.1.20:5000?ttl=4
   #     broadcast:                   # 16:9, CBR MPEG-TS with DVB service information
   #       format: 576p25             # 576p25 (SD, default), 720p50 or 1080i25 (HD, interlaced)
@@ -208,6 +208,13 @@ restream:
   #       # pmt_pid: 4096            #   pmt_pid, video_pid (256), audio_pid (257)
   #       # ad_cues: true            # SCTE 35 ad cues for an ad inserter (start breaks on the stream page);
   #                                  #   cue_pid: 258 by default
+  #   - stream: mykey                # broadcast TV the station's receiver pulls over HTTP from this server:
+  #     name: cable-headend          #   https://<server>/tv/<token>.ts (the Restream tab shows the link)
+  #     url: http-pull://?token=Ab3dEf6hIj9kLm2nOp5qRs&allow=198.51.100.0/24
+  #                                  #   token: 22 letters, digits, - or _ (without it the link changes at
+  #                                  #   every start); allow: who may pull; plain=1: plain HTTP too
+  #     broadcast:
+  #       service_name: "Unda TV"
 
 limits:
   # Concurrent connections per client IP, counted separately on the RTMP, HTTP

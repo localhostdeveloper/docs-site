@@ -27,7 +27,7 @@ description: "Unda Media Server packages: the full server with unlimited viewers
 <li>Signed playback links</li>
 <li class="m-no">Not included: adaptive bitrate (from Professional)</li>
 <li class="m-no">Not included: 24/7 channels, backup encoder, pull and playlist inputs (from Professional)</li>
-<li class="m-no">Not included: UDP, RTP, SRT and TV outputs (Broadcast)</li>
+<li class="m-no">Not included: UDP, RTP and RIST, SRT output, TV outputs, relays and the analyser (Broadcast)</li>
 </ul>
 <p class="m-price">$20 a month, or $220 a year</p>
 <a class="m-btn m-btn-ghost" href="/contact?package=Starter">Get Starter</a>
@@ -44,7 +44,7 @@ description: "Unda Media Server packages: the full server with unlimited viewers
 <li>Channel inputs in your order: live and backup encoder, a pull stream, a playlist</li>
 <li>WebRTC: about a second of delay (WHIP in, WHEP out)</li>
 <li>Pull inputs: HLS links, RTMP servers, RTSP cameras</li>
-<li class="m-no">Not included: UDP, RTP, SRT and TV outputs (Broadcast)</li>
+<li class="m-no">Not included: UDP, RTP and RIST, SRT output, TV outputs, relays and the analyser (Broadcast)</li>
 </ul>
 <p class="m-price">Price on request</p>
 <a class="m-btn m-btn-primary" href="/contact?package=Professional">Ask for a price</a>
@@ -56,11 +56,11 @@ description: "Unda Media Server packages: the full server with unlimited viewers
 <ul>
 <li>Everything in Professional</li>
 <li>UDP, RTP and RIST input and output</li>
-<li>SRT output to TV stations</li>
-<li>Multi-channel feeds in and out (MPTS)</li>
-<li>Constant-bitrate SD and HD TV outputs</li>
-<li>WebRTC: about a second of delay (WHIP in, WHEP out)</li>
-<li>Pull inputs: HLS links, RTMP servers, RTSP cameras</li>
+<li>Constant-bitrate SD and HD TV outputs, with ad breaks (SCTE 35)</li>
+<li>TV stations get a channel by SRT, or pull it from a link</li>
+<li>Multi-channel feeds in and out (MPTS), with an 8-day guide</li>
+<li>Relays: a feed passed on untouched</li>
+<li>Stream analyser: TR 101 290 checks on any feed</li>
 </ul>
 <p class="m-price">Price on request</p>
 <a class="m-btn m-btn-ghost" href="/contact?package=Broadcast">Ask for a price</a>
@@ -106,7 +106,11 @@ description: "Unda Media Server packages: the full server with unlimited viewers
 <tr><td>Adaptive bitrate</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>24/7 channels, media library, backup encoder</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>Channel inputs in order (live, backup encoder, pull, playlist), switched by themselves</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
-<tr><td>UDP, RTP, RIST, SRT destinations, multi-channel, TV outputs</td><td class="m-c m-dash">—</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
+<tr><td>UDP, RTP and RIST in and out, SRT destinations</td><td class="m-c m-dash">—</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
+<tr><td>Constant-bitrate SD and HD TV outputs, ad breaks (SCTE 35), a link stations pull</td><td class="m-c m-dash">—</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
+<tr><td>Multi-channel feeds (MPTS) in and out, 8-day guide (EIT)</td><td class="m-c m-dash">—</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
+<tr><td>Relays: a feed passed on untouched</td><td class="m-c m-dash">—</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
+<tr><td>Stream analyser (TR 101 290)</td><td class="m-c m-dash">—</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c">Optional</td></tr>
 <tr><td>Support by email, Monday to Friday, 9:00-19:00 GMT</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td></tr>
 <tr><td>Serious problems (a channel off air) handled until 22:00 GMT</td><td class="m-c m-dash">—</td><td class="m-c m-dash">—</td><td class="m-c m-yes">✓</td><td class="m-c m-yes">✓</td></tr>
 <tr><td>Price</td><td class="m-c">$20 a month or $220 a year</td><td class="m-c">On request</td><td class="m-c">On request</td><td class="m-c">On request</td></tr>
