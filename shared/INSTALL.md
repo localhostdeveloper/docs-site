@@ -33,10 +33,10 @@ Steps:
 ## 1. Install
 
 **Quickest (Ubuntu/Debian):** one command downloads, verifies and installs
-everything, with HTTPS. Your vendor gives you the exact address:
+everything, with HTTPS:
 
 ```bash
-curl -fsSL https://RELEASE-URL/install.sh | sudo bash -s -- --domain tv.example.com --email you@example.com
+curl -fsSL https://get.undamedia.com/install.sh | sudo bash -s -- --domain tv.example.com --email you@example.com
 ```
 
 It stops before changing anything if a port is taken or a download does not
@@ -78,7 +78,7 @@ upgrades to the new image and keeps your settings and data.
   machine. Browsers warn about it once: choose Advanced, then continue.
 
 ```bash
-curl -fsSL https://RELEASE-URL/install.sh | sudo bash -s -- --docker
+curl -fsSL https://get.undamedia.com/install.sh | sudo bash -s -- --docker
 ```
 
 An Intel graphics card is given to the container for transcoding (the image
@@ -91,7 +91,7 @@ that web server keeps 80, 443 and the certificates, and forwards your domain
 to Unda on `127.0.0.1:PORT`, which only this machine reaches.
 
 ```bash
-curl -fsSL https://RELEASE-URL/install.sh | sudo bash -s -- --domain tv.example.com --behind-proxy 8090
+curl -fsSL https://get.undamedia.com/install.sh | sudo bash -s -- --domain tv.example.com --behind-proxy 8090
 ```
 
 - **With nginx,** the script adds the site for your domain itself. If nginx
@@ -380,7 +380,7 @@ the certificate comes from is up to you, from most to least independent:
    Then:
 
    ```bash
-   curl -fsSL https://RELEASE-URL/install.sh | sudo bash -s -- --domain unda.example.com \
+   curl -fsSL https://get.undamedia.com/install.sh | sudo bash -s -- --domain unda.example.com \
      --cert-file /etc/letsencrypt/live/unda.example.com/fullchain.pem \
      --key-file  /etc/letsencrypt/live/unda.example.com/privkey.pem \
      --https-port 8443 --rtmp-port 1936
