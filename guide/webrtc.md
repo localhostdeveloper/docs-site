@@ -132,7 +132,9 @@ are given only to players that were allowed to play.
   in Chrome with x264's default B-frames; in order with B-frames off). The
   stream's Output tab says when a stream has them, and so does its Overview
   while the preview plays in Low latency; set B-frames to 0 in the encoder
-  (OBS x264 options `bframes=0`, or NVENC "Max B-frames" 0).
+  (OBS x264 options `bframes=0`, or NVENC "Max B-frames" 0). The channels
+  Unda encodes itself (24/7 channels, and backup sources in Seamless mode)
+  have none while WebRTC is on.
 - **Joining:** a new viewer starts at the live picture at once, not at the
   last keyframe.
 - **Limits:** `webrtc.max_viewers` (500), `max_publishers` (64) and

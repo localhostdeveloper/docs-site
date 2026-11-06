@@ -18,6 +18,23 @@ mean: [Releases and support](/guide/releases).
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
+## Next release
+
+### Fixed
+
+- Low latency (WebRTC) viewers of 24/7 channels, and of channels using
+  backup sources in Seamless mode, saw some pictures out of order. On a
+  server with WebRTC on, Unda now encodes these channels without B-frames.
+- An encoder sending over RTMPS is now shown as RTMPS, not RTMP.
+- A channel playing its playlist input (a playlist or a looped video) is
+  shown as PLAYLIST, not SLATE, and its alert says it is playing its
+  playlist. When the playlist is ranked first, it raises no alert.
+- The install command (`curl … | sudo bash`) could install Unda files left
+  in the folder you ran it from, instead of downloading and checking the
+  release. It now always downloads the release and checks its signature;
+  files next to the installer are used only when you run `./install.sh`
+  from an unpacked release folder.
+
 ## v0.1.49 {#v0-1-49}
 
 *5 November 2026*
