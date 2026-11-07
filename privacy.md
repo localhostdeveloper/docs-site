@@ -14,7 +14,7 @@ description: What UndaMedia collects on this website and through Unda Media Serv
 </section>
 <section class="m-section">
 <div class="m-wrap m-prose m-legal">
-<p class="m-legal-date">Last updated 21 October 2026</p>
+<p class="m-legal-date">Last updated 7 November 2026</p>
 <h2>Who we are</h2>
 <p>UndaMedia makes Unda Media Server. UndaMedia is a product of LC Technology. In this policy "we" and "us" mean UndaMedia. For anything about your information, email <a href="mailto:support@undamedia.com">support@undamedia.com</a>.</p>
 <h2>This website</h2>
@@ -25,8 +25,10 @@ description: What UndaMedia collects on this website and through Unda Media Serv
 <p>When you sign the licence agreement online we receive everything you type into it, and we record the time, your IP address and your browser as evidence of your signature. Our website host fills in the agreement with your answers, gives you a copy, and emails it to our mailbox through the same email service. We use it only to make and keep our agreement with you, and we keep it with our business records.</p>
 <h3>Website logs</h3>
 <p>This website is hosted by Vercel. Like any web host, it records technical details of each visit, such as your IP address, browser and the page you asked for, to keep the site running and secure. We don't use these records to identify you.</p>
-<h3>No cookies, no tracking</h3>
-<p>This website sets no cookies and uses no analytics, advertising or tracking tools. If you switch between light and dark mode, your browser remembers the choice on your own device; it is never sent to us.</p>
+<h3>Visit counts</h3>
+<p>We count visits with Vercel Web Analytics: which pages are read, which site or search brought you here, your country, and your type of device and browser. It sets no cookies and doesn't follow you to other websites, and it shows us totals only, never who you are.</p>
+<h3>No cookies, no advertising</h3>
+<p>This website sets no cookies and uses no advertising tools. If you switch between light and dark mode, your browser remembers the choice on your own device; it is never sent to us.</p>
 <p>Our Facebook and X pages, and any other site we link to, have their own privacy policies.</p>
 <h2>Unda Media Server, the software</h2>
 <h3>Your server, your data</h3>

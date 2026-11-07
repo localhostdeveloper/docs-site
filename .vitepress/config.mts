@@ -136,6 +136,9 @@ export default defineConfig({
   appearance: { initialValue: "light" } as any,
   head: [
     ["link", { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
+    // Visit counts: Vercel Web Analytics (no cookies; the privacy page says so).
+    ["script", {}, "window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };"],
+    ["script", { defer: "", src: "/_vercel/insights/script.js" }],
     // The whole site as one plain-text file, for AI assistants.
     ["link", { rel: "alternate", type: "text/plain", title: "The whole site as plain text", href: "/llms-full.txt" }],
     // The picture shown when a link is shared (WhatsApp, Facebook, X, LinkedIn…).
