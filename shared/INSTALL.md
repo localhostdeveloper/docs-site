@@ -64,25 +64,32 @@ files you downloaded (the line left out is the Docker image's digest).
 
 **To check the installer itself before it runs.** The one-line command above
 runs `install.sh` as it downloads, so it trusts our download site; the
-installer then checks everything else it fetches. To trust only the key printed
-on this page, check the installer first, in a new, empty folder:
+installer then checks everything else it fetches. To trust only the key and the
+version printed on this page, check the installer first, in a new, empty
+folder (made fresh each time, so no file left from before is used):
 
 ```bash
-mkdir unda-install && cd unda-install
-V=$(curl -fsSL https://get.undamedia.com/latest.json | sed -n 's/.*"version": *"\([^"]*\)".*/\1/p'); echo "$V"
-for f in install.sh SHA256SUMS SHA256SUMS.sig; do curl -fsSLO "https://get.undamedia.com/$V/$f"; done
+cd "$(mktemp -d)" && pwd
+V=v0.1.49
+for f in install.sh SHA256SUMS SHA256SUMS.sig; do curl -fsSLO --proto '=https' "https://get.undamedia.com/$V/$f"; done
 printf '%s\n' '-----BEGIN PUBLIC KEY-----' 'MCowBQYDK2VwAyEAB1ecJf7qS5QmW0tNgROglMxl5ozWIk4HnHj8b1/EOVs=' '-----END PUBLIC KEY-----' > unda-release.pub
 openssl base64 -d -A -in SHA256SUMS.sig -out sig.bin
 openssl pkeyutl -verify -pubin -inkey unda-release.pub -rawin -in SHA256SUMS -sigfile sig.bin
 grep '  install.sh$' SHA256SUMS | sha256sum -c -
+grep -q "^DEFAULT_BASE_URL=.*  # $V (" install.sh && echo "install.sh is $V"
 ```
 
-You should see `Signature Verified Successfully` and `install.sh: OK`. If
-either is missing, stop and tell us. Then run the checked installer from that
+You should see `Signature Verified Successfully`, `install.sh: OK` and
+`install.sh is` with that version. If any is missing, stop and tell us. `V` is the
+newest version when this page was published (it is not read from the download
+site, which could otherwise hand you an older release); if the
+[release notes](https://www.undamedia.com/release-notes) list a newer one, use
+that. Then run the checked installer from that
 folder with the options you need, for example
 `sudo bash install.sh --domain tv.example.com --email you@example.com`
 (or `--docker`). It downloads and checks the rest of the release as usual.
-Upgrades the same way, with the newest version.
+Upgrades the same way. From v0.1.50 the installer refuses to put an older
+version over a newer one (see [Backups and upgrades](#8-backups-and-upgrades)).
 
 **The same in Docker:** add `--docker`. It installs Docker and its compose
 plugin from your system's packages if they are missing, writes
@@ -863,9 +870,22 @@ that copy fails (a full disk), Unda does not start and says so; free space
 and start it again. `UNDA_SKIP_UPGRADE_BACKUP=1` in its environment starts
 it without the copy, for when you have another.
 
-- **Installed with `install.sh`:** run the same install command again (the
-  `curl … | sudo bash -s -- --domain …` line, or `./install.sh` from the new
-  release folder). It also backs up the database with the old version first,
+- **Installed with `install.sh`, from v0.1.50:**
+
+  ```bash
+  sudo unda upgrade          # unda upgrade -check only looks
+  ```
+
+  Your Unda checks the new release with the vendor's key built into it before
+  anything runs: the release's signature, every file, that it really is the
+  version it claims, and that it is newer than yours (it never goes back, so a
+  download site set back to an older release can't take your server back).
+  Then it runs that release's checked installer, which upgrades as below.
+  `-version vX.Y.Z` picks a release other than the newest (never an older one).
+- **Installed with `install.sh`, the other way:** run the same install
+  command again (the `curl … | sudo bash -s -- --domain …` line, or
+  `./install.sh` from the new release folder; from v0.1.50 `--upgrade` can
+  replace `--domain …`). It also backs up the database with the old version first,
   to `/var/lib/unda/backups/pre-upgrade-<date_time>.db` (the five newest are
   kept), then replaces the binary and restarts Unda. Your configuration,
   accounts, channels, license and certificates are kept. If that backup
@@ -902,7 +922,11 @@ live encoders for a few seconds; OBS reconnects by itself.
 
 Going back to an older version after an upgrade is refused ("newer than this
 build knows"). Restore the backup taken before the upgrade, or run the newer
-version.
+version. The installer (from v0.1.50) also refuses to put an older version
+over a newer one, so an old release served in place of the newest can't take
+a server back. To go back on purpose, restore the backup first, then run the
+older release's installer with `--allow-downgrade` (installers before v0.1.50
+don't need it).
 
 **Ubuntu's own security updates:** Ubuntu installs them every morning by
 itself, and its `needrestart` tool then restarts services still using a
