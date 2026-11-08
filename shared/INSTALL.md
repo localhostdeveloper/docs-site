@@ -62,6 +62,28 @@ should print `Signature Verified Successfully`, then
 `grep -v ' image:' SHA256SUMS | sha256sum -c --ignore-missing` checks the
 files you downloaded (the line left out is the Docker image's digest).
 
+**To check the installer itself before it runs.** The one-line command above
+runs `install.sh` as it downloads, so it trusts our download site; the
+installer then checks everything else it fetches. To trust only the key printed
+on this page, check the installer first, in a new, empty folder:
+
+```bash
+mkdir unda-install && cd unda-install
+V=$(curl -fsSL https://get.undamedia.com/latest.json | sed -n 's/.*"version": *"\([^"]*\)".*/\1/p'); echo "$V"
+for f in install.sh SHA256SUMS SHA256SUMS.sig; do curl -fsSLO "https://get.undamedia.com/$V/$f"; done
+printf '%s\n' '-----BEGIN PUBLIC KEY-----' 'MCowBQYDK2VwAyEAB1ecJf7qS5QmW0tNgROglMxl5ozWIk4HnHj8b1/EOVs=' '-----END PUBLIC KEY-----' > unda-release.pub
+openssl base64 -d -A -in SHA256SUMS.sig -out sig.bin
+openssl pkeyutl -verify -pubin -inkey unda-release.pub -rawin -in SHA256SUMS -sigfile sig.bin
+grep '  install.sh$' SHA256SUMS | sha256sum -c -
+```
+
+You should see `Signature Verified Successfully` and `install.sh: OK`. If
+either is missing, stop and tell us. Then run the checked installer from that
+folder with the options you need, for example
+`sudo bash install.sh --domain tv.example.com --email you@example.com`
+(or `--docker`). It downloads and checks the rest of the release as usual.
+Upgrades the same way, with the newest version.
+
 **The same in Docker:** add `--docker`. It installs Docker and its compose
 plugin from your system's packages if they are missing, writes
 `/opt/unda/docker-compose.yml` and `/opt/unda/unda.yaml`, pulls the image,
