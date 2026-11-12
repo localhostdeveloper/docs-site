@@ -62,6 +62,7 @@ it back from what the player shows (Chrome).
 | A 3-channel 8 Mb/s bundle (a 24/7 channel with its guide, a live channel, an offline channel showing black) analysed by TSDuck for 12 minutes | 0 sync, transport or continuity errors; all 108,570 clock references (PCR) within one tick of their position; PCR every 23 ms or less; channel list every 100 ms, names every 0.5 s, guide every second |
 | Single-channel TV outputs, SD (H.264, MPEG-2) | Every second within 0.5 % of the set rate (0.7 % for MPEG-2), PCR every 22 ms or less |
 | Single-channel TV outputs, HD (720p50, 1080i25; H.264, HEVC) | Every second within 1 % of the set rate, PCR every 40 ms or less |
+| Single-channel TV outputs, HD 1080p25 and 1080p50 (H.264; HEVC 1080p50) | Every second within 0.5 % of the set rate, PCR every 21 ms or less, every picture at least half a second before its decode time. As a bundle channel beside an SD channel (4 minutes): no picture late, nothing dropped, TR 101 290 clean |
 | Network and time tables on all five TV output formats (TSDuck) | Present and correct in every one; clock references exact against their position |
 | Unda's SD TV output analysed as a receiver sees it (Unda's own analyser, judged as a TV output) | Clean on all three TR 101 290 priorities; rate exactly 1300 kb/s, constant; PCR accuracy 0 errors; network jitter (MDI) 8.8 ms, 0 lost |
 | The same 2-channel bundle analysed by TSDuck and by Unda's analyser at once | Both: 3,000,000 b/s, the same channels and PIDs, padding within 0.4 %, no errors |

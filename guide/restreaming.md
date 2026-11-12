@@ -168,7 +168,7 @@ short steps: **Delivery** (where it goes, or how the receiver gets it),
 **Extras** (network and time tables, ad cues). The stream is re-encoded to
 what TV equipment expects:
 
-- **Picture:** 16:9 in one of four formats. A 4:3 or portrait source gets
+- **Picture:** 16:9 in one of six formats. A 4:3 or portrait source gets
   black bars at the sides; nothing is cropped.
 
   | Format | Picture | Use |
@@ -177,13 +177,15 @@ what TV equipment expects:
   | `576i25` | SD 720×576 interlaced, top field first | SD services whose equipment expects interlaced SD, as SD broadcast encoders commonly send |
   | `720p50` | HD 1280×720, 50 frames/s | HD services that use 720p |
   | `1080i25` | HD 1920×1080 interlaced, top field first | the usual HD format in 50 Hz countries |
+  | `1080p25` | HD 1920×1080, 25 frames/s | IPTV and HD services that use 1080p, for material made at 25 frames/s |
+  | `1080p50` | HD 1920×1080, 50 frames/s | IPTV, contribution links and newer DVB-T2 and satellite HD services; sport and fast movement |
 
   The interlaced formats are woven from 50 pictures a second: a 50 frames/s
   source moves in 50 fields a second, and a 25 frames/s source goes out with
   both fields of a frame from the same picture, so it looks just as it did.
 
 - **Video:** H.264 (DVB-T2 / DVB-S2; High profile for HD), HEVC (H.265; for
-  576p25 and 720p50, since HEVC services are progressive) or MPEG-2 (older
+  576p25, 720p50, 1080p25 and 1080p50, since HEVC services are progressive) or MPEG-2 (older
   DVB-T / DVB-S receivers; SD only). SD H.264 is sized by the whole
   transport stream: **1300 kb/s by default**, the video filling what the audio
   and the stream's overhead leave (1040 kb/s with AAC at 128). Type another total
@@ -244,7 +246,9 @@ expects it) or `srt://` (over the internet, encrypted; `srt://:port` when the
 station's receiver connects to you, see [below](#letting-the-receiver-connect-srt-listener)). Ask the multiplexer operator for the bitrate reserved for
 your service, and enter it as the constant total bitrate. Each broadcast
 destination runs its own encoder: plan for about a third of a CPU core for SD
-H.264, about one core for HD H.264 and about two for HEVC.
+H.264, about one core for HD H.264 and about two for HEVC. 1080p50 takes
+about one and a half times as much (measured: 1.6 times 1080i25 in H.264, and
+1.6 times 720p50 in HEVC); 1080p25 about the same as 1080i25.
 
 ### Letting the receiver connect (SRT listener)
 

@@ -23,7 +23,7 @@ in a single file, and gets its own HTTPS certificate.
 | **Gives them out** | A browser player page, HLS for websites and apps, MPEG-DASH, WebRTC with WHEP (about a second of delay), RTMP and SRT for VLC / OBS / vMix, MPEG-TS over HTTP for IPTV apps, UDP, RTP or RIST for set-top boxes |
 | **Adaptive bitrate** | Several qualities of one stream (4K down to 144p) so every viewer gets one their connection can carry. On the CPU or a GPU; optional; needs FFmpeg |
 | **Restreaming** | The same stream to YouTube, Facebook, Twitch or other servers at once, over RTMP, RTMPS or SRT |
-| **Broadcast TV and IPTV** | SD (576p25, 576i25) and HD (720p50, 1080i25) in H.264, HEVC or MPEG-2 (SD only), at a constant bitrate with DVB channel names, network and time tables and a programme guide, for multiplexers and modulators; several streams bundled as the channels of one transport stream (MPTS); a feed passed on untouched with a relay |
+| **Broadcast TV and IPTV** | SD (576p25, 576i25) and HD (720p50, 1080i25, 1080p25, 1080p50) in H.264, HEVC or MPEG-2 (SD only), at a constant bitrate with DVB channel names, network and time tables and a programme guide, for multiplexers and modulators; several streams bundled as the channels of one transport stream (MPTS); a feed passed on untouched with a relay |
 | **Recording** | Record any live stream to files, split every hour, with optional automatic clean-up |
 | **Dashboard** | Streams, multiview, viewers, health, alerts and events live; channels, users, API keys and settings |
 | **Monitoring** | Stream health, packet loss on UDP inputs, TR 101 290 checks on transport streams in and out, a stream analyser, Prometheus metrics and webhook alerts |

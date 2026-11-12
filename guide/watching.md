@@ -132,8 +132,8 @@ Captions are kept while the frame rate stays the same. Two cases change it:
   a 50 or 60 frames-a-second source loses its captions in those qualities (the
   stream as it arrives keeps them). To keep them, raise `transcode.fps` to 60
   in `unda.yaml`; the qualities then cost more processor time.
-- A 720p50 TV output made from a 25 frames-a-second source doubles the frame
-  rate and loses them. SD, 1080i and 720p50 from a 50 frames-a-second source
+- A 720p50 or 1080p50 TV output made from a 25 frames-a-second source doubles
+  the frame rate and loses them. SD, 1080i and 720p50 from a 50 frames-a-second source
   keep them.
 
 Captions are not kept by 24/7 channels made from files, and the low-latency

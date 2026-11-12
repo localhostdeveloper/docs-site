@@ -38,6 +38,8 @@ mean: [Releases and support](/guide/releases).
   menu.
 - A stream's **Input** card shows the picture's and the sound's bitrates
   next to the total, measured over the same few seconds.
+- TV outputs and bundle channels can go out as HD **1080p25** or **1080p50**
+  (1920×1080, progressive) in H.264 or HEVC.
 - When a channel's left and right sound arrive out of phase (phones and mono
   TVs then hear almost nothing), the new **Sound** card on its Output tab
   says so and **Flip one side** puts it right; an alert, **Sound sides
