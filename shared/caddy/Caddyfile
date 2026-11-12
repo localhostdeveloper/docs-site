@@ -1,7 +1,11 @@
 # Replace tv.example.com with your domain (its DNS must point at this server).
 # Caddy gets a Let's Encrypt certificate for it and renews it on its own, and
 # sends Unda the X-Forwarded-* headers it needs; live dashboard updates
-# (server-sent events) are streamed through without buffering.
+# (server-sent events) are streamed through without buffering. It also sends
+# the secret from .env (UNDA_PROXY_KEY), so Unda believes it about visitors
+# and nothing else on the Docker network can pretend to be a visitor.
 tv.example.com {
-	reverse_proxy unda:8080
+	reverse_proxy unda:8080 {
+		header_up X-Unda-Proxy-Key {$UNDA_PROXY_KEY}
+	}
 }

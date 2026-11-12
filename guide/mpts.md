@@ -55,6 +55,9 @@ UDP: both resend what the network loses.
   encryption). Everything comes in on the one port you give (any port), so
   open just that one. Unda takes AES-128 or AES-256 from the sender; see
   [Encrypted RIST](#encrypted-rist-main-profile).
+- A RIST input added in the dashboard needs the sender's passphrase or an
+  allow list of senders, as a UDP input does: RIST is UDP, so without either
+  anyone who can reach the port could feed it.
 
 The input's line on the Broadcast page shows whether the SRT link is up (and why
 not), and for RIST how many packets the network lost and were resent. When
@@ -95,6 +98,8 @@ What gets published depends on the channel's formats:
 | H.264 video, AAC audio | Splits it as it is | Almost nothing |
 | H.264 video, MP2 or AC-3 audio | Converts the audio to AAC | Very little |
 | MPEG-2 or HEVC video | Listed, not published, until you set `transcode_video: true` for it | About one CPU core per HD channel |
+| VVC (H.266) or MPEG-5 EVC video | Named as such and listed, not published; re-encoding them needs an FFmpeg that decodes them (VVC from FFmpeg 7; EVC only in builds with libxevd) | About one CPU core per HD channel |
+| An MPEG-5 LCEVC enhancement layer | Named, and left out: the channel publishes its base video. A relay passes it on untouched | Nothing |
 
 Each channel keeps one video and one audio track, and the closed captions
 inside the video (subtitles and teletext are not carried). If one channel in the bundle stops or has errors, the others
@@ -168,12 +173,15 @@ mpts_outputs:
 
 Each channel is either **sent as it is** (give it a `bitrate` a little above
 what the stream uses at its busiest) or **converted** for TV equipment with
-`encode`: SD 576p25 or HD 720p50 / 1080i25, H.264, HEVC or MPEG-2 video, AAC,
+`encode`: SD 576p25 / 576i25 or HD 720p50 / 1080i25, H.264, HEVC or MPEG-2 video, AAC,
 MP2 or AC-3 audio, with the same settings as a
 [broadcast output](/guide/restreaming#broadcast-tv-terrestrial-and-satellite).
 A converted channel's `bitrate` is its whole share of the bundle, and its video
 is fitted into it: an SD H.264 channel with a 1300 kb/s share gets 1040 kb/s of
-video and AAC at 128 kb/s. Without a share, SD H.264 takes 1300 kb/s (a
+video and AAC at 128 kb/s. On a server whose FFmpeg is version 4 (Ubuntu
+22.04's) it gets 1000 kb/s, because that FFmpeg leaves less time between a
+picture's arrival and its decode time; FFmpeg 6.1 and later (Ubuntu 24.04 and
+the Docker image) leave more. Without a share, SD H.264 takes 1300 kb/s (a
 common rate for SD channels); set `video_kbps` in `encode` to choose the video rate
 yourself. The bundle table shows each channel's video and audio rates. Channel numbers,
 PIDs and names can be set to match the plan agreed with the receiving side;

@@ -1,6 +1,8 @@
 # Unda behind Caddy (Docker). An alternative to Unda's built-in Let's Encrypt:
 # Caddy obtains and renews the certificate and forwards to Unda over the
 # private Docker network. Copy this folder, set your domain in the Caddyfile,
+# make the secret Caddy sends Unda (a .env file only root can read):
+#   install -m 600 /dev/null .env && echo "UNDA_PROXY_KEY=$(openssl rand -hex 24)" > .env
 # then:  docker compose up -d
 services:
   unda:
@@ -15,6 +17,7 @@ services:
       - ./unda.yaml:/etc/unda/unda.yaml:ro
     environment:
       TZ: UTC               # your time zone (e.g. Europe/Paris): recording file names and logs
+      UNDA_TRUSTED_PROXY_SECRET: ${UNDA_PROXY_KEY:-}   # from .env: only requests carrying it speak for visitors
     read_only: true
     tmpfs: [/tmp]
     cap_drop: [ALL]
@@ -34,6 +37,8 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy-data:/data      # Caddy's certificates: keep this volume
+    environment:
+      UNDA_PROXY_KEY: ${UNDA_PROXY_KEY:-unset}   # from .env; "unset" if there is none (Unda then has none either)
     logging:                # Docker keeps logs forever otherwise
       options: { max-size: "10m", max-file: "5" }
     networks: [web]

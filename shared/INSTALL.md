@@ -370,12 +370,55 @@ location / {
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    include /etc/nginx/snippets/unda-proxy-key.conf;   # the secret, below
     proxy_buffering off;
     proxy_request_buffering off;
     client_max_body_size 16m;
     proxy_read_timeout 1h;
 }
 ```
+
+**The web server's secret.** Unda believes the web server about who a visitor
+is because of the address it connects from. Any other program that can reach
+Unda from that address (another user on the same machine, another container
+on the same Docker network) could then claim to be any visitor: guess
+passwords past the sign-in lockout, lock a real person out, put any address
+in the audit log. A secret only the web server sends closes that. `install.sh
+--behind-proxy` sets it up when it writes the nginx site; until a server has
+one, the dashboard shows a security notice on its Overview.
+
+With nginx (do nginx first: Unda ignores the header until it has the secret):
+
+```bash
+KEY=$(openssl rand -hex 24)
+sudo install -d -m 755 /etc/nginx/snippets
+sudo install -m 600 /dev/null /etc/nginx/snippets/unda-proxy-key.conf
+printf 'proxy_set_header X-Unda-Proxy-Key "%s";\n' "$KEY" | sudo tee /etc/nginx/snippets/unda-proxy-key.conf >/dev/null
+# add the include line above to Unda's location block, then:
+sudo nginx -t && sudo systemctl reload nginx
+echo "UNDA_TRUSTED_PROXY_SECRET=$KEY" | sudo tee -a /etc/unda/unda.env >/dev/null
+sudo systemctl restart unda
+```
+
+With Caddy on a systemd install, keep the key in a file only root reads and
+give it to Caddy as an environment variable:
+
+```bash
+KEY=$(openssl rand -hex 24)
+sudo install -m 600 /dev/null /etc/caddy/unda.env
+echo "UNDA_PROXY_KEY=$KEY" | sudo tee /etc/caddy/unda.env >/dev/null
+sudo mkdir -p /etc/systemd/system/caddy.service.d
+printf '[Service]\nEnvironmentFile=/etc/caddy/unda.env\n' | sudo tee /etc/systemd/system/caddy.service.d/unda.conf >/dev/null
+printf 'tv.example.com {\n    reverse_proxy 127.0.0.1:8080 {\n        header_up X-Unda-Proxy-Key {$UNDA_PROXY_KEY}\n    }\n}\n' | sudo tee /etc/caddy/Caddyfile
+sudo systemctl daemon-reload && sudo systemctl restart caddy
+echo "UNDA_TRUSTED_PROXY_SECRET=$KEY" | sudo tee -a /etc/unda/unda.env >/dev/null
+sudo systemctl restart unda
+```
+
+The secret can also go in `unda.yaml` as `server.trusted_proxy_secret` (16 to
+256 letters, digits, `-`, `_`, `.` or `~`). The ready-made Caddy folder for
+Docker reads it from a `.env` file next to its `docker-compose.yml` (see the
+comment at its top).
 
 **Your own certificate files.** Set `server.tls.cert_file` and `key_file`
 (e.g. certbot's `fullchain.pem` / `privkey.pem`, readable by the service user)
@@ -467,6 +510,7 @@ services:
       - ./unda.yaml:/etc/unda/unda.yaml:ro
     environment:
       TZ: UTC                   # your time zone (e.g. Europe/Paris): recording file names and logs
+      UNDA_TRUSTED_PROXY_SECRET: ${UNDA_PROXY_KEY:-}   # from /opt/unda/.env (step 5)
     read_only: true
     tmpfs: [/tmp]
     cap_drop: [ALL]
@@ -495,8 +539,8 @@ server:
   http_addr: ":8090"
   # nginx's requests reach the container from the Docker network above, not
   # from 127.0.0.1. Trusting it lets Unda see that the browser used HTTPS (so
-  # sign-in works) and log visitors' real addresses. Only nginx can come from
-  # there: port 8090 is published on 127.0.0.1 alone.
+  # sign-in works) and log visitors' real addresses. Other programs on this
+  # server come from there too, so nginx also sends a secret (step 5).
   trusted_proxies: ["172.30.0.0/24"]
 log:
   level: info
@@ -524,6 +568,7 @@ server {
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        include /etc/nginx/snippets/unda-proxy-key.conf;   # the secret, made below
         proxy_buffering off;              # the dashboard's live updates
         proxy_request_buffering off;
         client_max_body_size 16m;         # media uploads arrive in 8 MB pieces
@@ -532,14 +577,25 @@ server {
 }
 ```
 
-Enable it and get the certificate (certbot adds the HTTPS part and the
-redirect to this file, and renews it):
+Make the secret nginx sends Unda (only root can read it), enable the site and
+get the certificate (certbot adds the HTTPS part and the redirect to this
+file, and renews it):
 
 ```bash
+KEY=$(openssl rand -hex 24)
+sudo install -d -m 755 /etc/nginx/snippets
+sudo install -m 600 /dev/null /etc/nginx/snippets/unda-proxy-key.conf
+printf 'proxy_set_header X-Unda-Proxy-Key "%s";\n' "$KEY" | sudo tee /etc/nginx/snippets/unda-proxy-key.conf >/dev/null
+sudo install -m 600 /dev/null /opt/unda/.env
+echo "UNDA_PROXY_KEY=$KEY" | sudo tee /opt/unda/.env >/dev/null
 sudo ln -s /etc/nginx/sites-available/unda /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
 sudo certbot --nginx -d unda.example.com
 ```
+
+An install made before this step existed: add the `include` line and make the
+two files the same way, reload nginx, then `docker compose up -d` in
+`/opt/unda`.
 
 **6. Start Unda:**
 
@@ -558,8 +614,9 @@ Open `https://unda.example.com/dashboard#setup/<token>` and continue with
 **If something goes wrong:**
 
 - *Sign-in says HTTPS is required:* nginx is not sending
-  `X-Forwarded-Proto`, or `trusted_proxies` does not match the network's
-  `subnet`.
+  `X-Forwarded-Proto` or the secret (the `include` line, and the same key in
+  the snippet and in `/opt/unda/.env`), or `trusted_proxies` does not match
+  the network's `subnet`.
 - *`docker compose up` says the address pool overlaps:* another Docker
   network already uses 172.30.0.0/24. Pick another private range (e.g.
   172.31.0.0/24) and change it in both files.
@@ -730,6 +787,10 @@ sudo ufw allow 1936/tcp    # RTMPS encoders (RTMP over TLS, encrypted)
 sudo ufw allow 6000/udp    # SRT encoders (if used)
 sudo ufw allow 8189/udp    # WebRTC media: WHIP encoders, low-latency viewers (if used)
 ```
+
+When ufw is on, the installer opens Unda's ports on the first install only.
+An upgrade leaves the firewall as it is (so a rule you narrowed stays
+narrow) and lists the ports Unda uses, in case a new version uses one more.
 
 RTMPS is on by default whenever Unda has HTTPS: same certificate, port 1936
 (1937 if plain RTMP was moved to 1936). Plain RTMP sends the stream key and
@@ -985,6 +1046,23 @@ Your vendor has **no account and no way in** unless you give them one.
 ---
 
 ## 11. Troubleshooting
+
+### When the install stops
+
+The installer stops before it writes anything of Unda's when something on
+the machine is in the way, and says what to do. Fix it, then run the same
+command again.
+
+| The installer says | Cause and fix |
+|---|---|
+| `Switching off the snap version of Docker` (not an error) | Ubuntu's snap Docker can't run Unda: it can't read `/opt/unda` and keeps containers off the machine's network. The installer switches it off (its images and containers are kept; `sudo snap start --enable docker` brings it back) and installs Ubuntu's own Docker. |
+| `the snap version of Docker runs N container(s) here` | Something else on this machine runs in snap Docker, so the installer leaves it alone. Stop those containers (or move them to Docker Engine), then `sudo snap stop --disable docker` and run the install again. |
+| `Docker did not start. Its log says: …` | Docker Engine is installed but won't start; the lines after "Its log says" are Docker's own reason. A mistake in `/etc/docker/daemon.json`: `sudo dockerd --validate`. `iptables` or `NAT chain` errors: `sudo apt-get install -y iptables`, then `sudo systemctl restart docker`. containerd: `sudo systemctl restart containerd docker`. Docker's whole log: `sudo journalctl -u docker -n 50 --no-pager`. |
+| `this Docker is Docker Desktop` | Docker Desktop runs containers in a virtual machine of its own, out of reach of this machine's folders, ports and multicast. Install Docker Engine instead (Ubuntu's `docker.io` or Docker's `docker-ce`). |
+| `port N (…) is used by another program` | The message names the program and the option to choose another port (`--rtmp-port`, `--https-port`, `--http-port`, `--srt-port`, `--webrtc-port`, `--rtmps-port`). Or stop the other program. |
+| `give your domain: --domain tv.example.com` | The install without Docker needs a domain. On a machine without one, add `--docker` instead (section 1). |
+
+### After the install
 
 | Symptom | Cause and fix |
 |---|---|

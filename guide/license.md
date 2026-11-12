@@ -89,3 +89,25 @@ If you want your vendor to look at your server, the owner can grant **support
 access** under **Server → License**: a time-limited admin account (72 hours by default,
 14 days at most) that you can end at any moment. Everything it does is in the
 audit log. There is no other way for the vendor to get in.
+
+1. Type your vendor's email, choose how long, and click **Create support
+   access**.
+2. Copy the link that appears and send it to your vendor yourself, by email
+   or a message: Unda does not send email. The link works once; your vendor
+   opens it and sets a password, and the email you typed is their sign-in.
+3. The page shows the access as **waiting to be used** until then, and as
+   **active** after, with the time it ends.
+
+The link is shown only when it is made. If it was lost before your vendor
+used it, click **New link**: the old link stops working and a new one appears.
+A link that isn't used runs out after 72 hours, or when the access would have
+ended, whichever is sooner. **End support access now** ends everything at once.
+
+The link carries the address you opened the dashboard with. On a server
+without a domain, inside your own network (for example
+`https://192.168.1.20:8443`), the page says so under the link: your vendor
+can open it only from that network. To let them in from outside, install a
+VPN such as ZeroTier or Tailscale on the server and have your vendor join it.
+They then open the link with the server's VPN address in place of yours,
+keeping everything from `#invite/` on. Or let them use remote desktop to a
+computer on your network and open the link there.

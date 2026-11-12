@@ -116,8 +116,9 @@ coming in, no sound, a 24/7 channel off air or out of pictures, a pull that
 has been off the air for minutes, or heavy packet loss. Everything else that
 needs a look is orange: a failing restream, keyframes too far apart, an encoder
 reconnecting, a low bitrate. A channel on a [backup source](/guide/backup-encoder)
-is never red: viewers still get it, so it is orange and says it is on its backup,
-even when the backup is silent.
+is on air, so being on its backup is no alert: its tag says which input is on.
+A problem with the backup itself (no sound, say) is orange, never red, since
+viewers still get the channel.
 
 Above the wall or list, type in **Filter channels** to find one by name, show
 only **Encoders**, **24/7** channels, **Pull** streams or those that **Need

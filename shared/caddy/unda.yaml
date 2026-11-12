@@ -5,6 +5,8 @@ server:
   # Caddy's network (docker-compose.yml): its X-Forwarded-Proto/For are
   # believed, so sign-in knows the browser used HTTPS and the audit log shows
   # real client addresses. No server.tls here: Caddy holds the certificate.
+  # Anything else on that network could also come from there, so Caddy sends
+  # a secret too (UNDA_TRUSTED_PROXY_SECRET from .env, see docker-compose.yml).
   trusted_proxies: ["172.30.0.0/24"]
 log:
   level: info

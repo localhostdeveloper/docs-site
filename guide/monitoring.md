@@ -51,7 +51,9 @@ A browser tab is one session, even when the player switches quality. It
 counts once the player starts fetching video, not when a page is only opened,
 and ends 30 seconds after the player's last request. If Unda runs behind a
 reverse proxy, list the proxy under `server.trusted_proxies` so sessions show
-the viewers' own addresses rather than the proxy's.
+the viewers' own addresses rather than the proxy's, and have it send its
+secret (`server.trusted_proxy_secret`, see the install guide's HTTPS section)
+so nothing else on its machine can pass for a viewer.
 
 Sessions are kept for 30 days (`sessions.retention_days`, up to 365) in the
 server database, and survive restarts. Viewer addresses are personal data in
@@ -165,6 +167,7 @@ Unda raises these by itself; each one clears by itself once the cause is gone.
 | Memory low | the machine has under 10% of its memory free, or under 500 MB (critical under 5% or 250 MB): the system may soon stop a program to free some (Linux) |
 | Possible leak | the server's memory keeps growing with the same load |
 | No sound | a channel has been silent for 10 seconds (critical after a minute), or carries no sound track; see [No sound](#no-sound) |
+| Sound sides cancel | a channel's left and right have cancelled each other for 30 seconds: phones and mono TVs hear almost nothing; see [Sound that cancels on phones](#sound-that-cancels-on-phones) |
 | Picture frozen | a channel's picture has not moved for 20 seconds (critical a minute later); see [Frozen or black picture](#frozen-or-black-picture) |
 | Picture black | a channel's picture has been black for 10 seconds (critical a minute later) |
 | Internal error | a fault inside Unda was caught: only that job (one channel, one restream) stopped and started again. Shown for an hour; please send the server log to support |
@@ -208,6 +211,34 @@ monitoring:
 
 It needs FFmpeg on the server (as the Multiview pictures do). Each channel
 costs a small sound decoder: about 0.5% of a CPU core and 15 MB of memory.
+
+## Sound that cancels on phones
+
+Sometimes a channel's sound plays on headphones but is almost silent, or thin
+and far away, on phones, many TVs and set-top boxes. The usual cause is one
+side of the stereo sound arriving upside down (out of phase), often a cable
+wired the wrong way round at the source. Stereo playback still sounds
+nearly normal, but a device that plays in mono adds the two sides together,
+and they cancel.
+
+Unda compares the two sides of every live channel's sound over the last 10
+seconds and shows the result on the channel's **Output** tab, in the
+**Sound** card: +1 means both sides are the same, around 0 is normal stereo,
+and −1 means one side is the other upside down. When the sides cancel for 30
+seconds, Unda raises **Sound sides cancel**.
+
+The real fix is at the source: the phase button (Ø) on one side of the
+mixer's input, or the cable. Until that is done, turn on **Flip one side** in
+the same card: Unda turns the right side back the right way up for
+everything that leaves the server (HLS, RTMP, SRT, recordings, restreams,
+TV outputs). The picture is not touched, and the channel reaches viewers
+about a tenth of a second later. Turn it off once the source is fixed: the
+alarm says so if the sound cancels again with the flip on. A channel's owner
+can change it for their own channels.
+
+It needs FFmpeg on the server. Each flipped channel runs one sound encoder:
+about a tenth of a CPU core and 20 MB of memory. Channels with the switch
+off cost nothing.
 
 ## Frozen or black picture
 

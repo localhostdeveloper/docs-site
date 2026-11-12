@@ -20,20 +20,243 @@ mean: [Releases and support](/guide/releases).
 
 ## Next release
 
+### New
+
+- Upgrade with `sudo unda upgrade`: your server checks the new release with
+  the vendor's key built into it (its signature, every file, and that it is
+  newer than the version you have) before it installs anything.
+  `unda upgrade -check` only says whether there is one. From this version
+  on, the dashboard's update notice shows this command.
+- A channel's backup playlist can start from its first video each time the
+  live stream goes off air, instead of carrying on where its own clock is:
+  choose **When the live stream goes off air** on the channel's Input tab.
+- TV outputs and bundle channels can go out as SD **576i25** (720×576
+  interlaced, top field first) in H.264 or MPEG-2, for TV equipment that
+  expects interlaced SD.
+- TV outputs and converted bundle channels can label their sound track with
+  its language (**Sound language**), which receivers show in their audio
+  menu.
+- A stream's **Input** card shows the picture's and the sound's bitrates
+  next to the total, measured over the same few seconds.
+- When a channel's left and right sound arrive out of phase (phones and mono
+  TVs then hear almost nothing), the new **Sound** card on its Output tab
+  says so and **Flip one side** puts it right; an alert, **Sound sides
+  cancel**, is raised after 30 seconds.
+
+### Changed
+
+- A channel on air from its backup encoder, its pull or its playlist no
+  longer raises an alert: it is on air, which is what matters. Its tag,
+  now grey, says which input is on. A channel none of whose inputs has
+  pictures still raises one.
+- A channel's inputs (its main and backup encoders, its pull and its
+  playlist) only feed the channel. Restream destinations, TV outputs,
+  recordings, bundles and watch links are set up on the channel.
+  **Streams** shows one line per channel, naming the input on air (for
+  example "SRT · encoder"); open the line to see every input with its
+  picture, bitrate and problems, and a problem with the input on air shows
+  on the channel's own light. Destinations set up on an input before keep
+  sending; they are listed on the channel's Restream tab.
+- **Streams** moved to fourth in the menu, after Overview, Multiview and
+  Broadcast.
+- A destination address with a setting its kind doesn't take now names that
+  setting: for example, an SRT address changed to `udp://` with its
+  `latency=` still on the end says that UDP doesn't take latency.
+
 ### Fixed
 
+- HLS viewers could hear a channel's sound slightly behind its picture, a
+  little more each time its encoder sent its sound settings again during
+  the stream.
+- On a phone, the Streams page was wider than the screen.
+- A channel with inputs showed its source as "FAILOVER" or "INPUTS"; it now
+  names the input on air (for example "SRT · encoder"). In Seamless mode
+  an "i" explains that the picture and bitrates shown are the channel's
+  re-encoded ones.
+- On Ubuntu 22.04 (FFmpeg 4), SD channels in a bundle had little time to
+  spare before each picture was due. New SD bundle channels there now get
+  1000 kb/s of video in a 1300 kb/s share (1040 elsewhere), which leaves them
+  more room. For a channel you already have, edit it and clear its video
+  rate.
+- An SRT destination whose latency is short for its round trip is no
+  longer shown in orange while it plays fine: the light turns orange only
+  when packets are being resent often or given up, and otherwise stays
+  green with the advice in grey.
 - Low latency (WebRTC) viewers of 24/7 channels, and of channels using
   backup sources in Seamless mode, saw some pictures out of order. On a
   server with WebRTC on, Unda now encodes these channels without B-frames.
 - An encoder sending over RTMPS is now shown as RTMPS, not RTMP.
 - A channel playing its playlist input (a playlist or a looped video) is
-  shown as PLAYLIST, not SLATE, and its alert says it is playing its
-  playlist. When the playlist is ranked first, it raises no alert.
+  shown as PLAYLIST, not SLATE. An empty playlist or a gap between items
+  shows black, and that still raises an alert.
+- TV outputs pulled over HTTP: a receiver that connects again is no longer
+  cut off after 10 seconds; turning off plain HTTP now disconnects the
+  receivers using it; and an edit saved while someone made a new link no
+  longer brings the old link back (it asks you to open the output again).
+- On a server behind nginx or Caddy, the "Plain HTTP" link of a TV output
+  now points at your web server, not at a port only it can reach.
+- Support access: the link to send your vendor disappeared as soon as it was
+  made. It now stays on the page, and **New link** replaces one that was
+  lost. A link for a short access no longer outlives the access itself.
+  When the link uses an address inside your network, the page says how your
+  vendor can still open it.
+- Security: behind nginx or Caddy, another program on the same machine (or
+  another container on Unda's Docker network) could pretend to be any
+  visitor and so get round the sign-in lockout. The web server can now send
+  Unda a secret with each request, and only requests carrying it speak for
+  visitors. New installs with `--behind-proxy` and the ready-made Caddy
+  folder set it up; on an existing setup the dashboard shows a notice, and
+  the install guide's HTTPS section shows the steps.
+- Security: several ways for someone without a key or password to make the
+  server run out of memory are closed (RTMP connections before their key is
+  checked, HLS playlist requests, and junk packets sent to UDP, RTP, SRT or
+  RIST inputs). A new RIST input now needs the sender's passphrase or an
+  allow list, as a UDP input does.
+- Installing in Docker on a machine whose only Docker is Ubuntu's snap
+  version no longer stops with "Docker is not running": the installer
+  switches the snap off (keeping what is in it) and installs Ubuntu's own
+  Docker. When Docker won't start, it now shows Docker's own reason and the
+  usual fixes; the install guide lists every message with its fix.
+- More security fixes: a crafted link to a watch page can no longer make a
+  signed-in visitor's browser change anything on the server; a flood of
+  sign-in attempts, a viewer's WebRTC request naming many addresses, a
+  stream that never sends another keyframe, or a restream destination's
+  own server can no longer make Unda use memory or send traffic without
+  limit; and a client can no longer take over a live stream by naming a
+  channel after it.
+- Inputs and players hold up better against misbehaving or hostile
+  senders: RIST inputs can no longer be used to bounce traffic at someone,
+  junk can no longer push an encrypted RIST sender's key out, an RTMP viewer
+  that stops reading is let go after 15 seconds, a bundle input whose
+  tables keep changing no longer floods the log and the event list or
+  restarts its channels' converter many times a second, and junk tables no
+  longer fill the stream checks' memory.
+- Bundle inputs, the stream analyser and transport-stream reports now name
+  MPEG-5 (EVC and LCEVC) and VVC (H.266) streams, and name every stream type
+  in their PID lists ("H.264 (0x1B)" instead of "type 0x1B"). Relays already
+  pass these streams on untouched.
+- A day with very many viewer sessions no longer stops the viewer figures
+  of the days after it.
+- Ending support access, or disabling or demoting an administrator, now
+  also stops the API keys and unused invite links that account made.
+- The installer's database copy before an upgrade is made as Unda's own
+  account, and a data folder written in quotes in unda.yaml is now backed up
+  too.
+- Deleting a channel now removes its restream destinations, and changing a
+  channel's owner removes the destinations the previous owner added: a new
+  channel of the same name, or the new owner, could otherwise send to the
+  previous owner's accounts.
+- Two relays added at the same moment can no longer start more streams
+  than the license allows.
+- If a page of the server fails, the error written to the log no longer
+  contains the secret links of TV outputs, the guide or viewer figures.
+- On a channel's Viewers tab, the figures no longer squeeze into one row
+  on mid-size screens (labels ran out of their boxes): they now sit in
+  even rows that fit the window.
 - The install command (`curl … | sudo bash`) could install Unda files left
   in the folder you ran it from, instead of downloading and checking the
   release. It now always downloads the release and checks its signature;
   files next to the installer are used only when you run `./install.sh`
   from an unpacked release folder.
+- The installer no longer puts an older version over a newer one, so an old
+  release can't take your server back by mistake. To go back on purpose,
+  add `--allow-downgrade` (see Backups and upgrades in the install guide).
+- The install guide's way to check the installer before it runs now names
+  the newest version itself, instead of asking the download site for it.
+- The installer now makes sure the files and the Docker image it installs
+  belong to its own release, and a Docker install always pulls the image
+  by its signed fingerprint: if that can't be checked, nothing is installed.
+- Limits for clients: one client can no longer use every live dashboard
+  connection (staff saw "Connection lost"), every restream slot, or every
+  WebRTC publishing slot with one key; reading months of figures is paced
+  like the reports; and the all-channels figures link is for
+  administrators only.
+- A deleted channel's 13 months of figures no longer pass to a new channel
+  of the same name, and a 24/7 channel set to take over from a stream
+  channel stops doing so when that channel is deleted or given to someone
+  else.
+- A long programme description (emoji especially) no longer breaks the
+  guide sent to TVs.
+- Playlist items shorter than a second are skipped, like a missing file,
+  with the reason shown in the playlist.
+- An encoder that keeps changing its picture settings restarts a Direct
+  channel at most once every five seconds, and one RTMP connection can
+  publish only one stream (a second publish left the first stuck on air).
+- A Seamless channel set to stop when idle, with its playlist ranked
+  first, now goes on air from its playlist (it showed black and never
+  published), and a Direct channel no longer loses its playlist when its
+  looped video or picture size is changed.
+- Two-step sign-in: wrong codes sent all at once can no longer get past
+  the five-try lock, and one code can complete only one sign-in.
+- After signing out, the sign-in form no longer clears itself every minute
+  while you type.
+- An encoder that changes its picture size or sound settings mid-stream no
+  longer breaks UDP, RTP, RIST and SRT outputs, TV outputs and MPEG-TS
+  players until it reconnects: they follow the new settings at the next
+  keyframe. The sound meter no longer restarts many times a second for
+  such an encoder.
+- When the alert list is full, an important alert (a full disk, a channel
+  off air) now takes the place of a less important one instead of being
+  dropped unseen.
+- A licence no longer reads expired for good after the server's clock was
+  wrong for a moment (a machine starting with a wrong clock before it
+  syncs).
+- With a limit on the number of qualities ladders, choosing another
+  encoder no longer leaves every ladder refused.
+- "Start from the first item" now applies to a running channel at once.
+- Playlists: saving a very long playlist no longer holds up other
+  channels' saves, and a media folder of more than 4,000 files is checked
+  once instead of over and over.
+- A bundle input waiting for an SRT sender refuses one not on its allow
+  list before taking it (a stranger could hold the sender's place). A new
+  one waiting on every address needs a passphrase or an allow list.
+- Clients' changes that restart an encoder or rewrite a file (inputs,
+  playlists, guides, 24/7 settings, restream destinations, skipping,
+  pausing, new keys) are paced like the other settings.
+- The watch page's **Share** gives the page's address without your own
+  viewing link.
+- Watch-page logos are stored one by one, so saving a title while a logo
+  uploads keeps both.
+- A server with thousands of viewers on one stream lists them without
+  holding the stream up.
+- An upgrade leaves the firewall as it is (rules you narrowed stay narrow)
+  and lists the ports Unda uses; the ports are opened on the first install
+  only.
+- Sign-in: guess limits hold even for someone who also has a valid key, an
+  unknown email locks after the same number of tries as a real account
+  (so the answers don't reveal which accounts exist), and two-step sign-in
+  can't be set up again while it is on (turn it off with your password
+  first).
+- An upgrade checks that the new version can read your configuration
+  before it replaces the running one, and changes nothing if it can't.
+  `unda check-config -config FILE` does that check on its own.
+- The update notice in the dashboard shows only what the vendor signed.
+- Clients no longer see their viewers' addresses or the server's folders,
+  and a few more of their actions are paced (viewer figures, two-step
+  setup).
+- A deleted or reassigned channel leaves nothing to the next holder of its
+  name: not its events, "Last live", as-run log, playback protection or
+  pull address.
+- Names of clients' channels (and their inputs) can't be used for legacy
+  keys, UDP inputs or bundle programmes, and a client's channel limit holds
+  when several channels are created at once.
+- A licence no longer reads expired for good after the clock was wrong for
+  a moment, and removing an expired licence no longer starts an
+  evaluation.
+- Low latency (WebRTC) viewers count once they are connected, not when
+  they ask.
+- A saved setting that can't be read at start-up is kept aside instead of
+  being overwritten, and unreadable playback protection now protects every
+  stream instead of none.
+- Dashboard: "too many requests" messages say what was too many, a request
+  that never answers no longer stops the page refreshing, edits made while
+  a playlist or guide saves aren't lost, the Events page keeps every line,
+  and the Ad break countdown follows the server's clock.
+- Smaller fixes: a full alert list makes room for the alerts that matter,
+  long live guides can be saved, very long playlists and media folders
+  stay quick, an SRT bundle input refuses senders not on its allow list
+  before taking them, relays refuse an edit made from an out-of-date list,
+  and uploads don't land in a channel deleted meanwhile.
 
 ## v0.1.49 {#v0-1-49}
 

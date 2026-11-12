@@ -1,13 +1,13 @@
 ---
 title: "Troubleshooting streams and viewers"
-description: "Fixes for streams and viewers: buffering and slow starts, a live stream shown as offline, OBS connection errors and reconnects, and a frozen picture."
+description: "Fixes for streams and viewers: buffering and slow starts, a live stream shown as offline, OBS connection errors and reconnects, a frozen picture, and a support link your vendor can't open."
 ---
 
 # Troubleshooting
 
 Problems with installing, HTTPS, ports and signing in are in the
 [install guide's troubleshooting table](/guide/install#11-troubleshooting).
-This page is about streams and viewers.
+This page is about streams and viewers, and support access.
 
 ## Viewers buffer or start slowly
 
@@ -60,6 +60,18 @@ the bitrate or use SRT, which rides out short losses.
   the server is overloaded.
 - If the freezes are already in what OBS sends, OBS shows *"skipped frames due
   to encoding lag"* in its stats: lower the resolution or use a faster preset.
+
+## Your vendor can't open the support access link
+
+- **Unda sends no email.** Copy the link from **Server → License → Support
+  access** and send it to your vendor yourself.
+- **A link starting with `https://192.168.…`, `https://10.…` or a computer
+  name** carries an address inside your network, which nobody outside can
+  open. Put the server on a VPN such as ZeroTier or Tailscale and let your
+  vendor join it: they open the link with the server's VPN address, keeping
+  everything from `#invite/` on. Or let them use remote desktop to an office
+  computer on the same network. See
+  [Support access for your vendor](/guide/license#support-access-for-your-vendor).
 
 ## Logs
 

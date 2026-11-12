@@ -168,14 +168,19 @@ short steps: **Delivery** (where it goes, or how the receiver gets it),
 **Extras** (network and time tables, ad cues). The stream is re-encoded to
 what TV equipment expects:
 
-- **Picture:** 16:9 in one of three formats. A 4:3 or portrait source gets
+- **Picture:** 16:9 in one of four formats. A 4:3 or portrait source gets
   black bars at the sides; nothing is cropped.
 
   | Format | Picture | Use |
   |---|---|---|
   | `576p25` (default) | SD 720×576, 25 frames/s | SD services, older receivers |
+  | `576i25` | SD 720×576 interlaced, top field first | SD services whose equipment expects interlaced SD, as SD broadcast encoders commonly send |
   | `720p50` | HD 1280×720, 50 frames/s | HD services that use 720p |
   | `1080i25` | HD 1920×1080 interlaced, top field first | the usual HD format in 50 Hz countries |
+
+  The interlaced formats are woven from 50 pictures a second: a 50 frames/s
+  source moves in 50 fields a second, and a 25 frames/s source goes out with
+  both fields of a frame from the same picture, so it looks just as it did.
 
 - **Video:** H.264 (DVB-T2 / DVB-S2; High profile for HD), HEVC (H.265; for
   576p25 and 720p50, since HEVC services are progressive) or MPEG-2 (older
@@ -188,7 +193,9 @@ what TV equipment expects:
   with MPEG-2 video) or AC-3 (Dolby Digital, signalled the DVB way), 48 kHz
   stereo. AAC goes out as ADTS, which most receivers play; for receivers that
   follow DVB's letter, choose **LATM** packing (`aac_packing: latm`, stream
-  type 0x11).
+  type 0x11). **Sound language** (`language: eng`, any three-letter ISO 639
+  code) labels the track: receivers show it in their audio menu, and pick by
+  it when a channel has several. None by default.
 - **Transport stream:** a constant bitrate (the total you set, padded with
   null packets), with your channel name and provider in the service
   information (SDT), the service type receivers expect (SD or HD H.264,

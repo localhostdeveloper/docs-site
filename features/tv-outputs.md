@@ -45,7 +45,7 @@ description: "Take channels in over UDP, RTP, SRT or RIST, split multi-channel f
 </div>
 <div class="m-grid m-grid-3">
 <div class="m-card"><h3>Take in</h3><ul><li>MPEG-TS over UDP or RTP, unicast or multicast</li><li>SRT and RIST, with packet recovery over the internet</li><li>Multi-channel feeds: choose the channels you want</li><li>MPEG-2 video and MP2 or AC-3 sound converted for the web</li><li>Packet loss shown per input</li></ul></div>
-<div class="m-card"><h3>Send single channels</h3><ul><li>576p, 720p50 or 1080i25</li><li>H.264, HEVC or MPEG-2 video</li><li>MP2, AC-3 or AAC sound</li><li>Constant bitrate, with the right DVB service type</li><li>Over UDP, RTP, SRT or RIST</li></ul></div>
+<div class="m-card"><h3>Send single channels</h3><ul><li>576p, 576i, 720p50 or 1080i25</li><li>H.264, HEVC or MPEG-2 video</li><li>MP2, AC-3 or AAC sound</li><li>Constant bitrate, with the right DVB service type</li><li>Over UDP, RTP, SRT or RIST</li></ul></div>
 <div class="m-card"><h3>Send reliably</h3><ul><li>SMPTE 2022-1 error correction on RTP</li><li>RIST with retransmission of lost packets</li><li>Multicast with the TTL and network interface you choose</li><li>Even pacing, so receivers don't drop bursts</li></ul></div>
 </div>
 </div>

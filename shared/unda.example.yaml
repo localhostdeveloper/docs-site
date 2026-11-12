@@ -27,6 +27,12 @@ server:
   # and X-Forwarded-Proto are believed: the client address for sign-in throttling
   # and the audit log, and whether the browser used HTTPS. Empty = trust nobody.
   # trusted_proxies: ["127.0.0.1/32"]
+  # A secret the proxy sends with every request (header X-Unda-Proxy-Key):
+  # its X-Forwarded-* then count only on requests that carry it, so another
+  # program reaching Unda from the proxy's address can't pretend to be a
+  # visitor. Best kept out of this file: UNDA_TRUSTED_PROXY_SECRET in unda.env.
+  # 16-256 letters, digits, - _ . ~ (e.g. openssl rand -hex 24). INSTALL.md section 2.
+  # trusted_proxy_secret: ""
   # The names viewers use, when HTTPS is handled by a proxy in front (Caddy,
   # nginx) so this server has no certificate to tell them from. Needed only for
   # a license issued for a domain.
@@ -39,7 +45,8 @@ server:
 # auth.allow_insecure_login.
 #
 # Secrets can come from the environment instead of this file (env wins):
-#   UNDA_API_TOKEN, UNDA_SRT_PASSPHRASE, UNDA_STREAM_KEYS (comma-separated)
+#   UNDA_API_TOKEN, UNDA_SRT_PASSPHRASE, UNDA_STREAM_KEYS (comma-separated),
+#   UNDA_TRUSTED_PROXY_SECRET
 # each also as UNDA_<NAME>_FILE=/path (Docker/Kubernetes secrets pattern).
 # If this file holds secrets, keep it chmod 600 — the server warns otherwise.
 

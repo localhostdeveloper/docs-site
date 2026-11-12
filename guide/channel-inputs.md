@@ -96,10 +96,19 @@ opens below: add videos in the order they should play and **Save schedule**.
 It works like a [24/7 channel's playlist](/guide/playout) and loops by
 default.
 
-The playlist runs on its own clock, as if a 24/7 channel were playing it in
-the background. When it goes on air, viewers join it wherever it is at that
-moment, not at its first video. You can edit it at any time, even while it is
-on air.
+**When the live stream goes off air** sets where the playlist starts each
+time it takes over from the live stream:
+
+- **Carry on where its clock is** (the default): the playlist runs on its own
+  clock, as if a 24/7 channel were playing it in the background. When it goes
+  on air, viewers join it wherever it is at that moment, not at its first
+  video.
+- **Start from the first item**: each time the live stream goes off air, the
+  playlist starts again from its first video (a looped video from its
+  beginning). With Direct switching it then starts afresh each time, which
+  can take a second or two longer than carrying on.
+
+You can edit the playlist at any time, even while it is on air.
 
 The videos are the channel's own files and the shared ones on the
 [Media](/guide/playout) page. To add your own, click **Add videos** next to
@@ -130,8 +139,10 @@ seamless switching. The logo is removed with the channel.
 | No input has pictures | The stream ends after 10 seconds (your setting): an outage, with the usual alerts |
 
 The **Input** tab shows which input is on air and the last switch with its
-reason; the event log records every switch. While the channel runs on
-anything but its first input, an alert says so.
+reason; the event log records every switch. A channel on air from another
+input than its first raises no alert: it is on air, which is what matters,
+and its tag says which input is on. Only a channel none of whose inputs has
+pictures raises one.
 
 **Use now** (operators) puts a ready input on air ahead of the others while it
 has pictures.
@@ -218,8 +229,12 @@ encoders, pull and playlist don't count separately.
 - Channel inputs are for channels created on the **Channels** page. 24/7
   channels from a schedule have their own live input (see
   [24/7 channels](/guide/playout)).
-- Watching an input directly (`/watch/main-show.pull`) needs a
-  [signed link](/guide/protect-playback). Viewers watch the channel itself.
+- An input only feeds its channel. Restream destinations, TV outputs,
+  recordings, bundles and watch links are for the channel, whichever input is
+  on air; an input has no page of its own (in **Streams**, an input's line
+  opens its channel's Input tab). Destinations set up on an input before
+  v0.1.50 keep sending and are listed on the channel's Restream tab, where
+  they can be switched off or removed.
 
 ## What has been tested
 

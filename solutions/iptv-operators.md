@@ -20,7 +20,7 @@ description: "Take channels in over UDP, RTP, SRT and RIST, pick channels from m
 <div class="m-wrap">
 <div class="m-grid m-grid-3">
 <div class="m-card"><h3>Sources in</h3><ul><li>MPEG-TS over UDP or RTP, unicast and multicast</li><li>SRT and RIST from partners over the internet</li><li>Multi-channel feeds: pick the channels you carry</li><li>MPEG-2 video and MP2 or AC-3 sound converted for the web</li></ul></div>
-<div class="m-card"><h3>Subscribers and partners out</h3><ul><li>Single channels at constant bitrate: 576p, 720p50, 1080i25</li><li>Multi-channel bundles with DVB names and now/next</li><li>UDP and RTP (with SMPTE 2022-1 FEC), SRT, RIST</li><li>HLS and DASH for apps, browsers and smart TVs</li></ul></div>
+<div class="m-card"><h3>Subscribers and partners out</h3><ul><li>Single channels at constant bitrate: 576p, 576i, 720p50, 1080i25</li><li>Multi-channel bundles with DVB names and now/next</li><li>UDP and RTP (with SMPTE 2022-1 FEC), SRT, RIST</li><li>HLS and DASH for apps, browsers and smart TVs</li></ul></div>
 <div class="m-card"><h3>Watched all the time</h3><ul><li>Packet loss and TR 101 290 errors per input and output</li><li>Alerts when an input goes silent or a channel goes off air</li><li>Black or a slate in a bundle while a source is off</li><li>Backup sources for important channels</li></ul></div>
 </div>
 </div>
