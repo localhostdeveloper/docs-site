@@ -168,6 +168,7 @@ Unda raises these by itself; each one clears by itself once the cause is gone.
 | Possible leak | the server's memory keeps growing with the same load |
 | No sound | a channel has been silent for 10 seconds (critical after a minute), or carries no sound track; see [No sound](#no-sound) |
 | Sound sides cancel | a channel's left and right have cancelled each other for 30 seconds: phones and mono TVs hear almost nothing; see [Sound that cancels on phones](#sound-that-cancels-on-phones) |
+| One side of the sound silent | one side of a channel's sound has been silent for 30 seconds while the other has sound; see [One side of the sound silent](#one-side-of-the-sound-silent) |
 | Picture frozen | a channel's picture has not moved for 20 seconds (critical a minute later); see [Frozen or black picture](#frozen-or-black-picture) |
 | Picture black | a channel's picture has been black for 10 seconds (critical a minute later) |
 | Internal error | a fault inside Unda was caught: only that job (one channel, one restream) stopped and started again. Shown for an hour; please send the server log to support |
@@ -222,23 +223,60 @@ nearly normal, but a device that plays in mono adds the two sides together,
 and they cancel.
 
 Unda compares the two sides of every live channel's sound over the last 10
-seconds and shows the result on the channel's **Output** tab, in the
-**Sound** card: +1 means both sides are the same, around 0 is normal stereo,
-and −1 means one side is the other upside down. When the sides cancel for 30
-seconds, Unda raises **Sound sides cancel**.
+seconds and shows the result on the channel's **Sound & picture** tab, in the
+**Sound fix** card: +1 means both sides are the same, around 0 is normal
+stereo, and −1 means one side is the other upside down. When the sides cancel
+for 30 seconds, Unda raises **Sound sides cancel**.
 
 The real fix is at the source: the phase button (Ø) on one side of the
-mixer's input, or the cable. Until that is done, turn on **Flip one side** in
-the same card: Unda turns the right side back the right way up for
-everything that leaves the server (HLS, RTMP, SRT, recordings, restreams,
-TV outputs). The picture is not touched, and the channel reaches viewers
-about a tenth of a second later. Turn it off once the source is fixed: the
-alarm says so if the sound cancels again with the flip on. A channel's owner
-can change it for their own channels.
+mixer's input, or the cable. Until that is done, choose in the same card:
 
-It needs FFmpeg on the server. Each flipped channel runs one sound encoder:
-about a tenth of a CPU core and 20 MB of memory. Channels with the switch
-off cost nothing.
+- **Flip one side**: Unda turns the right side back the right way up for
+  everything that leaves the server (HLS, RTMP, SRT, recordings, restreams,
+  TV outputs). Choose **Off** once the source is fixed: the alarm says so if
+  the sound cancels again with the flip on.
+- **Automatic**: Unda flips only while the two sides cancel, starting about
+  5 seconds after it hears them cancel, and stops by itself about 8 seconds
+  after the source is fixed. Use it when you don't know when the source will
+  be fixed. Each change is written to Events.
+
+The picture is not touched, and the channel reaches viewers about a tenth of
+a second later while the sound is flipped. A channel's owner can change it
+for their own channels. It needs FFmpeg on the server; each flipped channel
+runs one sound encoder (about a tenth of a CPU core and 20 MB of memory), and
+channels that aren't flipped cost nothing.
+
+## One side of the sound silent
+
+When one side of the stereo sound arrives empty (a cable, or a setting at the
+source), stereo listeners hear only one speaker and mono devices hear the
+sound quieter. The **One side silent** card on the **Sound & picture** tab
+shows each side, and Unda raises **One side of the sound silent** after 30
+seconds. Choose:
+
+- **Use left on both** or **Use right on both**: that side goes out on both
+  sides.
+- **Automatic**: Unda puts the side with sound on both about 5 seconds after
+  the other goes silent, and stops by itself about 8 seconds after the source
+  has both sides again. Each change is written to Events.
+
+It uses the same sound encoder as the sound fix (one per channel, even with
+both on). When a side is copied, the flip is not used: a flipped copy would
+cancel.
+
+## Lip sync
+
+When a channel's sound arrives ahead of or behind its picture (a radio desk's
+sound beside studio cameras, a sound processor or a delay unit on the
+sound's path), set **Sound delay** in the **Lip sync** card on the
+**Sound & picture** tab, in milliseconds: positive sends the sound later (use
+it when you hear words before the lips move), negative earlier (the lips move
+before you hear the words), up to 10 seconds either way.
+
+Nothing is encoded again: only the sound's timing changes, for every output.
+With a negative delay the picture waits, so the channel is that much later.
+Changing it restarts HLS viewers' playback for a moment. To measure how far
+off a feed is, film a clap, or send a test signal with a flash and a beep.
 
 ## Frozen or black picture
 
@@ -252,7 +290,7 @@ again.
 
 A channel whose picture stands still on purpose, such as a radio station
 showing its logo or a channel of slides, can switch the frozen-picture alarm
-off: on the channel's **Output** tab, turn on **A still picture is normal**.
+off: on the channel's **Sound & picture** tab, turn on **A still picture is normal**.
 Black still raises its alarm. A channel showing its slate (backup sources) or
 its filler between programmes (24/7 channels) raises neither: the backup and
 playout alerts already say so. The stream page's **Overview** shows the

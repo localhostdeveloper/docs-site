@@ -40,10 +40,14 @@ mean: [Releases and support](/guide/releases).
   next to the total, measured over the same few seconds.
 - TV outputs and bundle channels can go out as HD **1080p25** or **1080p50**
   (1920×1080, progressive) in H.264 or HEVC.
-- When a channel's left and right sound arrive out of phase (phones and mono
-  TVs then hear almost nothing), the new **Sound** card on its Output tab
-  says so and **Flip one side** puts it right; an alert, **Sound sides
-  cancel**, is raised after 30 seconds.
+- A new **Sound & picture** tab on each channel, with three add-ons, each its
+  own setting: **Sound fix** (left and right arriving out of phase, so phones
+  and mono TVs hear almost nothing: Off, Flip one side, or Automatic, which
+  flips only while the sides cancel and stops when the source is fixed),
+  **One side silent** (put the side with sound on both, by hand or
+  Automatic), and **Lip sync** (move the sound later or earlier against the
+  picture, in milliseconds). Alerts say when a channel's sides cancel or one
+  side is silent. The picture check moved to this tab.
 
 ### Changed
 
