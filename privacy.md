@@ -7,7 +7,6 @@ description: What UndaMedia collects on this website and through Unda Media Serv
 <div class="m-page">
 <section class="m-hero-small">
 <div class="m-wrap">
-<span class="m-kicker">Privacy</span>
 <h1>Privacy policy</h1>
 <p class="m-lead">What we collect on this website and through Unda Media Server, what we do with it, and how to ask us to change or delete it. In short: very little, and we never sell it.</p>
 </div>

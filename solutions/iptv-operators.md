@@ -8,7 +8,7 @@ description: "Take channels in over UDP, RTP, SRT and RIST, pick channels from m
 <section class="m-hero-small">
 <div class="m-wrap">
 <p class="m-crumb"><a href="/solutions/">Solutions</a> › IPTV operators and broadcasters</p>
-<h1>One server between your sources and your subscribers</h1>
+<h1>IPTV operators and broadcasters</h1>
 <p class="m-lead">Take channels in from encoders, satellite receivers and partners, and deliver them to set-top boxes, multiplexers, partners and web viewers. Unda speaks the transport streams your equipment uses, and the web formats your viewers' devices need.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Talk to us</a>
@@ -20,7 +20,7 @@ description: "Take channels in over UDP, RTP, SRT and RIST, pick channels from m
 <div class="m-wrap">
 <div class="m-grid m-grid-3">
 <div class="m-card"><h3>Sources in</h3><ul><li>MPEG-TS over UDP or RTP, unicast and multicast</li><li>SRT and RIST from partners over the internet</li><li>Multi-channel feeds: pick the channels you carry</li><li>MPEG-2 video and MP2 or AC-3 sound converted for the web</li></ul></div>
-<div class="m-card"><h3>Subscribers and partners out</h3><ul><li>Single channels at constant bitrate: 576p, 576i, 720p50, 1080i25, 1080p25/50</li><li>Multi-channel bundles with DVB names and now/next</li><li>UDP and RTP (with SMPTE 2022-1 FEC), SRT, RIST</li><li>HLS and DASH for apps, browsers and smart TVs</li></ul></div>
+<div class="m-card"><h3>Subscribers and partners out</h3><ul><li>Single channels at constant bitrate: 576p, 576i, 720p25, 720p50, 1080i25, 1080p25, 1080p50</li><li>Multi-channel bundles with DVB names and now/next</li><li>UDP and RTP (with SMPTE 2022-1 FEC), SRT, RIST</li><li>HLS and DASH for apps, browsers and smart TVs</li></ul></div>
 <div class="m-card"><h3>Watched all the time</h3><ul><li>Packet loss and TR 101 290 errors per input and output</li><li>Alerts when an input goes silent or a channel goes off air</li><li>Black or a slate in a bundle while a source is off</li><li>Backup sources for important channels</li></ul></div>
 </div>
 </div>
@@ -29,8 +29,7 @@ description: "Take channels in over UDP, RTP, SRT and RIST, pick channels from m
 <div class="m-wrap">
 <div class="m-split">
 <div>
-<span class="m-kicker">Built for headends</span>
-<h2>Standard streams, checked as they leave</h2>
+<h2>Streams checked as they leave</h2>
 <p>Every bundle Unda sends is analysed packet by packet against TR 101 290, and timing references are calculated, not guessed, so a modulator gets a clean, constant-bitrate stream.</p>
 <ul class="m-checks">
 <li>An independent TSDuck analysis of a 12-minute run found no errors</li>
@@ -39,7 +38,7 @@ description: "Take channels in over UDP, RTP, SRT and RIST, pick channels from m
 </ul>
 <p>We can test with your receiver or modulator before you go live.</p>
 </div>
-<div><a class="m-shot" href="/guide/mpts"><img src="/screens/mpts.webp" width="1280" height="800" alt="Server → MPTS outputs: a bundle of three channels being sent, with its PIDs and a clean TR 101 290 check" loading="lazy"></a></div>
+<div><a class="m-shot" href="/guide/mpts"><img src="/screens/mpts.webp" width="1280" height="800" alt="Broadcast → MPTS outputs: a bundle of three channels being sent, with its PIDs and a clean TR 101 290 check" loading="lazy"></a></div>
 </div>
 </div>
 </section>

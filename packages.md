@@ -7,8 +7,7 @@ description: "Unda Media Server packages: the full server with unlimited viewers
 <div class="m-page">
 <section class="m-hero-small">
 <div class="m-wrap">
-<span class="m-kicker">Packages</span>
-<h1>Pay for the size you need, not for every viewer</h1>
+<h1>Packages and prices</h1>
 <p class="m-lead">Every package is the full Unda Media Server, with unlimited viewers. Packages differ in how many streams can be live at the same time, how many people can sign in to the dashboard, and which tools are switched on. Starter has a fixed price; the other packages depend on your setup, so we quote them.</p>
 </div>
 </section>
@@ -84,7 +83,6 @@ description: "Unda Media Server packages: the full server with unlimited viewers
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-head">
-<span class="m-kicker">Compare</span>
 <h2>What each package includes</h2>
 </div>
 <div class="m-table-wrap">
@@ -131,8 +129,7 @@ description: "Unda Media Server packages: the full server with unlimited viewers
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-head m-center">
-<span class="m-kicker">Questions</span>
-<h2>Good to know before you buy</h2>
+<h2>Questions before you buy</h2>
 </div>
 <div class="m-faq">
 <details><summary>How do I buy?</summary><p>Starter costs $20 a month or $220 a year (US dollars, before any tax that applies): tell us through the <a href="/contact?package=Starter">contact form</a> and we send you a quote with those fees. For the other packages, ask us for a price. With our quote, <a href="/order">sign the licence agreement online</a>, on a computer or a phone. You can also download it as a <a href="/unda-licence-agreement.pdf" download>PDF</a>, fill it in on a computer and email it to <a href="mailto:support@undamedia.com">support@undamedia.com</a>, or print it, sign it and email us a scan. We sign it and send it back with your invoice, and your licence file follows once the first invoice is paid.</p></details>

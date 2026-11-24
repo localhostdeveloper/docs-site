@@ -1,24 +1,23 @@
 ---
 layout: page
 title: About us
-description: UndaMedia makes Unda Media Server, live streaming software for organisations that want their own platform. A product of LocalCode Technology.
+description: UndaMedia makes Unda Media Server, the live streaming and TV server that churches, production companies and TV channels run themselves. A product of LocalCode Technology.
 ---
 
 <div class="m-page">
 <section class="m-hero-small">
 <div class="m-wrap">
-<span class="m-kicker">About us</span>
-<h1>Live video that belongs to the people who make it</h1>
-<p class="m-lead">UndaMedia makes Unda Media Server: streaming software for churches, broadcasters, production companies and anyone who wants their own live video platform instead of renting someone else's.</p>
+<h1>About UndaMedia</h1>
+<p class="m-lead">UndaMedia makes Unda Media Server, the live streaming and TV server that churches, production companies and TV channels in Africa and the United States run on their own servers.</p>
 </div>
 </section>
 <section class="m-section">
 <div class="m-wrap">
 <div class="m-split">
 <div class="m-prose">
-<p>Most organisations that stream live depend on a platform they don't control. The platform decides who sees the stream, puts its adverts on it, and keeps the viewer figures. Running your own streaming server used to mean a team of engineers and several products stitched together.</p>
-<p>We built Unda so that one program, on one server, does the whole job: takes the stream in, prepares it for every screen, records it, sends it to social platforms and TV equipment, and gives the whole team a dashboard they can understand.</p>
-<p>Unda is shaped by real streams on real servers: a player that keeps going when the encoder reconnects, a backup encoder that takes over by itself, a 24/7 channel that runs while everyone sleeps.</p>
+<p>Most organisations that stream live depend on a platform they don't control: it decides who sees the stream, puts adverts on it and keeps the viewer figures. Running a streaming server yourself used to take a team of engineers and several products stitched together.</p>
+<p>Unda is one program on one server. It takes the stream in, prepares it for phones, browsers and TVs, records it and sends it on to platforms and TV equipment, and the whole team works from the same dashboard.</p>
+<p>Much of it comes from problems found on stations' servers: an SRT feed that paused for four seconds every 72 minutes, sound whose two sides cancelled out on phones, a satellite receiver that wanted a different kind of stream. Each was found on air, fixed, and is now part of our tests.</p>
 </div>
 <div><a class="m-shot" href="/guide/dashboard"><img src="/screens/streams.webp" width="1280" height="800" alt="The Streams page of the Unda dashboard" loading="lazy"></a></div>
 </div>
@@ -27,13 +26,12 @@ description: UndaMedia makes Unda Media Server, live streaming software for orga
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-head">
-<span class="m-kicker">How we work</span>
-<h2>What you can count on</h2>
+<h2>What we promise</h2>
 </div>
 <div class="m-grid m-grid-3">
-<div class="m-card"><h3>Your server, your data</h3><p>Unda runs where you choose. Your streams, viewers and recordings never pass through us, and there is no hidden way in: we can sign in only when your owner gives us support access, for as long as they choose.</p></div>
-<div class="m-card"><h3>Plain about what's tested</h3><p>Our documentation says what we have tested, equipment by equipment, so you can plan with real information.</p></div>
-<div class="m-card"><h3>Built to keep going</h3><p>A slow viewer or a failing destination never affects the rest. Backups are taken before every upgrade, and a licence never stops a stream that is already live.</p></div>
+<div class="m-card"><h3>Your data stays with you</h3><p>Unda runs where you choose. Your streams, viewers and recordings never pass through us, and there is no hidden way in: we can sign in only when your owner gives us support access, for as long as they choose.</p></div>
+<div class="m-card"><h3>Clear about what's tested</h3><p>Our documentation lists what we have tested, equipment by equipment, and our <a href="/guide/test-results">test results</a> give the figures.</p></div>
+<div class="m-card"><h3>Keeps running</h3><p>A slow viewer or a failing destination never affects the rest. Backups are taken before every upgrade, and a licence never stops a stream that is already live.</p></div>
 </div>
 </div>
 </section>
@@ -41,11 +39,11 @@ description: UndaMedia makes Unda Media Server, live streaming software for orga
 <div class="m-wrap">
 <div class="m-grid m-grid-2">
 <div class="m-prose">
-<span class="m-kicker">The name</span>
+<h3>The name</h3>
 <p>Unda means “wave” in Latin, the waves that carry radio and television, and “to build” in Swahili. Unda Media Server is built to carry your channel.</p>
 </div>
 <div class="m-prose">
-<span class="m-kicker">The company</span>
+<h3>The company</h3>
 <p>UndaMedia is a product of LocalCode Technology.</p>
 </div>
 </div>
@@ -54,8 +52,8 @@ description: UndaMedia makes Unda Media Server, live streaming software for orga
 <section class="m-section m-tight">
 <div class="m-wrap">
 <div class="m-cta">
-<h2>Let's talk about your live video</h2>
-<p>Whether you stream once a week or around the clock, we'd like to hear what you need.</p>
+<h2>Tell us what you stream</h2>
+<p>How many channels, how many viewers and where your server is: we'll suggest a package, or set up a demo for you.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Contact us</a>
 <a class="m-btn m-btn-ghost" href="/media-server">See the product</a>

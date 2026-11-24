@@ -8,7 +8,7 @@ description: "Stream events for many clients from one server: a channel and sign
 <section class="m-hero-small">
 <div class="m-wrap">
 <p class="m-crumb"><a href="/solutions/">Solutions</a> › Production companies</p>
-<h1>Stream for every client from one server</h1>
+<h1>Production companies</h1>
 <p class="m-lead">Weddings, funerals, graduations, conferences, concerts and weekly services: give each client their own channel and player page, stream everywhere at once, hand over the recording, and send the viewer figures with your invoice.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Talk to us</a>
@@ -19,8 +19,7 @@ description: "Stream events for many clients from one server: a channel and sign
 <section class="m-section">
 <div class="m-wrap">
 <div class="m-head">
-<span class="m-kicker">What you can sell</span>
-<h2>More than a Facebook link</h2>
+<h2>What you can sell</h2>
 </div>
 <div class="m-grid m-grid-3">
 <a class="m-card" href="/guide/watching"><h3>The client's own player</h3><p>A player page per event, to share or embed on the client's website, with no adverts and no other channels next to it.</p><span class="m-more">Watching and embedding →</span></a>
@@ -36,8 +35,7 @@ description: "Stream events for many clients from one server: a channel and sign
 <div class="m-wrap">
 <div class="m-split">
 <div>
-<span class="m-kicker">Many clients, one server</span>
-<h2>Each client sees only their own</h2>
+<h2>Many clients, one server</h2>
 <p>Give every client a channel with its own secret key, and if they stream themselves, their own sign-in with the streamer role: they see their channels and nothing else.</p>
 <ul class="m-checks">
 <li>A channel and stream key per client or per event</li>
@@ -61,7 +59,7 @@ description: "Stream events for many clients from one server: a channel and sign
 <section class="m-section m-tight">
 <div class="m-wrap">
 <div class="m-cta">
-<h2>Grow your streaming business</h2>
+<h2>Talk to us about your clients</h2>
 <p>Tell us about your clients and your events, and we'll suggest a package and a price.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Talk to us</a>

@@ -7,7 +7,6 @@ description: Contact UndaMedia for a price, a demo, managed hosting or help with
 <div class="m-page">
 <section class="m-hero-small">
 <div class="m-wrap">
-<span class="m-kicker">Contact</span>
 <h1>Talk to us</h1>
 <p class="m-lead">Ask for a price, a demo or managed hosting, or tell us about your project. We reply by email.</p>
 </div>

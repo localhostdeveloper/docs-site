@@ -7,7 +7,6 @@ description: How to report a security problem in Unda Media Server, what we do w
 <div class="m-page">
 <section class="m-hero-small">
 <div class="m-wrap">
-<span class="m-kicker">Security</span>
 <h1>Security</h1>
 <p class="m-lead">How to tell us about a security problem, what we do with your report, and how Unda Media Server and its downloads are protected.</p>
 </div>
@@ -35,8 +34,7 @@ description: How to report a security problem in Unda Media Server, what we do w
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-head">
-<span class="m-kicker">How Unda is protected</span>
-<h2>Built to keep your server yours</h2>
+<h2>How Unda is protected</h2>
 </div>
 <div class="m-grid m-grid-3">
 <div class="m-card"><h3>Signed releases</h3><p>Every release is signed with our key, which is kept offline. The installer and <code>unda upgrade</code> check the signature and every file before installing anything, and won't put an older version over a newer one. Docker installs pull the image by the fingerprint the signed list gives.</p><a class="m-more" href="/guide/install#1-install">Check a release yourself</a></div>

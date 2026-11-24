@@ -8,7 +8,7 @@ description: "Record any live stream with one click, safe against a crash or pow
 <section class="m-hero-small">
 <div class="m-wrap">
 <p class="m-crumb"><a href="/media-server">Media Server</a> › <a href="/features/">Features</a> › Recording</p>
-<h1>Keep every service, match and meeting</h1>
+<h1>Recording</h1>
 <p class="m-lead">Press Record on any live stream and Unda keeps a copy on your server while it goes out to viewers. Play it back in the browser, download it for editing, or post it where your audience watches later.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Ask for a price</a>
@@ -21,8 +21,7 @@ description: "Record any live stream with one click, safe against a crash or pow
 <div class="m-wrap">
 <div class="m-split">
 <div>
-<span class="m-kicker">In the dashboard</span>
-<h2>Record, watch back, download</h2>
+<h2>In the dashboard</h2>
 <p>The Recordings page lists every file by stream, with its length and size. Watch a recording in the page with a proper player, or download it.</p>
 <ul class="m-checks">
 <li>One click to start and stop, on any stream, from any protocol</li>
@@ -38,8 +37,7 @@ description: "Record any live stream with one click, safe against a crash or pow
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-head">
-<span class="m-kicker">Made to be safe</span>
-<h2>Recordings you can count on</h2>
+<h2>Safe against crashes</h2>
 </div>
 <div class="m-grid m-grid-3">
 <div class="m-card"><h3>Safe against a crash</h3><p>Files are written so that a crash or a power cut loses at most the last couple of seconds. Everything before plays.</p></div>
@@ -51,23 +49,15 @@ description: "Record any live stream with one click, safe against a crash or pow
 </div>
 </div>
 </section>
-<section class="m-section">
+<section class="m-section m-tight">
 <div class="m-wrap">
-<div class="m-head">
-<span class="m-kicker">Goes well with</span>
-<h2>Related features</h2>
-</div>
-<div class="m-grid m-grid-3">
-<a class="m-card" href="/features/restreaming"><h3>Restreaming</h3><p>Go live everywhere and keep your own copy.</p><span class="m-more">Learn more →</span></a>
-<a class="m-card" href="/features/24-7-channels"><h3>24/7 channels</h3><p>Turn past services and shows into a channel that runs all day.</p><span class="m-more">Learn more →</span></a>
-<a class="m-card" href="/solutions/churches"><h3>For churches</h3><p>Services live on Sunday, on your website and social media, recorded for the week.</p><span class="m-more">Learn more →</span></a>
-</div>
+<p class="m-note-line">See also: <a href="/features/restreaming">Restreaming</a> · <a href="/features/24-7-channels">24/7 channels</a> · <a href="/solutions/churches">For churches</a>.</p>
 </div>
 </section>
 <section class="m-section m-tight">
 <div class="m-wrap">
 <div class="m-cta">
-<h2>Never lose a broadcast</h2>
+<h2>Questions about recording?</h2>
 <p>Tell us what you stream and how long you keep it, and we'll help you plan the storage.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Talk to us</a>

@@ -31,7 +31,7 @@ destinations always get the original.
    Clients can switch it on for their own channels too; the switch works while
    the stream is offline, and then starts with its next broadcast.
 
-[![A stream's Output tab, Adaptive bitrate: on, the source, and the ladder of qualities with how much each is watched](/screens/transcoding.webp)](/screens/transcoding.webp)
+[![A stream's Output tab, Adaptive bitrate: on, the source, and three chosen qualities with their bitrates](/screens/transcoding.webp)](/screens/transcoding.webp)
 
 There is no limit on how many streams are transcoded at once. When the CPU
 stays above 85% for a minute, the dashboard raises a **CPU** alert, and the

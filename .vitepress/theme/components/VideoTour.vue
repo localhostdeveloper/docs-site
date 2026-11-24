@@ -12,7 +12,6 @@ const { lang } = useData();
 
 const TEXT = {
   en: {
-    kicker: "See it working",
     heading: "Unda in three and a half minutes",
     lead: "The real dashboard: going live, 24/7 channels, backups, restreaming, TV outputs and watching over it all.",
     play: "Play the video:",
@@ -20,7 +19,6 @@ const TEXT = {
       "Films © Blender Foundation (Big Buck Bunny, Elephants Dream, Sintel, Tears of Steel), CC BY. Music: “Inspired” by Kevin MacLeod (incompetech.com), CC BY 4.0. Plays from YouTube.",
   },
   fr: {
-    kicker: "Voyez-le en action",
     heading: "Unda en trois minutes et demie",
     lead: "Le vrai tableau de bord : passer en direct, chaînes 24h/24, secours, rediffusion, sorties TV et la surveillance de l’ensemble. Vidéo sans voix, sous-titrée en anglais.",
     play: "Lire la vidéo :",
@@ -35,7 +33,6 @@ const t = computed(() => (lang.value.startsWith("fr") ? TEXT.fr : TEXT.en));
   <section v-if="props.id" class="m-section m-tight m-video-section">
     <div class="m-wrap">
       <div class="m-head m-center">
-        <span class="m-kicker">{{ t.kicker }}</span>
         <h2>{{ t.heading }}</h2>
         <p>{{ t.lead }}</p>
       </div>

@@ -7,8 +7,7 @@ description: "Les offres Unda Media Server : le serveur complet avec des specta
 <div class="m-page">
 <section class="m-hero-small">
 <div class="m-wrap">
-<span class="m-kicker">Offres</span>
-<h1>Payez pour la taille dont vous avez besoin, pas pour chaque spectateur</h1>
+<h1>Offres et prix</h1>
 <p class="m-lead">Chaque offre est le serveur Unda Media Server complet, avec des spectateurs illimités. Les offres diffèrent par le nombre de flux qui peuvent être en direct en même temps, le nombre de personnes qui peuvent se connecter au tableau de bord, et les outils activés. Starter a un prix fixe ; les autres offres dépendent de votre installation, nous vous faisons donc un devis.</p>
 </div>
 </section>
@@ -30,7 +29,7 @@ description: "Les offres Unda Media Server : le serveur complet avec des specta
 <li class="m-no">Non inclus : UDP, RTP et RIST, sortie SRT, sorties TV, relais et analyseur (Broadcast)</li>
 </ul>
 <p class="m-price">20 $ US par mois, ou 220 $ US par an</p>
-<a class="m-btn m-btn-ghost" href="/contact?package=Starter">Choisir Starter</a>
+<a class="m-btn m-btn-ghost" href="/fr/contact?package=Starter">Choisir Starter</a>
 </div>
 <div class="m-plan m-plan-pick">
 <span class="m-plan-badge">Recommandée</span>
@@ -47,7 +46,7 @@ description: "Les offres Unda Media Server : le serveur complet avec des specta
 <li class="m-no">Non inclus : UDP, RTP et RIST, sortie SRT, sorties TV, relais et analyseur (Broadcast)</li>
 </ul>
 <p class="m-price">Prix sur demande</p>
-<a class="m-btn m-btn-primary" href="/contact?package=Professional">Demander un prix</a>
+<a class="m-btn m-btn-primary" href="/fr/contact?package=Professional">Demander un prix</a>
 </div>
 <div class="m-plan">
 <h3>Broadcast</h3>
@@ -63,7 +62,7 @@ description: "Les offres Unda Media Server : le serveur complet avec des specta
 <li>Analyseur de flux : contrôles TR 101 290 sur n'importe quel flux</li>
 </ul>
 <p class="m-price">Prix sur demande</p>
-<a class="m-btn m-btn-ghost" href="/contact?package=Broadcast">Demander un prix</a>
+<a class="m-btn m-btn-ghost" href="/fr/contact?package=Broadcast">Demander un prix</a>
 </div>
 <div class="m-plan">
 <h3>Sur mesure</h3>
@@ -76,7 +75,7 @@ description: "Les offres Unda Media Server : le serveur complet avec des specta
 <li>Liée à votre domaine si vous le souhaitez</li>
 </ul>
 <p class="m-price">Prix sur demande</p>
-<a class="m-btn m-btn-ghost" href="/contact?package=Custom">Parlons-en</a>
+<a class="m-btn m-btn-ghost" href="/fr/contact?package=Custom">Parlons-en</a>
 </div>
 </div>
 </div>
@@ -84,7 +83,6 @@ description: "Les offres Unda Media Server : le serveur complet avec des specta
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-head">
-<span class="m-kicker">Comparer</span>
 <h2>Ce que comprend chaque offre</h2>
 </div>
 <div class="m-table-wrap">
@@ -123,7 +121,7 @@ description: "Les offres Unda Media Server : le serveur complet avec des specta
 <div class="m-wrap">
 <div class="m-grid m-grid-3">
 <div class="m-card"><h3>Essayez-le d'abord gratuitement</h3><p>Sans licence, Unda fonctionne en mode évaluation avec tous les outils activés : 2 directs et 2 membres d'équipe, pendant 30 jours. Installez-le, testez-le avec votre propre encodeur, et achetez quand vous êtes prêt. Vos réglages sont conservés quand vous ajoutez une licence.</p><a class="m-more" href="/fr/guide/install">Guide d'installation →</a></div>
-<div class="m-card"><h3>Chez vous ou géré par nous</h3><p>Faites tourner Unda sur votre propre serveur, dans vos locaux ou dans le cloud, ou laissez-nous gérer le serveur pour vous. Dans les deux cas, votre équipe se connecte au même tableau de bord, et vos spectateurs regardent sur votre site.</p><a class="m-more" href="/contact">Se renseigner sur l'hébergement géré →</a></div>
+<div class="m-card"><h3>Chez vous ou géré par nous</h3><p>Faites tourner Unda sur votre propre serveur, dans vos locaux ou dans le cloud, ou laissez-nous gérer le serveur pour vous. Dans les deux cas, votre équipe se connecte au même tableau de bord, et vos spectateurs regardent sur votre site.</p><a class="m-more" href="/fr/contact">Se renseigner sur l'hébergement géré →</a></div>
 <div class="m-card"><h3>Prêt à acheter ?</h3><p>Une fois notre devis reçu, signez le contrat de licence en ligne, sur un ordinateur ou un téléphone, ou téléchargez-le en PDF et renvoyez-le par e-mail. Nous le signons et vous l'envoyons avec votre facture. Le contrat est en anglais.</p><a class="m-more" href="/order">Signer en ligne →</a><a class="m-more" href="/unda-licence-agreement.pdf" download>PDF →</a></div>
 </div>
 </div>
@@ -131,11 +129,10 @@ description: "Les offres Unda Media Server : le serveur complet avec des specta
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-head m-center">
-<span class="m-kicker">Questions</span>
 <h2>Bon à savoir avant d'acheter</h2>
 </div>
 <div class="m-faq">
-<details><summary>Comment acheter ?</summary><p>Starter coûte 20 $ US par mois ou 220 $ US par an (dollars américains, hors taxes éventuelles) : dites-le-nous par le <a href="/contact?package=Starter">formulaire de contact</a> et nous vous envoyons un devis à ces tarifs. Pour les autres offres, demandez-nous un prix. Avec notre devis, <a href="/order">signez le contrat de licence en ligne</a>, sur un ordinateur ou un téléphone. Vous pouvez aussi le télécharger en <a href="/unda-licence-agreement.pdf" download>PDF</a>, le remplir sur un ordinateur et l'envoyer à <a href="mailto:support@undamedia.com">support@undamedia.com</a>, ou l'imprimer, le signer et nous envoyer un scan. Nous le signons et vous le renvoyons avec votre facture, et votre fichier de licence suit une fois la première facture payée. Le contrat est en anglais.</p></details>
+<details><summary>Comment acheter ?</summary><p>Starter coûte 20 $ US par mois ou 220 $ US par an (dollars américains, hors taxes éventuelles) : dites-le-nous par le <a href="/fr/contact?package=Starter">formulaire de contact</a> et nous vous envoyons un devis à ces tarifs. Pour les autres offres, demandez-nous un prix. Avec notre devis, <a href="/order">signez le contrat de licence en ligne</a>, sur un ordinateur ou un téléphone. Vous pouvez aussi le télécharger en <a href="/unda-licence-agreement.pdf" download>PDF</a>, le remplir sur un ordinateur et l'envoyer à <a href="mailto:support@undamedia.com">support@undamedia.com</a>, ou l'imprimer, le signer et nous envoyer un scan. Nous le signons et vous le renvoyons avec votre facture, et votre fichier de licence suit une fois la première facture payée. Le contrat est en anglais.</p></details>
 <details><summary>Quand peut-on joindre l'assistance ?</summary><p>Par e-mail à <a href="mailto:support@undamedia.com">support@undamedia.com</a>, du lundi au vendredi, de 9 h à 19 h GMT. Avec les offres Broadcast et sur mesure, un problème grave qui demande une intervention immédiate, comme une chaîne hors antenne, est traité jusqu'à 22 h GMT ces jours-là.</p></details>
 <details><summary>Qu'est-ce qui compte comme un direct ?</summary><p>Chaque flux reçu au même moment compte une fois : une caméra, un encodeur ou une chaîne 24h/24. Un flux avec un encodeur de secours compte toujours pour un. Les flux qui ne sont pas en direct ne comptent pas : vous pouvez créer autant de chaînes que vous voulez.</p></details>
 <details><summary>Qu'est-ce qui compte comme un membre d'équipe ?</summary><p>Toute personne qui a sa propre connexion au tableau de bord, en dehors des propriétaires : administrateurs, opérateurs et diffuseurs. Les invitations pas encore acceptées comptent aussi. L'accès d'assistance que vous nous donnez pour quelques jours ne compte pas.</p></details>
@@ -153,7 +150,7 @@ description: "Les offres Unda Media Server : le serveur complet avec des specta
 <h2>Vous ne savez pas laquelle choisir ?</h2>
 <p>Dites-nous ce que vous diffusez et combien de personnes regardent : nous vous proposons une offre et vous envoyons un prix.</p>
 <div class="m-actions">
-<a class="m-btn m-btn-primary" href="/contact">Demander un prix</a>
+<a class="m-btn m-btn-primary" href="/fr/contact">Demander un prix</a>
 <a class="m-btn m-btn-ghost" href="/fr/">Ce que fait Unda</a>
 </div>
 </div>

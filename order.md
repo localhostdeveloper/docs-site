@@ -7,7 +7,6 @@ description: Sign the Unda Media Server licence agreement online, on a computer 
 <div class="m-page">
 <section class="m-hero-small">
 <div class="m-wrap">
-<span class="m-kicker">Order</span>
 <h1>Sign your licence agreement</h1>
 <p class="m-lead">Fill in the licence agreement here, on a computer or a phone, and sign it by typing your name. You get a copy of the signed PDF straight away, and we send it back signed by us with your invoice.</p>
 </div>

@@ -142,32 +142,32 @@ const frTheme = {
   nav: [
     {
       text: "Serveur média",
-      activeMatch: "^/(media-server|features)",
+      activeMatch: "^/fr/(media-server|features)",
       items: [
-        { text: "Présentation", link: "/media-server" },
+        { text: "Présentation", link: "/fr/media-server" },
         {
           text: "Fonctionnalités",
           items: [
-            { text: "Rediffusion", link: "/features/restreaming" },
-            { text: "Chaînes 24h/24", link: "/features/24-7-channels" },
-            { text: "Encodeur de secours", link: "/features/backup-encoder" },
-            { text: "Débit adaptatif", link: "/features/adaptive-bitrate" },
-            { text: "Enregistrement", link: "/features/recording" },
-            { text: "Liens de lecture signés", link: "/features/signed-links" },
-            { text: "Sorties TV et IPTV", link: "/features/tv-outputs" },
-            { text: "Surveillance et alertes", link: "/features/monitoring" },
+            { text: "Rediffusion", link: "/fr/features/restreaming" },
+            { text: "Chaînes 24h/24", link: "/fr/features/24-7-channels" },
+            { text: "Encodeur de secours", link: "/fr/features/backup-encoder" },
+            { text: "Débit adaptatif", link: "/fr/features/adaptive-bitrate" },
+            { text: "Enregistrement", link: "/fr/features/recording" },
+            { text: "Liens de lecture signés", link: "/fr/features/signed-links" },
+            { text: "Sorties TV et IPTV", link: "/fr/features/tv-outputs" },
+            { text: "Surveillance et alertes", link: "/fr/features/monitoring" },
           ],
         },
       ],
     },
     {
       text: "Solutions",
-      activeMatch: "^/solutions",
+      activeMatch: "^/fr/solutions",
       items: [
-        { text: "Églises et ministères", link: "/solutions/churches" },
-        { text: "Chaînes de télévision sur Internet", link: "/solutions/internet-tv" },
-        { text: "Sociétés de production", link: "/solutions/production-companies" },
-        { text: "Opérateurs IPTV et diffuseurs", link: "/solutions/iptv-operators" },
+        { text: "Églises et ministères", link: "/fr/solutions/churches" },
+        { text: "Chaînes de télévision sur Internet", link: "/fr/solutions/internet-tv" },
+        { text: "Sociétés de production", link: "/fr/solutions/production-companies" },
+        { text: "Opérateurs IPTV et diffuseurs", link: "/fr/solutions/iptv-operators" },
       ],
     },
     { text: "Offres", link: "/fr/packages" },
@@ -188,8 +188,8 @@ const frTheme = {
         },
       ],
     },
-    { text: "À propos", link: "/about" },
-    { text: "Contact", link: "/contact" },
+    { text: "À propos", link: "/fr/about" },
+    { text: "Contact", link: "/fr/contact" },
   ],
   socialLinks: [{ icon: { svg: YOUTUBE_ICON }, link: "https://www.youtube.com/@undamediaserver", ariaLabel: "Unda Media Server sur YouTube" }],
   sidebar: {
@@ -206,7 +206,7 @@ const frTheme = {
   },
   footer: {
     message:
-      '<a href="/media-server">Serveur média</a> · <a href="/features/">Fonctionnalités</a> · <a href="/solutions/">Solutions</a> · <a href="/fr/packages">Offres</a> · <a href="/fr/guide/install">Installer</a> · <a href="/guide/introduction">Documentation</a> · <a href="/blog/">Blog</a> · <a href="/about">À propos</a> · <a href="/brand">Marque</a> · <a href="/contact">Contact</a> · <a href="/security">Sécurité</a> · <a href="/privacy">Confidentialité</a> · <a href="/disclaimer">Avertissement</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
+      '<a href="/fr/media-server">Serveur média</a> · <a href="/fr/features/">Fonctionnalités</a> · <a href="/fr/solutions/">Solutions</a> · <a href="/fr/packages">Offres</a> · <a href="/fr/guide/install">Installer</a> · <a href="/guide/introduction">Documentation</a> · <a href="/blog/">Blog</a> · <a href="/fr/about">À propos</a> · <a href="/brand">Marque</a> · <a href="/fr/contact">Contact</a> · <a href="/fr/security">Sécurité</a> · <a href="/privacy">Confidentialité</a> · <a href="/disclaimer">Avertissement</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
     copyright: "Unda Media Server est un logiciel propriétaire. © 2026 LocalCode Technology. Tous droits réservés.",
   },
   outline: { level: [2, 3], label: "Sur cette page" },

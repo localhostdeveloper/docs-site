@@ -8,7 +8,7 @@ description: "Protect paid, private and members-only streams with signed links t
 <section class="m-hero-small">
 <div class="m-wrap">
 <p class="m-crumb"><a href="/media-server">Media Server</a> › <a href="/features/">Features</a> › Signed playback links</p>
-<h1>Only the people you invite can watch</h1>
+<h1>Signed playback links</h1>
 <p class="m-lead">For ticketed events, members-only services and private meetings: a protected stream plays only from a signed link that you or your website made, and only until the time you choose. One link can be limited to a number of devices, so it can't simply be passed around.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Ask for a price</a>
@@ -21,8 +21,7 @@ description: "Protect paid, private and members-only streams with signed links t
 <div class="m-wrap">
 <div class="m-split">
 <div>
-<span class="m-kicker">In the dashboard</span>
-<h2>Protect a stream in one switch</h2>
+<h2>In the dashboard</h2>
 <p>Open a stream's Output tab, switch on "Require a signed link", choose how long new viewers can start watching, and make a link to send. Or protect every stream on the server at once.</p>
 <ul class="m-checks">
 <li>Covers every way of watching: the player page, HLS, DASH, RTMP and SRT</li>
@@ -38,8 +37,7 @@ description: "Protect paid, private and members-only streams with signed links t
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-head">
-<span class="m-kicker">For ticketed events</span>
-<h2>Built to be connected to your website</h2>
+<h2>For ticketed events</h2>
 <p>Unda does not take payments. Your website or ticketing system does, and gives each buyer a link that Unda checks.</p>
 </div>
 <div class="m-grid m-grid-3 m-steps">
@@ -57,23 +55,15 @@ description: "Protect paid, private and members-only streams with signed links t
 </div>
 </div>
 </section>
-<section class="m-section m-tint">
+<section class="m-section m-tight">
 <div class="m-wrap">
-<div class="m-head">
-<span class="m-kicker">Goes well with</span>
-<h2>Related features</h2>
-</div>
-<div class="m-grid m-grid-3">
-<a class="m-card" href="/features/adaptive-bitrate"><h3>Adaptive bitrate</h3><p>Paying viewers get a smooth picture on every connection.</p><span class="m-more">Learn more →</span></a>
-<a class="m-card" href="/features/monitoring"><h3>Viewer sessions</h3><p>See who watched, how long and from where, for your reports.</p><span class="m-more">Learn more →</span></a>
-<a class="m-card" href="/guide/earning#ticketed-and-pay-per-view-events"><h3>Ticketed events</h3><p>How customers sell tickets for streams on Unda.</p><span class="m-more">Read the guide →</span></a>
-</div>
+<p class="m-note-line">See also: <a href="/features/adaptive-bitrate">Adaptive bitrate</a> · <a href="/features/monitoring">Viewer sessions</a> · <a href="/guide/earning#ticketed-and-pay-per-view-events">Ticketed events</a>.</p>
 </div>
 </section>
 <section class="m-section m-tight">
 <div class="m-wrap">
 <div class="m-cta">
-<h2>Sell tickets to your live events</h2>
+<h2>Planning a ticketed event?</h2>
 <p>Tell us about your events and your website, and we'll help you connect them.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Talk to us</a>

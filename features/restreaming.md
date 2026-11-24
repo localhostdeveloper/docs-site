@@ -1,15 +1,15 @@
 ---
 layout: page
 title: Restreaming to YouTube, Facebook and more
-description: "Send one live stream to YouTube, Facebook, Twitch and other servers at once from your own server, each destination independent, every key kept secret."
+description: "Send one live stream to YouTube, Facebook, Twitch and other servers at once from a server you run, each destination independent, every key kept secret."
 ---
 
 <div class="m-page">
 <section class="m-hero-small">
 <div class="m-wrap">
 <p class="m-crumb"><a href="/media-server">Media Server</a> › <a href="/features/">Features</a> › Restreaming</p>
-<h1>One stream in, every platform out</h1>
-<p class="m-lead">Send your live stream to YouTube, Facebook, Twitch and other servers at the same time, while it also plays on your own website. Your encoder sends one stream; Unda does the rest from your server's connection.</p>
+<h1>Restreaming</h1>
+<p class="m-lead">Send your live stream to YouTube, Facebook, Twitch and other servers at the same time, while it also plays on your website. Your encoder sends one stream; Unda does the rest from your server's connection.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Ask for a price</a>
 <a class="m-btn m-btn-ghost" href="/guide/restreaming">Read the guide</a>
@@ -21,29 +21,27 @@ description: "Send one live stream to YouTube, Facebook, Twitch and other server
 <div class="m-wrap">
 <div class="m-split">
 <div>
-<span class="m-kicker">How it helps</span>
-<h2>Reach people where they already watch</h2>
+<h2>How it helps</h2>
 <p>Your encoder's upload is often the weakest link at a venue. Send one stream to Unda and let your server, with its fast connection, deliver it to each platform.</p>
 <ul class="m-checks">
 <li>Up to 16 destinations per stream, each with its own connection</li>
 <li>RTMP and RTMPS (YouTube, Facebook, Twitch), SRT, UDP, RTP and RIST</li>
 <li>Starts as soon as the stream goes live, and waits when it stops</li>
-<li>One failing destination never affects the others or your viewers</li>
+<li>If one destination fails, the others and your viewers carry on</li>
 </ul>
 </div>
-<div><a class="m-shot" href="/guide/restreaming"><img src="/screens/restream.webp" width="1280" height="800" alt="A stream's Restream tab: a live YouTube destination, a paused Facebook one, and the form to add another" loading="lazy"></a></div>
+<div><a class="m-shot" href="/guide/restreaming"><img src="/screens/restream.webp" width="1280" height="800" alt="A stream's Restream tab: YouTube sending, Facebook refusing its key, and TV outputs, one pulled by two receivers" loading="lazy"></a></div>
 </div>
 </div>
 </section>
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-head">
-<span class="m-kicker">Built for real events</span>
-<h2>Set it up once, use it every week</h2>
+<h2>Set up once</h2>
 </div>
 <div class="m-grid m-grid-3">
 <div class="m-card"><h3>Pause, don't delete</h3><p>Switch a destination off after the event and on again next week. Its address and key stay saved, also after a restart or an upgrade.</p></div>
-<div class="m-card"><h3>Honest status</h3><p>A destination shows live only once the platform has accepted the stream. A wrong or expired key shows as a failure, in plain words, not as "connected".</p></div>
+<div class="m-card"><h3>Honest status</h3><p>A destination shows live only once the platform has accepted the stream. A wrong or expired key shows as a failure with the reason, not as "connected".</p></div>
 <div class="m-card"><h3>Retries that stop</h3><p>A failed destination is retried after 5 s, 10 s, 30 s and longer. After 30 minutes of failing (an ended YouTube event, a revoked key) it switches itself off and tells you why.</p></div>
 <div class="m-card"><h3>Keys stay secret</h3><p>After you add a destination, the dashboard, the API and the logs show its key only as ****. Presenters can restream their own channels without seeing anyone else's.</p></div>
 <div class="m-card"><h3>Alerts that make sense</h3><p>One alert per stream when destinations fail for more than two minutes, however often they retry, and one line in the event log per failure run.</p></div>
@@ -54,8 +52,7 @@ description: "Send one live stream to YouTube, Facebook, Twitch and other server
 <section class="m-section">
 <div class="m-wrap">
 <div class="m-head">
-<span class="m-kicker">Destinations</span>
-<h2>Where you can send a stream</h2>
+<h2>Destinations</h2>
 <p>Tested in production with YouTube and Facebook. See <a href="/guide/compatibility">what works with Unda</a> for the full list.</p>
 </div>
 <div class="m-table-wrap">
@@ -72,23 +69,15 @@ description: "Send one live stream to YouTube, Facebook, Twitch and other server
 </div>
 </div>
 </section>
-<section class="m-section m-tint">
+<section class="m-section m-tight">
 <div class="m-wrap">
-<div class="m-head">
-<span class="m-kicker">Goes well with</span>
-<h2>Related features</h2>
-</div>
-<div class="m-grid m-grid-3">
-<a class="m-card" href="/features/backup-encoder"><h3>Backup encoder</h3><p>If the venue's encoder drops, a backup takes over and every platform stays connected.</p><span class="m-more">Learn more →</span></a>
-<a class="m-card" href="/features/recording"><h3>Recording</h3><p>Keep a copy of every stream on your server while it goes out everywhere.</p><span class="m-more">Learn more →</span></a>
-<a class="m-card" href="/features/monitoring"><h3>Monitoring and alerts</h3><p>See every destination's state and know about a problem before your audience does.</p><span class="m-more">Learn more →</span></a>
-</div>
+<p class="m-note-line">See also: <a href="/features/backup-encoder">Backup encoder</a> · <a href="/features/recording">Recording</a> · <a href="/features/monitoring">Monitoring and alerts</a>.</p>
 </div>
 </section>
 <section class="m-section m-tight">
 <div class="m-wrap">
 <div class="m-cta">
-<h2>Stream everywhere from one place</h2>
+<h2>Questions about restreaming?</h2>
 <p>Tell us which platforms you stream to and how often, and we'll suggest a package.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Ask for a price</a>

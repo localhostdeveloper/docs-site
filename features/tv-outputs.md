@@ -8,7 +8,7 @@ description: "Take channels in over UDP, RTP, SRT or RIST, split multi-channel f
 <section class="m-hero-small">
 <div class="m-wrap">
 <p class="m-crumb"><a href="/media-server">Media Server</a> › <a href="/features/">Features</a> › TV and IPTV outputs</p>
-<h1>From the internet to TV equipment, and back</h1>
+<h1>TV and IPTV outputs</h1>
 <p class="m-lead">Unda speaks the transport streams that broadcast and IPTV equipment uses. Take channels in from encoders and satellite receivers, pick channels out of multi-channel feeds, and send standard SD and HD channels to multiplexers, modulators, set-top boxes and partners.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Ask for a price</a>
@@ -21,7 +21,6 @@ description: "Take channels in over UDP, RTP, SRT or RIST, split multi-channel f
 <div class="m-wrap">
 <div class="m-split">
 <div>
-<span class="m-kicker">Multi-channel</span>
 <h2>Bundle channels into one transport stream</h2>
 <p>Build a bundle in the dashboard: give it a destination and a total bitrate, add channels, and Unda sends them as one multi-program transport stream with names, IDs and tables in place.</p>
 <ul class="m-checks">
@@ -33,19 +32,18 @@ description: "Take channels in over UDP, RTP, SRT or RIST, split multi-channel f
 <li>Channels added and removed while the bundle is on air</li>
 </ul>
 </div>
-<div><a class="m-shot" href="/guide/mpts#sending-a-bundle-out"><img src="/screens/mpts.webp" width="1280" height="800" alt="Server → MPTS outputs: a bundle of three channels being sent, with its PIDs and a clean TR 101 290 check" loading="lazy"></a></div>
+<div><a class="m-shot" href="/guide/mpts#sending-a-bundle-out"><img src="/screens/mpts.webp" width="1280" height="800" alt="Broadcast → MPTS outputs: a bundle of three channels being sent, with its PIDs and a clean TR 101 290 check" loading="lazy"></a></div>
 </div>
 </div>
 </section>
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-head">
-<span class="m-kicker">In and out</span>
 <h2>What Unda takes and sends</h2>
 </div>
 <div class="m-grid m-grid-3">
 <div class="m-card"><h3>Take in</h3><ul><li>MPEG-TS over UDP or RTP, unicast or multicast</li><li>SRT and RIST, with packet recovery over the internet</li><li>Multi-channel feeds: choose the channels you want</li><li>MPEG-2 video and MP2 or AC-3 sound converted for the web</li><li>Packet loss shown per input</li></ul></div>
-<div class="m-card"><h3>Send single channels</h3><ul><li>576p, 576i, 720p50, 1080i25 or 1080p25/50</li><li>H.264, HEVC or MPEG-2 video</li><li>MP2, AC-3 or AAC sound</li><li>Constant bitrate, with the right DVB service type</li><li>Over UDP, RTP, SRT or RIST</li></ul></div>
+<div class="m-card"><h3>Send single channels</h3><ul><li>576p, 576i, 720p25, 720p50, 1080i25, 1080p25 or 1080p50</li><li>H.264, HEVC or MPEG-2 video</li><li>MP2, AC-3 or AAC sound</li><li>Constant bitrate, with the right DVB service type</li><li>Over UDP, RTP, SRT or RIST</li></ul></div>
 <div class="m-card"><h3>Send reliably</h3><ul><li>SMPTE 2022-1 error correction on RTP</li><li>RIST with retransmission of lost packets</li><li>Multicast with the TTL and network interface you choose</li><li>Even pacing, so receivers don't drop bursts</li></ul></div>
 </div>
 </div>
@@ -54,7 +52,6 @@ description: "Take channels in over UDP, RTP, SRT or RIST, split multi-channel f
 <div class="m-wrap">
 <div class="m-split">
 <div>
-<span class="m-kicker">Checked as it is sent</span>
 <h2>TR 101 290 on every stream, in and out</h2>
 <p>Unda analyses every packet of its bundles, TV outputs and MPEG-TS destinations, and of the UDP, RTP and SRT feeds it receives, against the TR 101 290 checks used by broadcast engineers: sync, continuity, tables and timing, and the DVB service information. Errors in the last minute show on the dashboard and raise an alert, and each stream has a full report that starts with the likely cause and what to do about it.</p>
 <p>The <a href="/guide/analyser">stream analyser</a> checks any other stream for a minute or a whole day without receiving it as a channel: a satellite receiver's IP output, a partner's feed, your own output as a receiver sees it. It also measures the rate and the network's jitter and loss (MDI).</p>
@@ -76,17 +73,9 @@ description: "Take channels in over UDP, RTP, SRT or RIST, split multi-channel f
 </div>
 </div>
 </section>
-<section class="m-section m-tint">
+<section class="m-section m-tight">
 <div class="m-wrap">
-<div class="m-head">
-<span class="m-kicker">Goes well with</span>
-<h2>Related features</h2>
-</div>
-<div class="m-grid m-grid-3">
-<a class="m-card" href="/features/24-7-channels"><h3>24/7 channels</h3><p>Fill a bundle with channels from your own programmes, with their programme guide.</p><span class="m-more">Learn more →</span></a>
-<a class="m-card" href="/features/monitoring"><h3>Monitoring and alerts</h3><p>Packet loss, transport errors and silent inputs, in plain words.</p><span class="m-more">Learn more →</span></a>
-<a class="m-card" href="/solutions/iptv-operators"><h3>For IPTV operators</h3><p>How Unda fits between your sources and your subscribers.</p><span class="m-more">Learn more →</span></a>
-</div>
+<p class="m-note-line">See also: <a href="/features/24-7-channels">24/7 channels</a> · <a href="/features/monitoring">Monitoring and alerts</a> · <a href="/solutions/iptv-operators">For IPTV operators</a>.</p>
 </div>
 </section>
 <section class="m-section m-tight">

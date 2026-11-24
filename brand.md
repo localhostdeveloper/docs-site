@@ -7,7 +7,6 @@ description: Download the UndaMedia logo in PNG and SVG for light and dark backg
 <div class="m-page">
 <section class="m-hero-small">
 <div class="m-wrap">
-<span class="m-kicker">Brand</span>
 <h1>Logos and brand</h1>
 <p class="m-lead">The UndaMedia logo for partner listings, articles and presentations. Download what you need; for anything else, email <a href="mailto:partners@undamedia.com">partners@undamedia.com</a>.</p>
 <div class="m-actions">
@@ -27,8 +26,7 @@ description: Download the UndaMedia logo in PNG and SVG for light and dark backg
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-head">
-<span class="m-kicker">Colours</span>
-<h2>Our blues</h2>
+<h2>Colours</h2>
 </div>
 <div class="m-grid m-grid-4">
 <div class="m-card"><div style="height:64px;border-radius:8px;background:#1d4ed8"></div><h3 style="margin-top:14px">Blue</h3><p>#1D4ED8: the logo's frame and links.</p></div>

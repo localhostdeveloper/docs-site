@@ -12,7 +12,6 @@ const when = (d) => new Date(d + "T12:00:00Z").toLocaleDateString("en-GB", { day
 <div class="m-page">
 <section class="m-hero-small">
 <div class="m-wrap">
-<span class="m-kicker">Blog</span>
 <h1>Running live video yourself</h1>
 <p class="m-lead">Practical articles from the team behind Unda Media Server: encoder settings, server sizing, staying on air, and what we learn from real streams. For what changed in each version, see the <a href="/release-notes" style="color: var(--vp-c-brand-1)">release notes</a>.</p>
 </div>

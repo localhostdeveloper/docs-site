@@ -7,7 +7,6 @@ description: Unda Media Server is software. Customers decide what they stream wi
 <div class="m-page">
 <section class="m-hero-small">
 <div class="m-wrap">
-<span class="m-kicker">Legal</span>
 <h1>Disclaimer</h1>
 <p class="m-lead">Unda Media Server is software. What you stream with it is yours, and so is the responsibility for it.</p>
 </div>

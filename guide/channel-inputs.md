@@ -35,7 +35,7 @@ Channel inputs are in the Professional and Broadcast packages (see
 If the stream is live at that moment, its encoder is disconnected once and
 reconnects by itself (OBS and vMix do this automatically).
 
-[![The Input tab: a picture of each input, the live encoder on air, the pull stream and the looped video ready](/screens/inputs.webp)](/screens/inputs.webp)
+[![The Input tab: a picture of each input, the live encoder on air, the pull stream ready, and the looped video that starts when needed](/screens/inputs.webp)](/screens/inputs.webp)
 
 The channel's owner can do this, not only operators.
 

@@ -8,7 +8,7 @@ description: "One stream in, up to eight qualities out, planned for each source.
 <section class="m-hero-small">
 <div class="m-wrap">
 <p class="m-crumb"><a href="/media-server">Media Server</a> › <a href="/features/">Features</a> › Adaptive bitrate</p>
-<h1>A quality for every connection</h1>
+<h1>Adaptive bitrate</h1>
 <p class="m-lead">Your encoder sends one stream. Unda turns it into several qualities, from full HD down to 144p, and each viewer's player picks the one their connection can carry. People on slow mobile data keep watching instead of buffering.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Ask for a price</a>
@@ -21,8 +21,7 @@ description: "One stream in, up to eight qualities out, planned for each source.
 <div class="m-wrap">
 <div class="m-split">
 <div>
-<span class="m-kicker">Planned for each source</span>
-<h2>Qualities that fit what you send</h2>
+<h2>Planned for each source</h2>
 <p>Encoders are unpredictable: a phone in portrait, an old camera in 4:3, a 1080p stream at a low bitrate. Unda measures each stream when it starts and plans its qualities from what it finds, instead of applying one template to everything.</p>
 <ul class="m-checks">
 <li>Up to 8 qualities; by default 2160p (4K), 1080p, 720p, 480p, 360p, 240p and 144p</li>
@@ -32,19 +31,18 @@ description: "One stream in, up to eight qualities out, planned for each source.
 <li>Keyframes aligned across qualities, so switching is smooth</li>
 </ul>
 </div>
-<div><a class="m-shot" href="/guide/transcoding"><img src="/screens/transcoding.webp" width="1280" height="800" alt="A stream's Output tab, Adaptive bitrate: on, the source, and the ladder of qualities with how much each is watched" loading="lazy"></a></div>
+<div><a class="m-shot" href="/guide/transcoding"><img src="/screens/transcoding.webp" width="1280" height="800" alt="A stream's Output tab, Adaptive bitrate: on, the source, and three chosen qualities with their bitrates" loading="lazy"></a></div>
 </div>
 </div>
 </section>
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-head">
-<span class="m-kicker">For viewers</span>
-<h2>It just plays</h2>
+<h2>For viewers</h2>
 <p>In our tests on a throttled connection, the player dropped to a lower quality and kept playing, then climbed back once the connection recovered.</p>
 </div>
 <div class="m-grid m-grid-3">
-<div class="m-card"><h3>Automatic or chosen</h3><p>The built-in player picks the best quality by itself, and has a Quality menu for viewers who want to choose.</p></div>
+<div class="m-card"><h3>Automatic or chosen</h3><p>The built-in player picks the best quality for the connection, and has a Quality menu for viewers who want to choose.</p></div>
 <div class="m-card"><h3>HLS and DASH</h3><p>The same qualities for websites, apps and smart TVs over HLS, and for DASH players.</p></div>
 <div class="m-card"><h3>The original too</h3><p>RTMP and SRT viewers, recordings and restream destinations still get the stream exactly as it was sent.</p></div>
 </div>
@@ -60,23 +58,15 @@ description: "One stream in, up to eight qualities out, planned for each source.
 </div>
 </div>
 </section>
-<section class="m-section m-tint">
+<section class="m-section m-tight">
 <div class="m-wrap">
-<div class="m-head">
-<span class="m-kicker">Goes well with</span>
-<h2>Related features</h2>
-</div>
-<div class="m-grid m-grid-3">
-<a class="m-card" href="/features/24-7-channels"><h3>24/7 channels</h3><p>A channel on air all day, in every quality.</p><span class="m-more">Learn more →</span></a>
-<a class="m-card" href="/features/signed-links"><h3>Signed playback links</h3><p>Paid or private events, in every quality.</p><span class="m-more">Learn more →</span></a>
-<a class="m-card" href="/blog/how-many-viewers-can-one-server-carry"><h3>How many viewers can one server carry?</h3><p>Why lower qualities let more viewers fit on the same connection.</p><span class="m-more">Read the article →</span></a>
-</div>
+<p class="m-note-line">See also: <a href="/features/24-7-channels">24/7 channels</a> · <a href="/features/signed-links">Signed playback links</a> · <a href="/blog/how-many-viewers-can-one-server-carry">How many viewers can one server carry?</a>.</p>
 </div>
 </section>
 <section class="m-section m-tight">
 <div class="m-wrap">
 <div class="m-cta">
-<h2>Reach viewers on every connection</h2>
+<h2>Questions about adaptive bitrate?</h2>
 <p>Tell us where your viewers are and how they watch, and we'll help you size the server.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/contact">Talk to us</a>
