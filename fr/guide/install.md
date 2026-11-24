@@ -5,7 +5,7 @@ description: "Installer Unda Media Server en une commande sur Ubuntu ou Debian, 
 
 # Installer Unda
 
-Ce guide vous mène d'un serveur Linux neuf à votre premier direct, avec votre équipe connectée. Il s'adresse à la personne qui gère le serveur. Le [guide complet, en anglais](/fr/guide/install), détaille toutes les options.
+Ce guide vous mène d'un serveur Linux neuf à votre premier direct, avec votre équipe connectée. Il s'adresse à la personne qui gère le serveur. Le [guide complet, en anglais](/guide/install), détaille toutes les options.
 
 Le tableau de bord d'Unda est en anglais : les menus et les boutons sont écrits ici tels qu'ils y apparaissent, par exemple **Server → License**.
 
@@ -87,7 +87,7 @@ Relancer la commande avec `--docker` met à jour vers la nouvelle image et garde
 - **Le port RTMP 1935 est pris** (un autre serveur média) : ajoutez `--rtmp-port 1936`. Les encodeurs utilisent alors `rtmp://tv.example.com:1936/live`.
 - **Vous avez déjà un certificat** pour le domaine : donnez-le avec `--cert-file` (et `--key-file` pour la clé privée).
 
-Les autres façons de faire (Caddy ou nginx à la main, installation sans le script) sont dans le [guide complet](/fr/guide/install#2-https-options).
+Les autres façons de faire (Caddy ou nginx à la main, installation sans le script) sont dans le [guide complet](/guide/install#2-https-options).
 
 ## 2. Créer le compte propriétaire
 
@@ -99,7 +99,7 @@ https://tv.example.com/dashboard#setup/<jeton>
 
 Saisissez votre e-mail, votre nom et un mot de passe d'au moins 10 caractères. Le lien cesse de fonctionner une fois le propriétaire créé.
 
-**Lien perdu, ou pas encore de HTTPS ?** Créez le propriétaire depuis le terminal du serveur. Le mot de passe est demandé ensuite :
+**Lien perdu, ou pas encore de HTTPS ?** Créez le propriétaire depuis le terminal du serveur. Le mot de passe est demandé ensuite :
 
 ```bash
 sudo -u unda unda admin -config /etc/unda/unda.yaml create-user vous@example.com owner "Votre Nom"
@@ -198,10 +198,10 @@ sudo ufw allow from 192.0.2.20 to any port 5004 proto udp   # un émetteur, une 
 
 Dans le guide complet, en anglais :
 
-- [HTTPS : Caddy, nginx ou votre propre certificat](/fr/guide/install#2-https-options)
-- [Sauvegardes, restauration et mises à jour en détail](/fr/guide/install#8-backups-and-upgrades)
-- [Si quelqu'un est bloqué](/fr/guide/install#9-if-someone-is-locked-out)
-- [Dépannage](/fr/guide/install#11-troubleshooting)
-- [Désinstaller Unda](/fr/guide/install#12-removing-unda)
+- [HTTPS : Caddy, nginx ou votre propre certificat](/guide/install#2-https-options)
+- [Sauvegardes, restauration et mises à jour en détail](/guide/install#8-backups-and-upgrades)
+- [Si quelqu'un est bloqué](/guide/install#9-if-someone-is-locked-out)
+- [Dépannage](/guide/install#11-troubleshooting)
+- [Désinstaller Unda](/guide/install#12-removing-unda)
 
 Une question ? Écrivez-nous depuis la page [Contact](/fr/contact).

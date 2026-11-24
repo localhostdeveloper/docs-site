@@ -19,12 +19,12 @@ export function useLangs({ correspondingLink = false } = {}) {
   }));
 
   const localeLinks = computed(() => {
-    // The page without its language: "fr/guide/install.md" -> "guide/install", "fr/index.md" -> "".
+    // The page without its language: "fr/guide/install.md" -> "guide/install", "fr/index.md" -> "",
+    // "features/index.md" -> "features/" (as translated.ts lists section pages).
     const path = page.value.relativePath
       .slice(currentLang.value.link.length - 1)
       .replace(/(^|\/)index\.md$/, "$1")
-      .replace(/\.md$/, "")
-      .replace(/\/$/, "");
+      .replace(/\.md$/, "");
     const same = correspondingLink && TRANSLATED.has(path);
     return Object.entries(site.value.locales).flatMap(([key, value]) => {
       if (value.label === currentLang.value.label) return [];

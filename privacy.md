@@ -13,7 +13,7 @@ description: What UndaMedia collects on this website and through Unda Media Serv
 </section>
 <section class="m-section">
 <div class="m-wrap m-prose m-legal">
-<p class="m-legal-date">Last updated 23 November 2026</p>
+<p class="m-legal-date">Last updated 24 November 2026</p>
 <h2>Who we are</h2>
 <p>UndaMedia makes Unda Media Server. UndaMedia is a product of LocalCode Technology. In this policy "we" and "us" mean UndaMedia. For anything about your information, email <a href="mailto:support@undamedia.com">support@undamedia.com</a>.</p>
 <h2>This website</h2>
@@ -27,7 +27,7 @@ description: What UndaMedia collects on this website and through Unda Media Serv
 <h3>Visit counts</h3>
 <p>We count visits with Vercel Web Analytics: which pages are read, which site or search brought you here, your country, and your type of device and browser. It sets no cookies and doesn't follow you to other websites, and it shows us totals only, never who you are.</p>
 <h3>No cookies, no advertising</h3>
-<p>This website sets no cookies and uses no advertising tools. If you switch between light and dark mode, your browser remembers the choice on your own device; it is never sent to us.</p>
+<p>This website sets no cookies and uses no advertising tools. If you switch between light and dark mode, or pick a language, your browser remembers the choice on your own device; it is never sent to us.</p>
 <p>Our Facebook and X pages, and any other site we link to, have their own privacy policies.</p>
 <h2>Unda Media Server, the software</h2>
 <h3>Your server, your data</h3>

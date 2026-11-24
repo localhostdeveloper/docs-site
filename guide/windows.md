@@ -18,7 +18,7 @@ that machine is connected to your network and how it starts.
 
 | | Linux server or VPS | WSL on Windows 11 | Docker Desktop |
 |---|---|---|---|
-| Starts after a reboot without anyone signing in | Yes | Yes, with a start-up task ([step 6](#_6-keep-it-running-after-a-reboot)) | No: Docker Desktop starts when a user signs in |
+| Starts after a reboot without anyone signing in | Yes | Yes, with a start-up task ([step 6](#6-keep-it-running-after-a-reboot)) | No: Docker Desktop starts when a user signs in |
 | Other machines reach Unda on the PC's address | Yes | Yes (mirrored networking) | Yes, on the ports you publish |
 | Multicast in and out (UDP/RTP from encoders, IRDs, set-top boxes) | Yes | Out: yes, in use (a TV output to a station's SRT gateway). In: should work, through the same mirrored networking | Out with the [unda-mcast helper](#multicast-out-the-unda-mcast-helper); not in |
 | The dashboard sees each viewer's real address | Yes | Yes | No: every viewer shows Docker's own address, so per-address limits and the Sessions page can't tell viewers apart |

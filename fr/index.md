@@ -16,7 +16,7 @@ description: "Unda Media Server diffuse vos directs sur tous les écrans depuis 
 </div>
 </div>
 <div>
-<a class="m-shot" href="/guide/dashboard" aria-label="Visiter le tableau de bord"><img src="/screens/overview.webp" width="1280" height="800" alt="Le tableau de bord d'Unda : directs, spectateurs, bande passante et ce qui demande votre attention"></a>
+<a class="m-shot" href="/fr/guide/dashboard" aria-label="Visiter le tableau de bord"><img src="/screens/overview.webp" width="1280" height="800" alt="Le tableau de bord d'Unda : directs, spectateurs, bande passante et ce qui demande votre attention"></a>
 </div>
 </div>
 </section>
@@ -35,9 +35,9 @@ description: "Unda Media Server diffuse vos directs sur tous les écrans depuis 
 <p>Il reçoit les flux des encodeurs, des caméras et du matériel broadcast, prépare les qualités dont chaque écran a besoin, les enregistre et les envoie vers les plateformes et le matériel TV.</p>
 </div>
 <div class="m-grid m-grid-4">
-<a class="m-card" href="/guide/streaming"><div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg></div><h3>Recevoir les flux</h3><p>Depuis OBS, vMix, des téléphones et des encodeurs matériels en RTMP ou en SRT chiffré, et depuis le matériel broadcast en UDP, RTP ou RIST.</p></a>
+<a class="m-card" href="/fr/guide/streaming"><div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg></div><h3>Recevoir les flux</h3><p>Depuis OBS, vMix, des téléphones et des encodeurs matériels en RTMP ou en SRT chiffré, et depuis le matériel broadcast en UDP, RTP ou RIST.</p></a>
 <a class="m-card" href="/fr/features/adaptive-bitrate"><div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></div><h3>Qualité adaptative</h3><p>Un flux en entrée, jusqu'à huit qualités en sortie : les spectateurs sur données mobiles continuent de regarder, les connexions rapides ont la pleine HD.</p></a>
-<a class="m-card" href="/guide/watching"><div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>Une page de lecture</h3><p>Une page de lecture pour chaque flux, prête à partager ou à intégrer à votre site. Elle fonctionne dans tous les navigateurs, sur les téléphones et les télévisions connectées.</p></a>
+<a class="m-card" href="/fr/guide/watching"><div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>Une page de lecture</h3><p>Une page de lecture pour chaque flux, prête à partager ou à intégrer à votre site. Elle fonctionne dans tous les navigateurs, sur les téléphones et les télévisions connectées.</p></a>
 <a class="m-card" href="/fr/features/restreaming"><div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></div><h3>Rediffusion</h3><p>Envoyez le même flux à YouTube, Facebook et d'autres serveurs en même temps. Si une destination tombe en panne, les autres continuent.</p></a>
 <a class="m-card" href="/fr/features/recording"><div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5" fill="currentColor"/></svg></div><h3>Enregistrer</h3><p>Enregistrez n'importe quel flux en un clic, relisez-le dans le tableau de bord et téléchargez-le après l'événement.</p></a>
 <a class="m-card" href="/fr/features/24-7-channels"><div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="m17 2-5 5-5-5"/></svg></div><h3>Chaînes 24h/24</h3><p>Envoyez vos programmes, planifiez la journée et la chaîne les diffuse à l'heure. Une émission en direct prend la main, et le programme reprend après elle.</p></a>
@@ -73,7 +73,7 @@ description: "Unda Media Server diffuse vos directs sur tous les écrans depuis 
 <li>Vos flux et vos spectateurs ne passent jamais par nous, et nous ne pouvons nous connecter que si vous l'autorisez</li>
 </ul>
 </div>
-<div><a class="m-shot" href="/guide/monitoring#viewer-figures-for-each-channel"><img src="/screens/viewers.webp" width="1280" height="800" alt="Les spectateurs d'une chaîne sur 30 jours : le plus en même temps, les vues, le temps regardé et les données envoyées" loading="lazy"></a></div>
+<div><a class="m-shot" href="/fr/guide/monitoring#viewer-figures-for-each-channel"><img src="/screens/viewers.webp" width="1280" height="800" alt="Les spectateurs d'une chaîne sur 30 jours : le plus en même temps, les vues, le temps regardé et les données envoyées" loading="lazy"></a></div>
 </div>
 <div class="m-split m-flip">
 <div>
@@ -86,9 +86,9 @@ description: "Unda Media Server diffuse vos directs sur tous les écrans depuis 
 <li>Clair ou sombre, sur un ordinateur portable ou un téléphone</li>
 <li>Le tableau de bord est en anglais pour l'instant</li>
 </ul>
-<div class="m-actions"><a class="m-btn m-btn-ghost" href="/guide/dashboard">Visiter le tableau de bord</a></div>
+<div class="m-actions"><a class="m-btn m-btn-ghost" href="/fr/guide/dashboard">Visiter le tableau de bord</a></div>
 </div>
-<div><a class="m-shot" href="/guide/dashboard#a-streams-page"><img src="/screens/stream.webp" width="1280" height="800" alt="La page d'un flux, avec son aperçu, sa santé et ses spectateurs" loading="lazy"></a></div>
+<div><a class="m-shot" href="/fr/guide/dashboard#a-streams-page"><img src="/screens/stream.webp" width="1280" height="800" alt="La page d'un flux, avec son aperçu, sa santé et ses spectateurs" loading="lazy"></a></div>
 </div>
 </div>
 </section>

@@ -24,9 +24,9 @@ description: "Diffusez les cultes sur le site de votre église, Facebook et YouT
 <div class="m-grid m-grid-3">
 <a class="m-card" href="/fr/features/restreaming"><h3>Toutes les plateformes à la fois</h3><p>Un seul flux depuis l'ordinateur de l'église part ensemble vers votre site, Facebook et YouTube. L'Internet de l'église ne le transporte qu'une fois.</p><span class="m-more">Rediffusion →</span></a>
 <a class="m-card" href="/fr/features/recording"><h3>L'enregistrement pour la semaine</h3><p>Appuyez sur Record et le culte est conservé sur votre serveur, prêt à télécharger pour le site, les archives ou les membres qui l'ont manqué.</p><span class="m-more">Enregistrement →</span></a>
-<a class="m-card" href="/guide/watching"><h3>Une page de lecture sur votre site</h3><p>Les membres regardent sur votre site, sous le nom de votre église, sans publicité et sans vidéos suggérées d'autres chaînes.</p><span class="m-more">Regarder et intégrer (en anglais) →</span></a>
+<a class="m-card" href="/fr/guide/watching"><h3>Une page de lecture sur votre site</h3><p>Les membres regardent sur votre site, sous le nom de votre église, sans publicité et sans vidéos suggérées d'autres chaînes.</p><span class="m-more">Regarder et intégrer →</span></a>
 <a class="m-card" href="/fr/features/backup-encoder"><h3>Quand Internet coupe</h3><p>Un deuxième encodeur, ou une image fixe avec votre logo, prend le relais en quelques secondes, et les membres continuent de regarder sans recharger la page.</p><span class="m-more">Encodeur de secours →</span></a>
-<a class="m-card" href="/fr/features/24-7-channels"><h3>À l'antenne toute la semaine</h3><p>Remplissez la semaine avec d'anciens cultes, des enseignements et de la musique, et passez en direct le dimanche : le culte en direct prend la main et la grille reprend ensuite.</p><span class="m-more">Chaînes 24h/24 →</span></a>
+<a class="m-card" href="/fr/features/24-7-channels"><h3>À l'antenne toute la semaine</h3><p>Remplissez la semaine avec d'anciens cultes, des enseignements et de la musique, et passez en direct le dimanche : le culte en direct prend la main et la grille reprend ensuite.</p><span class="m-more">Chaînes 24h/24 →</span></a>
 <a class="m-card" href="/fr/features/signed-links"><h3>Réunions réservées aux membres</h3><p>Réunions des responsables, conférences et formations réservées aux membres inscrits, avec des liens qui expirent.</p><span class="m-more">Liens de lecture signés →</span></a>
 </div>
 </div>
@@ -38,13 +38,13 @@ description: "Diffusez les cultes sur le site de votre église, Facebook et YouT
 <h2>Pour l'équipe médias</h2>
 <p>Chaque bénévole a sa propre connexion, avec seulement les boutons dont son rôle a besoin. Le tableau de bord signale quand quelque chose ne va pas, par exemple un réglage d'encodeur qui fera attendre la vidéo chez les membres.</p>
 <ul class="m-checks">
-<li>Testé avec OBS ; vMix, les mélangeurs matériels et les applications mobiles qui diffusent en RTMP ou en SRT devraient aussi fonctionner</li>
+<li>Testé avec OBS ; vMix, les mélangeurs matériels et les applications mobiles qui diffusent en RTMP ou en SRT devraient aussi fonctionner</li>
 <li>Les réglages d'encodeur à copier affichés à côté de chaque chaîne</li>
 <li>Voyez combien de personnes regardent, et d'où</li>
 <li>Fonctionne sur un ordinateur portable ou un téléphone</li>
 </ul>
 </div>
-<div><a class="m-shot" href="/guide/dashboard"><img src="/screens/stream.webp" width="1280" height="800" alt="La page d'un flux, avec son aperçu, sa santé et ses spectateurs" loading="lazy"></a></div>
+<div><a class="m-shot" href="/fr/guide/dashboard"><img src="/screens/stream.webp" width="1280" height="800" alt="La page d'un flux, avec son aperçu, sa santé et ses spectateurs" loading="lazy"></a></div>
 </div>
 </div>
 </section>
@@ -63,8 +63,8 @@ description: "Diffusez les cultes sur le site de votre église, Facebook et YouT
 <section class="m-section m-tint">
 <div class="m-wrap">
 <div class="m-grid m-grid-2">
-<div class="m-card"><h3>Quelle offre ?</h3><p>Une assemblée qui diffuse un culte à la fois relève de <b>Starter</b> (5 flux en direct, 5 membres de l'équipe). Pour une chaîne 24h/24, un encodeur de secours ou des qualités pour les données mobiles, choisissez <b>Professional</b>. Un ministère avec de nombreuses branches peut demander une offre <b>Custom</b>.</p><a class="m-more" href="/fr/packages">Comparer les offres →</a></div>
-<div class="m-card"><h3>Géré par nous, si vous préférez</h3><p>Personne à l'église pour s'occuper d'un serveur ? Nous pouvons le faire tourner pour vous : votre équipe n'a qu'à diffuser et suivre le tableau de bord.</p><a class="m-more" href="/fr/contact">Demander l'hébergement géré →</a></div>
+<div class="m-card"><h3>Quelle offre ?</h3><p>Une assemblée qui diffuse un culte à la fois relève de <b>Starter</b> (5 flux en direct, 5 membres de l'équipe). Pour une chaîne 24h/24, un encodeur de secours ou des qualités pour les données mobiles, choisissez <b>Professional</b>. Un ministère avec de nombreuses branches peut demander une offre <b>Custom</b>.</p><a class="m-more" href="/fr/packages">Comparer les offres →</a></div>
+<div class="m-card"><h3>Géré par nous, si vous préférez</h3><p>Personne à l'église pour s'occuper d'un serveur ? Nous pouvons le faire tourner pour vous : votre équipe n'a qu'à diffuser et suivre le tableau de bord.</p><a class="m-more" href="/fr/contact">Demander l'hébergement géré →</a></div>
 </div>
 </div>
 </section>
@@ -72,10 +72,10 @@ description: "Diffusez les cultes sur le site de votre église, Facebook et YouT
 <div class="m-wrap">
 <div class="m-cta">
 <h2>Parlez-nous de votre église</h2>
-<p>Parlez-nous de votre église, de votre matériel et de vos membres : nous vous proposerons une installation et un prix.</p>
+<p>Parlez-nous de votre église, de votre matériel et de vos membres : nous vous proposerons une installation et un prix.</p>
 <div class="m-actions">
 <a class="m-btn m-btn-primary" href="/fr/contact">Parlons-en</a>
-<a class="m-btn m-btn-ghost" href="/guide/streaming">Diffuser depuis OBS ou vMix (en anglais)</a>
+<a class="m-btn m-btn-ghost" href="/fr/guide/streaming">Diffuser depuis OBS ou vMix</a>
 </div>
 </div>
 </div>

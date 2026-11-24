@@ -8,4 +8,10 @@ export const TRANSLATED = new Set([
   "features/", "features/restreaming", "features/24-7-channels", "features/backup-encoder", "features/adaptive-bitrate",
   "features/recording", "features/signed-links", "features/tv-outputs", "features/monitoring",
   "solutions/", "solutions/churches", "solutions/internet-tv", "solutions/production-companies", "solutions/iptv-operators",
+  "guide/introduction", "guide/dashboard", "guide/earning", "guide/compatibility", "guide/test-results", "guide/releases", "guide/windows",
+  "guide/streaming", "guide/watching", "guide/protect-playback", "guide/accounts", "guide/transcoding", "guide/recording", "guide/channel-inputs",
+  "guide/backup-encoder", "guide/playout", "guide/restreaming", "guide/srt", "guide/webrtc", "guide/udp", "guide/broadcast-encoders",
+  "guide/pull-inputs", "guide/mpts", "guide/relays", "guide/analyser", "guide/monitoring", "guide/license", "guide/troubleshooting",
+  "blog/", "blog/how-many-viewers-can-one-server-carry", "blog/staying-on-air-when-the-encoder-fails", "blog/why-your-hls-stream-is-30-seconds-behind",
+  "brand", "privacy", "disclaimer", "order", "glossary",
 ]);

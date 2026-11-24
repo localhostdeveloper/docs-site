@@ -126,6 +126,22 @@ const docsSidebar = [
   },
 ];
 
+// Remembers the language a visitor picks in the language menu (in their own
+// browser, localStorage "unda_lang"), and on a later visit from outside the site
+// opens the page in that language when it has one. Inline in <head>, so the
+// page switches before it is drawn. Search engines carry no stored choice.
+const LANGUAGE_SCRIPT = `(function(){try{
+document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest(".VPNavBarTranslations a,.VPNavScreenTranslations a");if(!a)return;var h=a.getAttribute("href")||"";try{localStorage.setItem("unda_lang",/^\\/fr(\\/|$)/.test(h)?"fr":"en")}catch(x){}},true);
+var want=localStorage.getItem("unda_lang");if(want!=="fr"&&want!=="en")return;
+if(document.referrer){try{if(new URL(document.referrer).origin===location.origin)return}catch(x){}}
+var p=decodeURI(location.pathname).replace(/\\.html$/,"").replace(/^\\/+/,"");
+var fr=p==="fr"||p.indexOf("fr/")===0;if((want==="fr")===fr)return;
+var key=(fr?p.replace(/^fr\\/?/,""):p).replace(/(^|\\/)index$/,"$1");
+var T=${JSON.stringify([...TRANSLATED])};
+if(T.indexOf(key)<0){if(T.indexOf(key+"/")<0)return;key+="/"}
+location.replace((want==="fr"?"/fr/":"/")+key+location.search+location.hash);
+}catch(x){}})();`;
+
 const DESCRIPTION =
   "Unda Media Server: the live streaming and broadcast server you run on your own server. RTMP, SRT, HLS, adaptive bitrate, recording, restreaming and 24/7 channels, with a dashboard for your team.";
 
@@ -137,6 +153,58 @@ const YOUTUBE_ICON =
 // say so with "En anglais".
 const DESCRIPTION_FR =
   "Unda Media Server : le serveur de diffusion en direct que vous installez sur votre propre serveur. RTMP, SRT, HLS, débit adaptatif, enregistrement, rediffusion et chaînes 24h/24, avec un tableau de bord pour votre équipe.";
+
+// The French docs' sidebar: the same pages as docsSidebar, in French; the
+// reference stays English.
+const frDocsSidebar = [
+  {
+    text: "Pour commencer",
+    items: [
+      { text: "Qu'est-ce qu'Unda ?", link: "/fr/guide/introduction" },
+      { text: "Une visite du tableau de bord", link: "/fr/guide/dashboard" },
+      { text: "Gagner de l'argent avec Unda", link: "/fr/guide/earning" },
+      { text: "Ce qui fonctionne avec Unda", link: "/fr/guide/compatibility" },
+      { text: "Résultats des tests", link: "/fr/guide/test-results" },
+      { text: "Versions et assistance", link: "/fr/guide/releases" },
+      { text: "Installer", link: "/fr/guide/install" },
+      { text: "Unda sous Windows", link: "/fr/guide/windows" },
+      { text: "Diffuser depuis OBS, vMix ou ffmpeg", link: "/fr/guide/streaming" },
+      { text: "Regarder et intégrer", link: "/fr/guide/watching" },
+      { text: "Liens de lecture signés", link: "/fr/guide/protect-playback" },
+    ],
+  },
+  {
+    text: "Au quotidien",
+    items: [
+      { text: "Comptes et chaînes", link: "/fr/guide/accounts" },
+      { text: "Débit adaptatif", link: "/fr/guide/transcoding" },
+      { text: "Enregistrement", link: "/fr/guide/recording" },
+      { text: "Entrées de chaîne (secours)", link: "/fr/guide/channel-inputs" },
+      { text: "Encodeur de secours", link: "/fr/guide/backup-encoder" },
+      { text: "Chaînes 24h/24 (diffusion)", link: "/fr/guide/playout" },
+      { text: "Rediffusion", link: "/fr/guide/restreaming" },
+      { text: "SRT", link: "/fr/guide/srt" },
+      { text: "WebRTC (faible délai)", link: "/fr/guide/webrtc" },
+      { text: "UDP / MPEG-TS", link: "/fr/guide/udp" },
+      { text: "Encodeurs broadcast (IP)", link: "/fr/guide/broadcast-encoders" },
+      { text: "Entrées récupérées (HLS, RTSP…)", link: "/fr/guide/pull-inputs" },
+      { text: "Multi-chaînes (MPTS)", link: "/fr/guide/mpts" },
+      { text: "Relais", link: "/fr/guide/relays" },
+      { text: "Analyseur de flux", link: "/fr/guide/analyser" },
+      { text: "Surveillance et alertes", link: "/fr/guide/monitoring" },
+      { text: "Licence", link: "/fr/guide/license" },
+      { text: "Dépannage", link: "/fr/guide/troubleshooting" },
+    ],
+  },
+  {
+    text: "Référence (en anglais)",
+    items: [
+      { text: "API REST", link: "/reference/api" },
+      { text: "Fichier de configuration", link: "/reference/config" },
+      { text: "Caddy en frontal", link: "/reference/caddy" },
+    ],
+  },
+];
 
 const frTheme = {
   nav: [
@@ -173,17 +241,22 @@ const frTheme = {
     { text: "Offres", link: "/fr/packages" },
     {
       text: "Ressources",
-      activeMatch: "^/(fr/guide|guide|reference|release-notes|blog|glossary)",
+      activeMatch: "^/(fr/guide|fr/blog|fr/glossary|guide|reference|release-notes|blog|glossary)",
       items: [
-        { text: "Documentation", items: [{ text: "Installer Unda", link: "/fr/guide/install" }] },
+        {
+          text: "Documentation",
+          items: [
+            { text: "Le guide", link: "/fr/guide/introduction" },
+            { text: "Installer Unda", link: "/fr/guide/install" },
+            { text: "Blog", link: "/fr/blog/" },
+            { text: "Glossaire", link: "/fr/glossary" },
+          ],
+        },
         {
           text: "En anglais",
           items: [
-            { text: "Le guide complet", link: "/guide/introduction" },
             { text: "Référence de l'API", link: "/reference/api" },
             { text: "Notes de version", link: "/release-notes" },
-            { text: "Blog", link: "/blog/" },
-            { text: "Glossaire", link: "/glossary" },
           ],
         },
       ],
@@ -193,20 +266,11 @@ const frTheme = {
   ],
   socialLinks: [{ icon: { svg: YOUTUBE_ICON }, link: "https://www.youtube.com/@undamediaserver", ariaLabel: "Unda Media Server sur YouTube" }],
   sidebar: {
-    "/fr/guide/": [
-      { text: "Pour commencer", items: [{ text: "Installer Unda", link: "/fr/guide/install" }] },
-      {
-        text: "En anglais",
-        items: [
-          { text: "Le guide complet", link: "/guide/introduction" },
-          { text: "Référence de l'API", link: "/reference/api" },
-        ],
-      },
-    ],
+    "/fr/guide/": frDocsSidebar,
   },
   footer: {
     message:
-      '<a href="/fr/media-server">Serveur média</a> · <a href="/fr/features/">Fonctionnalités</a> · <a href="/fr/solutions/">Solutions</a> · <a href="/fr/packages">Offres</a> · <a href="/fr/guide/install">Installer</a> · <a href="/guide/introduction">Documentation</a> · <a href="/blog/">Blog</a> · <a href="/fr/about">À propos</a> · <a href="/brand">Marque</a> · <a href="/fr/contact">Contact</a> · <a href="/fr/security">Sécurité</a> · <a href="/privacy">Confidentialité</a> · <a href="/disclaimer">Avertissement</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
+      '<a href="/fr/media-server">Serveur média</a> · <a href="/fr/features/">Fonctionnalités</a> · <a href="/fr/solutions/">Solutions</a> · <a href="/fr/packages">Offres</a> · <a href="/fr/guide/install">Installer</a> · <a href="/fr/guide/introduction">Documentation</a> · <a href="/fr/blog/">Blog</a> · <a href="/fr/about">À propos</a> · <a href="/fr/brand">Marque</a> · <a href="/fr/contact">Contact</a> · <a href="/fr/security">Sécurité</a> · <a href="/fr/privacy">Confidentialité</a> · <a href="/fr/disclaimer">Avertissement</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
     copyright: "Unda Media Server est un logiciel propriétaire. © 2026 LocalCode Technology. Tous droits réservés.",
   },
   outline: { level: [2, 3], label: "Sur cette page" },
@@ -271,6 +335,7 @@ export default defineConfig({
   // Light first; dark is available from the switch in the top bar.
   appearance: { initialValue: "light" } as any,
   head: [
+    ["script", {}, LANGUAGE_SCRIPT],
     ["link", { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
     // Visit counts: Vercel Web Analytics (no cookies; the privacy page says so).
     ["script", {}, "window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };"],
@@ -307,7 +372,7 @@ export default defineConfig({
     // A page that exists in both languages names both, for search engines.
     const french = path === "fr/" || path.startsWith("fr/");
     const english = french ? path.replace(/^fr\/?/, "") : path;
-    const languages = TRANSLATED.has(english.replace(/\/$/, ""))
+    const languages = TRANSLATED.has(english)
       ? [
           ["link", { rel: "alternate", hreflang: "en", href: `${SITE}/${english}` }],
           ["link", { rel: "alternate", hreflang: "fr", href: `${SITE}/fr/${english}` }],
