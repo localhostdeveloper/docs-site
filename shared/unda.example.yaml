@@ -199,8 +199,8 @@ restream:
   #     name: dtt-mux                #   IP modulator or satellite uplink (udp://, rtp://, srt://, rist:// or http-pull://)
   #     url: udp://239.1.1.20:5000?ttl=4
   #     broadcast:                   # 16:9, CBR MPEG-TS with DVB service information
-  #       format: 576p25             # 576p25 (SD, default), 720p50 or 1080i25 (HD, interlaced)
-  #       video_codec: h264          # h264 (default), hevc (576p25/720p50 only) or mpeg2 (576p25 only);
+  #       format: 576p25             # 576p25 (SD, default), 576i25, 720p25, 720p50, 1080i25 (interlaced), 1080p25 or 1080p50
+  #       video_codec: h264          # h264 (default), hevc (progressive formats only) or mpeg2 (576p25/576i25 only);
   #                                  #   H.264-only DVB-T2/S2 networks can't show hevc or mpeg2
   #       mux_kbps: 1300             # constant total rate, null packets included: what the station takes.
   #                                  #   Default 1300 for SD h264; otherwise the minimum safe value for the video
@@ -209,6 +209,10 @@ restream:
   #       audio_codec: aac           # aac (default; mp2 with mpeg2 video), mp2 or ac3 (Dolby Digital)
   #       audio_kbps: 128            # default 128 (aac) / 192 (mp2, ac3)
   #       # aac_packing: latm        # adts (default, most receivers) or latm (DVB's LATM/LOAS, stream type 0x11)
+  #       # no_b_frames: true        # pictures in display order, for gateways and transcoders that break up on B-frames
+  #       # sound_frame_per_pes: true # each sound frame in its own packet, as streaming encoders send (needs 50 kb/s more room)
+  #       # variable_rate: true      # streaming-style: no padding, averages under mux_kbps (no NIT/TDT, no ad cues)
+  #       # better_quality: true     # x264 "medium" instead of "veryfast": sharper picture, more CPU
   #       service_name: "Unda TV"    # SDT channel name (default: the stream name)
   #       service_provider: "Unda"   # SDT provider
   #       service_id: 1              # also: transport_stream_id, original_network_id,

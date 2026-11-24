@@ -15,10 +15,11 @@ Open the stream, **Restream** tab. Destinations are in two lists:
 are re-encoded for broadcast. A line above them counts what is sending,
 failing and switched off, and how many receivers are connected.
 
-**Add destination** asks what kind first (clients go straight to the first):
+Two buttons add one:
 
-- **A platform or another server:** a name, then the **server link** and the
-  **stream key**, as your service shows them:
+- **Platform or server** opens a box at the top of the Platforms list: a
+  name, then the **server link** and the **stream key**, as your service
+  shows them. **Add and start sending** adds it.
 
   | Service | Server link | Stream key |
   |---|---|---|
@@ -35,20 +36,20 @@ failing and switched off, and how many receivers are connected.
   services (YouTube, Facebook, Instagram, Twitch, TikTok, X, Vimeo,
   Dailymotion, Telegram and Rumble) are recognised from their server and show
   their logo; other servers show their protocol.
-- **A TV output Unda sends** and **A TV output the receiver fetches:** see
+- **New TV output** (operators) opens a page of its own: see
   [Broadcast TV](#broadcast-tv-terrestrial-and-satellite) below.
 
 Each row has a switch (off stops sending but keeps the destination and its
-key) and a **⋯** menu with **Edit**, **Remove** and, for TV outputs, the
-TR 101 290 report. **Edit** opens the same dialog, filled in. For an RTMP
-destination the server link is shown and the key isn't: leave the key empty
-to keep it, or type the new one (a destination whose key was refused shows
-**Change key** under its row, with the reason). For other addresses, leave the
-link empty to keep the saved one. A destination that is sending restarts with
-the new settings (Unda asks first), so its receiving side loses the stream for
-a few seconds; a switched-off one stays off. Closing a half-filled form asks
-before discarding what you typed. Destinations listed in `unda.yaml` are
-changed in the file.
+key). A platform's **⋯** menu has **Edit** and **Remove**: **Edit** opens the
+same box under its row, filled in, and **Remove** asks under the row before it
+removes anything. For an RTMP destination the server link is shown and the key
+isn't: leave the key empty to keep it, or type the new one (a destination
+whose key was refused shows **Change key** under its row, with the reason).
+For other addresses, leave the link empty to keep the saved one. Saving a
+destination that is sending reconnects it (the button says **Save and
+reconnect**), so its receiving side loses the stream for a few seconds; a
+switched-off one stays off. A TV output's row opens its page: click the row or
+**Open**. Destinations listed in `unda.yaml` are changed in the file.
 
 [![A stream's Restream tab: YouTube sending, Facebook refused its key with Change key beside the reason, a switched-off SRT server, and three TV outputs, one pulled by two receivers](/screens/restream.webp)](/screens/restream.webp)
 
@@ -159,22 +160,34 @@ don't take a second path.
 ## Broadcast TV (terrestrial and satellite)
 
 For a DVB multiplexer, IP modulator or satellite uplink (operators only),
-choose **Add destination**, then **A TV output Unda sends**, or **A TV output
-the receiver fetches** when the station's receiver comes to you
-([SRT](#letting-the-receiver-connect-srt-listener) or
-[an HTTP link](#letting-the-receiver-pull-a-link-http)). The dialog has four
-short steps: **Delivery** (where it goes, or how the receiver gets it),
-**Picture and sound**, **Channel details** (what receivers list) and
-**Extras** (network and time tables, ad cues). The stream is re-encoded to
-what TV equipment expects:
+choose **New TV output**. Its page has four parts: **How it reaches the
+station** (**Unda sends it** to an address, or **The station fetches it** when
+the station's receiver comes to you, by
+[SRT](#letting-the-receiver-connect-srt-listener) or
+[an HTTP link](#letting-the-receiver-pull-a-link-http)), **Picture and sound**,
+**Channel details** (what receivers list) and **Extras** (network and time
+tables, ad cues). Beside them, **What the station gets** shows the format and
+how the total bitrate splits between video, sound and tables, and follows
+every change. **Add TV output** at the bottom adds it.
 
-- **Picture:** 16:9 in one of six formats. A 4:3 or portrait source gets
+Each TV output keeps that page. It opens with how the output is doing: its
+receivers (for one the station fetches), the transport stream's TR 101 290
+check and the encoder, and the reason when it can't send. Its settings follow,
+one line per part; **Change** opens a part. A bar at the bottom names what
+you changed, with **Discard** and **Save**; saving restarts the encoder, so
+the station loses the picture for a few seconds. The switch at the top stops
+and starts it, and **Remove** is at the bottom of the page.
+
+The stream is re-encoded to what TV equipment expects:
+
+- **Picture:** 16:9 in one of seven formats. A 4:3 or portrait source gets
   black bars at the sides; nothing is cropped.
 
   | Format | Picture | Use |
   |---|---|---|
   | `576p25` (default) | SD 720×576, 25 frames/s | SD services, older receivers |
   | `576i25` | SD 720×576 interlaced, top field first | SD services whose equipment expects interlaced SD, as SD broadcast encoders commonly send |
+  | `720p25` | HD 1280×720, 25 frames/s | providers and IPTV services that take 720p at 25, as streaming encoders send it |
   | `720p50` | HD 1280×720, 50 frames/s | HD services that use 720p |
   | `1080i25` | HD 1920×1080 interlaced, top field first | the usual HD format in 50 Hz countries |
   | `1080p25` | HD 1920×1080, 25 frames/s | IPTV and HD services that use 1080p, for material made at 25 frames/s |
@@ -189,17 +202,54 @@ what TV equipment expects:
   DVB-T / DVB-S receivers; SD only). SD H.264 is sized by the whole
   transport stream: **1300 kb/s by default**, the video filling what the audio
   and the stream's overhead leave (1040 kb/s with AAC at 128). Type another total
-  and the video is fitted to it, or set the video rate yourself. Other
-  defaults: H.264 8 Mb/s HD; HEVC 1.2 Mb/s SD, 4 Mb/s HD; MPEG-2 4 Mb/s.
+  and the video is fitted to it, or set the video rate yourself. H.264
+  720p25, 720p50 and 1080p25 are sized the same way: **2500, 4000 and 5000
+  kb/s** by default (2050, 3410 and 4320 kb/s of video). Other defaults:
+  H.264 8 Mb/s of video for 1080i25 and 1080p50; HEVC 1.2 Mb/s SD, 4 Mb/s
+  HD; MPEG-2 4 Mb/s.
+  720p50 in H.264 also fits an SD-sized slot: 690 kb/s of video in a 1000
+  total, 960 in 1300, 1140 in 1500 (the other HD formats need at least 1500
+  of video).
+  At these rates fast movement shows blocks sooner than in SD.
+  **Better quality** (`better_quality: true`) encodes with x264's slower
+  "medium" preset instead of "veryfast" (HEVC: "veryfast" instead of
+  "superfast"): measured on 720p25 at 840 kb/s of video, 5 to 7 VMAF points
+  better, a visible difference, for about a quarter to a third of a CPU core
+  more per output.
+  The encoder uses B-frames, which every DVB receiver decodes and which give
+  a better picture for the bitrate. If the equipment you send to is not a TV
+  receiver but an IP gateway, transcoder or re-streamer, and the picture
+  breaks up there, switch on **No B-frames** (`no_b_frames: true`): every
+  picture then goes out in display order. Measured on SD at 750 kb/s of
+  video, it costs at most about 1.5 VMAF points on fast movement and nothing
+  on calm pictures.
 - **Audio:** AAC (the default; 128 kb/s), MPEG-1 Layer II (MP2; the default
   with MPEG-2 video) or AC-3 (Dolby Digital, signalled the DVB way), 48 kHz
   stereo. AAC goes out as ADTS, which most receivers play; for receivers that
   follow DVB's letter, choose **LATM** packing (`aac_packing: latm`, stream
   type 0x11). **Sound language** (`language: eng`, any three-letter ISO 639
   code) labels the track: receivers show it in their audio menu, and pick by
-  it when a channel has several. None by default.
+  it when a channel has several. None by default. Sound is sent in packets
+  of about 170 ms; **One sound frame per packet** (`sound_frame_per_pes:
+  true`) sends each 21 ms frame on its own, as most streaming encoders do,
+  for receiving software built around them. It needs 50 kb/s
+  more room, so the video is fitted that much smaller (SD in a 1000 kb/s
+  total: 700 kb/s of video).
+- **Bitrate:** **Constant** (the default) is what DVB multiplexers,
+  modulators and IRDs need. **Variable** (`variable_rate: true`) sends the
+  output streaming-style instead: each packet as soon as it is made,
+  averaging under the total you set (a busy second can go a few percent
+  over), without padding, the way streaming encoders send.
+  With no padding to make room for, more of the total goes to the video:
+  840 kb/s of video in an 1100 kb/s total for 720p25, against 780 at a
+  constant rate. Choose it when the receiving end is software built around
+  such encoders (an IP-to-satellite provider, a re-streamer) and a
+  constant-rate output breaks up there while a streaming encoder's plays.
+  A variable-rate output carries no network and time tables and no ad cues
+  (they travel in the constant rate's padding), and a bundle's channels are
+  always constant-rate.
 - **Transport stream:** a constant bitrate (the total you set, padded with
-  null packets), with your channel name and provider in the service
+  null packets; or variable, above), with your channel name and provider in the service
   information (SDT), the service type receivers expect (SD or HD H.264,
   HEVC), and the service ID and PIDs your multiplexer expects.
 - **Network and time tables:** the NIT (network name and the channel) and the
@@ -253,9 +303,9 @@ about one and a half times as much (measured: 1.6 times 1080i25 in H.264, and
 ### Letting the receiver connect (SRT listener)
 
 Some teleports and stations pull the channel: their receiver is an SRT
-*caller* and connects to you. In the dialog choose **A TV output the receiver
-fetches**, then **Calls in over SRT**, with the port, a passphrase and who may
-connect. Through the API or `unda.yaml` it is an address without a host, and
+*caller* and connects to you. On a new TV output's page choose **The station
+fetches it**, then **Calls in over SRT**, with the port, a passphrase and who
+may connect. Through the API or `unda.yaml` it is an address without a host, and
 Unda waits on that port:
 
 ```
@@ -292,8 +342,8 @@ at exactly 1300 kb/s with its tables and no continuity errors.
 ### Letting the receiver pull a link (HTTP)
 
 Cable headends, IRDs and many gateways can fetch a channel over HTTP. Choose
-**A TV output the receiver fetches**, then **Pulls an HTTP link**: when it is
-added, Unda shows the link to give the station, on your server's own address:
+**The station fetches it**, then **Pulls an HTTP link**: when it is added, its
+page shows the link to give the station, on your server's own address:
 
 ```
 https://tv.example.com/tv/3pX0b2Vq7mQkA1sLz9TfRw.ts
@@ -306,13 +356,13 @@ https://tv.example.com/tv/3pX0b2Vq7mQkA1sLz9TfRw.ts
   HTTPS; the channel then also answers on the server's plain HTTP port, and
   crosses the network unencrypted. On a server without HTTPS the link is plain
   HTTP.
-- **⋯ → Show the link** or **Copy the link** gives it again; every look is in
-  the audit log. **Make a new link** ends the old one at once: receivers using
-  it are cut off until the station has the new one, and the encoder carries
-  on.
+- On the output's page, **Show** or **Copy** gives it again (the list's row
+  has **Copy link** too); every look is in the audit log. **Make a new link**
+  asks first, then ends the old one at once: receivers using it are cut off
+  until the station has the new one, and the encoder carries on.
 - Up to 8 receivers at once, each sent the whole channel. A receiver that falls
-  10 seconds behind is let go; its gear connects again. The row shows who is
-  pulling and how much each has received, and a receiver that was refused
+  10 seconds behind is let go; its gear connects again. The output's page
+  lists who is pulling and how much each has received, and a receiver that was refused
   (an address not on the list, plain HTTP when the link is HTTPS only).
 - The encoder runs whether or not anyone is pulling, so a receiver gets the
   channel at once. Receivers stay connected when you edit the output or its

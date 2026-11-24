@@ -61,7 +61,9 @@ Unda measures each stream for a few seconds and plans the qualities for it:
 - never bigger than the source, and in the source's shape: a phone streaming
   portrait gets portrait qualities, with no black bars;
 - never more bitrate than the source justifies: a 1080p stream at 1.5 Mb/s is
-  offered 1080p at about 1.5 Mb/s, not 5;
+  offered 1080p at about 1.5 Mb/s, not 5. A stream that starts quiet (a still
+  picture, an encoder warming up) is planned again once it carries clearly
+  more, which restarts its qualities once;
 - the source's frame rate, up to 30 (50 and 60 are halved);
 - keyframes every 2 seconds whatever the encoder sends, which also keeps the
   delay low when an encoder is set badly.

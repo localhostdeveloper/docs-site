@@ -6,7 +6,9 @@ your team signed in. It is written for the person who runs the server.
 You need:
 
 - a Linux server (4 vCPU, 8 GB RAM and 100 Mbit/s+ upload are enough for about
-  ten 720p streams and a few hundred viewers without transcoding);
+  ten 720p streams and a few hundred viewers without transcoding). A Windows
+  PC works too, through WSL or Docker Desktop: see
+  [Unda on Windows](https://www.undamedia.com/guide/windows);
 - a DNS name pointing at it, e.g. `tv.example.com` (needed for HTTPS);
 - the Unda **Docker image** (`ghcr.io/localhostdeveloper/unda`) or **binary** from your vendor, and your
   **license file** (`something.license.json`). Without a license Unda runs
@@ -70,7 +72,7 @@ folder (made fresh each time, so no file left from before is used):
 
 ```bash
 cd "$(mktemp -d)" && pwd
-V=v0.1.49
+V=v0.1.50
 for f in install.sh SHA256SUMS SHA256SUMS.sig; do curl -fsSLO --proto '=https' "https://get.undamedia.com/$V/$f"; done
 printf '%s\n' '-----BEGIN PUBLIC KEY-----' 'MCowBQYDK2VwAyEAB1ecJf7qS5QmW0tNgROglMxl5ozWIk4HnHj8b1/EOVs=' '-----END PUBLIC KEY-----' > unda-release.pub
 openssl base64 -d -A -in SHA256SUMS.sig -out sig.bin
@@ -113,6 +115,52 @@ curl -fsSL https://get.undamedia.com/install.sh | sudo bash -s -- --docker
 An Intel graphics card is given to the container for transcoding (the image
 carries Intel's driver on 64-bit Intel/AMD machines). AMD and NVIDIA cards
 are not: install without `--docker` to use one.
+
+**AlmaLinux, Rocky Linux and Red Hat Enterprise Linux** (tested on AlmaLinux
+10 with SELinux on): the same one-line command works after two steps of your
+own, because the installer opens ports only in Ubuntu's firewall (ufw) and
+installs FFmpeg only with Debian's `apt`.
+
+1. If firewalld is on (`systemctl is-active firewalld` says `active`), open
+   Unda's ports in it:
+
+   ```bash
+   sudo firewall-cmd --permanent --add-port=80/tcp --add-port=443/tcp --add-port=1935/tcp --add-port=1936/tcp --add-port=6000/udp --add-port=8189/udp
+   sudo firewall-cmd --reload
+   ```
+
+   These are the default ports; open the ones you choose if you change them
+   with the port options.
+2. Install FFmpeg from EPEL and RPM Fusion. On AlmaLinux and Rocky Linux 10:
+
+   ```bash
+   sudo dnf install -y epel-release
+   sudo dnf config-manager --set-enabled crb
+   sudo dnf install -y https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-10.noarch.rpm
+   sudo dnf install -y ffmpeg
+   ```
+
+   On version 9, use `rpmfusion-free-release-9`. On Red Hat Enterprise Linux,
+   turn on EPEL as Red Hat's documentation describes, then the last two lines.
+
+Then run the one-line command above without `--with-ffmpeg`.
+
+**Alpine Linux** (tested on Alpine 3.24): Unda runs there in Docker. The
+service install needs systemd, which Alpine doesn't use, so the plain
+command stops with "systemd is required" and changes nothing. As root,
+install Docker from Alpine's own packages and start it with the server
+(`iproute2` gives the installer `ss`, which it checks ports with), then
+run the installer with `--docker`:
+
+```sh
+apk add bash curl docker docker-cli-compose iproute2
+rc-update add docker default
+rc-service docker start
+curl -fsSL https://get.undamedia.com/install.sh | bash -s -- --docker --domain tv.example.com --email you@example.com
+```
+
+Alpine runs no firewall unless you set one up; Docker opens Unda's
+published ports by itself.
 
 **Another web server already holds ports 80 and 443** (nginx, Caddy or
 Apache serving other sites, AzuraCast, Owncast)? Add `--behind-proxy PORT`:
@@ -157,7 +205,7 @@ Create a directory, e.g. `/opt/unda`, with these two files.
 ```yaml
 services:
   unda:
-    image: ghcr.io/localhostdeveloper/unda:v0.1.49   # newest version: see the release notes
+    image: ghcr.io/localhostdeveloper/unda:v0.1.50   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "443:8443"          # HTTPS: dashboard, watch pages, HLS
@@ -498,7 +546,7 @@ dashboard shows encoders the ports Unda listens on.
 ```yaml
 services:
   unda:
-    image: ghcr.io/localhostdeveloper/unda:v0.1.49   # newest version: see the release notes
+    image: ghcr.io/localhostdeveloper/unda:v0.1.50   # newest version: see the release notes
     restart: unless-stopped
     ports:
       - "127.0.0.1:8090:8090"   # dashboard, watch pages, HLS: only nginx on this server reaches it
@@ -787,6 +835,9 @@ sudo ufw allow 1936/tcp    # RTMPS encoders (RTMP over TLS, encrypted)
 sudo ufw allow 6000/udp    # SRT encoders (if used)
 sudo ufw allow 8189/udp    # WebRTC media: WHIP encoders, low-latency viewers (if used)
 ```
+
+With firewalld (AlmaLinux, Rocky Linux, Red Hat), open the same ports with
+`firewall-cmd --permanent --add-port=…` and `firewall-cmd --reload` (section 1).
 
 When ufw is on, the installer opens Unda's ports on the first install only.
 An upgrade leaves the firewall as it is (so a rule you narrowed stays

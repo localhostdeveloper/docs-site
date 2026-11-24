@@ -1,5 +1,7 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitepress";
 import { writeLLMFiles } from "./llms";
+import { TRANSLATED } from "./translated";
 
 // GitHub's heading anchors ("## 8. Backups and upgrades" -> #8-backups-and-upgrades),
 // so the table of contents inside deploy/INSTALL.md, which is included as-is,
@@ -44,6 +46,9 @@ function structuredData(path: string, url: string, pageData: any, description: s
   if (path === "") {
     return [ORGANIZATION, { "@type": "WebSite", name: "UndaMedia", url: `${SITE}/` }];
   }
+  if (path === "fr/") {
+    return [ORGANIZATION, { "@type": "WebSite", name: "UndaMedia", url, inLanguage: "fr" }];
+  }
   const out: object[] = [];
   const section = SECTIONS[path.split("/")[0]];
   if (section) {
@@ -82,6 +87,7 @@ const docsSidebar = [
       { text: "Test results", link: "/guide/test-results" },
       { text: "Releases and support", link: "/guide/releases" },
       { text: "Install", link: "/guide/install" },
+      { text: "Unda on Windows", link: "/guide/windows" },
       { text: "Stream from OBS, vMix or ffmpeg", link: "/guide/streaming" },
       { text: "Watching and embedding", link: "/guide/watching" },
       { text: "Signed playback links", link: "/guide/protect-playback" },
@@ -123,10 +129,140 @@ const docsSidebar = [
 const DESCRIPTION =
   "Unda Media Server: the live streaming and broadcast server you run on your own server. RTMP, SRT, HLS, adaptive bitrate, recording, restreaming and 24/7 channels, with a dashboard for your team.";
 
+const YOUTUBE_ICON =
+  '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>';
+
+// The French site (/fr/). Only some pages are translated (translated.ts);
+// the menus link to the English page where there is no French one yet, and
+// say so with "En anglais".
+const DESCRIPTION_FR =
+  "Unda Media Server : le serveur de diffusion en direct que vous installez sur votre propre serveur. RTMP, SRT, HLS, débit adaptatif, enregistrement, rediffusion et chaînes 24h/24, avec un tableau de bord pour votre équipe.";
+
+const frTheme = {
+  nav: [
+    {
+      text: "Serveur média",
+      activeMatch: "^/(media-server|features)",
+      items: [
+        { text: "Présentation", link: "/media-server" },
+        {
+          text: "Fonctionnalités",
+          items: [
+            { text: "Rediffusion", link: "/features/restreaming" },
+            { text: "Chaînes 24h/24", link: "/features/24-7-channels" },
+            { text: "Encodeur de secours", link: "/features/backup-encoder" },
+            { text: "Débit adaptatif", link: "/features/adaptive-bitrate" },
+            { text: "Enregistrement", link: "/features/recording" },
+            { text: "Liens de lecture signés", link: "/features/signed-links" },
+            { text: "Sorties TV et IPTV", link: "/features/tv-outputs" },
+            { text: "Surveillance et alertes", link: "/features/monitoring" },
+          ],
+        },
+      ],
+    },
+    {
+      text: "Solutions",
+      activeMatch: "^/solutions",
+      items: [
+        { text: "Églises et ministères", link: "/solutions/churches" },
+        { text: "Chaînes de télévision sur Internet", link: "/solutions/internet-tv" },
+        { text: "Sociétés de production", link: "/solutions/production-companies" },
+        { text: "Opérateurs IPTV et diffuseurs", link: "/solutions/iptv-operators" },
+      ],
+    },
+    { text: "Offres", link: "/fr/packages" },
+    {
+      text: "Ressources",
+      activeMatch: "^/(fr/guide|guide|reference|release-notes|blog|glossary)",
+      items: [
+        { text: "Documentation", items: [{ text: "Installer Unda", link: "/fr/guide/install" }] },
+        {
+          text: "En anglais",
+          items: [
+            { text: "Le guide complet", link: "/guide/introduction" },
+            { text: "Référence de l'API", link: "/reference/api" },
+            { text: "Notes de version", link: "/release-notes" },
+            { text: "Blog", link: "/blog/" },
+            { text: "Glossaire", link: "/glossary" },
+          ],
+        },
+      ],
+    },
+    { text: "À propos", link: "/about" },
+    { text: "Contact", link: "/contact" },
+  ],
+  socialLinks: [{ icon: { svg: YOUTUBE_ICON }, link: "https://www.youtube.com/@undamediaserver", ariaLabel: "Unda Media Server sur YouTube" }],
+  sidebar: {
+    "/fr/guide/": [
+      { text: "Pour commencer", items: [{ text: "Installer Unda", link: "/fr/guide/install" }] },
+      {
+        text: "En anglais",
+        items: [
+          { text: "Le guide complet", link: "/guide/introduction" },
+          { text: "Référence de l'API", link: "/reference/api" },
+        ],
+      },
+    ],
+  },
+  footer: {
+    message:
+      '<a href="/media-server">Serveur média</a> · <a href="/features/">Fonctionnalités</a> · <a href="/solutions/">Solutions</a> · <a href="/fr/packages">Offres</a> · <a href="/fr/guide/install">Installer</a> · <a href="/guide/introduction">Documentation</a> · <a href="/blog/">Blog</a> · <a href="/about">À propos</a> · <a href="/brand">Marque</a> · <a href="/contact">Contact</a> · <a href="/security">Sécurité</a> · <a href="/privacy">Confidentialité</a> · <a href="/disclaimer">Avertissement</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
+    copyright: "Unda Media Server est un logiciel propriétaire. © 2026 LocalCode Technology. Tous droits réservés.",
+  },
+  outline: { level: [2, 3], label: "Sur cette page" },
+  docFooter: { prev: "Page précédente", next: "Page suivante" },
+  lastUpdated: { text: "Mis à jour le" },
+  darkModeSwitchLabel: "Apparence",
+  lightModeSwitchTitle: "Passer au thème clair",
+  darkModeSwitchTitle: "Passer au thème sombre",
+  sidebarMenuLabel: "Menu",
+  returnToTopLabel: "Retour en haut",
+  langMenuLabel: "Changer de langue",
+  skipToContentLabel: "Aller au contenu",
+  notFound: {
+    title: "PAGE INTROUVABLE",
+    quote: "Cette page n'existe pas, ou pas encore en français.",
+    linkLabel: "aller à l'accueil",
+    linkText: "Retour à l'accueil",
+  },
+};
+
+const frSearch = {
+  translations: {
+    button: { buttonText: "Rechercher", buttonAriaLabel: "Rechercher" },
+    modal: {
+      displayDetails: "Afficher les détails",
+      resetButtonTitle: "Effacer la recherche",
+      backButtonTitle: "Fermer la recherche",
+      noResultsText: "Aucun résultat pour",
+      footer: {
+        selectText: "choisir",
+        selectKeyAriaLabel: "Entrée",
+        navigateText: "parcourir",
+        navigateUpKeyAriaLabel: "flèche vers le haut",
+        navigateDownKeyAriaLabel: "flèche vers le bas",
+        closeText: "fermer",
+        closeKeyAriaLabel: "Échap",
+      },
+    },
+  },
+};
+
 export default defineConfig({
   title: "UndaMedia",
   description: DESCRIPTION,
   lang: "en",
+  locales: {
+    root: { label: "English", lang: "en" },
+    fr: { label: "Français", lang: "fr", link: "/fr/", description: DESCRIPTION_FR, themeConfig: frTheme },
+  },
+  // The language switch: our own links (theme/langs.ts) in place of VitePress's,
+  // which point at the same page in the other language even when it isn't translated.
+  vite: {
+    resolve: {
+      alias: [{ find: /^\.{1,2}\/composables\/langs(\.js)?$/, replacement: fileURLToPath(new URL("./theme/langs.ts", import.meta.url)) }],
+    },
+  },
   // shared/ holds copies of repository files that pages include; not pages themselves.
   srcExclude: ["shared/**", "README.md"],
   cleanUrls: true,
@@ -168,7 +304,19 @@ export default defineConfig({
     if (pageData.isNotFound) return [["meta", { name: "robots", content: "noindex" }]];
     const path = pageData.relativePath.replace(/(^|\/)index\.md$/, "$1").replace(/\.md$/, "");
     const url = `${SITE}/${path}`;
+    // A page that exists in both languages names both, for search engines.
+    const french = path === "fr/" || path.startsWith("fr/");
+    const english = french ? path.replace(/^fr\/?/, "") : path;
+    const languages = TRANSLATED.has(english.replace(/\/$/, ""))
+      ? [
+          ["link", { rel: "alternate", hreflang: "en", href: `${SITE}/${english}` }],
+          ["link", { rel: "alternate", hreflang: "fr", href: `${SITE}/fr/${english}` }],
+          ["link", { rel: "alternate", hreflang: "x-default", href: `${SITE}/${english}` }],
+        ]
+      : [];
     return [
+      ["meta", { property: "og:locale", content: french ? "fr_FR" : "en_GB" }],
+      ...(languages as any),
       ["meta", { property: "og:type", content: pageData.frontmatter.date ? "article" : "website" }],
       ["meta", { property: "og:title", content: title }],
       ["meta", { property: "og:description", content: description }],
@@ -251,23 +399,17 @@ export default defineConfig({
       { text: "Contact", link: "/contact" },
     ],
     // Inline icons: VitePress would otherwise load them from another website.
-    socialLinks: [
-      {
-        icon: { svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>' },
-        link: "https://www.youtube.com/@undamediaserver",
-        ariaLabel: "Unda Media Server on YouTube",
-      },
-    ],
+    socialLinks: [{ icon: { svg: YOUTUBE_ICON }, link: "https://www.youtube.com/@undamediaserver", ariaLabel: "Unda Media Server on YouTube" }],
     // Only the docs have a sidebar; the site's own pages (home, Media Server,
     // Packages, About, Contact) are full width.
     sidebar: { "/guide/": docsSidebar, "/reference/": docsSidebar, "/release-notes": docsSidebar },
-    search: { provider: "local" },
+    search: { provider: "local", options: { locales: { fr: frSearch } } },
     outline: { level: [2, 3] },
     // Shown on pages without a sidebar (the site's own pages, not the guides).
     footer: {
       message:
-        '<a href="/media-server">Media Server</a> · <a href="/features/">Features</a> · <a href="/solutions/">Solutions</a> · <a href="/packages">Packages</a> · <a href="/guide/introduction">Docs</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/privacy">Privacy</a> · <a href="/disclaimer">Disclaimer</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
-      copyright: "Unda Media Server is proprietary software. © 2026 LC Technology. All rights reserved.",
+        '<a href="/media-server">Media Server</a> · <a href="/features/">Features</a> · <a href="/solutions/">Solutions</a> · <a href="/packages">Packages</a> · <a href="/guide/introduction">Docs</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a> · <a href="/brand">Brand</a> · <a href="/contact">Contact</a> · <a href="/security">Security</a> · <a href="/privacy">Privacy</a> · <a href="/disclaimer">Disclaimer</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
+      copyright: "Unda Media Server is proprietary software. © 2026 LocalCode Technology. All rights reserved.",
     },
   },
 });

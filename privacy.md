@@ -14,9 +14,9 @@ description: What UndaMedia collects on this website and through Unda Media Serv
 </section>
 <section class="m-section">
 <div class="m-wrap m-prose m-legal">
-<p class="m-legal-date">Last updated 7 November 2026</p>
+<p class="m-legal-date">Last updated 23 November 2026</p>
 <h2>Who we are</h2>
-<p>UndaMedia makes Unda Media Server. UndaMedia is a product of LC Technology. In this policy "we" and "us" mean UndaMedia. For anything about your information, email <a href="mailto:support@undamedia.com">support@undamedia.com</a>.</p>
+<p>UndaMedia makes Unda Media Server. UndaMedia is a product of LocalCode Technology. In this policy "we" and "us" mean UndaMedia. For anything about your information, email <a href="mailto:support@undamedia.com">support@undamedia.com</a>.</p>
 <h2>This website</h2>
 <h3>The contact form</h3>
 <p>When you send the form we receive your name, email address, organisation (if you give one), the topic you chose and your message. We use them only to answer you and, if you become a customer, to keep a record of what we discussed. We don't add you to a mailing list, and we won't send you marketing unless you ask for it.</p>
@@ -35,7 +35,7 @@ description: What UndaMedia collects on this website and through Unda Media Serv
 <p>Unda runs on your server. Your streams, recordings, viewers, viewer statistics and team accounts stay there and never pass through us. You decide what is collected about your viewers and how long it is kept, so you are responsible for it towards them.</p>
 <h3>What the software sends out</h3>
 <ul>
-<li><b>Update check.</b> Twice a day the server asks GitHub, where our releases are published, whether a newer version exists. The request carries only the Unda version number; GitHub sees your server's IP address, as with any download. You can switch the check off in the configuration file.</li>
+<li><b>Update check.</b> Twice a day the server asks our download site (get.undamedia.com; GitHub for version v0.1.49 and older), where our releases are published, whether a newer version exists. The request carries only the Unda version number; the download site sees your server's IP address, as with any download. You can switch the check off in the configuration file.</li>
 <li><b>Your own alerts.</b> If you set up alert webhooks (for example to Slack), the server sends alerts to the addresses you chose, and nowhere else.</li>
 <li><b>Your own destinations.</b> Restreaming, outputs and similar features send video only where you tell them to.</li>
 </ul>

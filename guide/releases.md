@@ -14,7 +14,8 @@ to reach support.
   released together, with their [release notes](/release-notes).
 - **Fix releases in between, when needed.** They only fix faults; they add
   nothing new, so they are safe to install straight away.
-- **Security fixes as soon as they are ready**, whatever the date.
+- **Security fixes as soon as they are ready**, whatever the date. To
+  report a security problem, see [Security](/security).
 
 Every server checks for new releases and shows a notice to its admins and
 owners under Overview → Other notices.

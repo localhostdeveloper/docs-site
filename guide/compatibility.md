@@ -21,6 +21,22 @@ This page separates three things:
 The measurements behind it (long runs, capacity, delay, lossy networks,
 broadcast analysis) are on [Test results](/guide/test-results).
 
+## The server
+
+Unda runs on Linux, on Intel/AMD (x86-64) or ARM (arm64) processors.
+
+| System | Status |
+|---|---|
+| Ubuntu 24.04 | Tested: the one-line installer, on production servers |
+| Debian 13 | Tested: the one-line installer with Let's Encrypt and Debian's own FFmpeg 7.1, adaptive bitrate, TV outputs, 24/7 channels and a reboot |
+| AlmaLinux 10 | Tested: the one-line installer with SELinux on, FFmpeg 7.1 from RPM Fusion, adaptive bitrate, TV outputs, 24/7 channels and a reboot. Two steps of your own first: [firewall and FFmpeg](/guide/install#1-install) |
+| Ubuntu 22.04 and 26.04, Debian 12 | Should work: the same installer; the FFmpeg of Ubuntu 22.04 (4.4) and 26.04 (8.0) is tested with Unda |
+| Rocky Linux and Red Hat Enterprise Linux 9 and 10, AlmaLinux 9 | Should work: the same steps as AlmaLinux 10 |
+| Alpine Linux 3.24 | Tested with Docker (Alpine has no systemd for the service install): Docker from Alpine's packages, then the installer with `--docker`; Let's Encrypt, adaptive bitrate, TV outputs, a 24/7 channel and a reboot. [The steps](/guide/install#1-install) |
+| Other Linux (Fedora, openSUSE…) | Should work with the Docker image |
+| Windows | Through WSL or Docker Desktop: see [Unda on Windows](/guide/windows) |
+| macOS | Not supported as a server |
+
 ## Sending to Unda
 
 | Source | Connects with | Status |
@@ -56,6 +72,8 @@ plain [UDP input](/guide/udp) takes H.264 with AAC only.
 
 Also good to know:
 
+- **Older SRT equipment** (SRT 1.3 or 1.4.0) works both ways from Unda
+  v0.1.50: tested with libsrt 1.3.4 and 1.4.0, as well as the current 1.5.
 - **Scrambled channels** (BISS, conditional access) can't be descrambled by
   Unda. The receiver must send them in the clear.
 - Each stream keeps **one video and one audio track**, with the closed

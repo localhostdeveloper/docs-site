@@ -7,7 +7,8 @@ description: "What changed in each Unda Media Server release, newest first, and 
 
 Changes in each Unda release, newest first. Servers check for new releases and
 show a notice to admins and owners under Overview → Other notices. To upgrade,
-re-run the installer, or with Docker change the image tag and pull
+run `sudo unda upgrade` (from v0.1.50) or re-run the installer, or with Docker
+change the image tag and pull
 ([Backups and upgrades](/guide/install#8-backups-and-upgrades)). The
 database is backed up first. How often releases come and what 1.0 will
 mean: [Releases and support](/guide/releases).
@@ -18,7 +19,15 @@ mean: [Releases and support](/guide/releases).
      section; its "- " points also show in the dashboard's update notice,
      so upgrade notes are written as paragraphs, not "- " points. -->
 
-## Next release
+## v0.1.50 {#v0-1-50}
+
+*23 November 2026*
+
+The database does not change. To upgrade a server on v0.1.49, run the install
+command again; from this version on, `sudo unda upgrade` does it with the same
+checks. With Docker, set the image tag to `v0.1.50`. Behind nginx or Caddy,
+the install guide's HTTPS section shows how to give Unda the web server's
+secret.
 
 ### New
 
@@ -49,8 +58,47 @@ mean: [Releases and support](/guide/releases).
   picture, in milliseconds). Alerts say when a channel's sides cancel or one
   side is silent. The picture check moved to this tab.
 
+- TV outputs and converted bundle channels can go out without B-frames
+  (**No B-frames**) and with **One sound frame per packet**, as most
+  streaming encoders send, for receiving equipment built around those
+  streams. TV receivers play either way.
+- TV outputs can be sent at a **Variable** bitrate: re-encoded to a TV
+  format but sent streaming-style, without padding and averaging under the
+  bitrate you set, for receiving software that plays a streaming encoder's
+  feed but breaks up on a constant-rate one. The video gets more of the
+  total than at a constant rate.
+- TV outputs and bundle channels can go out as **HD 720p25** (1280×720 at 25
+  frames a second), as streaming encoders send.
+- In H.264, new TV outputs start at 2500 kb/s for 720p25, 4000 for 720p50
+  and 5000 for 1080p25, closer to what stations take; type another total as
+  before.
+- **Better quality** for TV outputs and bundle channels: a slower encoder
+  setting gives a visibly sharper picture at the same bitrate, for more CPU.
+- **Unda on Windows 11 in one command:** in PowerShell as administrator,
+  `irm https://get.undamedia.com/windows.ps1 | iex` sets up Ubuntu in WSL,
+  installs Unda in it on the PC's own network address, and makes it start
+  with Windows ([Unda on Windows](/guide/windows#in-one-command)).
+- **Multicast from Docker Desktop on Windows:** every release now comes
+  with `unda-mcast.exe`, which sends Unda's channels on to multicast
+  addresses on your network, starts with Windows, can send one channel to
+  several addresses, and starts on a network port as soon as a cable is
+  plugged in ([Unda on Windows](/guide/windows#multicast-out-the-unda-mcast-helper)).
+
 ### Changed
 
+- The Restream tab works without pop-up windows. **Platform or server** adds
+  a platform in a box inside the list, and editing one opens the same box
+  under its row. **New TV output** opens a page of its own, and each TV
+  output keeps that page: how it is doing (receivers, transport stream,
+  encoder), its link for the station, and its settings, with what the station
+  gets shown beside them as you change them
+  ([Restreaming](/guide/restreaming#from-the-dashboard)).
+- A 720p50 TV output or bundle channel in H.264 can now go out in an
+  SD-sized slot: down to 1000 kb/s in all (690 of video), where it needed
+  1900 before.
+- With seamless switching and a playlist among its inputs, a channel now
+  comes back on its playlist after the server restarts, without waiting for
+  an encoder, and no longer ends after a few minutes on the playlist.
 - A channel on air from its backup encoder, its pull or its playlist no
   longer raises an alert: it is on air, which is what matters. Its tag,
   now grey, says which input is on. A channel none of whose inputs has
@@ -65,12 +113,34 @@ mean: [Releases and support](/guide/releases).
   sending; they are listed on the channel's Restream tab.
 - **Streams** moved to fourth in the menu, after Overview, Multiview and
   Broadcast.
+- The dashboard's logo now has a wave in its middle square: Unda means
+  "wave".
 - A destination address with a setting its kind doesn't take now names that
   setting: for example, an SRT address changed to `udp://` with its
   `latency=` still on the end says that UDP doesn't take latency.
 
 ### Fixed
 
+- The link for creating the owner account, printed when Unda is installed,
+  stopped working if the machine restarted before it was used. It now works
+  until the owner account exists.
+- On a Windows PC with Docker Desktop, installing Unda in Ubuntu stopped
+  with "Docker is installed but not running". It now says Docker Desktop is
+  in the way and how to fix it.
+- Unda now works with receivers and encoders on older SRT versions (1.3
+  and 1.4.0), sending and receiving.
+- Streams sent to Unda over SRT paused for about 4 seconds every 72
+  minutes; a channel with a backup switched to it each time.
+- Adaptive quality could stay at a very low quality for the whole stream
+  when the stream began quietly (a still picture, or a channel just
+  switched to Seamless). It now plans again once the stream carries more.
+- A destination's dropped frames on the Restream tab only ever added up,
+  so one that had recovered still looked broken. The row now counts the
+  last 5 minutes and clears by itself once the destination keeps up.
+- A destination that was down or slow to answer showed dropped frames and
+  logged a warning on every try, although nothing had been sent to it. Unda
+  now starts sending only once the destination answers, from the live
+  picture.
 - HLS viewers could hear a channel's sound slightly behind its picture, a
   little more each time its encoder sent its sound settings again during
   the stream.
@@ -204,9 +274,6 @@ mean: [Releases and support](/guide/releases).
 - When the alert list is full, an important alert (a full disk, a channel
   off air) now takes the place of a less important one instead of being
   dropped unseen.
-- A licence no longer reads expired for good after the server's clock was
-  wrong for a moment (a machine starting with a wrong clock before it
-  syncs).
 - With a limit on the number of qualities ladders, choosing another
   encoder no longer leaves every ladder refused.
 - "Start from the first item" now applies to a running channel at once.
@@ -246,9 +313,9 @@ mean: [Releases and support](/guide/releases).
 - Names of clients' channels (and their inputs) can't be used for legacy
   keys, UDP inputs or bundle programmes, and a client's channel limit holds
   when several channels are created at once.
-- A licence no longer reads expired for good after the clock was wrong for
-  a moment, and removing an expired licence no longer starts an
-  evaluation.
+- A licence no longer reads expired for good after the server's clock was
+  wrong for a moment (a machine starting with a wrong clock before it
+  syncs), and removing an expired licence no longer starts an evaluation.
 - Low latency (WebRTC) viewers count once they are connected, not when
   they ask.
 - A saved setting that can't be read at start-up is kept aside instead of
@@ -258,11 +325,9 @@ mean: [Releases and support](/guide/releases).
   that never answers no longer stops the page refreshing, edits made while
   a playlist or guide saves aren't lost, the Events page keeps every line,
   and the Ad break countdown follows the server's clock.
-- Smaller fixes: a full alert list makes room for the alerts that matter,
-  long live guides can be saved, very long playlists and media folders
-  stay quick, an SRT bundle input refuses senders not on its allow list
-  before taking them, relays refuse an edit made from an out-of-date list,
-  and uploads don't land in a channel deleted meanwhile.
+- Smaller fixes: long live guides can be saved, relays refuse an edit made
+  from an out-of-date list, and uploads don't land in a channel deleted
+  meanwhile.
 
 ## v0.1.49 {#v0-1-49}
 

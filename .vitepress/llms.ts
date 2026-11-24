@@ -19,6 +19,8 @@ const LEGAL = ["privacy", "disclaimer"];
 export function writeLLMFiles(srcDir: string, outDir: string, sources: string[], opt: Options) {
   const pages = new Map<string, Page>();
   for (const rel of sources) {
+    // The French pages (fr/) stay out: these files are the English site.
+    if (rel.startsWith("fr/")) continue;
     const path = rel.replace(/\.md$/, "");
     const file = join(srcDir, rel);
     const { fm } = frontmatter(readFileSync(file, "utf8"));

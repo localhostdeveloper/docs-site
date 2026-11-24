@@ -173,8 +173,8 @@ mpts_outputs:
 
 Each channel is either **sent as it is** (give it a `bitrate` a little above
 what the stream uses at its busiest) or **converted** for TV equipment with
-`encode`: SD 576p25 / 576i25 or HD 720p50 / 1080i25 / 1080p25 / 1080p50, H.264, HEVC or MPEG-2 video, AAC,
-MP2 or AC-3 audio, with the same settings as a
+`encode`: SD 576p25 / 576i25 or HD 720p25 / 720p50 / 1080i25 / 1080p25 / 1080p50, H.264, HEVC or MPEG-2 video, AAC,
+MP2 or AC-3 audio (with or without B-frames: `no_b_frames`), with the same settings as a
 [broadcast output](/guide/restreaming#broadcast-tv-terrestrial-and-satellite).
 A converted channel's `bitrate` is its whole share of the bundle, and its video
 is fitted into it: an SD H.264 channel with a 1300 kb/s share gets 1040 kb/s of

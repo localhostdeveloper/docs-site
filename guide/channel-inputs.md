@@ -191,7 +191,7 @@ limited to 16 channels, and changing its settings restarts the stream.
 | --- | --- | --- |
 | Switch after no picture for | 2 s | A shorter freeze shows as a freeze, not a switch |
 | Back to a better input after | 10 s | How long a better input must be steady before it takes over again |
-| When no input has pictures | end the stream after 10 seconds | Or after 1 or 5 minutes. With seamless switching: after 1, 5 or 30 minutes, or black around the clock |
+| When no input has pictures | end the stream after 10 seconds | Or after 1 or 5 minutes. With seamless switching: after 1, 5 or 30 minutes, or black around the clock. With seamless switching and a playlist among the inputs there is nothing to choose: the playlist plays and the channel stays on air, also after the server restarts |
 
 ## Who can change what
 

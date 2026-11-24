@@ -1,0 +1,6 @@
+# How to report a security problem in Unda Media Server (RFC 9116).
+Contact: mailto:support@undamedia.com
+Expires: 2027-11-22T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.undamedia.com/.well-known/security.txt
+Policy: https://www.undamedia.com/security
