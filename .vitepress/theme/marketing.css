@@ -357,3 +357,13 @@ a.m-card:hover { border-color: var(--vp-c-brand-1); }
   .m-form .m-row { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .m-table th, .m-table td { padding: 11px 12px; }
 }
+
+/* "On air with Unda": broadcasters who agreed to be named, with their logos. */
+.m-onair { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px 40px; }
+.m-onair-label { font-size: 14px; font-weight: 600; letter-spacing: 0.02em; color: var(--vp-c-text-2); }
+.m-onair-logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px 32px; }
+.m-onair figure { margin: 0; display: flex; align-items: center; gap: 12px; }
+.m-onair img { width: 72px; height: 72px; border-radius: 12px; object-fit: contain; background: #fff; border: 1px solid var(--m-line); }
+.m-onair figcaption { font-size: 14px; line-height: 1.4; color: var(--vp-c-text-2); }
+.m-onair figcaption b { display: block; color: var(--vp-c-text-1); font-weight: 600; }
+.m-onair + .m-note-line { margin-top: 28px; }
