@@ -5,7 +5,9 @@
     { "source": "/guide", "destination": "/guide/introduction", "permanent": false },
     { "source": "/guide/", "destination": "/guide/introduction", "permanent": false },
     { "source": "/reference", "destination": "/reference/api", "permanent": false },
-    { "source": "/reference/", "destination": "/reference/api", "permanent": false }
+    { "source": "/reference/", "destination": "/reference/api", "permanent": false },
+    { "source": "/fr", "destination": "/", "permanent": false },
+    { "source": "/fr/:path*", "destination": "/:path*", "permanent": false }
   ],
   "headers": [
     {

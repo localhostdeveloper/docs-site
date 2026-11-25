@@ -130,6 +130,14 @@ const docsSidebar = [
 // browser, localStorage "unda_lang"), and on a later visit from outside the site
 // opens the page in that language when it has one. Inline in <head>, so the
 // page switches before it is drawn. Search engines carry no stored choice.
+// The French site (fr/) is written but not published: no French speaker has
+// checked it yet, and French-speaking visitors can use their browser's
+// translator meanwhile (the user's choice, 2026-11-25). true publishes it
+// again (language menu, /fr/ pages, search, hreflang): also remove the /fr
+// redirects from vercel.json. fr/privacy, disclaimer and security stay
+// unpublished either way until a French speaker has read them.
+const FRENCH = false;
+
 const LANGUAGE_SCRIPT = `(function(){try{
 document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest(".VPNavBarTranslations a,.VPNavScreenTranslations a");if(!a)return;var h=a.getAttribute("href")||"";try{localStorage.setItem("unda_lang",/^\\/fr(\\/|$)/.test(h)?"fr":"en")}catch(x){}},true);
 var want=localStorage.getItem("unda_lang");if(want!=="fr"&&want!=="en")return;
@@ -270,7 +278,7 @@ const frTheme = {
   },
   footer: {
     message:
-      '<a href="/fr/media-server">Serveur média</a> · <a href="/fr/features/">Fonctionnalités</a> · <a href="/fr/solutions/">Solutions</a> · <a href="/fr/packages">Offres</a> · <a href="/fr/guide/install">Installer</a> · <a href="/fr/guide/introduction">Documentation</a> · <a href="/fr/blog/">Blog</a> · <a href="/fr/about">À propos</a> · <a href="/fr/brand">Marque</a> · <a href="/fr/contact">Contact</a> · <a href="/fr/security">Sécurité</a> · <a href="/fr/privacy">Confidentialité</a> · <a href="/fr/disclaimer">Avertissement</a> · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
+      '<a href="/fr/media-server">Serveur média</a> · <a href="/fr/features/">Fonctionnalités</a> · <a href="/fr/solutions/">Solutions</a> · <a href="/fr/packages">Offres</a> · <a href="/fr/guide/install">Installer</a> · <a href="/fr/guide/introduction">Documentation</a> · <a href="/fr/blog/">Blog</a> · <a href="/fr/about">À propos</a> · <a href="/fr/brand">Marque</a> · <a href="/fr/contact">Contact</a> · <a href="/security">Sécurité</a> · <a href="/privacy">Confidentialité</a> · <a href="/disclaimer">Avertissement</a> (en anglais) · <a href="mailto:support@undamedia.com">support@undamedia.com</a>',
     copyright: "Unda Media Server est un logiciel propriétaire. © 2026 LocalCode Technology. Tous droits réservés.",
   },
   outline: { level: [2, 3], label: "Sur cette page" },
@@ -318,7 +326,7 @@ export default defineConfig({
   lang: "en",
   locales: {
     root: { label: "English", lang: "en" },
-    fr: { label: "Français", lang: "fr", link: "/fr/", description: DESCRIPTION_FR, themeConfig: frTheme },
+    ...(FRENCH ? { fr: { label: "Français", lang: "fr", link: "/fr/", description: DESCRIPTION_FR, themeConfig: frTheme } } : {}),
   },
   // The language switch: our own links (theme/langs.ts) in place of VitePress's,
   // which point at the same page in the other language even when it isn't translated.
@@ -328,14 +336,17 @@ export default defineConfig({
     },
   },
   // shared/ holds copies of repository files that pages include; not pages themselves.
-  srcExclude: ["shared/**", "README.md"],
+  // The French pages are kept but not published (FRENCH above); privacy,
+  // disclaimer and security not even then, until a French speaker has read
+  // them (the English pages are linked instead).
+  srcExclude: ["shared/**", "README.md", ...(FRENCH ? ["fr/privacy.md", "fr/disclaimer.md", "fr/security.md"] : ["fr/**"])],
   cleanUrls: true,
   sitemap: { hostname: SITE },
   lastUpdated: true,
   // Light first; dark is available from the switch in the top bar.
   appearance: { initialValue: "light" } as any,
   head: [
-    ["script", {}, LANGUAGE_SCRIPT],
+    ...(FRENCH ? [["script", {}, LANGUAGE_SCRIPT] as any] : []),
     ["link", { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
     // Visit counts: Vercel Web Analytics (no cookies; the privacy page says so).
     ["script", {}, "window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };"],
@@ -372,7 +383,7 @@ export default defineConfig({
     // A page that exists in both languages names both, for search engines.
     const french = path === "fr/" || path.startsWith("fr/");
     const english = french ? path.replace(/^fr\/?/, "") : path;
-    const languages = TRANSLATED.has(english)
+    const languages = FRENCH && TRANSLATED.has(english)
       ? [
           ["link", { rel: "alternate", hreflang: "en", href: `${SITE}/${english}` }],
           ["link", { rel: "alternate", hreflang: "fr", href: `${SITE}/fr/${english}` }],
@@ -468,7 +479,7 @@ export default defineConfig({
     // Only the docs have a sidebar; the site's own pages (home, Media Server,
     // Packages, About, Contact) are full width.
     sidebar: { "/guide/": docsSidebar, "/reference/": docsSidebar, "/release-notes": docsSidebar },
-    search: { provider: "local", options: { locales: { fr: frSearch } } },
+    search: { provider: "local", options: FRENCH ? { locales: { fr: frSearch } } : {} },
     outline: { level: [2, 3] },
     // Shown on pages without a sidebar (the site's own pages, not the guides).
     footer: {

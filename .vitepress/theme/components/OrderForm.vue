@@ -65,7 +65,7 @@ const FR: Record<string, string> = {
   "and email it to": "et l'envoyer par e-mail à",
   "You get a copy of the signed PDF straight away. With your answers we keep the time, your IP address and your browser, as a record of your signature. See our":
     "Vous recevez tout de suite une copie du PDF signé. Avec vos réponses, nous gardons l'heure, votre adresse IP et votre navigateur, comme trace de votre signature. Voir notre",
-  "privacy policy": "politique de confidentialité",
+  "privacy policy": "politique de confidentialité (en anglais)",
   "Download your copy (PDF)": "Télécharger votre copie (PDF)",
   "Keep your copy. Questions? Email": "Gardez votre copie. Des questions ? Écrivez à",
   "Too many tries from your connection. Please wait 10 minutes and send it again.":
@@ -429,7 +429,7 @@ async function submit() {
       <div v-if="error" class="m-status m-err" role="alert">
         {{ error }} {{ t("You can also") }} <a :href="PDF" download>{{ t("download the PDF") }}</a> {{ t("and email it to") }} <a :href="`mailto:${SUPPORT}`">{{ SUPPORT }}</a>.
       </div>
-      <p class="m-note">{{ t("You get a copy of the signed PDF straight away. With your answers we keep the time, your IP address and your browser, as a record of your signature. See our") }} <a :href="page('/privacy')">{{ t("privacy policy") }}</a>.</p>
+      <p class="m-note">{{ t("You get a copy of the signed PDF straight away. With your answers we keep the time, your IP address and your browser, as a record of your signature. See our") }} <a href="/privacy">{{ t("privacy policy") }}</a>.</p>
     </template>
   </form>
 </template>

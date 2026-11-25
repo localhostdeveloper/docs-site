@@ -22,7 +22,7 @@ const T = fr
   ? { name: "Votre nom", email: "E-mail", org: "Organisation", optional: "(facultatif)", topic: "Comment pouvons-nous vous aider ?", message: "Message",
       placeholder: "Dites-nous ce que vous diffusez, combien de flux et de spectateurs vous prévoyez, et où se trouve votre serveur.",
       trap: "Laissez ce champ vide", sending: "Envoi…", send: "Envoyer le message", alsoEmail: "Vous pouvez aussi nous écrire à",
-      thanks: "Merci. Votre message est en route, et nous répondrons à", privacy: "Nous utilisons vos coordonnées uniquement pour vous répondre. Voir notre", policy: "politique de confidentialité",
+      thanks: "Merci. Votre message est en route, et nous répondrons à", privacy: "Nous utilisons vos coordonnées uniquement pour vous répondre. Voir notre", policy: "politique de confidentialité (en anglais)",
       failed: "Le message n'a pas pu être envoyé.", tooMany: "Trop de messages depuis votre connexion. Attendez 10 minutes et renvoyez-le.",
       interested: (p: string) => `Je suis intéressé par l'offre ${p}.\n\n` }
   : { name: "Your name", email: "Email", org: "Organisation", optional: "(optional)", topic: "What can we help with?", message: "Message",

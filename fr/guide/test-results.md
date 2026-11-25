@@ -97,6 +97,6 @@ Les sorties TV sont testées avec les versions de FFmpeg que portent les systèm
 - Chaque analyseur qui lit des données venant du réseau (RTMP, SRT, UDP, RTP, RIST, WebRTC, MPEG-TS, les tables DVB, les playlists) est soumis à des entrées aléatoires (fuzzing) à chaque modification.
 - Couverture des tests du cœur et des paquets de protocoles : de 64 % à 100 % (le cœur : 96 %).
 - Chaque version est contrôlée contre les vulnérabilités connues de Go et de chaque bibliothèque utilisée (govulncheck) : aucune atteignable dans la v0.1.50.
-- Comment signaler un problème de sécurité, et comment les versions et les comptes sont protégés : [Sécurité](/fr/security).
+- Comment signaler un problème de sécurité, et comment les versions et les comptes sont protégés : [Security](/security) (en anglais).
 
 Voir [Versions et assistance](/fr/guide/releases) pour la façon dont les versions sont faites, et les [notes de version](/release-notes) (en anglais) pour ce que chacune a changé.

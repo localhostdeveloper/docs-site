@@ -11,7 +11,7 @@ Comment Unda sort ses versions, ce que signifiera la version 1.0, comment foncti
 
 - **Une version de fonctionnalités chaque mois.** Les nouveautés sont rassemblées et sortent ensemble, avec leurs [notes de version](/release-notes) (en anglais).
 - **Des versions correctives entre-temps, si besoin.** Elles corrigent seulement des défauts, sans rien ajouter : vous pouvez donc les installer tout de suite.
-- **Les correctifs de sécurité dès qu'ils sont prêts**, quelle que soit la date. Pour signaler un problème de sécurité, voir [Sécurité](/fr/security).
+- **Les correctifs de sécurité dès qu'ils sont prêts**, quelle que soit la date. Pour signaler un problème de sécurité, voir la page [Security](/security) (en anglais).
 
 Chaque serveur vérifie s'il existe de nouvelles versions et l'indique à ses administrateurs et propriétaires dans **Overview → Other notices**.
 
