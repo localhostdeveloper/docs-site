@@ -48,18 +48,11 @@ description: "The live streaming and broadcast server you run yourself: RTMP, SR
 <div class="m-card"><h3>IPTV operators</h3><p>Channels taken in over UDP, SRT or RTP and sent to set-top boxes, unicast or multicast.</p></div>
 <div class="m-card"><h3>Broadcasters</h3><p>Constant-bitrate SD and HD transport streams with channel names, for multiplexers and partners.</p></div>
 </div>
-<div class="m-onair">
-<span class="m-onair-label">On air with Unda</span>
-<div class="m-onair-logos">
-<figure><img src="/customers/g-eye-tv.png" width="72" height="72" alt="G-Eye TV logo" loading="lazy"><figcaption><b>G-Eye TV</b>Abidjan, Côte d’Ivoire</figcaption></figure>
-<figure><img src="/customers/nasara-tv.png" width="72" height="72" alt="Nasara TV logo" loading="lazy"><figcaption><b>Nasara TV</b>Tamale, Ghana</figcaption></figure>
-<figure><img src="/customers/nnb-media.png" width="72" height="72" alt="NNB Media logo" loading="lazy"><figcaption><b>NNB Media</b>Denver, Colorado, USA</figcaption></figure>
-</div>
-</div>
+<div class="m-onair-label">On air with Unda</div>
 <div class="m-quotes">
-<figure class="m-quote"><blockquote>“Unda feeds our satellite channel and our apps from the same place, so we manage everything in one dashboard.”</blockquote><figcaption><img src="/customers/g-eye-tv.png" width="40" height="40" alt="" loading="lazy"><span><b>Godseye Quinoo</b>CEO, G-Eye TV</span></figcaption></figure>
-<figure class="m-quote"><blockquote>“Unda sends our channel to Arabsat over SRT, and the dashboard shows us it’s going out.”</blockquote><figcaption><img src="/customers/nasara-tv.png" width="40" height="40" alt="" loading="lazy"><span><b>Ishmael</b>MCR Technician, Nasara TV</span></figcaption></figure>
-<figure class="m-quote"><blockquote>“NNB TV runs on Unda, on our own server, and it gives us everything we need to run the channel.”</blockquote><figcaption><img src="/customers/nnb-media.png" width="40" height="40" alt="" loading="lazy"><span><b>HomeBoy</b>CEO, NNB Media</span></figcaption></figure>
+<figure class="m-quote"><div class="m-quote-head"><img src="/customers/g-eye-tv.png" width="56" height="56" alt="G-Eye TV logo" loading="lazy"><span><b>G-Eye TV</b>Abidjan, Côte d’Ivoire</span></div><blockquote>“Unda feeds our satellite channel and our apps from the same place, so we manage everything in one dashboard.”</blockquote><figcaption>Godseye Quinoo, CEO</figcaption></figure>
+<figure class="m-quote"><div class="m-quote-head"><img src="/customers/nasara-tv.png" width="56" height="56" alt="Nasara TV logo" loading="lazy"><span><b>Nasara TV</b>Tamale, Ghana</span></div><blockquote>“Unda sends our channel to Arabsat over SRT, and the dashboard shows us it’s going out.”</blockquote><figcaption>Ishmael, MCR Technician</figcaption></figure>
+<figure class="m-quote"><div class="m-quote-head"><img src="/customers/nnb-media.png" width="56" height="56" alt="NNB Media logo" loading="lazy"><span><b>NNB Media</b>Denver, Colorado, USA</span></div><blockquote>“NNB TV runs on Unda, on our own server, and it gives us everything we need to run the channel.”</blockquote><figcaption>HomeBoy, CEO</figcaption></figure>
 </div>
 <p class="m-note-line">How each one comes together: <a href="/solutions/">see the solutions</a>.</p>
 </div>
