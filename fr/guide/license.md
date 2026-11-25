@@ -27,7 +27,7 @@ Sans `udp`, une destination UDP, RTP, RIST ou SRT, ou une sortie TV, ne peut êt
 
 Une nouvelle licence qui ajoute SRT, l'UDP, le débit adaptatif ou des destinations de rediffusion du fichier de configuration demande un redémarrage pour que ceux-ci démarrent.
 
-Une licence émise ou renouvelée à partir du 26 octobre 2026 demande Unda v0.1.46 ou plus récent ; la licence que vous avez continue de fonctionner. Si son installation affiche *« the license was signed with a key this build does not know »*, mettez d'abord Unda à jour ([Sauvegardes et mises à jour](/guide/install#8-backups-and-upgrades), en anglais), puis installez à nouveau la licence.
+Une licence émise ou renouvelée à partir du 26 octobre 2026 demande Unda v0.1.46 ou plus récent ; la licence que vous avez continue de fonctionner. Si son installation affiche *« the license was signed with a key this build does not know »*, mettez d'abord Unda à jour ([Sauvegardes et mises à jour](/fr/guide/install#8-backups-and-upgrades)), puis installez à nouveau la licence.
 
 [![Server → License : à qui est la licence, sa date de fin, ce qui en est utilisé, et ses outils](/screens/license.webp)](/screens/license.webp)
 

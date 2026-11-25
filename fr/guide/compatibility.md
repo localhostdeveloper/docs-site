@@ -23,10 +23,10 @@ Unda tourne sous Linux, sur des processeurs Intel/AMD (x86-64) ou ARM (arm64).
 |---|---|
 | Ubuntu 24.04 | Testé : la commande d'installation en une ligne, sur des serveurs de production |
 | Debian 13 | Testé : la commande en une ligne avec Let's Encrypt et le FFmpeg 7.1 de Debian, le débit adaptatif, les sorties TV, les chaînes 24h/24 et un redémarrage de la machine |
-| AlmaLinux 10 | Testé : la commande en une ligne avec SELinux actif, FFmpeg 7.1 depuis RPM Fusion, le débit adaptatif, les sorties TV, les chaînes 24h/24 et un redémarrage de la machine. Deux étapes à faire vous-même d'abord : [pare-feu et FFmpeg](/fr/guide/install#almalinux-rocky-linux-et-red-hat) |
+| AlmaLinux 10 | Testé : la commande en une ligne avec SELinux actif, FFmpeg 7.1 depuis RPM Fusion, le débit adaptatif, les sorties TV, les chaînes 24h/24 et un redémarrage de la machine. Deux étapes à faire vous-même d'abord : [pare-feu et FFmpeg](/fr/guide/install#1-install) |
 | Ubuntu 22.04 et 26.04, Debian 12 | Devrait fonctionner : le même script d'installation ; le FFmpeg d'Ubuntu 22.04 (4.4) et de 26.04 (8.0) est testé avec Unda |
 | Rocky Linux et Red Hat Enterprise Linux 9 et 10, AlmaLinux 9 | Devrait fonctionner : les mêmes étapes qu'AlmaLinux 10 |
-| Alpine Linux 3.24 | Testé avec Docker (Alpine n'a pas systemd pour l'installation en service) : Docker depuis les paquets d'Alpine, puis le script d'installation avec `--docker` ; Let's Encrypt, débit adaptatif, sorties TV, une chaîne 24h/24 et un redémarrage de la machine. [Les étapes](/fr/guide/install#alpine-linux) |
+| Alpine Linux 3.24 | Testé avec Docker (Alpine n'a pas systemd pour l'installation en service) : Docker depuis les paquets d'Alpine, puis le script d'installation avec `--docker` ; Let's Encrypt, débit adaptatif, sorties TV, une chaîne 24h/24 et un redémarrage de la machine. [Les étapes](/fr/guide/install#1-install) |
 | Autres Linux (Fedora, openSUSE…) | Devrait fonctionner avec l'image Docker |
 | Windows | Par WSL ou Docker Desktop : voir [Unda sous Windows](/fr/guide/windows) |
 | macOS | Non pris en charge comme serveur |

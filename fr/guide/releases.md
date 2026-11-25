@@ -39,7 +39,7 @@ Par e-mail à [support@undamedia.com](mailto:support@undamedia.com), du lundi au
 
 - **Installé avec le script d'installation :** relancez la commande d'installation. Elle sauvegarde d'abord la base de données et garde votre configuration et vos données.
 - **Docker :** changez l'étiquette de l'image pour la nouvelle version et téléchargez-la.
-- **Chaque mise à jour commence par une copie de la base de données,** faite par le serveur lui-même avant tout changement ; le retour en arrière est décrit dans [Sauvegardes et mises à jour](/guide/install#8-backups-and-upgrades) (en anglais).
+- **Chaque mise à jour commence par une copie de la base de données,** faite par le serveur lui-même avant tout changement ; le retour en arrière est décrit dans [Sauvegardes et mises à jour](/fr/guide/install#8-backups-and-upgrades).
 - Une version plus ancienne refuse une base de données qu'une version plus récente a modifiée : pour revenir en arrière, restaurez la copie faite avant la mise à jour.
 
 ## Licences {#licences}

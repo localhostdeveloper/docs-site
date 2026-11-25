@@ -5,7 +5,7 @@ description: "Solutions pour les flux et les spectateurs : mise en mémoire tam
 
 # Dépannage
 
-Les problèmes d'installation, de HTTPS, de ports et de connexion sont dans le [tableau de dépannage du guide d'installation](/guide/install#11-troubleshooting) (en anglais). Cette page traite des flux, des spectateurs et de l'accès d'assistance.
+Les problèmes d'installation, de HTTPS, de ports et de connexion sont dans le [tableau de dépannage du guide d'installation](/fr/guide/install#11-troubleshooting). Cette page traite des flux, des spectateurs et de l'accès d'assistance.
 
 ## Les spectateurs chargent ou démarrent lentement {#viewers-buffer-or-start-slowly}
 

@@ -209,7 +209,7 @@ Tout le reste du [guide d'installation](/fr/guide/install) s'applique, à partir
 
 ## Docker Desktop {#docker-desktop}
 
-Installez Docker Desktop, puis mettez Unda en place avec les fichiers Docker du [guide d'installation](/guide/install) (en anglais ; section 1, **A. Docker**), tels qu'ils sont écrits. Sous Windows :
+Installez Docker Desktop, puis mettez Unda en place avec les fichiers Docker du [guide d'installation](/fr/guide/install#a-docker) (section 1, **A. Docker**), tels qu'ils sont écrits. Sous Windows :
 
 - **Docker Desktop doit être en marche.** Il démarre quand un utilisateur se connecte à Windows : un PC qui doit faire tourner Unda sans surveillance a donc besoin que Windows se connecte automatiquement.
 - **Publiez chaque port que vous utilisez** dans `docker-compose.yml`, les ports UDP avec `/udp` (par exemple `"6000:6000/udp"` pour SRT), et autorisez-les dans le pare-feu Windows. Évitez le port UDP 500 pour les entrées : le service VPN de Windows lui-même l'utilise.

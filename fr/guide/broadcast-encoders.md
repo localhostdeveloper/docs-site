@@ -85,7 +85,7 @@ Si l'encodeur doit joindre un serveur par Internet :
 
 - **Le mieux :** envoyez en SRT ou en RIST, qui renvoient ce que le réseau perd. Si l'encodeur parle SRT, envoyez vers le port SRT d'Unda avec la clé de la chaîne ([SRT](/fr/guide/srt)). Sinon, placez à côté de l'encodeur une passerelle qui transforme son UDP en SRT ou en RIST, et recevez-le avec une entrée multi-chaînes (`srt://:9000?passphrase=…` ou `rist://@:5000` ; voir [En SRT ou en RIST](/fr/guide/mpts#over-srt-or-rist)).
 - **Unda ne parle pas le protocole de Zixi.** Une passerelle Zixi (ou toute autre) doit remettre à Unda de l'UDP, du RTP ou du SRT.
-- **De l'UDP ou du RTP simple malgré tout :** donnez à l'entrée une liste d'autorisations avec l'adresse publique de l'encodeur, n'ouvrez le port qu'à cette adresse dans le pare-feu du serveur (voir la partie Pare-feu de l'[installation](/fr/guide/install#6-pare-feu)) et dans le pare-feu de votre hébergeur cloud, et attendez-vous à quelques défauts dus aux paquets perdus.
+- **De l'UDP ou du RTP simple malgré tout :** donnez à l'entrée une liste d'autorisations avec l'adresse publique de l'encodeur, n'ouvrez le port qu'à cette adresse dans le pare-feu du serveur (voir la partie Pare-feu de l'[installation](/fr/guide/install#7-firewall)) et dans le pare-feu de votre hébergeur cloud, et attendez-vous à quelques défauts dus aux paquets perdus.
 
 ## Vérifier l'arrivée {#checking-that-it-arrived}
 
