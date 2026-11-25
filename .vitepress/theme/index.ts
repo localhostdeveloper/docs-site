@@ -6,6 +6,7 @@ import type { Theme } from "vitepress";
 import ContactForm from "./components/ContactForm.vue";
 import OrderForm from "./components/OrderForm.vue";
 import VideoTour from "./components/VideoTour.vue";
+import DocVideo from "./components/DocVideo.vue";
 import "./custom.css";
 import "./marketing.css";
 
@@ -15,5 +16,6 @@ export default {
     app.component("ContactForm", ContactForm);
     app.component("OrderForm", OrderForm);
     app.component("VideoTour", VideoTour);
+    app.component("DocVideo", DocVideo);
   },
 } satisfies Theme;

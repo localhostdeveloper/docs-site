@@ -5,6 +5,8 @@ description: "Installer Unda Media Server en une commande sur Ubuntu ou Debian, 
 
 # Installer Unda
 
+<DocVideo id="dywB8vyK5ms" title="Installer Unda sous Linux" length="0:24" poster="/screens/install-video.webp" />
+
 Ce guide vous mène d'un serveur Linux neuf à votre premier direct, avec votre équipe connectée. Il s'adresse à la personne qui gère le serveur. Le [guide complet, en anglais](/guide/install), détaille toutes les options.
 
 Le tableau de bord d'Unda est en anglais : les menus et les boutons sont écrits ici tels qu'ils y apparaissent, par exemple **Server → License**.

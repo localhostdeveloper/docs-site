@@ -87,6 +87,7 @@
 .m-video-poster:hover .m-video-play, .m-video-poster:focus-visible .m-video-play { background: #1e40af; }
 .m-video-poster:focus-visible { outline: 3px solid var(--vp-c-brand-1); outline-offset: -3px; }
 .m-video-length { position: absolute; right: 14px; bottom: 14px; padding: 4px 10px; border-radius: 6px; background: rgba(10, 16, 32, 0.82); color: #fff; font-size: 14px; font-weight: 600; }
+.m-doc-video { margin: 20px 0 28px; }
 .m-video-credits { max-width: 1040px; margin: 14px auto 0; font-size: 13px; color: var(--vp-c-text-3); text-align: center; }
 @media (max-width: 640px) { .m-video-play { width: 60px; height: 60px; margin: -30px 0 0 -30px; } .m-video-play svg { width: 28px; height: 28px; margin-left: 4px; } .m-video-length { right: 8px; bottom: 8px; font-size: 12px; } }
 

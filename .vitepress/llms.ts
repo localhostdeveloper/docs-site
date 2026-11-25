@@ -125,13 +125,17 @@ function readPage(pg: Page, opt: Options): string {
   return pg.html ? htmlToText(body, pg.path, opt) : cleanMarkdown(includes(body, dirname(pg.file)), pg.file, pg.path, opt);
 }
 
-// VitePress's <!--@include: file--> lines, as the page shows them.
+// VitePress's <!--@include: file--> lines, as the page shows them, including a
+// line range (file{3,} or file{1,10}: from-to, 1-based, either end open).
 function includes(src: string, dir: string, depth = 0): string {
   if (depth > 3) return src;
   return src.replace(/<!--@include:\s*(.+?)\s*-->/g, (m, p) => {
-    const file = resolve(dir, p.trim());
+    const [, name, from, to] = p.trim().match(/^(.*?)(?:\{(\d*),(\d*)\})?$/);
+    const file = resolve(dir, name);
     if (!existsSync(file)) return m;
-    return includes(frontmatter(readFileSync(file, "utf8")).body, dirname(file), depth + 1);
+    let text = readFileSync(file, "utf8");
+    if (from !== undefined) text = text.split("\n").slice(from ? +from - 1 : 0, to ? +to : undefined).join("\n");
+    return includes(frontmatter(text).body, dirname(file), depth + 1);
   });
 }
 
@@ -211,6 +215,8 @@ function cleanMarkdown(src: string, file: string, path: string, opt: Options): s
       continue;
     }
     line = line.replace(/\s*\{#[\w-]+\}\s*$/, "");
+    // A video in a markdown page: its title, length and address.
+    line = line.replace(/<DocVideo\b([^>]*?)\/?>/g, (_m, a) => `Video: ${attr(a, "title")}${attr(a, "length") ? ` (${attr(a, "length")})` : ""}, https://www.youtube.com/watch?v=${attr(a, "id")}`);
     // Pictures written as HTML in a markdown page: their description.
     line = line.replace(/<a\b[^>]*>\s*(<img\b[^>]*>)\s*<\/a>/gi, "$1").replace(/<img\b([^>]*)>/gi, (_m, at) => (attr(at, "alt") ? `(Picture: ${attr(at, "alt")})` : ""));
     line = line.replace(/(!?)\[([^\]]*)\]\(([^)\s]+)((?:\s+"[^"]*")?)\)/g, (_m, bang, text, href, title) => `${bang}[${text}](${absolute(href, path, opt)}${title})`);
@@ -246,7 +252,7 @@ function htmlToText(src: string, path: string, opt: Options): string {
     .replace(/<style\b[\s\S]*?<\/style>/gi, "")
     .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/<svg\b[\s\S]*?<\/svg>/gi, "");
-  s = s.replace(/<VideoTour\b([^>]*?)\/?>/g, (_m, a) => `\n\nVideo: ${attr(a, "title")}${attr(a, "length") ? ` (${attr(a, "length")})` : ""}, https://www.youtube.com/watch?v=${attr(a, "id")}\n\n`);
+  s = s.replace(/<(?:VideoTour|DocVideo)\b([^>]*?)\/?>/g, (_m, a) => `\n\nVideo: ${attr(a, "title")}${attr(a, "length") ? ` (${attr(a, "length")})` : ""}, https://www.youtube.com/watch?v=${attr(a, "id")}\n\n`);
   s = s.replace(/<ClientOnly>[\s\S]*?<\/ClientOnly>/g, "\n\n(A form: open the page in a browser to use it.)\n\n");
   s = s.replace(/<[A-Z][A-Za-z]*\b[^>]*\/>/g, ""); // other components
   s = s.replace(/<table\b[\s\S]*?<\/table>/gi, (t) => table(t, path, opt));
