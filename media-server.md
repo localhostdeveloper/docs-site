@@ -56,6 +56,11 @@ description: "The live streaming and broadcast server you run yourself: RTMP, SR
 <figure><img src="/customers/nnb-media.png" width="72" height="72" alt="NNB Media logo" loading="lazy"><figcaption><b>NNB Media</b>Denver, Colorado, USA</figcaption></figure>
 </div>
 </div>
+<div class="m-quotes">
+<figure class="m-quote"><blockquote>“Unda feeds our satellite channel and our apps from the same place, so we manage everything in one dashboard.”</blockquote><figcaption><img src="/customers/g-eye-tv.png" width="40" height="40" alt="" loading="lazy"><span><b>Godseye Quinoo</b>CEO, G-Eye TV</span></figcaption></figure>
+<figure class="m-quote"><blockquote>“Unda sends our channel to Arabsat over SRT, and the dashboard shows us it’s going out.”</blockquote><figcaption><img src="/customers/nasara-tv.png" width="40" height="40" alt="" loading="lazy"><span><b>Ishmael</b>MCR Technician, Nasara TV</span></figcaption></figure>
+<figure class="m-quote"><blockquote>“NNB TV runs on Unda, on our own server, and it gives us everything we need to run the channel.”</blockquote><figcaption><img src="/customers/nnb-media.png" width="40" height="40" alt="" loading="lazy"><span><b>HomeBoy</b>CEO, NNB Media</span></figcaption></figure>
+</div>
 <p class="m-note-line">How each one comes together: <a href="/solutions/">see the solutions</a>.</p>
 </div>
 </section>
