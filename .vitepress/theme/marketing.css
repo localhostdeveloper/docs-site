@@ -359,7 +359,7 @@ a.m-card:hover { border-color: var(--vp-c-brand-1); }
 }
 
 /* "On air with Unda": broadcasters who agreed to be named, with their logos and their own words. */
-.m-onair-label { margin-top: 48px; font-size: 15px; font-weight: 600; letter-spacing: 0.02em; color: var(--vp-c-text-2); }
+.m-onair-label { margin-top: 48px; text-align: center; font-size: 15px; font-weight: 600; letter-spacing: 0.02em; color: var(--vp-c-text-2); }
 .m-quotes { margin-top: 14px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .m-quote { margin: 0; padding: 24px; border: 1px solid var(--m-line); border-radius: var(--m-radius); background: var(--vp-c-bg); display: flex; flex-direction: column; gap: 16px; }
 .m-quote-head { display: flex; align-items: center; gap: 12px; font-size: 14px; line-height: 1.4; color: var(--vp-c-text-2); }
